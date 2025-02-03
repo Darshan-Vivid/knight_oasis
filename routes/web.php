@@ -12,7 +12,7 @@ use App\Http\Controllers\UserController;
 // Auth::routes(['verify' => true]);
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard');
 });
 
 
