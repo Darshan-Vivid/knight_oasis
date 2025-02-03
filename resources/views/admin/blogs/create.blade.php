@@ -1,5 +1,4 @@
-@extends('admin.layouts.master')
-@section('content')
+<x-header :title="'Create Blogs'" />
     <div class="blogs">
         <div class="container">
             <h1>Create Blogs</h1>
@@ -33,4 +32,4 @@
             </form>
         </div>
     </div>
-@endsection
+<x-footer />

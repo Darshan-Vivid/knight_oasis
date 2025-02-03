@@ -1,8 +1,4 @@
-@extends('admin.layouts.master')
-@section('title')
-    AdminBlog | Admin Panel
-@endsection
-@section('content')
+<x-header :title="'Blog Listings'" />
     <!-- Titlebar -->
     <div class="row">
         <!-- Listings -->
@@ -48,4 +44,4 @@
             </div>
         </div>
     </div>
-@endsection
+<x-footer />

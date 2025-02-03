@@ -1,0 +1,13 @@
+.phone-input-group {
+    display: flex;
+    align-items: center;
+}
+
+.country-code {
+    width: 100px;
+    margin-right: 10px;
+}
+
+.phone-number {
+    flex: 1;
+}

@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 class RedirectController extends Controller
 {
     public function signup(){
-        return view('signup');
+        return view('auth.signup');
     }
     public function verification_notice(){
         return view('auth.verify-email');
