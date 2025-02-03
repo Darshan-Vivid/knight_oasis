@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Mail\OTPMail;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-
-class UserController extends Controller
+use Illuminate\Support\Facades\Mail;
+class AuthController extends Controller
 {
     public function signup(Request $request)
     {
@@ -58,19 +60,80 @@ class UserController extends Controller
         }
         else{
 
+            $otp = rand(100000, 999999);
+
             $user = new User();
             $user->name = $request->name;
             $user->email = $request->email;
             $user->mobile = $fullMobile;
             $user->state = $request->state;
             $user->country = $request->country;
+            $user->otp = $otp;
             $user->password = Hash::make($request->password);
+            $user->otp_expires_at = Carbon::now()->addMinutes(30);
             $user->save();
 
-            $user->sendEmailVerificationNotification();  # i need setuop  for this
+            $mailData = [
+                'email' => $user->email,
+                'otp' => $otp,
+                'user_name' => $user->name,
+            ];
 
-            return redirect()->back()->with('message', 'Verification link sent!');
+            Mail::to($user->email)->send(new OTPMail($mailData));
+            return redirect()->route('view.otp_verify')->with('message', 'User Registered Successfully. Check your mail for verification!')->with("email",$user->email);
+        }
+    }
+
+    public function otp_verify(Request $request){
+        $request->validate([
+            'email' => 'required|email',
+            'otp' => 'required|numeric|digits:6',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user || $user->otp != $request->otp) {
+            return back()->withErrors(['otp' => 'Invalid OTP. Please try again.']);
+        }
+
+        if (Carbon::now()->greaterThan($user->otp_expires_at)) {
+            return back()->withErrors(['otp' => 'OTP has expired. Please request a new one.']);
+        }
+
+        $user->otp = null;
+        $user->otp_expires_at = null;
+        $user->email_verified_at = Carbon::now();
+        $user->save();
+
+        return redirect()->route('view.dashboard')->with('message', 'Email and OTP verified successfully.');
+
+    }
+
+    public function login(Request $request)
+    {
+        $rules = [
+            'email' => 'required|email',
+            'password' => 'required|string|min:6',
+        ];
+
+        $messages = [
+            'email.required' => 'The email field is required.',
+            'email.email' => 'The email must be a valid email address.',
+            'password.required' => 'The password field is required.',
+            'password.min' => 'The password must be at least 6 characters.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        else{
+
         }
 
     }
+
+
 }

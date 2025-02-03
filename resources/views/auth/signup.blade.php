@@ -1,7 +1,7 @@
 <x-header :title="'Signup'" />
 <div class="container mt-5">
     <h2 class="mb-4">Signup</h2>
-    <form action="{{ route('user.signup') }}" method="POST">
+    <form action="{{ route('auth.signup') }}" method="POST">
         @csrf
 
         @if (session('message'))

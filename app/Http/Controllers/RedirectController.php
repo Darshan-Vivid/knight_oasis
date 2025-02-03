@@ -10,16 +10,12 @@ class RedirectController extends Controller
     public function signup(){
         return view('auth.signup');
     }
-    public function verification_notice(){
-        return view('auth.verify-email');
-    }
-
-    public function auth_verify(EmailVerificationRequest $request) {
-        $request->fulfill();
-        return redirect('/dashboard');
-    }
 
     public function dashboard(){
-        return view('view.dashboard');
+        return view('dashboard');
+    }
+
+    public function otp_verify(){
+        return view('auth.otp-verify');
     }
 }
