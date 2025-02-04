@@ -6,9 +6,10 @@ use App\Models\User;
 use App\Mail\OTPMail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 class AuthController extends Controller
 {
     public function signup(Request $request)
@@ -19,8 +20,7 @@ class AuthController extends Controller
             'email' => 'required|email',
             'country_code' => 'required|string|min:2|max:5',
             'mobile' => 'required|digits:10',
-            'state' => 'required|string',
-            'country' => 'required|string',
+            'state' => 'required|string|min:2',
             'password' => 'required|string|min:6',
             'password_confirmation' => 'required|same:password',
         ];
@@ -37,7 +37,7 @@ class AuthController extends Controller
             'mobile.required' => 'The mobile field is required.',
             'mobile.digits' => 'The mobile must be exactly 10 digits.',
             'state.required' => 'The state field is required.',
-            'country.required' => 'The country field is required.',
+            'state.min' => 'The name must be at least 2 characters.',
             'password.required' => 'The password field is required.',
             'password.min' => 'The password must be at least 6 characters.',
             'password_confirmation.required' => 'The password confirmation field is required.',
@@ -61,14 +61,16 @@ class AuthController extends Controller
         else{
 
             $otp = rand(100000, 999999);
+            $token = Str::random(20);
 
             $user = new User();
             $user->name = $request->name;
             $user->email = $request->email;
             $user->mobile = $fullMobile;
             $user->state = $request->state;
-            $user->country = $request->country;
+            $user->country = $request->country_code;
             $user->otp = $otp;
+            $user->token = $token;
             $user->password = Hash::make($request->password);
             $user->otp_expires_at = Carbon::now()->addMinutes(30);
             $user->save();
@@ -80,7 +82,21 @@ class AuthController extends Controller
             ];
 
             Mail::to($user->email)->send(new OTPMail($mailData));
-            return redirect()->route('view.otp_verify')->with('message', 'User Registered Successfully. Check your mail for verification!')->with("email",$user->email);
+            return redirect()->route('view.otp_verify',$token)->with('message', 'User Registered Successfully. Check your mail for verification!')->with("email",$user->email);
+        }
+    }
+
+
+    public function view_otp_verify($token){
+        $user = User::where('token', $token)->first();
+
+        if(isset($user->email)){
+            return view('auth.otp-verify')->with("email",$user->email);
+        }else{
+            return redirect()->route('view.signup')->with([
+                'success' => false,
+                'message' => 'invalid request'
+            ]);
         }
     }
 
@@ -102,11 +118,14 @@ class AuthController extends Controller
 
         $user->otp = null;
         $user->otp_expires_at = null;
+        $user->token = null;
         $user->email_verified_at = Carbon::now();
         $user->save();
 
-        return redirect()->route('view.dashboard')->with('message', 'Email and OTP verified successfully.');
-
+        return redirect()->route('view.dashboard')->with([
+            'success' => true,
+            'message' => 'Email and OTP verified successfully.'
+        ]);
     }
 
     public function login(Request $request)
@@ -127,6 +146,7 @@ class AuthController extends Controller
 
 
         if ($validator->fails()) {
+
             return redirect()->back()->withErrors($validator)->withInput();
         }
         else{

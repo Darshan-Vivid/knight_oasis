@@ -14,8 +14,4 @@ class RedirectController extends Controller
     public function dashboard(){
         return view('dashboard');
     }
-
-    public function otp_verify(){
-        return view('auth.otp-verify');
-    }
 }

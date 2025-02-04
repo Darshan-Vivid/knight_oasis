@@ -3,8 +3,8 @@
 <div class="container mt-5">
     <h2>Dashboard</h2>
 
-    @if(session('message'))
-        <div class="alert alert-info" role="alert">
+    @if (session()->has('message'))
+        <div class="alert {{ session('success') ? 'alert-success' : 'alert-danger' }}" role="alert">
             {{ session('message') }}
         </div>
     @endif
