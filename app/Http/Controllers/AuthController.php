@@ -7,6 +7,7 @@ use App\Mail\OTPMail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -51,14 +52,11 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
-        }
-        elseif ($existingUserWithEmail) {
+        } elseif ($existingUserWithEmail) {
             return redirect()->back()->withErrors(['email' => 'Email already exists.'])->withInput();
-        }
-        elseif ($existingUserWithMobile) {
+        } elseif ($existingUserWithMobile) {
             return redirect()->back()->withErrors(['mobile' => 'Mobile number already exists.'])->withInput();
-        }
-        else{
+        } else {
 
             $otp = rand(100000, 999999);
             $token = Str::random(20);
@@ -82,17 +80,18 @@ class AuthController extends Controller
             ];
 
             Mail::to($user->email)->send(new OTPMail($mailData));
-            return redirect()->route('view.otp_verify',$token)->with('message', 'User Registered Successfully. Check your mail for verification!')->with("email",$user->email);
+            return redirect()->route('view.otp_verify', $token)->with('message', 'User Registered Successfully. Check your mail for verification!')->with("email", $user->email);
         }
     }
 
 
-    public function view_otp_verify($token){
+    public function view_otp_verify($token)
+    {
         $user = User::where('token', $token)->first();
 
-        if(isset($user->email)){
-            return view('auth.otp-verify')->with("email",$user->email);
-        }else{
+        if (isset($user->email)) {
+            return view('auth.otp-verify')->with("email", $user->email);
+        } else {
             return redirect()->route('view.signup')->with([
                 'success' => false,
                 'message' => 'invalid request'
@@ -100,7 +99,8 @@ class AuthController extends Controller
         }
     }
 
-    public function otp_verify(Request $request){
+    public function otp_verify(Request $request)
+    {
         $request->validate([
             'email' => 'required|email',
             'otp' => 'required|numeric|digits:6',
@@ -144,16 +144,30 @@ class AuthController extends Controller
 
         $validator = Validator::make($request->all(), $rules, $messages);
 
-
         if ($validator->fails()) {
-
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        else{
 
+        $credentials = $request->only('email', 'password');
+        $remember = $request->has('remember');
+
+        if (Auth::attempt($credentials, $remember)) {
+            return redirect()->route('view.dashboard')->with([
+                'success' => true,
+                'message' => 'Login successful!'
+            ]);
         }
 
+        return redirect()->back()->withErrors(['email' => 'Invalid credentials.'])->withInput();
     }
 
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('view.dashboard')->with([
+            'success' => true,
+            'message' => 'Log-out successful!'
+        ]);
+    }
 
 }

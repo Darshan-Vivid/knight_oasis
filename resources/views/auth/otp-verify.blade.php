@@ -13,13 +13,13 @@
 
         <div class="form-group">
             <label for="email">Email:</label>
-            <input type="email" class="form-control" id="email" name="email" value="{{ $email ?? old('email') }}" required readonly>
+            <input type="email" class="form-control" id="email" name="email" value="{{ $email ?? old('email') }}"
+                required readonly>
         </div>
 
         <div class="form-group">
             <label for="otp">OTP:</label>
-            <input type="text" class="form-control @error('otp') is-invalid @enderror" id="otp"
-                name="otp" required>
+            <input type="text" class="form-control @error('otp') is-invalid @enderror" id="otp" name="otp" required>
             @error('otp')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror

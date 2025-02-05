@@ -8,6 +8,18 @@
             {{ session('message') }}
         </div>
     @endif
+
+    <pre>
+        {{ $user }}
+    </pre>
+
+
+    <!--Buttons: Login | Signup | Logout -->
+    <div class="mt-4">
+        <a href="{{ route('view.login') }}" class="btn btn-primary">Login</a>
+        <a href="{{ route('view.signup') }}" class="ml-2 btn btn-success">Signup</a>
+        <a href="{{ route('auth.logout') }}" class="ml-2 btn btn-danger">Logout</a>
+    </div>
 </div>
 
 <x-footer />

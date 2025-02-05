@@ -11,7 +11,7 @@ class RedirectController extends Controller
         return view('auth.signup');
     }
 
-    public function dashboard(){
-        return view('dashboard');
+    public function login(){
+        return view('auth.login');
     }
 }
