@@ -1,3 +1,4 @@
+<x-admin.header />
 <x-header :title="'Edit Blogs'" />
 <!-- Titlebar -->
 <div class="row">
@@ -75,5 +76,4 @@
             </div>
         </form>
     </div>
-</div>
-<x-footer />
+<x-admin.footer />

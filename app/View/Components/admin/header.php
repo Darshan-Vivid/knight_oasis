@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\admin;
 
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -8,9 +8,7 @@ use Illuminate\View\Component;
 
 class header extends Component
 {
-
     public $title;
-
     /**
      * Create a new component instance.
      */
@@ -24,6 +22,6 @@ class header extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.header');
+        return view('components.admin.header');
     }
 }

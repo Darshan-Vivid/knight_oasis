@@ -1,3 +1,4 @@
+<x-admin.header />
 <x-header :title="'Create Blogs'" />
 <div class="blogs">
     <div class="container">
@@ -32,5 +33,4 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
-</div>
-<x-footer />
+<x-admin.footer />

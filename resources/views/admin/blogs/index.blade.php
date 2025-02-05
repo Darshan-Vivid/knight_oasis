@@ -1,3 +1,4 @@
+<x-admin.header />
 <x-header :title="'Blog Listings'" />
 <!-- Titlebar -->
 <div class="row">
@@ -37,10 +38,12 @@
                         @method('DELETE')
                         <!-- Hidden submit button -->
                     </form>
-                    <a href="javascript:void(0)" class="button gray delete-link"><i class="sl sl-icon-close"></i> Delete</a>
+                    <a href="javascript:void(0)" class="button gray delete-link"><i class="sl sl-icon-close"></i>
+                        Delete</a>
                 </div>
             @endforeach
         </div>
     </div>
 </div>
-<x-footer />
+<script src="{{ URL::asset('build/js/script.js') }}"></script>
+<x-admin.footer />
