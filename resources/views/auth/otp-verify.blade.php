@@ -1,6 +1,6 @@
 <x-header :title="'Otp Verification'" />
 
-<div class="container mt-5">
+<div class="container" style="margin-top: 100px;">
     <h2 class="mb-4">Verify Email and OTP</h2>
     <form action="{{ route('auth.otp_verify') }}" method="POST">
         @csrf

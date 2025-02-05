@@ -123,13 +123,13 @@
     </header>
 
     <main>
-
         <!-- ------------Hero section start------------ -->
         <section class="ko-hero-section">
             <div class="ko-hero-img">
                 <img src="assets/images/hero-img.webp" alt="hero-img" />
             </div>
             <div class="ko-container">
+
                 <div class="ko-hero-ctn">
                     <h1>Luxury Hotel</h1>
                     <p>Immerse yourself in the epitome of luxury at Almaris, your premier destination in New York. Our hotel redefines elegance and comfort, offering an exquisite escape for discerning travelers.</p>
@@ -215,7 +215,7 @@
                                 <img src="assets/images/g_4.webp" alt="img-2" class="ko-about-img-2" />
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="ko-about-col">
                         <div class="ko-about-content">
@@ -517,7 +517,7 @@
         <span class="loader"></span>
     </div>
     <!-- Page Loader end -->
-    
+
     <!-- splide slider js -->
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
     <script src="assets/js/custom-script.js"></script>

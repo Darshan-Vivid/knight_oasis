@@ -1,5 +1,5 @@
 <x-header :title="'Login'" />
-<div class="container mt-5">
+<div class="container" style="margin-top: 100px;">
     <h2 class="mb-4">Login</h2>
 
     @if (session()->has('message'))
