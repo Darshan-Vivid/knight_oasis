@@ -1,5 +1,5 @@
 <x-admin.header />
-<x-header :title="'Blog Listings'" />
+{{-- <x-header :title="'Blog Listings'" /> --}}
 <!-- Titlebar -->
 <div class="row">
     <!-- Listings -->
@@ -45,5 +45,5 @@
         </div>
     </div>
 </div>
-<script src="{{ URL::asset('build/js/script.js') }}"></script>
+<script src="{{ URL::asset('admin/js/script.js') }}"></script>
 <x-admin.footer />

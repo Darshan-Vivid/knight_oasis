@@ -1,5 +1,5 @@
 <x-admin.header />
-<x-header :title="'Edit Blogs'" />
+{{-- <x-header :title="'Edit Blogs'" /> --}}
 <!-- Titlebar -->
 <div class="row">
     <div class="col-lg-12">

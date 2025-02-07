@@ -42,7 +42,7 @@
 
         <!-- Forgot Password Link -->
         <div class="form-group">
-            <a href="">Forgot Password?</a>
+            <a href="{{ route('view.forget_password') }}">Forgot Password?</a>
         </div>
     </form>
 </div>

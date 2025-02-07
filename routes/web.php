@@ -28,7 +28,10 @@ Route::post('/sign-up',[AuthController::class , 'signup'])->name('auth.signup');
 Route::get('/verification/{token}',[AuthController::class , 'view_otp_verify'])->name('view.otp_verify');
 Route::post('/verification',[AuthController::class , 'otp_verify'])->name('auth.otp_verify');
 
+Route::get('/forgot-password', [RedirectController::class, 'forgotPassword'])->name('view.forget_password');
+Route::post('/forgot-password', [AuthController::class, 'forgot_password'])->name('auth.password.otp');
 
-
+Route::get('/new-password/{token}', [RedirectController::class, 'newPassword'])->name('view.new_password');
+Route::post('/new-password', [AuthController::class, 'new_password'])->name('auth.password');
 
 Route::resource('blogs', BlogController::class);

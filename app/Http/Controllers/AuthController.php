@@ -59,7 +59,7 @@ class AuthController extends Controller
         } else {
 
             $otp = rand(100000, 999999);
-            $token = Str::random(20);
+            $token = Str::random(32);
 
             $user = new User();
             $user->name = $request->name;
@@ -116,16 +116,30 @@ class AuthController extends Controller
             return back()->withErrors(['otp' => 'OTP has expired. Please request a new one.']);
         }
 
+        $is_password_reset = null;
+        if ($user->remember_token == 1) {
+            $is_password_reset = true;
+        }
+
         $user->otp = null;
         $user->otp_expires_at = null;
-        $user->token = null;
         $user->email_verified_at = Carbon::now();
+        $user->remember_token = null;
+        if (!$is_password_reset) {
+            $user->token = null;
+        }
         $user->save();
 
-        return redirect()->route('view.dashboard')->with([
-            'success' => true,
-            'message' => 'Email and OTP verified successfully.'
-        ]);
+        if ($is_password_reset) {
+            return redirect()->route('view.new_password', ['token' => $user->token]);
+            // return view('auth.reset_password');
+        } else {
+
+            return redirect()->route('view.dashboard')->with([
+                'success' => true,
+                'message' => 'Email and OTP verified successfully.'
+            ]);
+        }
     }
 
     public function login(Request $request)
@@ -168,6 +182,56 @@ class AuthController extends Controller
             'success' => true,
             'message' => 'Log-out successful!'
         ]);
+    }
+
+    public function forgot_password(Request $request)
+    {
+
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+        ], [
+            'email.exists' => 'This email is not registered.',
+            'email.required' => 'The email field is required.',
+            'email.email' => 'The email must be a valid email address.',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        $otp = rand(100000, 999999);
+        $token = Str::random(32);
+
+        $user->otp = $otp;
+        $user->token = $token;
+        $user->remember_token = 1;
+        $user->otp_expires_at = Carbon::now()->addMinutes(30);
+        $user->save();
+
+        $mailData = [
+            'email' => $user->email,
+            'otp' => $otp,
+            'user_name' => $user->name,
+        ];
+        Mail::to($user->email)->send(new OTPMail($mailData));
+
+        return redirect()->route('view.otp_verify', $token)->with('message', 'Otp Sent Successfully. Check your mail for verification!')->with("email", $user->email);
+    }
+
+    public function new_password(Request $request)
+    {
+        $user = User::where('token', $request->token)->first();
+        if (!$user) {
+            return redirect()->route('view.login')->with('message', 'Invalid request.');
+        }
+
+        $request->validate([
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        $user->password = Hash::make($request->password);
+        $user->token = null;
+        $user->save();
+
+        return redirect()->route('view.login')->with('message', 'Password changed successfully. Please log in with your new password.');
     }
 
 }

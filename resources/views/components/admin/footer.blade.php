@@ -2,7 +2,9 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6">
-                <script>document.write(new Date().getFullYear())</script> © Steex.
+                <script>
+                    document.write(new Date().getFullYear())
+                </script> © Steex.
             </div>
             <div class="col-sm-6">
                 <div class="text-sm-end d-none d-sm-block">
@@ -12,5 +14,7 @@
         </div>
     </div>
 </footer>
+</div>
+</div>
 </body>
 </html>

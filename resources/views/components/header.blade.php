@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" />
     <!-- custom css -->
     <link rel="stylesheet" href="assets/css/custom-style.css" type="text/css" />
+    
 </head>
 <body>
     <header class="site-header">
