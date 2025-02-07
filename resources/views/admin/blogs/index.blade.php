@@ -48,5 +48,4 @@
         </div>
     </div>
 </div>
-<script src="{{ URL::asset('admin/js/script.js') }}"></script>
 <x-admin.footer />
