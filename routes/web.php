@@ -10,8 +10,7 @@ use App\Http\Controllers\RedirectController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\BlogController;
-
-
+use App\Http\Controllers\Admin\MediaController;
 
 Route::get('/', [DashboardController::class, 'show'])->name('view.dashboard');
 
@@ -34,4 +33,6 @@ Route::post('/forgot-password', [AuthController::class, 'forgot_password'])->nam
 Route::get('/new-password/{token}', [RedirectController::class, 'newPassword'])->name('view.new_password');
 Route::post('/new-password', [AuthController::class, 'new_password'])->name('auth.password');
 
+
 Route::resource('blogs', BlogController::class);
+Route::resource('media', MediaController::class);

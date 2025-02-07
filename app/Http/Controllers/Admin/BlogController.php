@@ -45,18 +45,17 @@ class BlogController extends Controller
         $blog = new Blogs();
         $blog->title = $request->title;
         $blog->description = $request->description;
-        
-    if ($request->hasFile('image')) {
-        $imagefile = $request->file('image');
-        $imageName = time() . '.' . $imagefile->getClientOriginalExtension();
-        $imageupload = 'uploads/' . $imageName;
-        $newimageupload = public_path('uploads/');
-        $imagefile->move($newimageupload, $imageName);
-        $blog->image = $imageupload;
-    }
+
+        if ($request->hasFile('image')) {
+            $imagefile = $request->file('image');
+            $imageName = time() . '.' . $imagefile->getClientOriginalExtension();
+            $imageupload = 'images/blog/' . $imageName; // New path inside public/images/blog/
+            $imagefile->move(public_path('images/blog/'), $imageName);
+            $blog->image = $imageupload;
+        }
+
         $blog->save();
         return redirect()->route('blogs.index')->with('success', 'Blog created successfully!');
-    
     }
 
     /**
@@ -96,23 +95,41 @@ class BlogController extends Controller
         }
 
         if ($request->hasFile('image')) {
+            // Delete the old image
+            if (!empty($blog->image) && file_exists(public_path($blog->image))) {
+                unlink(public_path($blog->image));
+            }
+
+            // Store new image
             $imagefile = $request->file('image');
             $imageName = time() . '.' . $imagefile->getClientOriginalExtension();
-            $imageupload = 'uploads/' . $imageName;
-            $newimageupload = public_path('uploads/');
-            $imagefile->move($newimageupload, $imageName);
-            $blog->image = $imageupload; 
+            $imageupload = 'images/blog/' . $imageName; // New path inside public/images/blog/
+            $imagefile->move(public_path('images/blog/'), $imageName);
+            $blog->image = $imageupload;
         }
+
         $blog->save();
         return redirect()->route('blogs.index')->with('success', 'Blog updated successfully!');
     }
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $blog_id)
     {
         $blog = Blogs::findOrFail($blog_id);
+
+        // Get the correct image path from the database
+        $filePath = public_path($blog->image);
+
+        // Check if the file exists and delete it
+        if (!empty($blog->image) && file_exists($filePath)) {
+            unlink($filePath);
+        }
+
+        // Delete the blog entry from the database
         $blog->delete();
+
         return redirect()->route('blogs.index')->with('success', 'Blog deleted successfully!');
     }
 }

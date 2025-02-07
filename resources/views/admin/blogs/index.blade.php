@@ -1,4 +1,4 @@
-<x-admin.header />
+<x-admin.header :title="'Blog Listings'"/>
 {{-- <x-header :title="'Blog Listings'" /> --}}
 <!-- Titlebar -->
 <div class="row">
@@ -38,8 +38,11 @@
                         @method('DELETE')
                         <!-- Hidden submit button -->
                     </form>
-                    <a href="javascript:void(0)" class="button gray delete-link"><i class="sl sl-icon-close"></i>
-                        Delete</a>
+                    <form action="{{ route('blogs.destroy', $blogs->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this media?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="dropdown-item"><i class="bi bi-trash3 align-baseline me-1"></i> Delete</button>
+                    </form>
                 </div>
             @endforeach
         </div>

@@ -5,6 +5,7 @@ public/storage
 public/hot
 public/build
 public/uploads/
+public/images/ext/
 
 storage/*.key
 /storage/pail

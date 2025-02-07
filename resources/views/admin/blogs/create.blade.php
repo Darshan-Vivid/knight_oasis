@@ -1,4 +1,4 @@
-<x-admin.header />
+<x-admin.header :title="'Create Blogs'"/>
 {{-- <x-header :title="'Create Blogs'" /> --}}
 <div class="blogs">
     <div class="container">
