@@ -20,7 +20,8 @@ class BlogController extends Controller
         $baseQuery->orderBy('created_at', $order);
         $perPage = $request->input('perPage', 5);
         $blog = $baseQuery->paginate($perPage);
-        return view('admin.blogs.index', compact('blog'));
+        $total_blogs = Blogs::count();
+        return view('admin.blogs.index', compact('blog', 'total_blogs'));
     }
 
     /**

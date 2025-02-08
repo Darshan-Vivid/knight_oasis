@@ -1,48 +1,106 @@
-<x-admin.header :title="'Create Blogs'"/>
-{{-- <x-header :title="'Create Blogs'" /> --}}
-<div class="blogs">
-    <div class="container">
-        <h1>Create Blogs</h1>
-        <form class="store-blogs" action="{{ route('blogs.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div class="form-group">
-                <label for="title">Title</label>
-                <input type="text" name="title" id="title" placeholder="Enter blog title"
-                    class="form-control @error('title') is-invalid @enderror" value="{{ old('title') }}">
-                @error('title')
-                    <span class="form-error-message">{{ $message }}</span>
-                @enderror
+<x-admin.header :title="'Create Blogs'" />
+<h4>Add Blog</h4>
+<form class="store-blogs" action="{{ route('blogs.store') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xxl-4">
+                            <h5 class="card-title mb-3">Blog Title</h5>
+                            <p class="text-muted">Blog Title Information refers to the data related to the titles of
+                                blog posts.</p>
+                        </div>
+                        <div class="col-xxl-8">
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Blog Title <span
+                                        class="text-danger">*</span></label>
+                                <input type="text" name="title" id="title" class="form-control"
+                                    placeholder="Enter blog title" required>
+                                @error('title')
+                                    <span class="form-error-message text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="description">Description</label>
-                <textarea type="description" name="description" id="description" placeholder="Enter blog description" cols="3"
-                    rows="5" class="myeditor form-control @error('description') is-invalid @enderror"
-                    value="{{ old('description') }}"></textarea>
-                @error('description')
-                    <span class="form-error-message">{{ $message }}</span>
-                @enderror
-            </div>
-            <div class="form-group">
-                <label for="file">Upload Image</label>
-                <input type="file" name="image" id="image"
-                    class="form-control @error('image') is-invalid @enderror" value="{{ old('image') }}">
-                @error('image')
-                    <span class="form-error-message">{{ $message }}</span>
-                @enderror
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+        </div>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            tinymce.init({
-                selector: '#description',
-                height: 300,
-                menubar: false,
-                plugins: 'advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table help',
-                toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
-                content_style: "body { font-family: Arial, sans-serif; font-size: 14px; }"
-            });
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xxl-4">
+                            <h5 class="card-title mb-3">Blog Description</h5>
+                            <p class="text-muted">Blog Description Information refers to the summary or excerpt of a
+                                blog post that provides a brief overview of its content.</p>
+                        </div>
+                        <div class="col-xxl-8">
+                            <div class="mb-3">
+                                <label class="form-label">Blog Description <span class="text-danger">*</span></label>
+                                <textarea name="description" id="description" placeholder="Enter blog description" rows="5"
+                                    class="myeditor form-control @error('description') is-invalid @enderror"></textarea>
+                                @error('description')
+                                    <span class="form-error-message text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xxl-4">
+                            <h5 class="card-title mb-3">Blog Media</h5>
+                            <p class="text-muted">Blog Media Information refers to the visual and multimedia element
+                                associated with a blog post.</p>
+                        </div>
+                        <div class="col-xxl-8">
+                            <div class="mb-3">
+                                <label class="form-label">Blog Images <span class="text-danger">*</span></label>
+                                <input type="file" name="image" id="image" class="form-control" required>
+                                @error('image')
+                                    <span class="form-error-message text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hstack gap-2 justify-content-end mb-3">
+        <button type="reset" class="btn btn-danger">Cancel</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+
+<script src="{{ URL::asset('admin/libs/dropzone/dropzone-min.js') }}"></script>
+
+<script src="{{ URL::asset('admin/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
+
+<script src="{{ URL::asset('admin/js/pages/ecommerce-create-product.init.js') }}"></script>
+
+<script src="{{ URL::asset('admin/js/app.js') }}"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        tinymce.init({
+            selector: '#description',
+            height: 300,
+            menubar: false,
+            plugins: 'advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table help',
+            toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
+            content_style: "body { font-family: Arial, sans-serif; font-size: 14px; }"
         });
-    </script>
-    <x-admin.footer />
+    });
+</script>
+<x-admin.footer />

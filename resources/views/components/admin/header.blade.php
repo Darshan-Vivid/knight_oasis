@@ -4,26 +4,19 @@
 
 <head>
     <meta charset="utf-8" />
-    <x-header :title="'Knight Oasis Admin'" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
-    <!-- App favicon -->
+    <title>{{ $title }}</title>
     <link rel="shortcut icon" href="{{ URL::asset('admin/images/favicon.ico') }}">
-    <!-- Fonts admin load -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link id="fontsLink" href="https://fonts.googleapis.com/admin2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-    <!-- Layout config Js -->
     <script src="{{ URL::asset('admin/js/layout.js') }}"></script>
-    <!-- Bootstrap admin -->
     <link rel="stylesheet" href="{{ URL::asset('admin/css/bootstrap.min.css') }}" type="text/css" />
-    <!-- Icons admin -->
     <link rel="stylesheet" href="{{ URL::asset('admin/css/icons.min.css') }}" type="text/css" />
-    <!-- App admin-->
     <link rel="stylesheet" href="{{ URL::asset('admin/css/app.min.css') }}" type="text/css" />
-    <!-- custom admin-->
     <link rel="stylesheet" href="{{ URL::asset('admin/css/custom.min.css') }}" type="text/css" />
     <script src="{{ URL::asset('admin/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ URL::asset('admin/libs/simplebar/simplebar.min.js') }}"></script>
@@ -38,7 +31,6 @@
         <div class="layout-width">
             <div class="navbar-header">
                 <div class="d-flex">
-                    <!-- LOGO -->
                     <div class="navbar-brand-box horizontal-logo">
                         <a href="index" class="logo logo-dark">
                             <span class="logo-sm">
@@ -49,7 +41,6 @@
                                     height="22">
                             </span>
                         </a>
-
                         <a href="index" class="logo logo-light">
                             <span class="logo-sm">
                                 <img src="{{ URL::asset('admin/images/logo-sm.png') }}" alt="" height="22">
@@ -60,7 +51,6 @@
                             </span>
                         </a>
                     </div>
-
                     <button type="button"
                         class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger shadow-none"
                         id="topnav-hamburger-icon">
@@ -70,7 +60,6 @@
                             <span></span>
                         </span>
                     </button>
-
                     <form class="app-search d-none d-md-inline-flex">
                         <div class="position-relative">
                             <input type="text" class="form-control" placeholder="Search..." autocomplete="off"
@@ -81,47 +70,34 @@
                         </div>
                         <div class="dropdown-menu dropdown-menu-lg" id="search-dropdown">
                             <div data-simplebar style="max-height: 320px;">
-                                <!-- item-->
                                 <div class="dropdown-header">
                                     <h6 class="text-overflow text-muted mb-0 text-uppercase">Recent Searches</h6>
                                 </div>
-
                                 <div class="dropdown-item bg-transparent text-wrap">
                                     <a href="index" class="btn btn-subtle-secondary btn-sm btn-rounded">how to setup
                                         <i class="mdi mdi-magnify ms-1"></i></a>
                                     <a href="index" class="btn btn-subtle-secondary btn-sm btn-rounded">buttons <i
                                             class="mdi mdi-magnify ms-1"></i></a>
                                 </div>
-                                <!-- item-->
                                 <div class="dropdown-header mt-2">
                                     <h6 class="text-overflow text-muted mb-1 text-uppercase">Pages</h6>
                                 </div>
-
-                                <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item">
                                     <i class="ri-bubble-chart-line align-middle fs-18 text-muted me-2"></i>
                                     <span>Analytics Dashboard</span>
                                 </a>
-
-                                <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item">
                                     <i class="ri-lifebuoy-line align-middle fs-18 text-muted me-2"></i>
                                     <span>Help Center</span>
                                 </a>
-
-                                <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item">
                                     <i class="ri-user-settings-line align-middle fs-18 text-muted me-2"></i>
                                     <span>My account settings</span>
                                 </a>
-
-                                <!-- item-->
                                 <div class="dropdown-header mt-2">
                                     <h6 class="text-overflow text-muted mb-2 text-uppercase">Members</h6>
                                 </div>
-
                                 <div class="notification-list">
-                                    <!-- item -->
                                     <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
                                         <div class="d-flex">
                                             <img src="{{ URL::asset('admin/images/users/avatar-2.jpg') }}"
@@ -132,7 +108,6 @@
                                             </div>
                                         </div>
                                     </a>
-                                    <!-- item -->
                                     <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
                                         <div class="d-flex">
                                             <img src="{{ URL::asset('admin/images/users/avatar-3.jpg') }}"
@@ -143,7 +118,6 @@
                                             </div>
                                         </div>
                                     </a>
-                                    <!-- item -->
                                     <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
                                         <div class="d-flex">
                                             <img src="{{ URL::asset('admin/images/users/avatar-5.jpg') }}"
@@ -156,7 +130,6 @@
                                     </a>
                                 </div>
                             </div>
-
                             <div class="text-center pt-3 pb-1">
                                 <a href="#" class="btn btn-primary btn-sm">View All Results <i
                                         class="ri-arrow-right-line ms-1"></i></a>
@@ -164,9 +137,7 @@
                         </div>
                     </form>
                 </div>
-
                 <div class="d-flex align-items-center">
-
                     <div class="dropdown topbar-head-dropdown ms-1 header-item">
                         <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -184,7 +155,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="p-2">
                                 <div class="row g-0">
                                     <div class="col">
@@ -209,7 +179,6 @@
                                         </a>
                                     </div>
                                 </div>
-
                                 <div class="row g-0">
                                     <div class="col">
                                         <a class="dropdown-icon-item" href="#!">
@@ -236,7 +205,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="dropdown ms-1 topbar-head-dropdown header-item">
                         <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -282,61 +250,47 @@
                             @endswitch
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
-
                             <a href="{{ url('index/en') }}" class="dropdown-item notify-item language py-2"
                                 data-lang="en" title="English">
                                 <img src="{{ URL::asset('admin/images/flags/us.svg') }}" alt="user-image"
                                     class="me-2 rounded" height="20">
                                 <span class="align-middle">English</span>
                             </a>
-
-                            <!-- item-->
                             <a href="{{ url('index/sp') }}" class="dropdown-item notify-item language"
                                 data-lang="sp" title="Spanish">
                                 <img src="{{ URL::asset('admin/images/flags/spain.svg') }}" alt="user-image"
                                     class="me-2 rounded" height="20">
                                 <span class="align-middle">Española</span>
                             </a>
-
-                            <!-- item-->
                             <a href="{{ url('index/gr') }}" class="dropdown-item notify-item language"
                                 data-lang="gr" title="German">
                                 <img src="{{ URL::asset('admin/images/flags/germany.svg') }}" alt="user-image"
                                     class="me-2 rounded" height="20"> <span class="align-middle">Deutsche</span>
                             </a>
-
-                            <!-- item-->
                             <a href="{{ url('index/it') }}" class="dropdown-item notify-item language"
                                 data-lang="it" title="Italian">
                                 <img src="{{ URL::asset('admin/images/flags/italy.svg') }}" alt="user-image"
                                     class="me-2 rounded" height="20">
                                 <span class="align-middle">Italiana</span>
                             </a>
-
-                            <!-- item-->
                             <a href="{{ url('index/ru') }}" class="dropdown-item notify-item language"
                                 data-lang="ru" title="Russian">
                                 <img src="{{ URL::asset('admin/images/flags/russia.svg') }}" alt="user-image"
                                     class="me-2 rounded" height="20">
                                 <span class="align-middle">русский</span>
                             </a>
-
-                            <!-- item-->
                             <a href="{{ url('index/ch') }}" class="dropdown-item notify-item language"
                                 data-lang="ch" title="Chinese">
                                 <img src="{{ URL::asset('admin/images/flags/china.svg') }}" alt="user-image"
                                     class="me-2 rounded" height="20">
                                 <span class="align-middle">中国人</span>
                             </a>
-
-                            <!-- item-->
                             <a href="{{ url('index/fr') }}" class="dropdown-item notify-item language"
                                 data-lang="fr" title="French">
                                 <img src="{{ URL::asset('admin/images/flags/french.svg') }}" alt="user-image"
                                     class="me-2 rounded" height="20">
                                 <span class="align-middle">français</span>
                             </a>
-                            <!-- item-->
                             <a href="{{ url('index/ae') }}" class="dropdown-item notify-item language"
                                 data-lang="ae" title="Arabic">
                                 <img src="{{ URL::asset('admin/images/flags/ae.svg') }}" alt="user-image"
@@ -345,7 +299,6 @@
                             </a>
                         </div>
                     </div>
-
                     <div class="dropdown topbar-head-dropdown ms-1 header-item">
                         <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle"
                             id="page-header-cart-dropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside"
@@ -378,7 +331,6 @@
                                         <h5 class="mb-3">Your Cart is Empty!</h5>
                                         <a href="#!" class="btn btn-success w-md mb-3">Shop Now</a>
                                     </div>
-
                                     <div class="d-block dropdown-item product text-wrap p-2">
                                         <div class="d-flex">
                                             <div class="avatar-sm me-3 flex-shrink-0">
@@ -413,7 +365,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="d-block dropdown-item product text-wrap p-2">
                                         <div class="d-flex">
                                             <div class="avatar-sm me-3 flex-shrink-0">
@@ -447,7 +398,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="d-block dropdown-item product text-wrap p-2">
                                         <div class="d-flex">
                                             <div class="avatar-sm me-3 flex-shrink-0">
@@ -482,7 +432,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="d-block dropdown-item product text-wrap p-2">
                                         <div class="d-flex">
                                             <div class="avatar-sm me-3 flex-shrink-0">
@@ -516,7 +465,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="d-block dropdown-item product text-wrap p-2">
                                         <div class="d-flex">
                                             <div class="avatar-sm me-3 flex-shrink-0">
@@ -551,7 +499,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div id="count-table">
                                         <table class="table table-borderless mb-0  fw-semibold">
                                             <tbody>
@@ -574,7 +521,6 @@
                                             </tbody>
                                         </table>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="p-3 border-bottom-0 border-start-0 border-end-0 border-dashed border"
@@ -585,21 +531,18 @@
                                         <h5 class="m-0 cart-total">$1338.86</h5>
                                     </div>
                                 </div>
-
                                 <a href="apps-ecommerce-checkout" class="btn btn-info text-center w-100">
                                     Checkout
                                 </a>
                             </div>
                         </div>
                     </div>
-
                     <div class="ms-1 header-item d-none d-sm-flex">
                         <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle"
                             data-toggle="fullscreen">
                             <i class='bi bi-arrows-fullscreen fs-lg'></i>
                         </button>
                     </div>
-
                     <div class="dropdown topbar-head-dropdown ms-1 header-item">
                         <button type="button"
                             class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle mode-layout"
@@ -615,7 +558,6 @@
                                     class="bi bi-moon-stars align-middle me-2"></i> Auto (system default)</a>
                         </div>
                     </div>
-
                     <div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
                         <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle"
                             id="page-header-notifications-dropdown" data-bs-toggle="dropdown"
@@ -652,9 +594,7 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-
                             <div class="py-2 ps-2" id="notificationItemsTabContent">
                                 <div data-simplebar style="max-height: 300px;" class="pe-2">
                                     <h6 class="text-overflow text-muted fs-sm my-2 text-uppercase notification-title">
@@ -691,7 +631,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div
                                         class="text-reset notification-item d-block dropdown-item position-relative unread-message">
                                         <div class="d-flex">
@@ -726,7 +665,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div
                                         class="text-reset notification-item d-block dropdown-item position-relative unread-message">
                                         <div class="d-flex">
@@ -757,11 +695,9 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <h6 class="text-overflow text-muted fs-sm my-2 text-uppercase notification-title">
                                         Read
                                         Before</h6>
-
                                     <div class="text-reset notification-item d-block dropdown-item position-relative">
                                         <div class="d-flex">
 
@@ -773,7 +709,6 @@
                                                     <span class="visually-hidden">New alerts</span>
                                                 </span>
                                             </div>
-
                                             <div class="flex-grow-1">
                                                 <a href="#!" class="stretched-link">
                                                     <h6 class="mt-0 mb-1 fs-md fw-semibold">Maureen Gibson</h6>
@@ -808,7 +743,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="dropdown ms-sm-3 header-item topbar-user">
                         <button type="button" class="btn shadow-none" id="page-header-user-dropdown"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
