@@ -50,12 +50,16 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ route('media.index') }}" class="nav-link menu-link" data-bs-toggle="collapse"
+                        <a href="#sidebarInvoices" class="nav-link menu-link" data-bs-toggle="collapse"
                             role="button" aria-expanded="false" aria-controls="sidebarInvoices">
                             <i class="ph-file-text"></i> <span data-key="t-invoices">Media</span>
                         </a>
                         <div class="collapse menu-dropdown" id="sidebarInvoices">
                             <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="{{ route('media.index') }}" class="nav-link"
+                                        data-key="t-list-view">Manage Media</a>
+                                </li>
                                 {{-- <li class="nav-item">
                                     <a href="{{ route('media.create') }}" class="nav-link"
                                         data-key="t-list-view">Add Media</a>
