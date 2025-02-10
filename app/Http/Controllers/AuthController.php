@@ -238,8 +238,8 @@ class AuthController extends Controller
 
     public function showForm()
     {
-        $countries = Country::orderBy('c_code')->pluck('c_code')->unique();
-        // dd($countries);
+        $countries = Country::select('c_code', 'c_name')->distinct('c_name')->orderBy('c_name')->get();
         return view('auth.signup', compact('countries'));
     }
+    
 }

@@ -38,10 +38,10 @@
                                     <label for="mobile">Phone Number <sup>*</sup></label>
                                     <div class="ko-loginRegister-phone">
                                         <select name="country_code" id="country_code" class="ko-loginRegister-control">
-                                            @foreach($countries as $code)
-                                                <option value="{{ $code }}">{{ $code }}</option>
+                                            @foreach($countries as $country)
+                                                <option value="{{ $country->c_code }}">{{ $country->c_code }} - {{ $country->c_name }}</option>
                                             @endforeach
-                                        </select>
+                                        </select>                                        
                                         
                                         <input type="tel" class="ko-loginRegister-control @error('mobile') is-invalid @enderror"
                                             name="mobile" id="mobile" value="{{ old('mobile') }}" required />
@@ -115,7 +115,6 @@
             }
         });
     });
-
     $(document).ready(function() {
         $('#country_code').select2({
             placeholder: "Search country code...",
