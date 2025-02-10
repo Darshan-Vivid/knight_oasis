@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('Style/custom-style.css') }}">
     <link rel="stylesheet" href="{{ asset('Style/style.css') }}">
     <title>{{ $title }}</title>
     <!-- font -->
@@ -13,7 +14,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" />
     <!-- custom css -->
     <link rel="stylesheet" href="assets/css/custom-style.css" type="text/css" />
-    
+
 </head>
 <body>
     <header class="site-header">
@@ -112,6 +113,9 @@
                                     </div>
                                 </div>
                             </div>
+                        </li>
+                        <li>
+                            <a href="/blog.html">Blog</a>
                         </li>
                         <li>
                             <a href="#">Contact</a>
