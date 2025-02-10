@@ -46,10 +46,9 @@
                         <div class="col-xxl-8">
                             <div class="mb-3">
                                 <label class="form-label">Blog Description <span class="text-danger">*</span></label>
-                                <textarea name="description"
-                                    class="myeditor @error('description') is-invalid @enderror form-control"
-                                    id="description" cols="3" rows="5">
-{{ old('description', $blog->description) }}</textarea>
+                                <textarea name="description" class="myeditor @error('description') is-invalid @enderror form-control" id="description"
+                                    cols="3" rows="5">
+                               {{ old('description', $blog->description) }}</textarea>
                                 @error('description')
                                     <span class="form-error-message">{{ $message }}</span>
                                 @enderror
@@ -105,9 +104,9 @@
                     <strong class="error text-danger" data-dz-errormessage=""></strong>
                 </div>
             </div>
-            <div class="flex-shrink-0 ms-3">
+            {{-- <div class="flex-shrink-0 ms-3">
                 <button data-dz-remove class="btn btn-sm btn-danger">Delete</button>
-            </div>
+            </div> --}}
         </div>
     </div>
     <div class="hstack gap-2 justify-content-end mb-3">

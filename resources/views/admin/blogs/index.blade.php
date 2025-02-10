@@ -78,7 +78,7 @@
                     <div class="flex-shrink-0">
                         <div class="d-flex flex-wrap align-items-start gap-2">
                             <button class="btn btn-subtle-danger d-none" id="remove-actions"
-                                onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
+                                ><i class="ri-delete-bin-2-line"></i></button>
                             <a href="{{ route('blogs.create') }}" class="btn btn-primary add-btn">
                                 <i class="bi bi-plus-circle align-baseline me-1"></i> Add Blog
                             </a>
@@ -91,11 +91,11 @@
                             <thead class="table-active">
                                 <tr>
                                     <th>
-                                        <div class="form-check">
+                                        {{-- <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="option"
                                                 id="checkAll">
                                             <label class="form-check-label" for="checkAll"></label>
-                                        </div>
+                                        </div> --}}
                                     </th>
                                     <th class="sort cursor-pointer" data-sort="products">Blogs</th>
                                     <th class="sort cursor-pointer" data-sort="products">Description</th>
@@ -106,10 +106,10 @@
                                 @foreach ($blog as $b)
                                     <tr>
                                         <td>
-                                            <div class="form-check">
+                                            {{-- <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" name="chk_child">
                                                 <label class="form-check-label"></label>
-                                            </div>
+                                            </div> --}}
                                         </td>
                                         <td class="products">
                                             <div class="d-flex align-items-center">
