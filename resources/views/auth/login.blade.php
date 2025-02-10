@@ -9,10 +9,11 @@
                 <div class="ko-loginRegister-from">
 
                     @if (session()->has('message'))
-                        <div class="alert {{ session('success') ? 'alert-success' : 'alert-danger' }}" role="alert">
-                            {{ session('message') }}
-                        </div>
-                    @endif
+                    <div class="alert {{ session()->get('status') == 'success' ? 'alert-success' : 'alert-danger' }}" role="alert">
+                        {{ session('message') }}
+                    </div>
+                @endif
+                
 
                     <form action="{{ route('auth.login') }}" method="POST">
                         @csrf

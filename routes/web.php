@@ -23,6 +23,8 @@ Route::get('/logout',[AuthController::class , 'logout'])->name('auth.logout');
 
 Route::get('/sign-up',[RedirectController::class , 'signup'])->name('view.signup');
 Route::post('/sign-up',[AuthController::class , 'signup'])->name('auth.signup');
+Route::get('/sign-up', [AuthController::class, 'showForm'])->name('signup');
+
 
 Route::get('/verification/{token}',[AuthController::class , 'view_otp_verify'])->name('view.otp_verify');
 Route::post('/verification',[AuthController::class , 'otp_verify'])->name('auth.otp_verify');

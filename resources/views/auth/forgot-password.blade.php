@@ -1,26 +1,35 @@
 <x-header :title="'Forgot Password'" />
-<div class="container" style="margin-top: 100px;">
-    <h2 class="mb-4">Forgot Password</h2>
 
-    @if (session()->has('message'))
-        <div class="alert {{ session('success') ? 'alert-success' : 'alert-danger' }}" role="alert">
-            {{ session('message') }}
+<main>
+    <section class="ko-loginRegister-section ko-register-section">
+        <div class="ko-container">
+            <div class="ko-loginRegister-wrap">
+                <h1 class="ko-loginRegister-title">Forgot your password</h1>
+                <div class="ko-loginRegister-from">
+                    @if (session()->has('message'))
+                        <div class="alert {{ session('success') ? 'alert-success' : 'alert-danger' }}" role="alert">
+                            {{ session('message') }}
+                        </div>
+                    @endif
+                    <form action="{{ route('auth.password.otp') }}" method="POST">
+                        @csrf
+                        <div class="ko-row">
+                            <div class="ko-col-12">
+                                <div class="ko-loginRegister-grp">
+                                    <label for="">Email address <sup>*</sup></label>
+                                    <input type="email" class="ko-loginRegister-control @error('email') is-invalid @enderror" name="email"
+                                        id="email" value="{{ old('email') }}" required/>
+                                        @error('email')
+                                        <div class="invalid-response" style="display:flex">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="ko-btn">Get OTP</button>
+                    </form>
+                </div>
+            </div>
         </div>
-    @endif
-
-    <form action="{{ route('auth.password.otp') }}" method="POST">
-        @csrf
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email"
-                value="{{ old('email') }}" required>
-            @error('email')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
-
-        <button type="submit" class="btn btn-primary">Get OTP</button>
-    </form>
-
-</div>
+    </section>
+</main>
 <x-footer />

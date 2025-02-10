@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Country;
 use App\Mail\OTPMail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+
 class AuthController extends Controller
 {
     public function signup(Request $request)
@@ -230,8 +232,14 @@ class AuthController extends Controller
         $user->password = Hash::make($request->password);
         $user->token = null;
         $user->save();
-
-        return redirect()->route('view.login')->with('message', 'Password changed successfully. Please log in with your new password.');
+        return redirect()->route('view.login')
+            ->with(['message' => 'Password changed successfully. Please log in with your new password.', 'status' => 'success']);
     }
 
+    public function showForm()
+    {
+        $countries = Country::orderBy('c_code')->pluck('c_code')->unique();
+        // dd($countries);
+        return view('auth.signup', compact('countries'));
+    }
 }
