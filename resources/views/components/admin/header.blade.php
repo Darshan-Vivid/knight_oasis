@@ -8,7 +8,9 @@
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
     <title>{{ $title }}</title>
+    {{-- favicon icon --}}
     <link rel="shortcut icon" href="{{ URL::asset('admin/images/favicon.ico') }}">
+    {{-- favicon icon end --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link id="fontsLink" href="https://fonts.googleapis.com/admin2?family=Poppins:wght@300;400;500;600;700&display=swap"
@@ -61,13 +63,13 @@
                         </span>
                     </button>
                     <form class="app-search d-none d-md-inline-flex">
-                        <div class="position-relative">
+                        {{-- <div class="position-relative">
                             <input type="text" class="form-control" placeholder="Search..." autocomplete="off"
                                 id="search-options" value="">
                             <span class="mdi mdi-magnify search-widget-icon"></span>
                             <span class="mdi mdi-close-circle search-widget-icon search-widget-icon-close d-none"
                                 id="search-close-options"></span>
-                        </div>
+                        </div> --}}
                         <div class="dropdown-menu dropdown-menu-lg" id="search-dropdown">
                             <div data-simplebar style="max-height: 320px;">
                                 <div class="dropdown-header">
@@ -139,10 +141,10 @@
                 </div>
                 <div class="d-flex align-items-center">
                     <div class="dropdown topbar-head-dropdown ms-1 header-item">
-                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle"
+                        {{-- <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class='bi bi-grid fs-2xl'></i>
-                        </button>
+                        </button> --}}
                         <div class="dropdown-menu dropdown-menu-lg p-0 dropdown-menu-end">
                             <div class="p-3 border-top-0 border-start-0 border-end-0 border-dashed border">
                                 <div class="row align-items-center">
@@ -206,7 +208,7 @@
                         </div>
                     </div>
                     <div class="dropdown ms-1 topbar-head-dropdown header-item">
-                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
+                        {{-- <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             @switch(Session::get('lang'))
                                 @case('ru')
@@ -248,7 +250,7 @@
                                     <img src="{{ URL::asset('admin/images/flags/us.svg') }}" class="rounded"
                                         alt="Header Language" height="20">
                             @endswitch
-                        </button>
+                        </button> --}}
                         <div class="dropdown-menu dropdown-menu-end">
                             <a href="{{ url('index/en') }}" class="dropdown-item notify-item language py-2"
                                 data-lang="en" title="English">
@@ -300,13 +302,13 @@
                         </div>
                     </div>
                     <div class="dropdown topbar-head-dropdown ms-1 header-item">
-                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle"
+                        {{-- <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle"
                             id="page-header-cart-dropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside"
                             aria-haspopup="true" aria-expanded="false">
                             <i class='bi bi-bag fs-2xl'></i>
                             <span
                                 class="position-absolute topbar-badge cartitem-badge fs-3xs translate-middle badge rounded-pill bg-info">5</span>
-                        </button>
+                        </button> --}}
                         <div class="dropdown-menu dropdown-menu-xl dropdown-menu-end p-0 product-list"
                             aria-labelledby="page-header-cart-dropdown">
                             <div class="p-3 border-bottom">
@@ -559,7 +561,7 @@
                         </div>
                     </div>
                     <div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
-                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle"
+                        {{-- <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle"
                             id="page-header-notifications-dropdown" data-bs-toggle="dropdown"
                             data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                             <i class='bi bi-bell fs-2xl'></i>
@@ -567,7 +569,7 @@
                                 class="position-absolute topbar-badge fs-3xs translate-middle badge rounded-pill bg-danger"><span
                                     class="notification-badge">4</span><span class="visually-hidden">unread
                                     messages</span></span>
-                        </button>
+                        </button> --}}
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
                             aria-labelledby="page-header-notifications-dropdown">
 
@@ -750,19 +752,18 @@
                                 <img class="rounded-circle header-profile-user"
                                     src="{{ URL::asset('admin/images/users/32/avatar-1.jpg') }}" alt="Header Avatar">
                                 <span class="text-start ms-xl-2">
-                                    <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">Richard
-                                        Marshall</span>
-                                    <span class="d-none d-xl-block ms-1 fs-sm user-name-sub-text">Founder</span>
+                                    {{-- <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">Admin</span> --}}
+                                    <span class="d-none d-xl-block ms-1 fs-sm user-name-sub-text">Admin</span>
                                 </span>
                             </span>
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
                             <!-- item-->
-                            <h6 class="dropdown-header">Welcome Richard!</h6>
-                            <a class="dropdown-item" href="pages-profile"><i
+                            <h6 class="dropdown-header">Welcome Admin!</h6>
+                            {{-- <a class="dropdown-item" href="pages-profile"><i
                                     class="mdi mdi-account-circle text-muted fs-lg align-middle me-1"></i> <span
-                                    class="align-middle"> @lang('translation.profile')</span></a>
-                            <a class="dropdown-item" href="apps-chat"><i
+                                    class="align-middle"> @lang('translation.profile')</span></a> --}}
+                            {{-- <a class="dropdown-item" href="apps-chat"><i
                                     class="mdi mdi-message-text-outline text-muted fs-lg align-middle me-1"></i> <span
                                     class="align-middle">Messages</span></a>
                             <a class="dropdown-item" href="apps-tickets-overview"><i
@@ -778,17 +779,17 @@
                             <a class="dropdown-item" href="pages-profile-settings"><span
                                     class="badge bg-success-subtle text-success mt-1 float-end">New</span><i
                                     class="mdi mdi-cog-outline text-muted fs-lg align-middle me-1"></i> <span
-                                    class="align-middle">@lang('translation.settings')</span></a>
+                                    class="align-middle">@lang('translation.settings')</span></a> --}}
                             {{-- <a class="dropdown-item" href="{{ route('password.confirm') }}"><i
                                     class="mdi mdi-lock text-muted fs-lg align-middle me-1"></i> <span
-                                    class="align-middle"> @lang('translation.lock-screen')</span></a>
-                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                    class="align-middle"> @lang('translation.lock-screen')</span></a> --}}
+                            <a class="dropdown-item" href="{{ route('auth.logout') }}"
                                 onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i
                                     class="mdi mdi-logout text-muted fs-lg align-middle me-1"></i> <span
-                                    class="align-middle" data-key="t-logout">@lang('translation.logout')</span></a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    class="align-middle" data-key="t-logout">Logout</span></a>
+                            <form id="logout-form" action="{{ route('auth.logout') }}" method="GET" class="d-none">
                                 @csrf
-                            </form> --}}
+                            </form>
                         </div>
                     </div>
                 </div>

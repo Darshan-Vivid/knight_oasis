@@ -78,8 +78,8 @@
         </div>
     </div>
     <div class="hstack gap-2 justify-content-end mb-3">
-        <button type="reset" class="btn btn-danger">Cancel</button>
         <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="reset" class="btn btn-danger">Cancel</button>
     </div>
 </form>
 

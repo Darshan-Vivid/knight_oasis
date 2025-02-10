@@ -15,7 +15,7 @@
                     <img src="{{ URL::asset('admin/images/logo-sm.png') }}" alt="" height="22">
                 </span>
                 <span class="logo-lg">
-                    <img src="{{ URL::asset('admin/images/logo-light.png') }}" alt="" height="22">
+                    <img src="{{ URL::asset('admin/images/admin.png') }}" alt="" height="100">
                 </span>
             </a>
             <button type="button" class="btn btn-sm p-0 fs-3xl header-item float-end btn-vertical-sm-hover"
@@ -37,13 +37,13 @@
                         </a>
                         <div class="collapse menu-dropdown" id="sidebarEcommerce">
                             <ul class="nav nav-sm flex-column">
-                                <li class="nav-item">
+                                {{-- <li class="nav-item">
                                     <a href="{{ route('blogs.create') }}" class="nav-link"
                                         data-key="t-products">Add Blogs</a>
-                                </li>
+                                </li> --}}
                                 <li class="nav-item">
                                     <a href="{{ route('blogs.index') }}" class="nav-link"
-                                        data-key="t-products-grid">Blogs Listings</a>
+                                        data-key="t-products-grid">Manage Blogs</a>
                                 </li>
                             </ul>
                         </div>

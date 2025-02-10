@@ -34,22 +34,23 @@
                         <div class="dropzone course-dropzone border border-1 border-dashed text-center"
                             style="min-height: 80px;">
                             <div class="fallback">
-                                <input type="file" name="media" id="media" multiple="multiple" id="fileInput">
+                                {{-- <input type="file" name="media" id="media" multiple="multiple" id="fileInput"> --}}
                             </div>
                             <div class="dz-message needsclick my-3">
-                                <label for="fileInput" class="mb-3" style="cursor: pointer;">
+                                <label for="media" class="mb-3" style="cursor: pointer;">
                                     <i class="bi bi-cloud-download fs-1"></i>
                                 </label>
                                 <h5 class="fs-md mb-0">Drop image here or click to upload.</h5>
                             </div>
+                            <input type="file" name="media" id="media" multiple="multiple" class="d-none">
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="hstack gap-2 justify-content-end">
+                        <button type="submit" class="btn btn-primary" id="add-btn">Add Media</button>
                         <button type="button" class="btn btn-ghost-danger" data-bs-dismiss="modal"><i
                                 class="bi bi-x-lg align-baseline me-1"></i> Close</button>
-                        <button type="submit" class="btn btn-primary" id="add-btn">Add Media</button>
                     </div>
                 </div>
             </form>
@@ -74,13 +75,10 @@
                             <li><a class="dropdown-item" href="{{ asset($media->url) }}" target="_blank"><i
                                         class="bi bi-eye align-baseline me-1"></i> View</a></li>
                             <li>
-                                <form action="{{ route('media.destroy', $media->id) }}" method="POST"
-                                    onsubmit="return confirm('Are you sure you want to delete this media?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="dropdown-item"><i
-                                            class="bi bi-trash3 align-baseline me-1"></i> Delete</button>
-                                </form>
+                                <button type="button" class="dropdown-item delete-media-btn"
+                                    data-delete-url="{{ route('media.destroy', $media->id) }}">
+                                    <i class="bi bi-trash3 align-baseline me-1"></i> Delete
+                                </button>
                             </li>
                         </ul>
                     </div>
@@ -89,4 +87,48 @@
         </div>
     @endforeach
 </div>
+<div id="deleteRecordModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-md-5">
+                <div class="text-center">
+                    <div class="text-danger">
+                        <i class="bi bi-trash display-4"></i>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="mb-2">Are you sure?</h3>
+                        <p class="text-muted fs-lg mx-3 mb-0">Are you sure you want to remove this record?</p>
+                    </div>
+                </div>
+                <form id="deleteForm" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                        <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn w-sm btn-danger">Yes, Delete It!</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $(".delete-media-btn").on("click", function() {
+            let deleteUrl = $(this).data("delete-url");
+            $("#deleteForm").attr("action", deleteUrl);
+            $("#deleteRecordModal").modal("show");
+        });
+    });
+</script>
+<script src="{{ URL::asset('admin/libs/list.js/list.min.js') }}"></script>
+<script src="{{ URL::asset('admin/libs/list.pagination.js/list.pagination.min.js') }}"></script>
+<script src="{{ URL::asset('admin/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+<script src="{{ URL::asset('admin/libs/dropzone/dropzone-min.js') }}"></script>
+<script src="{{ URL::asset('admin/js/pages/ecommerce-product-list.init.js') }}"></script>
+<script src="{{ URL::asset('admin/js/app.js') }}"></script>
 <x-admin.footer />
