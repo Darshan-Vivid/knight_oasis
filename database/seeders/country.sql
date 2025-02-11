@@ -2513,8 +2513,6 @@ INSERT INTO `country` (`id`, `c_id`, `c_code`, `c_name`, `s_name`) VALUES
 (2501, 'PK', '+92', 'Pakistan', 'Balochistan'),
 (2502, 'PK', '+92', 'Pakistan', 'Islamabad'),
 (2503, 'PK', '+92', 'Pakistan', 'Khyber Pakhtunkhwa'),
-(2504, 'PK', '+92', 'Pakistan', 'Pakistan Occupied Kashmir'),
-(2505, 'PK', '+92', 'Pakistan', 'Pakistan Occupied Kashmir'),
 (2506, 'PK', '+92', 'Pakistan', 'Punjab'),
 (2507, 'PK', '+92', 'Pakistan', 'Sindh'),
 (2508, 'PL', '+48', 'Poland', 'Greater Poland'),

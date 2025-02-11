@@ -22,7 +22,7 @@ class AuthController extends Controller
             'name' => 'required|string|min:3',
             'email' => 'required|email',
             'country_code' => 'required|string|min:2|max:5',
-            'mobile' => 'required|digits:10',
+            'mobile' => 'required|digits:12',
             'state' => 'required|string|min:2',
             'password' => 'required|string|min:6',
             'password_confirmation' => 'required|same:password',
@@ -238,8 +238,26 @@ class AuthController extends Controller
 
     public function showForm()
     {
-        $countries = Country::select('c_code', 'c_name')->distinct('c_name')->orderBy('c_name')->get();
+        $countries = Country::select('c_code', 'c_name')
+            ->distinct('c_name')
+            ->get()
+            ->sortBy(function ($country) {
+                return (int) filter_var($country->c_code, FILTER_SANITIZE_NUMBER_INT);
+            });
         return view('auth.signup', compact('countries'));
     }
-    
+
+
+    public function getStates(Request $request)
+{
+    $country_code = $request->country_code;
+    $country_name = $request->country_name;
+
+    $states = Country::where('c_code', $country_code)
+        ->where('c_name', $country_name)
+        ->pluck('s_name', 'id');
+
+    return response()->json($states);
+}
+
 }

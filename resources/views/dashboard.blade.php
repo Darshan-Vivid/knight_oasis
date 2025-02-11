@@ -111,6 +111,9 @@
                             </div>
                         </li>
                         <li>
+                            <a href="/blog.html">Blog</a>
+                        </li>
+                        <li>
                             <a href="#">Contact</a>
                         </li>
                         <li>

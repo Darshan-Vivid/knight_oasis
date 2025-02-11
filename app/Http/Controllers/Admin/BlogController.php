@@ -133,4 +133,14 @@ class BlogController extends Controller
 
         return redirect()->route('blogs.index')->with('success', 'Blog deleted successfully!');
     }
+
+    public function view_blog(Request $request){
+        $blogs = Blogs::all();
+        // dd($blogs);
+        return view('front.blogs.index', compact('blogs'));
+    }
+
+    public function blog_listing(Request $request){
+        
+    }
 }
