@@ -17,7 +17,7 @@ class RedirectController extends Controller
     }
 
     public function forgotPassword(){
-        return view('auth.forgot-password'); 
+        return view('auth.forgot-password');
     }
 
     public function newPassword($token){
@@ -26,7 +26,7 @@ class RedirectController extends Controller
         if ($user && isset($user->email)) {
             return view('auth.reset_password')->with([
                 'email' => $user->email,
-                'token' => $token // Pass the token to the view
+                'token' => $token
             ]);
         } else {
             return redirect()->route('view.signup')->with([
@@ -34,5 +34,9 @@ class RedirectController extends Controller
                 'message' => 'invalid request'
             ]);
         }
+    }
+
+    public function settings(){
+        return view('admin.settings.general');
     }
 }

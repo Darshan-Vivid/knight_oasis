@@ -17,6 +17,5 @@ class StateSeeder extends Seeder
         $sqlFile = database_path('seeders/country.sql');
         $sql = File::get($sqlFile);
         DB::unprepared($sql);
-        $this->command->info('Countries table seeded successfully!');
     }
 }

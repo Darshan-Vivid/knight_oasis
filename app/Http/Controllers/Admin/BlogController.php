@@ -16,7 +16,6 @@ class BlogController extends Controller
      */
     public function index(Request $request)
     {
-        dd('dfsd');
         // $user = Auth::user();
         $order = $request->input('order', 'desc');
         $perPage = $request->input('perPage', 5);
@@ -24,7 +23,6 @@ class BlogController extends Controller
         $baseQuery = Blogs::query();
         $baseQuery->orderBy('created_at', $order);
         $blog = $baseQuery->paginate($perPage);
-        dd($blog);
         $total_blogs = Blogs::count();
         return view('admin.blogs.index', compact('blog', 'total_blogs'));
     }
@@ -146,6 +144,6 @@ class BlogController extends Controller
     }
 
     public function blog_listing(Request $request){
-        
+
     }
 }

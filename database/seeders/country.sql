@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS `country`;
+
 CREATE TABLE `country` (
   `id` int(11) NOT NULL,
   `c_id` varchar(250) DEFAULT NULL,
