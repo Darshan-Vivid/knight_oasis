@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Blogs;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Blogs;
+// use Spatie\Permission\Models\Role;
+
 
 class BlogController extends Controller
 {
@@ -14,12 +16,15 @@ class BlogController extends Controller
      */
     public function index(Request $request)
     {
-        $user = Auth::user();
-        $baseQuery = Blogs::query();
+        dd('dfsd');
+        // $user = Auth::user();
         $order = $request->input('order', 'desc');
-        $baseQuery->orderBy('created_at', $order);
         $perPage = $request->input('perPage', 5);
+
+        $baseQuery = Blogs::query();
+        $baseQuery->orderBy('created_at', $order);
         $blog = $baseQuery->paginate($perPage);
+        dd($blog);
         $total_blogs = Blogs::count();
         return view('admin.blogs.index', compact('blog', 'total_blogs'));
     }

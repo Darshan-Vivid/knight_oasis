@@ -57,6 +57,7 @@
                             <div class="ko-col-6">
                                 <div class="ko-loginRegister-grp">
                                     <label for="email">Phone Number<sup>*</sup></label>
+                                    <span class="ko-tel-code"></span>
                                     <input type="tel"
                                         class="ko-loginRegister-control @error('mobile') is-invalid @enderror"
                                         name="mobile" id="mobile" value="{{ old('mobile') }}" required />
@@ -136,9 +137,9 @@
 </main>
 <script>
     $(document).ready(function() {
-        let allCodes = @json($countries); // Fetch all country codes from PHP
+        // let allCodes = @json($countries); // Fetch all country codes from PHP
 
-        $("#mobile").on("input", function() {
+       /*  $("#mobile").on("input", function() {
             let inputVal = $(this).val(); // Get user input
             if (inputVal.startsWith("+")) {
                 let matchedCodes = allCodes.filter(code => code.startsWith(inputVal)); // Match codes
@@ -156,7 +157,7 @@
                     });
                 }
             }
-        });
+        }); */
     });
     $(document).ready(function() {
         $('#country_code').select2({
@@ -203,8 +204,8 @@
             var currentValue = $("#mobile").val();
 
             currentValue = currentValue.replace(/^\+\d+\s*/, "");
-
-            $("#mobile").val("" + countryCode + " " + currentValue);
+            $("#mobile").parent().find('.ko-tel-code').text(countryCode);
+            // $("#mobile").val("" + countryCode + " " + currentValue);
         });
     });
 </script>

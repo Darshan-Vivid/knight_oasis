@@ -17,13 +17,24 @@ Route::get('/', [DashboardController::class, 'show'])->name('view.dashboard');
 Route::get('/login',[RedirectController::class , 'login'])->name('view.login');
 Route::post('/login',[AuthController::class , 'login'])->name('auth.login');
 
-Route::get('/logout',[AuthController::class , 'logout'])->name('auth.logout');
-
-
-
 Route::get('/sign-up',[RedirectController::class , 'signup'])->name('view.signup');
 Route::post('/sign-up',[AuthController::class , 'signup'])->name('auth.signup');
 Route::get('/sign-up', [AuthController::class, 'showForm'])->name('signup');
+
+Route::middleware(['auth'])->group(function () {
+    Route::middleware(['role:superAdmin'])->prefix('admin')->group(function () {
+        Route::resource('blogs', BlogController::class);
+        Route::resource('media', MediaController::class);
+    });
+
+    
+    Route::get('/forgot-password', [RedirectController::class, 'forgotPassword'])->name('view.forget_password');
+    Route::post('/forgot-password', [AuthController::class, 'forgot_password'])->name('auth.password.otp');
+
+    Route::get('/new-password/{token}', [RedirectController::class, 'newPassword'])->name('view.new_password');
+    Route::post('/new-password', [AuthController::class, 'new_password'])->name('auth.password');
+    Route::get('/logout',[AuthController::class , 'logout'])->name('auth.logout');
+});
 Route::get('/states', [AuthController::class, 'getStates']);
 
 Route::get('/blog', [BlogController::class, 'view_blog'])->name('view.blog');
@@ -33,12 +44,5 @@ Route::get('/blog_listing', [BlogController::class, 'blog_listing'])->name('blog
 Route::get('/verification/{token}',[AuthController::class , 'view_otp_verify'])->name('view.otp_verify');
 Route::post('/verification',[AuthController::class , 'otp_verify'])->name('auth.otp_verify');
 
-Route::get('/forgot-password', [RedirectController::class, 'forgotPassword'])->name('view.forget_password');
-Route::post('/forgot-password', [AuthController::class, 'forgot_password'])->name('auth.password.otp');
-
-Route::get('/new-password/{token}', [RedirectController::class, 'newPassword'])->name('view.new_password');
-Route::post('/new-password', [AuthController::class, 'new_password'])->name('auth.password');
 
 
-Route::resource('blogs', BlogController::class);
-Route::resource('media', MediaController::class);

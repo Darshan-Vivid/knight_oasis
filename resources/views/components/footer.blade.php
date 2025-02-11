@@ -55,6 +55,6 @@
     <span class="loader"></span>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
-<script src="assets/js/custom-script.js"></script>
+<script src="{{ asset('assets/js/custom-script.js') }}"></script>
 </body>
 </html>

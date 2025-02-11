@@ -17,14 +17,14 @@ class AuthController extends Controller
 {
     public function signup(Request $request)
     {
-
+    
         $rules = [
             'name' => 'required|string|min:3',
             'email' => 'required|email',
-            'country_code' => 'required|string|min:2|max:5',
+            'country_code' => 'required',
             'mobile' => 'required|digits:12',
-            'state' => 'required|string|min:2',
-            'password' => 'required|string|min:6',
+            'state' => 'required',
+            'password' => 'required|min:6',
             'password_confirmation' => 'required|same:password',
         ];
 
@@ -74,6 +74,7 @@ class AuthController extends Controller
             $user->password = Hash::make($request->password);
             $user->otp_expires_at = Carbon::now()->addMinutes(30);
             $user->save();
+            $user->assignRole('customer');
 
             $mailData = [
                 'email' => $user->email,
