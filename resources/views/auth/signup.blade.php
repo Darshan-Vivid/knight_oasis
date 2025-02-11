@@ -39,17 +39,19 @@
                             <div class="ko-col-6">
                                 <div class="ko-loginRegister-grp">
                                     <label for="mobile">Country Code <sup>*</sup></label>
-                                    <select name="country_code" id="country_code" class="ko-loginRegister-control">
-                                        <option value="Please select country code" disabled selected>Please select
-                                            country code</option>
+                                    <select name="country" id="country_code" class="ko-loginRegister-control">
+                                        <option value="Please select country code" disabled selected>Please select country code</option>
                                         @foreach ($countries as $country)
-                                            <option value="{{ $country->c_code }}"
-                                                data-country-name="{{ $country->c_name }}">
+                                            <option
+                                                value="{{ $country->c_name }}"
+                                                data-country-code="{{ $country->c_code }}"
+                                                {{ $country->c_name == old('country') ? 'selected' : '' }}>
                                                 {{ $country->c_code }} - {{ $country->c_name }}
                                             </option>
+
                                         @endforeach
                                     </select>
-                                    @error('country_code')
+                                    @error('country')
                                         <div class="invalid-response" style="display:flex">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -57,38 +59,15 @@
                             <div class="ko-col-6">
                                 <div class="ko-loginRegister-grp">
                                     <label for="email">Phone Number<sup>*</sup></label>
-                                    <span class="ko-tel-code"></span>
                                     <input type="tel"
                                         class="ko-loginRegister-control @error('mobile') is-invalid @enderror"
-                                        name="mobile" id="mobile" value="{{ old('mobile') }}" required />
+                                        name="mobile" id="ko-register-mobile" value="{{ old('mobile') }}" required />
                                     @error('mobile')
-                                        <div class="invalid-response" style="display:flex">Invalid mobile number</div>
+                                        <div class="invalid-response" style="display:flex">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
 
-                            {{-- <div class="ko-col-6">
-                                <div class="ko-loginRegister-grp">
-                                    <label for="mobile">Phone Number <sup>*</sup></label>
-                                    <div class="ko-loginRegister-phone">
-                                        <select name="country_code" id="country_code" class="ko-loginRegister-control">
-                                            <option value="" disabled selected>Please select country code</option>
-                                            @foreach ($countries as $country)
-                                                <option value="{{ $country->c_code }}" 
-                                                        data-country-name="{{ $country->c_name }}">
-                                                    {{ $country->c_code }} - {{ $country->c_name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <input type="tel"
-                                            class="ko-loginRegister-control @error('mobile') is-invalid @enderror"
-                                            name="mobile" id="mobile" value="{{ old('mobile') }}" required />
-                                    </div>
-                                    @error('mobile')
-                                        <div class="invalid-response" style="display:flex">Invalid mobile number</div>
-                                    @enderror
-                                </div>
-                            </div> --}}
                             <div class="ko-col-12">
                                 <div class="ko-loginRegister-grp">
                                     <label for="state">State <sup>*</sup></label>
@@ -124,7 +103,7 @@
                                 </div>
                             </div>
                         </div>
-                        <p>A link to set a new password will be sent to your email address.</p>
+                        <p>An on time password for verify you email will be sent to your email address.</p>
                         <p>Your personal data will be used to support your experience throughout this website, to manage
                             access to your account, and for other purposes described in our <a href="#">Privacy
                                 policy</a>.</p>
@@ -136,58 +115,43 @@
     </section>
 </main>
 <script>
-    $(document).ready(function() {
-        // let allCodes = @json($countries); // Fetch all country codes from PHP
 
-       /*  $("#mobile").on("input", function() {
-            let inputVal = $(this).val(); // Get user input
-            if (inputVal.startsWith("+")) {
-                let matchedCodes = allCodes.filter(code => code.startsWith(inputVal)); // Match codes
-                $("#country_code").empty(); // Clear previous options
-
-                if (matchedCodes.length > 0) {
-                    matchedCodes.forEach(code => {
-                        $("#country_code").append(
-                            `<option value="${code}">${code}</option>`); // Add matched codes
-                    });
-                } else {
-                    allCodes.forEach(code => {
-                        $("#country_code").append(
-                            `<option value="${code}">${code}</option>`); // Restore all codes
-                    });
-                }
-            }
-        }); */
-    });
     $(document).ready(function() {
         $('#country_code').select2({
             placeholder: "Search country code...",
             allowClear: true,
             width: '100%'
         });
-    });
 
-    $(document).ready(function() {
         $('#country_code').change(function() {
-            var countryCode = $(this).val();
-            var countryName = $("#country_code option:selected").data(
-                "country-name"); // Get country name
+            get_states();
+            var countryCode = $("#country_code option:selected").data("country-code");
+            $('#ko-register-mobile').val(countryCode);
+        });
+
+        function get_states(){
+            var countryName = $("#country_code").val();
+            var countryCode = $("#country_code option:selected").data("country-code");
             $('#state').empty();
             $('#state').append('<option value="" disabled selected>Please select state</option>');
 
+
             if (countryCode && countryName) {
                 $.ajax({
-                    url: '/states',
-                    type: 'GET',
+                    url: '{{ route(name: "get.states") }}',
+                    type: 'post',
                     data: {
                         country_code: countryCode,
-                        country_name: countryName
-                    }, // Send both code and name
+                        country_name: countryName,
+                        _token: '{{ csrf_token() }}'
+                    },
                     dataType: 'json',
                     success: function(data) {
+                        var oldState = "{{ old('state') }}";
+
                         $.each(data, function(key, value) {
-                            $('#state').append('<option value="' + key + '">' +
-                                value + '</option>');
+                            var selected = (key == oldState) ? 'selected' : '';
+                            $('#state').append('<option value="' + key + '" ' + selected + '>' + value + '</option>');
                         });
                     },
                     error: function() {
@@ -195,18 +159,9 @@
                     }
                 });
             }
-        });
-    });
+        }
 
-    $(document).ready(function() {
-        $("#country_code").change(function() {
-            var countryCode = $(this).val();
-            var currentValue = $("#mobile").val();
-
-            currentValue = currentValue.replace(/^\+\d+\s*/, "");
-            $("#mobile").parent().find('.ko-tel-code').text(countryCode);
-            // $("#mobile").val("" + countryCode + " " + currentValue);
-        });
+        get_states();
     });
 </script>
 <x-footer />

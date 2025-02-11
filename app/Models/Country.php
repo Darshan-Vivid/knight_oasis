@@ -11,4 +11,6 @@ class Country extends Model
 
     protected $table = 'country';
     protected $fillable = ['c_code'];
+    protected $primaryKey = 'id';
+    protected $keyType = 'int';
 }

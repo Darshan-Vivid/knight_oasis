@@ -15,14 +15,26 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+
+    public function view_signup()
+    {
+        $countries = Country::select('c_code', 'c_name')
+            ->distinct('c_name')
+            ->get()
+            ->sortBy(function ($country) {
+                return (int) filter_var($country->c_code, FILTER_SANITIZE_NUMBER_INT);
+            });
+
+        return view('auth.signup', compact('countries'));
+    }
+
     public function signup(Request $request)
     {
-    
         $rules = [
-            'name' => 'required|string|min:3',
+            'name' => 'required|min:2',
             'email' => 'required|email',
-            'country_code' => 'required',
-            'mobile' => 'required|digits:12',
+            'country' => 'required',
+            'mobile' => 'required|min:10',
             'state' => 'required',
             'password' => 'required|min:6',
             'password_confirmation' => 'required|same:password',
@@ -30,17 +42,13 @@ class AuthController extends Controller
 
         $messages = [
             'name.required' => 'The name field is required.',
-            'name.min' => 'The name must be at least 3 characters.',
+            'name.min' => 'The name must be at least 2 characters.',
             'email.required' => 'The email field is required.',
             'email.email' => 'The email must be a valid email address.',
-            'country_code.required' => 'The country code field is required.',
-            'country_code.string' => 'The country code must be a string.',
-            'country_code.min' => 'The country code must be at least 2 characters.',
-            'country_code.max' => 'The country code must not exceed 5 characters.',
+            'country.required' => 'The country code field is required.',
             'mobile.required' => 'The mobile field is required.',
-            'mobile.digits' => 'The mobile must be exactly 10 digits.',
+            'mobile.min' => 'The mobile must be at least 10 characters.',
             'state.required' => 'The state field is required.',
-            'state.min' => 'The name must be at least 2 characters.',
             'password.required' => 'The password field is required.',
             'password.min' => 'The password must be at least 6 characters.',
             'password_confirmation.required' => 'The password confirmation field is required.',
@@ -60,6 +68,8 @@ class AuthController extends Controller
             return redirect()->back()->withErrors(['mobile' => 'Mobile number already exists.'])->withInput();
         } else {
 
+            $state_name = Country::find(  $request->state);
+
             $otp = rand(100000, 999999);
             $token = Str::random(32);
 
@@ -67,14 +77,14 @@ class AuthController extends Controller
             $user->name = $request->name;
             $user->email = $request->email;
             $user->mobile = $fullMobile;
-            $user->state = $request->state;
-            $user->country = $request->country_code;
+            $user->state = $state_name->s_name;
+            $user->country = $request->country;
             $user->otp = $otp;
             $user->token = $token;
             $user->password = Hash::make($request->password);
             $user->otp_expires_at = Carbon::now()->addMinutes(30);
             $user->save();
-            $user->assignRole('customer');
+            $user->assignRole('user');
 
             $mailData = [
                 'email' => $user->email,
@@ -223,7 +233,7 @@ class AuthController extends Controller
     {
         $user = User::where('token', $request->token)->first();
         if (!$user) {
-            return redirect()->route('view.login')->with('message', 'Invalid request.');
+            return redirect()->route('login')->with('message', 'Invalid request.');
         }
 
         $request->validate([
@@ -233,21 +243,9 @@ class AuthController extends Controller
         $user->password = Hash::make($request->password);
         $user->token = null;
         $user->save();
-        return redirect()->route('view.login')
+        return redirect()->route('login')
             ->with(['message' => 'Password changed successfully. Please log in with your new password.', 'status' => 'success']);
     }
-
-    public function showForm()
-    {
-        $countries = Country::select('c_code', 'c_name')
-            ->distinct('c_name')
-            ->get()
-            ->sortBy(function ($country) {
-                return (int) filter_var($country->c_code, FILTER_SANITIZE_NUMBER_INT);
-            });
-        return view('auth.signup', compact('countries'));
-    }
-
 
     public function getStates(Request $request)
 {
