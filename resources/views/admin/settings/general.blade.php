@@ -13,9 +13,9 @@
                     <div class="flex-wrap gap-2 d-flex align-items-start">
                         <button class="btn btn-subtle-danger d-none" id="remove-actions"
                             ><i class="ri-delete-bin-2-line"></i></button>
-                        <a href="" class="btn btn-primary add-btn">
-                            <i class="align-baseline bi bi-plus-circle me-1"></i> Add Blog
-                        </a>
+                            <a href="" class="btn btn-primary add-btn">
+                                <i class="align-baseline bi bi-arrow-clockwise me-1"></i> Update
+                            </a>
                     </div>
                 </div>
             </div>
