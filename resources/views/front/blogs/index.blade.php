@@ -1,7 +1,7 @@
 <x-header :title="' Blogs '" />
 <main>
     <!-- banner section -->
-    <section class="ko-banner" style="background-image: url('assets/images/cart-banner.webp');">
+    <section class="ko-banner" style="background-image: url('{{ asset('images/cart-banner.webp') }}');">
         <div class="ko-container">
             <div class="ko-banner-content">
                 <h2>News</h2>
@@ -24,7 +24,9 @@
                 <div class="ko-blog-post-card">
                     <div class="ko-blog-post-inner-card">
                         <div class="ko-blog-post-img">
-                            <a href="/single-blog.html"><img src="{{ asset($blog->image) }}" alt="{{ $blog->title }}" /></a>
+                            <a href="{{ route('blog.list', $blog->slug) }}">
+                                <img src="{{ asset($blog->image) }}" alt="{{ $blog->title }}" />
+                            </a>                                                       
                             <a class="ko-catagory" href="#">Tips & Tricks, Uncategorized</a>
                         </div>
                         <div class="ko-blog-post-content">
@@ -32,7 +34,7 @@
                             <p>{{ strip_tags($blog->description) }}</p>
                             <ul class="ko-blog-post-list">
                                 {{-- <li>almaris-admin</li> --}}
-                                <li>12 September, 2024</li>
+                                <p>{{ $blog->created_at->format('F d, Y') }}</p>
                             </ul>
                         </div>
                     </div>
@@ -41,7 +43,5 @@
             </div>
         </div>
     </section>
-
-
 </main>
 <x-footer />

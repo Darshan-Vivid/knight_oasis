@@ -77,8 +77,8 @@
                     </div>
                     <div class="flex-shrink-0">
                         <div class="d-flex flex-wrap align-items-start gap-2">
-                            <button class="btn btn-subtle-danger d-none" id="remove-actions"
-                                ><i class="ri-delete-bin-2-line"></i></button>
+                            <button class="btn btn-subtle-danger d-none" id="remove-actions"><i
+                                    class="ri-delete-bin-2-line"></i></button>
                             <a href="{{ route('blogs.create') }}" class="btn btn-primary add-btn">
                                 <i class="bi bi-plus-circle align-baseline me-1"></i> Add Blog
                             </a>
@@ -223,9 +223,11 @@
 <script>
     function setDeleteFormAction(blogId) {
         let form = $('#deleteForm');
-        form.attr('action', '/blogs/' + blogId);
+        let deleteUrl = "{{ route('blogs.destroy', ':id') }}".replace(':id', blogId);
+        form.attr('action', deleteUrl);
         $('#deleteRecordModal').modal('show');
     }
+
 
     $(document).ready(function() {
         $('.search').on('keyup', function() {

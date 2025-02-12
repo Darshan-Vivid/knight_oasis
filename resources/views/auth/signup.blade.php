@@ -71,7 +71,7 @@
                             <div class="ko-col-12">
                                 <div class="ko-loginRegister-grp">
                                     <label for="state">State <sup>*</sup></label>
-                                    <select name="state" id="state" class="ko-loginRegister-control">
+                                    <select name="state" value="{{ old('state') }}" id="state" class="ko-loginRegister-control">
                                         <option value="" disabled selected>Please select state</option>
                                         <!-- States will be populated here -->
                                     </select>
@@ -85,7 +85,7 @@
                                     <label for="password">Password <sup>*</sup></label>
                                     <input type="password"
                                         class="ko-loginRegister-control @error('password') is-invalid @enderror"
-                                        name="password" id="password" required />
+                                        name="password" id="password" value="{{ old('password') }}" required />
                                     @error('password')
                                         <div class="invalid-response" style="display:flex">{{ $message }}</div>
                                     @enderror
@@ -96,7 +96,7 @@
                                     <label for="password_confirmation">Confirm Password <sup>*</sup></label>
                                     <input type="password"
                                         class="ko-loginRegister-control @error('password_confirmation') is-invalid @enderror"
-                                        name="password_confirmation" id="password_confirmation" required />
+                                        name="password_confirmation" value="{{ old('password_confirmation') }}" id="password_confirmation" required />
                                     @error('password_confirmation')
                                         <div class="invalid-response" style="display:flex">{{ $message }}</div>
                                     @enderror

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Blogs;
+use Illuminate\Support\Str;
 // use Spatie\Permission\Models\Role;
 
 
@@ -49,6 +50,9 @@ class BlogController extends Controller
         $blog = new Blogs();
         $blog->title = $request->title;
         $blog->description = $request->description;
+        $slug = Str::slug($request->title);
+        $count = Blogs::where('slug', $slug)->count();
+        $blog->slug = $count ? "{$slug}-{$count}" : $slug;
 
         if ($request->hasFile('image')) {
             $imagefile = $request->file('image');
@@ -137,13 +141,17 @@ class BlogController extends Controller
         return redirect()->route('blogs.index')->with('success', 'Blog deleted successfully!');
     }
 
-    public function view_blog(Request $request){
+    public function view_blog(Request $request)
+    {
         $blogs = Blogs::all();
         // dd($blogs);
         return view('front.blogs.index', compact('blogs'));
     }
 
-    public function blog_listing(Request $request){
-
+    public function blog_list($slug)
+    {
+        $blog = Blogs::where('slug', $slug)->firstOrFail();
+        $recentBlogs = Blogs::orderBy('created_at', 'desc')->take(5)->get();
+        return view('front.blogs.blog_listing', compact('blog', 'recentBlogs'));
     }
 }

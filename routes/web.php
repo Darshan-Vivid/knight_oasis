@@ -32,7 +32,7 @@ Route::post('/states', [AuthController::class, 'getStates'])->name("get.states")
 Route::get('/', [DashboardController::class, 'show'])->name('view.dashboard');
 
 Route::get('/blog', [BlogController::class, 'view_blog'])->name('view.blog');
-Route::get('/blog_listing', [BlogController::class, 'blog_listing'])->name('blog_listing');
+Route::get('/blog/{slug}', [BlogController::class, 'blog_list'])->name('blog.list');
 
 //admin panel
 Route::middleware(['auth'])->group(function () {
@@ -42,9 +42,4 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/settings', [RedirectController::class, 'settings'])->name('view.settings');
     });
 });
-
-
-
-// Route::resource('blogs', BlogController::class);
-// Route::resource('media', MediaController::class);
 

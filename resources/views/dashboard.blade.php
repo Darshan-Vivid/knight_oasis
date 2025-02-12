@@ -111,7 +111,7 @@
                             </div>
                         </li>
                         <li>
-                            <a href="/blog.html">Blog</a>
+                            <a href="{{ route('view.blog') }}">Blog</a>
                         </li>
                         <li>
                             <a href="#">Contact</a>

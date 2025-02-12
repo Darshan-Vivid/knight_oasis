@@ -48,6 +48,10 @@
                                     <a href="{{ route('blogs.index') }}" class="nav-link"
                                         data-key="t-products-grid">Manage Blogs</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('blogs.index') }}" class="nav-link"
+                                        data-key="t-products-grid">Blogs Categories</a>
+                                </li>
                             </ul>
                         </div>
                     </li>
