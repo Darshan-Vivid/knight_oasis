@@ -37,9 +37,10 @@ Route::get('/blog/{slug}', [BlogController::class, 'blog_list'])->name('blog.lis
 //admin panel
 Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:admin'])->prefix('admin')->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'show_admin'])->name('view.admin.dashboard');
         Route::resource('blogs', BlogController::class);
         Route::resource('media', MediaController::class);
-        Route::get('/settings', [RedirectController::class, 'settings'])->name('view.settings');
+        Route::get('/settings', [DashboardController::class, 'show_settings'])->name('view.settings');
     });
 });
 

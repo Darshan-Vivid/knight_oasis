@@ -41,7 +41,7 @@
                     <form action="{{ route('blogs.destroy', $blogs->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this media?');">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="dropdown-item"><i class="bi bi-trash3 align-baseline me-1"></i> Delete</button>
+                        <button type="submit" class="dropdown-item"><i class="align-baseline bi bi-trash3 me-1"></i> Delete</button>
                     </form>
                 </div>
             @endforeach
@@ -72,22 +72,22 @@
             <div class="card">
                 <div class="card-header d-flex align-items-center">
                     <div class="flex-grow-1">
-                        <h5 class="card-title mb-0">Blogs <span
+                        <h5 class="mb-0 card-title">Blogs <span
                                 class="badge bg-dark-subtle text-dark ms-1">{{ $total_blogs }}</span></h5>
                     </div>
                     <div class="flex-shrink-0">
-                        <div class="d-flex flex-wrap align-items-start gap-2">
+                        <div class="flex-wrap gap-2 d-flex align-items-start">
                             <button class="btn btn-subtle-danger d-none" id="remove-actions"><i
                                     class="ri-delete-bin-2-line"></i></button>
                             <a href="{{ route('blogs.create') }}" class="btn btn-primary add-btn">
-                                <i class="bi bi-plus-circle align-baseline me-1"></i> Add Blog
+                                <i class="align-baseline bi bi-plus-circle me-1"></i> Add Blog
                             </a>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-centered align-middle table-nowrap mb-0">
+                        <table class="table mb-0 align-middle table-centered table-nowrap">
                             <thead class="table-active">
                                 <tr>
                                     <th>
@@ -97,8 +97,8 @@
                                             <label class="form-check-label" for="checkAll"></label>
                                         </div> --}}
                                     </th>
-                                    <th class="sort cursor-pointer" data-sort="products">Blogs</th>
-                                    <th class="sort cursor-pointer" data-sort="products">Description</th>
+                                    <th class="cursor-pointer sort" data-sort="products">Blogs</th>
+                                    <th class="cursor-pointer sort" data-sort="products">Description</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -113,7 +113,7 @@
                                         </td>
                                         <td class="products">
                                             <div class="d-flex align-items-center">
-                                                <div class="avatar-xs bg-light rounded p-1 me-2">
+                                                <div class="p-1 rounded avatar-xs bg-light me-2">
                                                     <img src="{{ asset($b->image) }}" alt="{{ $b->title }}"
                                                         class="img-fluid d-block">
                                                 </div>
@@ -133,12 +133,12 @@
                                                 <ul class="dropdown-menu dropdown-menu-end">
                                                     <li><a class="dropdown-item edit-item-btn"
                                                             href="{{ route('blogs.edit', $b->id) }}"><i
-                                                                class="ph-pencil align-middle me-1"></i> Edit</a></li>
+                                                                class="align-middle ph-pencil me-1"></i> Edit</a></li>
                                                     <li>
                                                         <a class="dropdown-item remove-item-btn"
                                                             href="javascript:void(0);"
                                                             onclick="setDeleteFormAction({{ $b->id }})">
-                                                            <i class="ph-trash align-middle me-1"></i> Remove
+                                                            <i class="align-middle ph-trash me-1"></i> Remove
                                                         </a>
                                                     </li>
                                                 </ul>
@@ -150,33 +150,33 @@
                         </table>
                     </div>
                     <div class="noresult" style="display: none">
-                        <div class="text-center py-4">
-                            <div class="avatar-md mx-auto mb-4">
+                        <div class="py-4 text-center">
+                            <div class="mx-auto mb-4 avatar-md">
                                 <div class="avatar-title bg-light text-primary rounded-circle fs-4xl">
                                     <i class="bi bi-search"></i>
                                 </div>
                             </div>
                             <h5 class="mt-2">Sorry! No Result Found</h5>
-                            <p class="text-muted mb-0">We've searched more than 150+ products We did not find any
+                            <p class="mb-0 text-muted">We've searched more than 150+ products We did not find any
                                 products for you search.</p>
                         </div>
                     </div>
-                    <div class="row mt-3 align-items-center">
+                    <div class="mt-3 row align-items-center">
                         <div class="col-sm">
-                            <div class="text-muted text-center text-sm-start">
+                            <div class="text-center text-muted text-sm-start">
                                 Showing <span class="fw-semibold">{{ $blog->lastItem() }}</span>
                                 of
                                 <span class="fw-semibold">{{ $total_blogs }}</span> Results
                             </div>
                         </div>
-                        <div class="col-sm-auto mt-3 mt-sm-0">
-                            <div class="pagination-wrap hstack gap-2 justify-content-center">
+                        <div class="mt-3 col-sm-auto mt-sm-0">
+                            <div class="gap-2 pagination-wrap hstack justify-content-center">
                                 <a class="page-item pagination-prev disabled" href="#">
-                                    <i class="mdi mdi-chevron-left align-middle"></i>
+                                    <i class="align-middle mdi mdi-chevron-left"></i>
                                 </a>
-                                <ul class="pagination listjs-pagination mb-0"></ul>
+                                <ul class="mb-0 pagination listjs-pagination"></ul>
                                 <a class="page-item pagination-next" href="#">
-                                    <i class="mdi mdi-chevron-right align-middle"></i>
+                                    <i class="align-middle mdi mdi-chevron-right"></i>
                                 </a>
                             </div>
                         </div>
@@ -202,13 +202,13 @@
                     </div>
                     <div class="mt-4">
                         <h3 class="mb-2">Are you sure?</h3>
-                        <p class="text-muted fs-lg mx-3 mb-0">Are you sure you want to remove this record?</p>
+                        <p class="mx-3 mb-0 text-muted fs-lg">Are you sure you want to remove this record?</p>
                     </div>
                 </div>
                 <form id="deleteForm" method="POST">
                     @csrf
                     @method('DELETE')
-                    <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                    <div class="gap-2 mt-4 mb-2 d-flex justify-content-center">
                         <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn w-sm btn-danger">Yes, Delete It!</button>
                     </div>
@@ -218,45 +218,4 @@
     </div>
 </div>
 
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    function setDeleteFormAction(blogId) {
-        let form = $('#deleteForm');
-        let deleteUrl = "{{ route('blogs.destroy', ':id') }}".replace(':id', blogId);
-        form.attr('action', deleteUrl);
-        $('#deleteRecordModal').modal('show');
-    }
-
-
-    $(document).ready(function() {
-        $('.search').on('keyup', function() {
-            var searchValue = $(this).val().toLowerCase();
-            var hasResults = false;
-            $('.list.form-check-all tr').filter(function() {
-                var title = $(this).find('.products h6 a').text().toLowerCase();
-                var description = $(this).find('td:nth-child(3)').text().toLowerCase();
-
-                var isVisible = title.indexOf(searchValue) > -1 || description.indexOf(
-                    searchValue) > -1;
-                $(this).toggle(isVisible);
-                if (isVisible) {
-                    hasResults = true;
-                }
-            });
-            if (hasResults) {
-                $('.noresult').hide();
-            } else {
-                $('.noresult').show();
-            }
-        });
-    });
-</script>
-
-<script src="{{ URL::asset('admin/libs/list.js/list.min.js') }}"></script>
-<script src="{{ URL::asset('admin/libs/list.pagination.js/list.pagination.min.js') }}"></script>
-<script src="{{ URL::asset('admin/libs/sweetalert2/sweetalert2.min.js') }}"></script>
-<script src="{{ URL::asset('admin/libs/dropzone/dropzone-min.js') }}"></script>
-<script src="{{ URL::asset('admin/js/pages/ecommerce-product-list.init.js') }}"></script>
-<script src="{{ URL::asset('admin/js/app.js') }}"></script>
 <x-admin.footer />

@@ -33,7 +33,4 @@ class RedirectController extends Controller
         }
     }
 
-    public function settings(){
-        return view('admin.settings.general');
-    }
 }

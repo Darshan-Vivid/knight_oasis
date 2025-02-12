@@ -26,14 +26,12 @@
                         <div class="ko-blog-post-img">
                             <a href="{{ route('blog.list', $blog->slug) }}">
                                 <img src="{{ asset($blog->image) }}" alt="{{ $blog->title }}" />
-                            </a>                                                       
+                            </a>
                             <a class="ko-catagory" href="#">Tips & Tricks, Uncategorized</a>
                         </div>
                         <div class="ko-blog-post-content">
-                            <a href="/single-blog.html">{{ $blog->title }}</a>
-                            <p>{{ strip_tags($blog->description) }}</p>
+                            <a href="{{ route('blog.list', $blog->slug) }}">{{ $blog->title }}</a>
                             <ul class="ko-blog-post-list">
-                                {{-- <li>almaris-admin</li> --}}
                                 <p>{{ $blog->created_at->format('F d, Y') }}</p>
                             </ul>
                         </div>

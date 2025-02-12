@@ -8,7 +8,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-xxl-4">
-                            <h5 class="card-title mb-3">Blog Title</h5>
+                            <h5 class="mb-3 card-title">Blog Title</h5>
                             <p class="text-muted">Blog Title Information refers to the data related to the titles of
                                 blog posts.</p>
                         </div>
@@ -34,7 +34,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-xxl-4">
-                            <h5 class="card-title mb-3">Blog Description</h5>
+                            <h5 class="mb-3 card-title">Blog Description</h5>
                             <p class="text-muted">Blog Description Information refers to the summary or excerpt of a
                                 blog post that provides a brief overview of its content.</p>
                         </div>
@@ -59,7 +59,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-xxl-4">
-                            <h5 class="card-title mb-3">Blog Media</h5>
+                            <h5 class="mb-3 card-title">Blog Media</h5>
                             <p class="text-muted">Blog Media Information refers to the visual and multimedia element
                                 associated with a blog post.</p>
                         </div>
@@ -77,20 +77,15 @@
             </div>
         </div>
     </div>
-    <div class="hstack gap-2 justify-content-end mb-3">
+    <div class="gap-2 mb-3 hstack justify-content-end">
         <button type="submit" class="btn btn-primary">Submit</button>
         <button type="reset" class="btn btn-danger">Cancel</button>
     </div>
 </form>
 
-<script src="{{ URL::asset('admin/libs/dropzone/dropzone-min.js') }}"></script>
+
 
 <script src="{{ URL::asset('admin/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
-
-<script src="{{ URL::asset('admin/js/pages/ecommerce-create-product.init.js') }}"></script>
-
-<script src="{{ URL::asset('admin/js/app.js') }}"></script>
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         tinymce.init({
@@ -103,4 +98,6 @@
         });
     });
 </script>
+
 <x-admin.footer />
+
