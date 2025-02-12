@@ -8,18 +8,9 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
-    public function show(){
-
+    public function show_user(){
         $user = Auth::user();
-        if($user){
-            if($user->hasRole('admin')){ //admin
-                return view('admin.dashboard')->with(["user"=>$user]);
-            }else{
-                return view('dashboard')->with(["user"=>$user]);
-            }
-        }else{//guest
-            return view('dashboard')->with(["user"=>$user]);
-        }
+        return view('dashboard')->with(["user"=>$user]);
     }
 
     public function show_admin(){
@@ -28,9 +19,7 @@ class DashboardController extends Controller
     }
 
     public function show_settings(){
-
         $settings = DB::table('settings')->get();
-
         return view('admin.settings.general')->with(["settings"=>$settings]);
     }
 

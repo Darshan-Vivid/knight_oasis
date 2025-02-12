@@ -29,7 +29,7 @@ Route::post('/states', [AuthController::class, 'getStates'])->name("get.states")
 
 
 //User
-Route::get('/', [DashboardController::class, 'show'])->name('view.dashboard');
+Route::get('/', [DashboardController::class, 'show_user'])->name('view.dashboard');
 
 Route::get('/blog', [BlogController::class, 'view_blog'])->name('view.blog');
 Route::get('/blog/{slug}', [BlogController::class, 'blog_list'])->name('blog.list');

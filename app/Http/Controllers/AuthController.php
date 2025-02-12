@@ -179,10 +179,13 @@ class AuthController extends Controller
         $remember = $request->has('remember');
 
         if (Auth::attempt($credentials, $remember)) {
-            return redirect()->route('view.dashboard')->with([
-                'success' => true,
-                'message' => 'Login successful!'
-            ]);
+            $user = Auth::user();
+            if($user->hasRole('admin')){
+                return redirect()->route('view.admin.dashboard');
+            }else{
+                return redirect()->route('view.dashboard');
+            }
+
         }
 
         return redirect()->back()->withErrors(['email' => 'Invalid credentials.'])->withInput();

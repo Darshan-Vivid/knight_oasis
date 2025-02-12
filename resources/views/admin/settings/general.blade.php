@@ -21,7 +21,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive table-card">
-                    <table class="table mb-0 table-nowrap table-striped-columns">
+                    <table class="table mb-0 table-nowrap table-striped-columns" id="ko_settings_table" >
                         <thead class="table-light">
                             <tr>
                                 <th scope="col">Type</th>
@@ -32,12 +32,10 @@
                         <tbody>
 
                             @foreach ( $settings as $setting)
-
-
                             <tr>
                                 <td><?= $setting->slug ?></td>
                                 <td><?= $setting->value ?></td>
-                                <td><button type="button" class="btn btn-sm btn-light">Details</button></td>
+                                <td><button type="button" class="btn btn-sm btn-light" id="ko_settings_table_{{ $setting->type }}" >Edit</button></td>
                             </tr>
                             @endforeach
                         </tbody>
