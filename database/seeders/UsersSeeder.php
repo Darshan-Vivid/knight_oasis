@@ -27,7 +27,7 @@ class UsersSeeder extends Seeder
             ],
             [
                 'name' => 'User',
-                'email' => 'knight.admin@gmail.com',
+                'email' => 'knight.user@gmail.com',
                 'mobile' => '+919876543210',
                 'state' => 'Gujrat',
                 'country' => 'India',

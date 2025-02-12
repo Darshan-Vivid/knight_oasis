@@ -6,17 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ asset('Style/custom-style.css') }}">
-    <link rel="stylesheet" href="{{ asset('Style/style.css') }}">
+    <!-- custom css -->
+    <link rel="stylesheet" href="{{ asset('assets/css/custom-style.css') }}">
     <title>{{ $title }}</title>
     <!-- font -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Marcellus&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Marcellus&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <!-- splide slider css -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" />
-    <!-- custom css -->
-    <link rel="stylesheet" href="{{ asset('assets/css/custom-style.css') }}" type="text/css" />
     <!-- Include Select2 CSS & JS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -31,7 +27,7 @@
             <div class="ko-row">
                 <div class="ko-header-logo">
                     <a href="index.html">
-                        <img src="{{ asset('images/main-logo.webp') }}" alt="logo">
+                        <img src="{{ asset('assets/images/main-logo.webp') }}" alt="logo">
                     </a>
                 </div>
                 <div class="ko-mb-toogle-btn">
@@ -57,7 +53,7 @@
                     </div>
                     <ul>
                         <li>
-                            <a href="index.html">Home</a>
+                            <a href="{{ route("view.dashboard") }}">Home</a>
                         </li>
                         <li>
                             <a href="#">About</a>
@@ -132,7 +128,7 @@
                             </div>
                         </li>
                         <li>
-                            <a href="/blog.html">Blog</a>
+                            <a href="{{ route("view.blog");}}">Blog</a>
                         </li>
                         <li>
                             <a href="#">Contact</a>
