@@ -134,13 +134,11 @@
                                                     <li><a class="dropdown-item edit-item-btn"
                                                             href="{{ route('blogs.edit', $b->id) }}"><i
                                                                 class="align-middle ph-pencil me-1"></i> Edit</a></li>
-                                                    <li>
-                                                        <a class="dropdown-item remove-item-btn"
-                                                            href="javascript:void(0);"
-                                                            onclick="setDeleteFormAction({{ $b->id }})">
-                                                            <i class="align-middle ph-trash me-1"></i> Remove
-                                                        </a>
-                                                    </li>
+                                                    <a class="dropdown-item remove-item-btn" href="javascript:void(0);"
+                                                        data-delete-url="{{ route('blogs.destroy', $b->id) }}"
+                                                        onclick="setDeleteFormAction(this)">
+                                                        <i class="align-middle ph-trash me-1"></i> Remove
+                                                    </a>
                                                 </ul>
                                             </div>
                                         </td>
@@ -205,7 +203,7 @@
                         <p class="mx-3 mb-0 text-muted fs-lg">Are you sure you want to remove this record?</p>
                     </div>
                 </div>
-                <form id="deleteForm" method="POST">
+                <form id="deleteForm" method="POST" action="">
                     @csrf
                     @method('DELETE')
                     <div class="gap-2 mt-4 mb-2 d-flex justify-content-center">

@@ -1,11 +1,7 @@
 // Admin JS
-function setDeleteFormAction(blogId) {
-    let form = $("#deleteForm");
-    let deleteUrl = "{{ route('blogs.destroy', ':id') }}".replace(
-        ":id",
-        blogId
-    );
-    form.attr("action", deleteUrl);
+function setDeleteFormAction(element) {
+    let deleteUrl = element.getAttribute("data-delete-url");
+    $("#deleteForm").attr("action", deleteUrl);
     $("#deleteRecordModal").modal("show");
 }
 
