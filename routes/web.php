@@ -1,6 +1,8 @@
 <?php
 
 // Libraries
+
+use App\Http\Controllers\Admin\BlogCategoriesController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -39,6 +41,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:admin'])->prefix('admin')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'show_admin'])->name('view.admin.dashboard');
         Route::resource('blogs', BlogController::class);
+        Route::resource('blogs_categories', BlogCategoriesController::class);
         Route::resource('media', MediaController::class);
         Route::get('/settings', [DashboardController::class, 'show_settings'])->name('view.settings');
     });

@@ -20,7 +20,7 @@ class BlogCategoriesController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.blog_categories.create');
     }
 
     /**

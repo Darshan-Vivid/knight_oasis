@@ -56,8 +56,12 @@
                                         data-key="t-products-grid">Manage Blogs</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('blogs.index') }}" class="nav-link"
-                                        data-key="t-products-grid">Blogs Categories</a>
+                                    <a href="{{ route('blogs_categories.create') }}" class="nav-link"
+                                        data-key="t-products-grid">Add Blogs Categories</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('blogs_categories.index') }}" class="nav-link"
+                                        data-key="t-products-grid">Manage Blogs Categories</a>
                                 </li>
                             </ul>
                         </div>
