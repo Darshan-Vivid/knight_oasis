@@ -68,7 +68,7 @@
                     </li>
 
                     <!-- MEDIA -->
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a href="#sidebarMedia" class="nav-link menu-link" data-bs-toggle="collapse"
                             role="button" aria-expanded="false" aria-controls="sidebarMedia">
                             <i class="ph-file-text"></i><span>Media</span>
@@ -85,7 +85,7 @@
                                 </li> -->
                             </ul>
                         </div>
-                    </li>
+                    </li> --}}
 
                     <!-- SETTINGS -->
                     <li class="nav-item">

@@ -42,8 +42,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'show_admin'])->name('view.admin.dashboard');
         Route::resource('blogs', BlogController::class);
         Route::resource('blogs_categories', BlogCategoriesController::class);
-        Route::resource('media', MediaController::class);
+        // Route::resource('media', MediaController::class);
         Route::get('/settings', [DashboardController::class, 'show_settings'])->name('view.settings');
+        Route::post('/settings', [DashboardController::class, 'save_settings'])->name('settings.save');
     });
 });
 

@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::dropIfExists('settings');
         Schema::create('settings', function (Blueprint $table) {
+            $table->id();
             $table->string('slug')->unique()->nullable(false);
-            $table->string('value')->nullable();
+            $table->string('type')->nullable();
+            $table->text('value')->nullable();
         });
     }
 
