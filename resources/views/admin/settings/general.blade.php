@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
-            <form action="{{ route('settings.save') }}" method="post">
+            <form action="{{ route('settings.save') }}" method="post" enctype="multipart/form-data">
                 @csrf
 
                 <div class="card-header d-flex align-items-center">
@@ -46,18 +46,20 @@
                                                                 height="30">
                                                         </a>
                                                     @endforeach
+                                                @else
+                                                        <div id="ko_settings_no_media"> no media found </div>
                                                 @endif
                                             </td>
                                             <td>
                                                 <button type="button" class="btn btn-sm btn-light ko_settings_btn"
-                                                    id="ko_settings_table_{{ $setting->type }}" data-links="{{ $setting->value }}" >Edit</button>
+                                                    id="ko_settings_table_{{ $setting->slug }}" data-links="{{ json_encode($setting->value) }}" >Edit</button>
                                             </td>
                                         </tr>
                                     @elseif($setting->slug == 'site_logo')
                                         <td>{{ $setting->slug }}</td>
                                         <td><img src="{{ $setting->value }}" alt="{{ $setting->slug }}" width="100" height="100"></td>
                                         <td><button type="button" class="btn btn-sm btn-light ko_settings_btn"
-                                                    id="ko_settings_table_{{ $setting->type }}">Edit</button></td>
+                                                    id="ko_settings_table_{{ $setting->slug }}">Edit</button></td>
 
                                     @else
                                         <tr>

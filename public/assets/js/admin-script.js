@@ -34,8 +34,7 @@ $(document).ready(function () {
     var selectedRowForSettings;
     var social_link_counter = 0;
 
-
-    $("#ko_settings_table").on("click", ".ko_settings_btn", function () {
+    $("#ko_settings_table").on("click", ".ko_settings_btn", function (event) {
         var button = $(this);
         selectedRowForSettings = button.closest("tr");
         var valueCell = selectedRowForSettings.find("td").eq(1);
@@ -49,30 +48,42 @@ $(document).ready(function () {
             );
         }
 
-        if (button.attr("id") == "ko_settings_table_img") {
+        if (button.attr("id") == "ko_settings_table_site_logo") {
             valueCell.html(
                 '<input type="file" name="' + currentSlug + '" class="form-control" accept="image/*">'
             );
         }
 
-        if (button.attr("id") == "ko_settings_table_social") {
-           var old_links  = JSON.parse(button.data('links'));
-           button.parent().append("<div class='row'><button class='btn btn-sm btn-light mt-3' id='add_new_social_link' >add new</button></div>")
-           html_string="";
-           old_links.forEach(function(item) {
+        if (button.attr("id") == "ko_settings_table_site_social_links") {
+            var old_links = button.data('links');
+            html_string="<input type='hidden' name='settings_social_link_edited' value='true' />";
+            button.parent().append("<div class='row'><button class='btn btn-sm btn-light mt-3' id='add_new_social_link' >add new</button></div>")
+            if (old_links && old_links.length > 0) {
+                old_links = JSON.parse(old_links);
+                old_links.forEach(function(item) {
+                    html_string += "<div class='row'>";
+                    social_link_counter += 1;
+                    html_string +="<button class='btn btn-subtle-danger mb-2 mt-2' id='remove_new_social_link'> remove</button>";
+                    html_string +="<div class='col-xl-6'><div class='mb-3'><label class='form-label'>Icon</label><input type='url' class='form-control' name='icon_"+social_link_counter +"' value='" +item.icon +"' placeholder='https://'></div></div>";
+                    html_string +="<div class='col-xl-6'><div class='mb-3'><label class='form-label'>Link</label><input type='url' class='form-control' name='url_"+social_link_counter+"' value='" +item.link +"' placeholder='https://'></div></div>";
+                     html_string += "</div>";
+                });
+            }else{
+                social_link_counter += 1;
                 html_string += "<div class='row'>";
-                social_link_counter +=1;
                 html_string += "<button class='btn btn-subtle-danger mb-2 mt-2' id='remove_new_social_link'> remove</button>";
-                html_string += "<div class='col-xl-6'><div class='mb-3'><label class='form-label'>Icon</label><input type='url' class='form-control' name='site_social_links_"+social_link_counter+"_icon' value='"+item.icon+"' placeholder='https://'></div></div>";
-                html_string += "<div class='col-xl-6'><div class='mb-3'><label class='form-label'>Link</label><input type='url' class='form-control' name='site_social_links_"+social_link_counter+"_url' value='"+item.link+"' placeholder='https://'></div></div>";
+                html_string += "<div class='row social-link-item'><div class='col-xl-6'><div class='mb-3'><label class='form-label'>Icon</label><input type='url' class='form-control' name='icon_"+social_link_counter +"' placeholder='https://'></div></div>";
+                html_string += "<div class='col-xl-6'><div class='mb-3'><label class='form-label'>Link</label><input type='url' class='form-control' name='url_"+social_link_counter+"' placeholder='https://'></div></div></div>";
                 html_string += "</div>";
-            });
+            }
 
             valueCell.html(html_string);
         }
     });
 
-    $("#ko_settings_table").on("click", "#add_new_social_link", function () {
+    $("#ko_settings_table").on("click", "#add_new_social_link", function (event) {
+        event.preventDefault();
+        $("#ko_settings_no_media").remove();
         var button = $(this);
         selectedRowForSettings = button.closest("tr");
         var valueCell = selectedRowForSettings.find("td").eq(1);
@@ -80,8 +91,8 @@ $(document).ready(function () {
         social_link_counter += 1;
         var new_html = "<div class='row'>";
         new_html += "<button class='btn btn-subtle-danger mb-2 mt-2' id='remove_new_social_link'> remove</button>";
-        new_html += "<div class='row social-link-item'><div class='col-xl-6'><div class='mb-3'><label class='form-label'>Icon</label><input type='url' class='form-control' name='site_social_links_" + social_link_counter + "_icon' placeholder='https://'></div></div>";
-        new_html += "<div class='col-xl-6'><div class='mb-3'><label class='form-label'>Link</label><input type='url' class='form-control' name='site_social_links_" + social_link_counter + "_url' placeholder='https://'></div></div></div>";
+        new_html += "<div class='row social-link-item'><div class='col-xl-6'><div class='mb-3'><label class='form-label'>Icon</label><input type='url' class='form-control' name='icon_"+social_link_counter +"' placeholder='https://'></div></div>";
+        new_html += "<div class='col-xl-6'><div class='mb-3'><label class='form-label'>Link</label><input type='url' class='form-control' name='url_"+social_link_counter+"' placeholder='https://'></div></div></div>";
         new_html += "</div>";
         valueCell.append(new_html);
     });
@@ -89,6 +100,4 @@ $(document).ready(function () {
     $("#ko_settings_table").on("click", "#remove_new_social_link", function () {
         $(this).parent().remove();
     });
-
-
 });

@@ -27,22 +27,63 @@ class DashboardController extends Controller
 
     public function save_settings(Request $request){
 
-        // dd($request->all());
 
-        // if(isset($request->logo_text) && strlen($request->logo_text)){}
-        // if(isset($request->site_title) && strlen($request->site_title)){}
-        // if(isset($request->admin_address) && strlen($request->admin_address)){}
-        // if(isset($request->admin_phone) && strlen($request->admin_phone)){}
-        // if(isset($request->admin_email) && strlen($request->admin_email)){}
-        // if(isset($request->site_copyright_text) && strlen($request->site_copyright_text)){}
-        // if(isset($request->site_logo) && strlen($request->site_logo)){}
-        // if(isset($request->logo_text) && strlen($request->logo_text)){}
-        // if(isset($request->logo_text) && strlen($request->logo_text)){}
-        // if(isset($request->logo_text) && strlen($request->logo_text)){}
-        // if(isset($request->logo_text) && strlen($request->logo_text)){}
+        if(isset($request->logo_text) && strlen($request->logo_text) > 0){
+            DB::table('settings')->where('slug', '=', 'logo_text')->update(['value' => $request->logo_text]);
+        }
+        if(isset($request->site_title) && strlen($request->site_title) > 0){
+            DB::table('settings')->where('slug', '=', 'site_title')->update(['value' => $request->site_title]);
+        }
+        if(isset($request->admin_address) && strlen($request->admin_address) > 0){
+            DB::table('settings')->where('slug', '=', 'admin_address')->update(['value' =>$request->admin_address ]);
+        }
+        if(isset($request->admin_phone) && strlen($request->admin_phone) > 0){
+            DB::table('settings')->where('slug', '=', 'admin_phone')->update(['value' => $request->admin_phone]);
+        }
+        if(isset($request->admin_email) && strlen($request->admin_email) > 0){
+            DB::table('settings')->where('slug', '=', 'admin_email')->update(['value' => $request->admin_email]);
+        }
+        if(isset($request->site_copyright_text) && strlen($request->site_copyright_text) > 0){
+            DB::table('settings')->where('slug', '=', 'site_copyright_text')->update(['value' => $request->site_copyright_text]);
+        }
+        if(isset($request->site_logo) && $request->hasFile('site_logo')){
+            $file = $request->file('site_logo');
+            $fileName = $file->getClientOriginalName();
+            $filePath = 'images/settings/';
+            $directoryPath = public_path($filePath);
+            if (!file_exists($directoryPath)) {
+                mkdir($directoryPath, 0777, true);
+            }
+            $file->move($directoryPath, $fileName);
+            $fileUrl = url($filePath . $fileName);
+            DB::table('settings')->where('slug', '=', 'site_logo')->update(['value' => $fileUrl]);
+        }
+        if (isset($request->settings_social_link_edited) && $request->settings_social_link_edited == "true") {
+            $socialLinks = [];
 
-        $settings = DB::table('settings')->get();
-        return redirect()->route('view.settings')->with(["settings"=>$settings]);
+            foreach ($request->all() as $key => $value) {
+                if (strpos($key, 'icon_') === 0 && isset($request->{'url_' . substr($key, 5)})) {
+                    $icon = $value;
+                    $url = $request->{'url_' . substr($key, 5)};
+
+                    $socialLinks[] = [
+                        'icon' => $icon,
+                        'link' => $url
+                    ];
+                }
+            }
+
+            $socialLinksJson = json_encode($socialLinks, JSON_UNESCAPED_SLASHES);
+            DB::table('settings')->where('slug', '=', 'site_social_links')->update(['value' => $socialLinksJson]);
+            dd($socialLinksJson);
+        }
+
+
+        dd($request->all());
+
+
+        // $settings = DB::table('settings')->get();
+        // return redirect()->route('view.settings')->with(["settings"=>$settings]);
     }
 
 

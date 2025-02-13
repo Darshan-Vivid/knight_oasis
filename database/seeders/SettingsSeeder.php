@@ -15,14 +15,14 @@ class SettingsSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            ['slug' => 'site_logo', 'value' => 'null' ,"type"=>"text"],
+            ['slug' => 'site_logo', 'value' => 'null' ,"type"=>"img"],
             ['slug' => 'logo_text', 'value' => 'null',"type"=>"text"],
             ['slug' => 'site_title', 'value' => 'null',"type"=>"text"],
             ['slug' => 'admin_address', 'value' => 'null',"type"=>"text"],
             ['slug' => 'admin_phone', 'value' => 'null',"type"=>"text"],
             ['slug' => 'admin_email', 'value' => 'null',"type"=>"text"],
             ['slug' => 'site_copyright_text', 'value' => 'null',"type"=>"text"],
-            ['slug' => 'site_social_links', 'value' => 'null',"type"=>"json"],
+            ['slug' => 'site_social_links', 'value' => '[]',"type"=>"social"],
         ];
 
         foreach ($data as $item) {
