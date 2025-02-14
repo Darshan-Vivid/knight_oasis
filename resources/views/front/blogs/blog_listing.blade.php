@@ -38,7 +38,7 @@
                             </ul>
                         </div>
                         <div class="ko-blog-ctn-wrap">
-                            <p>{{ strip_tags($blog->description) }}</p>
+                            <p>{!! $blog->description !!}</p>
                         </div>
                         {{-- <form action="#">
                             <h3>Leave a Reply</h3>
