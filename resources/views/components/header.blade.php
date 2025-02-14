@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <!-- custom css -->
     <link rel="stylesheet" href="{{ asset('assets/css/custom-style.css') }}">
+    {{-- favicon icon --}}
+    <link rel="shortcut icon" href="{{ getSetting("site_logo") }}">
     <title>{{ $title }}</title>
     <!-- font -->
     <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Marcellus&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -27,7 +29,7 @@
             <div class="ko-row">
                 <div class="ko-header-logo">
                     <a href="index.html">
-                        <img src="{{ asset('assets/images/main-logo.webp') }}" alt="logo">
+                        <img src="{{ getSetting("site_logo") }}" alt="logo">
                     </a>
                 </div>
                 <div class="ko-mb-toogle-btn">

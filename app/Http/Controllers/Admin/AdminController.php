@@ -1,19 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Media;
+use App\Models\User;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class DashboardController extends Controller
+class AdminController extends Controller
 {
-    public function show_user(){
-        $user = Auth::user();
-        return view('dashboard')->with(["user"=>$user]);
-    }
 
     public function show_admin(){
         $user = Auth::user();
@@ -75,15 +73,15 @@ class DashboardController extends Controller
 
             $socialLinksJson = json_encode($socialLinks, JSON_UNESCAPED_SLASHES);
             DB::table('settings')->where('slug', '=', 'site_social_links')->update(['value' => $socialLinksJson]);
-            dd($socialLinksJson);
         }
 
+        $settings = DB::table('settings')->get();
+        return redirect()->route('view.settings')->with(["settings"=>$settings]);
+    }
 
-        dd($request->all());
-
-
-        // $settings = DB::table('settings')->get();
-        // return redirect()->route('view.settings')->with(["settings"=>$settings]);
+    public function show_users(){
+        $users = User::whereDoesntHave('roles', fn($q) => $q->where('name', 'admin'))->get();
+        return view('admin.users.all')->with(["users"=>$users]);
     }
 
 

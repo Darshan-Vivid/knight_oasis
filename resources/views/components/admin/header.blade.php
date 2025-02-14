@@ -9,7 +9,7 @@
     <meta content="Themesbrand" name="author" />
     <title>{{ $title }}</title>
     {{-- favicon icon --}}
-    <link rel="shortcut icon" href="{{ URL::asset('admin/images/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ getSetting("site_logo") }}">
     {{-- favicon icon end --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -797,5 +797,10 @@
         </div>
     </header>
     <x-admin.sidebar />
+    <!--start back-to-top-->
+    <button class="btn btn-dark btn-icon" id="back-to-top">
+        <i class="bi bi-caret-up fs-3xl"></i>
+    </button>
+    <!--end back-to-top-->
     <div class="main-content">
         <div class="page-content">

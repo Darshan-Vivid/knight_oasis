@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\BlogCategories;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class BlogCategoriesController extends Controller
 {
@@ -12,7 +14,8 @@ class BlogCategoriesController extends Controller
      */
     public function index()
     {
-        //
+        $blog_categories = BlogCategories::all();
+        return view('admin.blogs.category')->with(['blog_categories'=>$blog_categories]);
     }
 
     /**
@@ -20,7 +23,7 @@ class BlogCategoriesController extends Controller
      */
     public function create()
     {
-        return view('admin.blog_categories.create');
+        //
     }
 
     /**
@@ -28,7 +31,37 @@ class BlogCategoriesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'category' => 'required|min:3'
+        ];
+        $messages = [
+            'category.required' => 'The category field is required.',
+            'category.min' => 'The category must be at least 3 characters.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }else{
+            if($request->edit_category_id != 0){
+                $blog_categories = BlogCategories::find($request->edit_category_id)->update(['name' =>$request->category ]);
+            }else{
+                $blog_categories = new BlogCategories;
+                $blog_categories->name = $request->category;
+                $blog_categories->save();
+            }
+
+            if($blog_categories->id){
+                return redirect()->route('blog_categories.index');
+            }else{
+                return redirect()->back()
+                ->withErrors(['category' => 'Unable to create or update the category.'])
+                ->withInput();
+            }
+
+        }
+
     }
 
     /**
@@ -60,6 +93,9 @@ class BlogCategoriesController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $category = BlogCategories::findOrFail($id);
+        $category->delete();
+
+        return redirect()->route('blog_categories.index');
     }
 }

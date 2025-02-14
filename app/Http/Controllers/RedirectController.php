@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 class RedirectController extends Controller
 {
@@ -32,5 +33,33 @@ class RedirectController extends Controller
             ]);
         }
     }
+
+    public function show_user(){
+        $user = Auth::user();
+        return view('dashboard')->with(["user"=>$user]);
+    }
+
+    public function routeList($methods = null)
+    {
+        $routes = Route::getRoutes();
+        $routeDetails = [];
+
+        foreach ($routes as $route) {
+            $uri = $route->uri();
+            $name = $route->getName();
+            $action = $route->getActionName();
+            $methodsForRoute = $route->methods();
+
+            if ($methods && !in_array($methods, $methodsForRoute)) {
+                continue;
+            }
+
+            $routeDetails[] = ['uri' => $uri, 'name' => $name, 'action' => $action, 'methods' => $methodsForRoute];
+        }
+
+        return view('admin.routes_index', compact('routeDetails'));
+    }
+
+
 
 }

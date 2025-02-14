@@ -1,5 +1,5 @@
 <x-admin.header :title="'Blog Listings'" />
-<h4>Blog Listings</h4>
+
 <!-- Titlebar -->
 {{-- <div class="row">
     <!-- Listings -->
@@ -50,17 +50,17 @@
 </div> --}}
 
 <div id="productList">
+
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-xxl-3">
-                            <div class="search-box">
-                                <input type="text" class="form-control search" placeholder="Search Blogs">
-                                <i class="ri-search-line search-icon"></i>
-                            </div>
-                        </div>
+                <div class="card-header d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <h5 class="mb-4 card-title">Blog Listings</h5>
+                    </div>
+                    <div class="mb-4 search-box">
+                        <input type="text" class=" form-control search" placeholder="Search Blogs">
+                        <i class="ri-search-line search-icon"></i>
                     </div>
                 </div>
             </div>
@@ -155,8 +155,8 @@
                                 </div>
                             </div>
                             <h5 class="mt-2">Sorry! No Result Found</h5>
-                            <p class="mb-0 text-muted">We've searched more than 150+ products We did not find any
-                                products for you search.</p>
+                            <p class="mb-0 text-muted">We've searched all blog, We did not find any
+                                blogs for you search.</p>
                         </div>
                     </div>
                     <div class="mt-3 row align-items-center">
@@ -200,15 +200,15 @@
                     </div>
                     <div class="mt-4">
                         <h3 class="mb-2">Are you sure?</h3>
-                        <p class="mx-3 mb-0 text-muted fs-lg">Are you sure you want to remove this record?</p>
+                        <p class="mx-3 mb-0 text-muted fs-lg">Are you sure you want to remove this blog category<b>permanently</b>?</p>
                     </div>
                 </div>
                 <form id="deleteForm" method="POST" action="">
                     @csrf
                     @method('DELETE')
                     <div class="gap-2 mt-4 mb-2 d-flex justify-content-center">
-                        <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn w-sm btn-danger">Yes, Delete It!</button>
+                        <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">No</button>
+                        <button type="submit" class="btn w-sm btn-danger">Yes!</button>
                     </div>
                 </form>
             </div>

@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::dropIfExists('blog_categories');
         Schema::create('blog_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string("name")->unique()->nullable(false);
             $table->timestamps();
         });
     }

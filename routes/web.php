@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 // Controllers
 use App\Http\Controllers\RedirectController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\MediaController;
 
@@ -31,20 +31,27 @@ Route::post('/states', [AuthController::class, 'getStates'])->name("get.states")
 
 
 //User
-Route::get('/', [DashboardController::class, 'show_user'])->name('view.dashboard');
+Route::get('/', [RedirectController::class, 'show_user'])->name('view.dashboard');
 
 Route::get('/blog', [BlogController::class, 'view_blog'])->name('view.blog');
 Route::get('/blog/{slug}', [BlogController::class, 'blog_list'])->name('blog.list');
 
+
 //admin panel
 Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:admin'])->prefix('admin')->group(function () {
-        Route::get('/dashboard', [DashboardController::class, 'show_admin'])->name('view.admin.dashboard');
-        Route::resource('blogs', BlogController::class);
-        Route::resource('blogs_categories', BlogCategoriesController::class);
+        Route::get('/dashboard', [AdminController::class, 'show_admin'])->name('view.admin.dashboard');
+
+        Route::resource('/blogs', BlogController::class)->names('blogs');
+        Route::resource('/blog-categories', BlogCategoriesController::class)->names('blog_categories');
+
         // Route::resource('media', MediaController::class);
-        Route::get('/settings', [DashboardController::class, 'show_settings'])->name('view.settings');
-        Route::post('/settings', [DashboardController::class, 'save_settings'])->name('settings.save');
+
+        Route::get('/settings', [AdminController::class, 'show_settings'])->name('view.settings');
+        Route::post('/settings', [AdminController::class, 'save_settings'])->name('settings.save');
+
+        Route::get('/users', [AdminController::class, 'show_users'])->name('view.users');
+        Route::get('/routes', [RedirectController::class, 'routeList']);           //route list table
     });
 });
 

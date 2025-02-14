@@ -57,9 +57,11 @@ $(document).ready(function () {
         if (button.attr("id") == "ko_settings_table_site_social_links") {
             var old_links = button.data('links');
             html_string="<input type='hidden' name='settings_social_link_edited' value='true' />";
-            button.parent().append("<div class='row'><button class='btn btn-sm btn-light mt-3' id='add_new_social_link' >add new</button></div>")
-            if (old_links && old_links.length > 0) {
-                old_links = JSON.parse(old_links);
+            if ($("#add_new_social_link").length === 0) {
+                button.parent().append("<div class='row'><button class='btn btn-sm btn-light mt-3' id='add_new_social_link'>add new</button></div>");
+            }
+            console.log(old_links);
+            if (old_links && old_links.length  != 0 && Array.isArray(old_links)) {
                 old_links.forEach(function(item) {
                     html_string += "<div class='row'>";
                     social_link_counter += 1;

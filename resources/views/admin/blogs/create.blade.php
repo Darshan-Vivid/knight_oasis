@@ -1,5 +1,17 @@
 <x-admin.header :title="'Create Blogs'" />
-<h4>Add Blog</h4>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header d-flex align-items-center">
+                <div class="flex-grow-1">
+                    <h3 class="mb-4 card-title">Add Blog</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <form class="store-blogs" action="{{ route('blogs.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="row">
