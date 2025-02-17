@@ -16,4 +16,8 @@ class BlogCategories extends Model
     protected $fillable = [
         'name',
     ];
+    public function blogs()
+    {
+        return $this->belongsToMany(Blogs::class, 'blog_relation_with_categories', 'blog_categories_id', 'blogs_id');
+    }
 }

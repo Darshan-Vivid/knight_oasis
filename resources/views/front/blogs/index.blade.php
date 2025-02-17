@@ -27,7 +27,9 @@
                             <a href="{{ route('blog.list', $blog->slug) }}">
                                 <img src="{{ asset($blog->image) }}" alt="{{ $blog->title }}" />
                             </a>
-                            <a class="ko-catagory" href="#">Tips & Tricks, Uncategorized</a>
+                            <a class="ko-catagory" href="{{ route('blog.list', $blog->slug) }}">@foreach ($blog->categories as $category)
+                                {{ $category->name }}@if(!$loop->last), @endif
+                            @endforeach</a>
                         </div>
                         <div class="ko-blog-post-content">
                             <a href="{{ route('blog.list', $blog->slug) }}">{{ $blog->title }}</a>

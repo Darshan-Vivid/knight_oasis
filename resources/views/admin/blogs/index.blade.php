@@ -30,6 +30,7 @@
                             <tr>
                                 <th>IMAGE</th>
                                 <th>TITLE</th>
+                                <th>CATEGORIES</th>
                                 <th>DESCRIPTION</th>
                                 <th>ACTIONS</th>
                             </tr>

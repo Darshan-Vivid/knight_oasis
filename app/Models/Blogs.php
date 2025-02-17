@@ -9,4 +9,8 @@ class Blogs extends Model
 {
     use HasFactory;
     protected $table = 'blogs';
+    public function categories()
+    {
+        return $this->belongsToMany(BlogCategories::class, 'blog_relation_with_categories', 'blogs_id', 'blog_categories_id');
+    }
 }

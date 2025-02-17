@@ -43,6 +43,41 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xxl-4">
+                            <h5 class="mb-3 card-title">Blog Category</h5>
+                            <p class="text-muted">Blog Category Information refers to the data related to the categories of blog posts.</p>
+                        </div>
+                        <div class="col-xxl-8">
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Blog Category <span
+                                        class="text-danger">*</span></label>
+                                        <select name="category[]" multiple class="form-control @error('category') is-invalid @enderror">
+                                            @foreach ($blog_categories as $blog_category)
+                                                <option value="{{ $blog_category->id }}"
+                                                    @if (in_array($blog_category->id, old('category', $blog->categories->pluck('id')->toArray())))
+                                                        selected
+                                                    @endif>
+                                                    {{ $blog_category->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>                                                                                                         
+                                @error('category')
+                                    <span class="form-error-message">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-lg-12">
             <div class="card">

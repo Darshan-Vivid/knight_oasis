@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Blogs;
+use App\Models\BlogCategories;
 use Illuminate\Support\Str;
 // use Spatie\Permission\Models\Role;
 
@@ -23,7 +24,7 @@ class BlogController extends Controller
 
         $baseQuery = Blogs::query();
         $baseQuery->orderBy('created_at', $order);
-        $blog = $baseQuery->paginate($perPage);
+        $blog = $baseQuery->with('categories')->paginate($perPage);
         $total_blogs = Blogs::count();
         return view('admin.blogs.index', compact('blog', 'total_blogs'));
     }
@@ -33,7 +34,8 @@ class BlogController extends Controller
      */
     public function create()
     {
-        return view('admin.blogs.create');
+        $blog_categories = BlogCategories::all();
+        return view('admin.blogs.create', compact('blog_categories'));
     }
 
     /**
@@ -45,6 +47,8 @@ class BlogController extends Controller
             'title' => 'required|string|max:100',
             'description' => 'required|max:5000',
             'image' => 'required|image',
+            'category' => 'required|array',
+            'category.*' => 'exists:blog_categories,id',
         ]);
 
         $blog = new Blogs();
@@ -63,6 +67,7 @@ class BlogController extends Controller
         }
 
         $blog->save();
+        $blog->categories()->attach($request->input('category'));
         return redirect()->route('blogs.index')->with('success', 'Blog created successfully!');
     }
 
@@ -80,7 +85,8 @@ class BlogController extends Controller
     public function edit(string $blog_id)
     {
         $blog = Blogs::findOrFail($blog_id);
-        return view('admin.blogs.edit', compact('blog'));
+        $blog_categories = BlogCategories::all();
+        return view('admin.blogs.edit', compact('blog', 'blog_categories'));
     }
 
     /**
@@ -92,6 +98,8 @@ class BlogController extends Controller
             'title' => 'required|string|max:100',
             'description' => 'required|max:5000',
             'image' => 'image',
+            'category' => 'required|array',
+            'category.*' => 'exists:blog_categories,id',
         ]);
 
         $blog = Blogs::findOrFail($blog_id);
@@ -117,6 +125,7 @@ class BlogController extends Controller
         }
 
         $blog->save();
+        $blog->categories()->sync($request->input('category'));
         return redirect()->route('blogs.index')->with('success', 'Blog updated successfully!');
     }
 

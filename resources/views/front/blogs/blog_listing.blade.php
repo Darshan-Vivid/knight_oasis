@@ -32,7 +32,12 @@
 
                                 {{-- <li>almaris-admin</li> --}}
                                 <li><span>•</span>{{ $blog->created_at->format('F d, Y') }}</li>
-                                <li><a href="#">Tips & Tricks</a>,<a href="#">Uncategorized</a></li>
+                                @foreach ($blog->categories as $category)
+                                <li>
+                                    <a href="">{{ $category->name }}</a>
+                                    @if(!$loop->last), @endif
+                                </li>
+                            @endforeach
 
 
                             </ul>
