@@ -1,4 +1,4 @@
-<x-admin.header :title="'Blogs Categories'" />
+<x-admin.header :title="'Room Amenities'" />
 <!--datatable css-->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" >
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" >
@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-header d-flex align-items-center">
                 <div class="flex-grow-1">
-                    <h5 class="mb-4 card-title">Blog Categories</h5>
+                    <h5 class="mb-4 card-title">Room Amenities</h5>
                 </div>
             </div>
         </div>
@@ -23,26 +23,36 @@
             </div>
 
             <div class="card-body">
-                <p class="text-muted">Create the new category for blogs or edit the existing one here.</p>
-                <form action="{{ route('blog_categories.store') }}" method="post">
+                <p class="text-muted">Create the new amenity for rooms or edit the existing one here.</p>
+                <form action="{{ route('amenities.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
-                        <label for="category" class="form-label">Category Title <span class="text-danger">*</span></label>
-                        <input type="text" name="category" id="category" class="form-control @error('category') is-invalid @enderror" placeholder="Enter category title" value="{{ $edit_category->name ?? '' }}" required>
+                        <label for="amenity-icon" class="form-label">Amenity Icon <span class="text-danger">*</span></label>
+                        <input type="file" name="icon" id="amenity-icon" class="form-control @error('icon') is-invalid @enderror" >
+                        <small class="text-muted">Leave blank if you do not want to update the icon while editing.</small>
 
-                        @error('category')
+                        @error('icon')
+                            <div class="invalid-response" style="display:flex">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Amenity Name <span class="text-danger">*</span></label>
+                        <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror" placeholder="Enter amenity name" value="{{ $edit_amenity->name ?? '' }}" required>
+
+                        @error('name')
                             <div class="invalid-response" style="display:flex">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="mb-1 text-end">
                         <button type="submit" class="btn btn-primary">Submit</button>
-                        @if(isset($edit_category))
+                        @if(isset($edit_amenity))
                             <a href="{{ url()->previous() }}" class="btn btn-danger">Cancel</a>
 
-                            <input type="hidden" name="edit_category_id" value="{{ $edit_category->id }}" />
+                            <input type="hidden" name="edit_amenity_id" value="{{ $edit_amenity->id }}" />
                         @else
-                            <input type="hidden" name="edit_category_id" value="0" />
+                            <input type="hidden" name="edit_amenity_id" value="0" />
                         @endif
 
                     </div>
@@ -55,27 +65,29 @@
     <div class="col-xl-6">
         <div class="card">
             <div class="card-header">
-                <h4 class="mb-0 card-title">Category list</h4>
+                <h4 class="mb-0 card-title">Amenity list</h4>
             </div>
 
             <div class="card-body">
-                <p class="text-muted"> this is the list of all blog categories </p>
+                <p class="text-muted"> This is the list of all room amenities </p>
                 <div class="table-responsive">
                     {{-- <table class="table mb-0 align-middle table-striped table-nowrap"> --}}
                         <table id="fixed-header" class="table align-middle table-bordered dt-responsive nowrap table-striped" style="width:100%">
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>
+                                <th scope="col">ICON</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if(count($blog_categories)>0)
-                                @foreach ($blog_categories as $category)
+                            @if(count($amenities)>0)
+                                @foreach ($amenities as $amenity)
                                     <tr>
-                                        <td class="fw-medium">{{ $category->id }}</td>
-                                        <td>{{ $category->name }}</td>
+                                        <td class="fw-medium">{{ $amenity->id }}</td>
+                                        <td><img src="{{ $amenity->icon }}" alt="icon" width="30" height="30"></td>
+                                        <td>{{ $amenity->name }}</td>
                                         <td>
                                             <div class="dropdown position-static">
                                                 <button class="btn btn-subtle-secondary btn-sm btn-icon" role="button"
@@ -83,10 +95,10 @@
                                                     <i class="bi bi-three-dots-vertical"></i>
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li><a href="{{ route('blog_categories.edit', $category->id) }}" class="dropdown-item edit-item-btn" ><i class="align-middle ph-pencil me-1"></i>Edit</a></li>
+                                                    <li><a href="{{ route('amenities.edit', $amenity->id) }}" class="dropdown-item edit-item-btn" ><i class="align-middle ph-pencil me-1"></i>Edit</a></li>
                                                     <li>
                                                         <a class="dropdown-item remove-item-btn"
-                                                            data-delete-url="{{ route('blog_categories.destroy', $category->id) }}"
+                                                            data-delete-url="{{ route('amenities.destroy', $amenity->id) }}"
                                                             onclick="setDeleteFormAction(this)"><i class="align-middle ph-trash me-1">
                                                         </i> Remove</a>
                                                     </li>
@@ -94,7 +106,6 @@
                                             </div>
                                         </td>
                                     </tr>
-
                                 @endforeach
                             @endif
                         </tbody>
@@ -119,7 +130,7 @@
                     </div>
                     <div class="mt-4">
                         <h3 class="mb-2">Are you sure?</h3>
-                        <p class="mx-3 mb-0 text-muted fs-lg">Are you sure you want to remove this blog category <b>permanently</b> ?</p>
+                        <p class="mx-3 mb-0 text-muted fs-lg">Are you sure you want to remove this room amenity <b>permanently</b> ?</p>
                     </div>
                 </div>
                 <form id="deleteForm" method="POST" action="">

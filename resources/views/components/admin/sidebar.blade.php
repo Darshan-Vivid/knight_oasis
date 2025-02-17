@@ -3,7 +3,7 @@
         <div class="navbar-brand-box">
             <a href="index" class="logo logo-light">
                 <span class="logo-lg">
-                    <img class="mt-3"  src="{{ getSetting("site_logo") }}" alt="" height="80">
+                    <img class="mt-3"  src="{{ getSetting("site_logo_light") }}" alt="" height="80">
                 </span>
             </a>
             <button type="button" class="p-0 btn btn-sm fs-3xl header-item float-end btn-vertical-sm-hover"
@@ -32,7 +32,7 @@
                     <li class="nav-item">
                         <a href="#sidebarBlogs" class="nav-link menu-link collapsed" data-bs-toggle="collapse"
                             role="button" aria-expanded="false" aria-controls="sidebarBlogs">
-                            <i class="ph-storefront"></i><span>Blogs</span>
+                            <i class="ri-profile-line"></i><span>Blogs</span>
                         </a>
                         <div class="collapse menu-dropdown" id="sidebarBlogs">
                             <ul class="nav nav-sm flex-column">
@@ -47,6 +47,30 @@
                                 <li class="nav-item">
                                     <a href="{{ route('blog_categories.index') }}" class="nav-link"
                                         data-key="t-products-grid">Categories</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <!-- ROOMS -->
+                    <li class="nav-item">
+                        <a href="#sidebarRooms" class="nav-link menu-link collapsed" data-bs-toggle="collapse"
+                            role="button" aria-expanded="false" aria-controls="sidebarRooms">
+                            <i class=" ri-home-8-line"></i><span>Rooms</span>
+                        </a>
+                        <div class="collapse menu-dropdown" id="sidebarRooms">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="{{ route('rooms.create') }}" class="nav-link"
+                                        data-key="t-products">Add Rooms</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('amenities.index') }}" class="nav-link"
+                                        data-key="t-products-grid">Amenities</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('services.index') }}" class="nav-link"
+                                        data-key="t-products-grid">Services</a>
                                 </li>
                             </ul>
                         </div>

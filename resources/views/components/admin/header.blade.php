@@ -9,7 +9,7 @@
     <meta content="Themesbrand" name="author" />
     <title>{{ $title }}</title>
     {{-- favicon icon --}}
-    <link rel="shortcut icon" href="{{ getSetting("site_logo") }}">
+    <link rel="shortcut icon" href="{{ getSetting("site_icon") }}">
     {{-- favicon icon end --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

@@ -15,7 +15,9 @@ class SettingsSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            ['slug' => 'site_logo', 'value' => 'null' ,"type"=>"img"],
+            ['slug' => 'site_icon', 'value' => 'null' ,"type"=>"img"],
+            ['slug' => 'site_logo_light', 'value' => 'null' ,"type"=>"img"],
+            ['slug' => 'site_logo_dark', 'value' => 'null' ,"type"=>"img"],
             ['slug' => 'logo_text', 'value' => 'null',"type"=>"text"],
             ['slug' => 'site_title', 'value' => 'null',"type"=>"text"],
             ['slug' => 'admin_address', 'value' => 'null',"type"=>"text"],

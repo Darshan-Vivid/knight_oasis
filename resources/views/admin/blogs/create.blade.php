@@ -1,4 +1,4 @@
-<x-admin.header :title="'Create Blogs'" />
+<x-admin.header :title="'Add Blog'" />
 
 <div class="row">
     <div class="col-lg-12">

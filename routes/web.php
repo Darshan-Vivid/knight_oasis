@@ -2,7 +2,6 @@
 
 // Libraries
 
-use App\Http\Controllers\Admin\BlogCategoriesController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,8 +10,14 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\RedirectController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AmenityController;
 use App\Http\Controllers\Admin\BlogController;
+use App\Http\Controllers\Admin\BlogCategoriesController;
 use App\Http\Controllers\Admin\MediaController;
+use App\Http\Controllers\Admin\RoomController;
+use App\Http\Controllers\Admin\ServiceController;
+
+
 
 //Auth
 Route::get('/login',[RedirectController::class , 'login'])->name('login');
@@ -44,6 +49,9 @@ Route::middleware(['auth'])->group(function () {
 
         Route::resource('/blogs', BlogController::class)->names('blogs');
         Route::resource('/blog-categories', BlogCategoriesController::class)->names('blog_categories');
+        Route::resource('/room-services', ServiceController::class)->names('services');
+        Route::resource('/room-amenities', AmenityController::class)->names('amenities');
+        Route::resource('/rooms', RoomController::class)->names('rooms');
 
         // Route::resource('media', MediaController::class);
 

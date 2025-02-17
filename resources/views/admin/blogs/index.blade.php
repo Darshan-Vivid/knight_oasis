@@ -50,8 +50,8 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td>{{ $b->title }}</td>
-                                    <td>{{ strip_tags($b->description) }}</td>
+                                    <td>{{ \Illuminate\Support\Str::limit($b->title, 80, '...') }}</td>
+                                    <td>{{ \Illuminate\Support\Str::limit(strip_tags($b->description), 150, '.....') }}</td>
                                     <td><div class="dropdown position-static">
                                         <button class="btn btn-subtle-secondary btn-sm btn-icon" role="button"
                                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -77,105 +77,6 @@
             </div>
         </div>
     </div>
-
-    {{-- <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header d-flex align-items-center">
-                    <div class="flex-grow-1">
-                    </div>
-                    <div class="flex-shrink-0">
-                        <div class="flex-wrap gap-2 d-flex align-items-start">
-                            <button class="btn btn-subtle-danger d-none" id="remove-actions"><i
-                                    class="ri-delete-bin-2-line"></i></button>
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table mb-0 align-middle table-centered table-nowrap">
-                            <thead class="table-active">
-                                <tr>
-                                    <th>
-                                        
-                                    </th>
-                                    <th class="cursor-pointer sort" data-sort="products">Blogs</th>
-                                    <th class="cursor-pointer sort" data-sort="products">Description</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody class="list form-check-all">
-                                @foreach ($blog as $b)
-                                    <tr>
-                                        <td>
-                                            
-                                        </td>
-                                        <td class="products">
-                                            <div class="d-flex align-items-center">
-                                                <div class="p-1 rounded avatar-xs bg-light me-2">
-                                                    <img src="{{ asset($b->image) }}" alt="{{ $b->title }}"
-                                                        class="img-fluid d-block">
-                                                </div>
-                                                <div>
-                                                    <h6 class="mb-0"><a href="#"
-                                                            class="text-reset products">{{ $b->title }}</a></h6>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>{{ strip_tags($b->description) }}</td>
-                                        <td>
-                                            <div class="dropdown position-static">
-                                                <button class="btn btn-subtle-secondary btn-sm btn-icon" role="button"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i class="bi bi-three-dots-vertical"></i>
-                                                </button>
-                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li><a class="dropdown-item edit-item-btn"
-                                                            href="{{ route('blogs.edit', $b->id) }}"><i
-                                                                class="align-middle ph-pencil me-1"></i> Edit</a></li>
-                                                    <a class="dropdown-item remove-item-btn" href="javascript:void(0);"
-                                                        data-delete-url="{{ route('blogs.destroy', $b->id) }}"
-                                                        onclick="setDeleteFormAction(this)">
-                                                        <i class="align-middle ph-trash me-1"></i> Remove
-                                                    </a>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="noresult" style="display: none">
-                        <div class="py-4 text-center">
-                            <div class="mx-auto mb-4 avatar-md">
-                                <div class="avatar-title bg-light text-primary rounded-circle fs-4xl">
-                                    <i class="bi bi-search"></i>
-                                </div>
-                            </div>
-                            <h5 class="mt-2">Sorry! No Result Found</h5>
-                            <p class="mb-0 text-muted">We've searched all blog, We did not find any
-                                blogs for you search.</p>
-                        </div>
-                    </div>
-                    <div class="mt-3 row align-items-center">
-                        <div class="col-sm">
-                            
-                        </div>
-                        <div class="mt-3 col-sm-auto mt-sm-0">
-                            <div class="gap-2 pagination-wrap hstack justify-content-center">
-                                
-                                <ul class="mb-0 pagination listjs-pagination"></ul>
-                                
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div> --}}
 </div>
 
 <!-- Delete Confirmation Modal -->

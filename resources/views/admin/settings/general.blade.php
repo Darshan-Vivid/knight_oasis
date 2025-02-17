@@ -65,12 +65,13 @@
                                                     id="ko_settings_table_{{ $setting->slug }}" data-links="{{ $setting->value }}" >Edit</button>
                                             </td>
                                         </tr>
-                                    @elseif($setting->slug == 'site_logo')
-                                        <td>{{ $setting->slug }}</td>
-                                        <td><img src="{{ $setting->value }}" alt="{{ $setting->slug }}" width="100" height="100"></td>
-                                        <td><button type="button" class="btn btn-sm btn-light ko_settings_btn"
-                                                    id="ko_settings_table_{{ $setting->slug }}">Edit</button></td>
-
+                                    @elseif($setting->slug == 'site_icon' || $setting->slug == 'site_logo_light' || $setting->slug == 'site_logo_dark')
+                                        <tr>
+                                            <td>{{ $setting->slug }}</td>
+                                            <td><img src="{{ $setting->value }}" alt="{{ $setting->slug }}" height="100"></td>
+                                            <td><button type="button" class="btn btn-sm btn-light ko_settings_btn"
+                                                    id="ko_settings_table_{{ $setting->type }}">Edit</button></td>
+                                        </tr>
                                     @else
                                         <tr>
                                             <td>{{ $setting->slug }}</td>

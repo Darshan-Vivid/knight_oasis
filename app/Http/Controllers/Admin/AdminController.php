@@ -25,7 +25,6 @@ class AdminController extends Controller
 
     public function save_settings(Request $request){
 
-
         if(isset($request->logo_text) && strlen($request->logo_text) > 0){
             DB::table('settings')->where('slug', '=', 'logo_text')->update(['value' => $request->logo_text]);
         }
@@ -44,8 +43,8 @@ class AdminController extends Controller
         if(isset($request->site_copyright_text) && strlen($request->site_copyright_text) > 0){
             DB::table('settings')->where('slug', '=', 'site_copyright_text')->update(['value' => $request->site_copyright_text]);
         }
-        if(isset($request->site_logo) && $request->hasFile('site_logo')){
-            $file = $request->file('site_logo');
+        if(isset($request->site_icon) && $request->hasFile('site_icon')){
+            $file = $request->file('site_icon');
             $fileName = $file->getClientOriginalName();
             $filePath = 'images/settings/';
             $directoryPath = public_path($filePath);
@@ -54,8 +53,36 @@ class AdminController extends Controller
             }
             $file->move($directoryPath, $fileName);
             $fileUrl = url($filePath . $fileName);
-            DB::table('settings')->where('slug', '=', 'site_logo')->update(['value' => $fileUrl]);
+            DB::table('settings')->where('slug', '=', 'site_icon')->update(['value' => $fileUrl]);
         }
+        if(isset($request->site_logo_light) && $request->hasFile('site_logo_light')){
+            $file = $request->file('site_logo_light');
+            $fileName = $file->getClientOriginalName();
+            $filePath = 'images/settings/';
+            $directoryPath = public_path($filePath);
+            if (!file_exists($directoryPath)) {
+                mkdir($directoryPath, 0777, true);
+            }
+            $file->move($directoryPath, $fileName);
+            $fileUrl = url($filePath . $fileName);
+            DB::table('settings')->where('slug', '=', 'site_logo_light')->update(['value' => $fileUrl]);
+        }
+        if(isset($request->site_logo_dark) && $request->hasFile('site_logo_dark')){
+            $file = $request->file('site_logo_dark');
+            $fileName = $file->getClientOriginalName();
+            $filePath = 'images/settings/';
+            $directoryPath = public_path($filePath);
+            if (!file_exists($directoryPath)) {
+                mkdir($directoryPath, 0777, true);
+            }
+            $file->move($directoryPath, $fileName);
+            $fileUrl = url($filePath . $fileName);
+            DB::table('settings')->where('slug', '=', 'site_logo_dark')->update(['value' => $fileUrl]);
+        }
+
+
+
+
         if (isset($request->settings_social_link_edited) && $request->settings_social_link_edited == "true") {
             $socialLinks = [];
 

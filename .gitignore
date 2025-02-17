@@ -1,12 +1,14 @@
 app/storage/
 bootstrap/compiled.php
 
-public/storage
-public/hot
 public/build
-public/uploads/
-public/images/media/
+public/hot
 public/images/blog/
+public/images/media/
+public/images/rooms/
+public/images/settings/
+public/storage
+public/uploads/
 
 storage/*.key
 /storage/pail
