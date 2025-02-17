@@ -25,17 +25,23 @@
                     @csrf
                     <div class="mb-3">
                         <label for="category" class="form-label">Category Title <span class="text-danger">*</span></label>
-                        <input type="text" name="category" id="category" class="form-control @error('category') is-invalid @enderror" placeholder="Enter category title" required>
+                        <input type="text" name="category" id="category" class="form-control @error('category') is-invalid @enderror" placeholder="Enter category title" value="{{ $edit_category->name ?? '' }}" required>
+
                         @error('category')
                             <div class="invalid-response" style="display:flex">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="mb-1 text-end">
-                        <input type="hidden" name="edit_category_id" value="0" />
-                        <button type="submit" class="btn btn-primary">
-                            <i class="align-bottom ri-check-fill me-1"></i> Submit
-                        </button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        @if(isset($edit_category))
+                            <a href="{{ url()->previous() }}" class="btn btn-danger">Cancel</a>
+
+                            <input type="hidden" name="edit_category_id" value="{{ $edit_category->id }}" />
+                        @else
+                            <input type="hidden" name="edit_category_id" value="0" />
+                        @endif
+
                     </div>
                 </form>
             </div>
@@ -72,7 +78,7 @@
                                                 <i class="bi bi-three-dots-vertical"></i>
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end">
-                                                <li><a class="dropdown-item edit-item-btn" ><i class="align-middle ph-pencil me-1"></i>Edit</a></li>
+                                                <li><a href="{{ route('blog_categories.edit', $category->id) }}" class="dropdown-item edit-item-btn" ><i class="align-middle ph-pencil me-1"></i>Edit</a></li>
                                                 <li>
                                                     <a class="dropdown-item remove-item-btn"
                                                         data-delete-url="{{ route('blog_categories.destroy', $category->id) }}"

@@ -9,4 +9,11 @@ class BlogCategories extends Model
 {
     use HasFactory;
     protected $table = 'blog_categories';
+
+    protected $primaryKey = 'id';
+    protected $keyType = 'int';
+
+    protected $fillable = [
+        'name',
+    ];
 }

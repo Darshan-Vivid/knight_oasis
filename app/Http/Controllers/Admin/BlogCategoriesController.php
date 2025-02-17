@@ -52,12 +52,12 @@ class BlogCategoriesController extends Controller
                 $blog_categories->save();
             }
 
-            if($blog_categories->id){
+            if ($blog_categories) {
                 return redirect()->route('blog_categories.index');
-            }else{
+            } else {
                 return redirect()->back()
-                ->withErrors(['category' => 'Unable to create or update the category.'])
-                ->withInput();
+                    ->withErrors(['category' => 'Unable to create or update the category.'])
+                    ->withInput();
             }
 
         }
@@ -77,7 +77,11 @@ class BlogCategoriesController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $edit_category = BlogCategories::findOrFail($id);
+
+
+        $blog_categories = BlogCategories::all();
+        return view('admin.blogs.category')->with(['blog_categories'=>$blog_categories ,'edit_category' =>$edit_category ]);
     }
 
     /**
