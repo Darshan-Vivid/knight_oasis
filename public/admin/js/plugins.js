@@ -9,10 +9,10 @@ File: Common Plugins Js File
 
 //Common plugins
 if (document.querySelectorAll("[toast-list]"))
-  document.writeln("<script src='admin/libs/toastify-js/src/toastify.js'></script>");
+  document.writeln("<script src='libs/toastify-js/src/toastify.js'></script>");
 
 if (document.querySelectorAll("[data-provider]"))
-  document.writeln("<script src='admin/libs/flatpickr/flatpickr.min.js'></script>");
+  document.writeln("<script src='libs/flatpickr/flatpickr.min.js'></script>");
 
 if (document.querySelectorAll('[data-choices]'))
-  document.writeln("<script src='admin/libs/choices.js/public/assets/scripts/choices.min.js'></script>");
+  document.writeln("<script src='libs/choices.js/public/assets/scripts/choices.min.js'></script>");
