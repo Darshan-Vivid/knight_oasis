@@ -32,11 +32,11 @@ class AmenityController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name' => 'required|min:3'
+            'name' => 'required|min:2'
         ];
         $messages = [
             'name.required' => 'The name is required.',
-            'name.min' => 'The name must be at least 3 characters.',
+            'name.min' => 'The name must be at least 2 characters.',
         ];
 
         if($request->edit_amenity_id == 0){
@@ -63,9 +63,9 @@ class AmenityController extends Controller
                     $file->move($directoryPath, $fileName);
                     $fileUrl = url($filePath . $fileName);
 
-                    $room_amenity = Amenity::find($request->edit_amenity_id)->update(['name' =>$request->name ,'icon' =>$fileUrl ]);
+                    $room_amenity = Amenity::find($request->edit_amenity_id)->update(['name' =>$request->name ,'icon' =>$fileUrl,'status'=>$request->status]);
                 }else{
-                    $room_amenity = Amenity::find($request->edit_amenity_id)->update(['name' =>$request->name ]);
+                    $room_amenity = Amenity::find($request->edit_amenity_id)->update(['name' =>$request->name,'status'=>$request->status ]);
                 }
             }else{
 
@@ -79,9 +79,9 @@ class AmenityController extends Controller
                 $file->move($directoryPath, $fileName);
                 $fileUrl = url($filePath . $fileName);
 
-
                 $room_amenity = new Amenity;
                 $room_amenity->name = $request->name;
+                $room_amenity->status = $request->status;
                 $room_amenity->icon = $fileUrl;
                 $room_amenity->save();
             }

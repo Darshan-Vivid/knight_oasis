@@ -33,13 +33,13 @@ class ServiceController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'service' => 'required|min:3',
+            'service' => 'required|min:2',
             'quantity' => 'required|integer|min:0',
             'price' => 'required|integer|min:0',
         ];
         $messages = [
             'service.required' => 'The name is required.',
-            'service.min' => 'The name must be at least 3 characters.',
+            'service.min' => 'The name must be at least 2 characters.',
             'quantity.required' => 'The quantity is required.',
             'quantity.integer' => 'The quantity must be a valid integer.',
             'quantity.min' => 'The quantity must be at least 0.',
@@ -54,10 +54,11 @@ class ServiceController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }else{
             if($request->edit_service_id != 0){
-                $service = Service::find($request->edit_service_id)->update(['name' =>$request->service,'quantity' =>$request->quantity,'price' =>$request->price ]);
+                $service = Service::find($request->edit_service_id)->update(['name' =>$request->service,'quantity' =>$request->quantity,'price' =>$request->price,'status'=>$request->status ]);
             }else{
                 $service = new Service;
                 $service->name = $request->service;
+                $service->status = $request->status;
                 $service->quantity = $request->quantity;
                 $service->price = $request->price;
                 $service->save();

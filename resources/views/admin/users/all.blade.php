@@ -3,14 +3,12 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" >
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" >
 
-<h3>User List</h3>
-
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header d-flex align-items-center">
                 <div class="flex-grow-1">
-                    <h5 class="mb-4 card-title">Settings</h5>
+                    <h5 class="mb-4 card-title">Users</h5>
                 </div>
             </div>
         </div>

@@ -52,6 +52,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/room-services', ServiceController::class)->names('services');
         Route::resource('/room-amenities', AmenityController::class)->names('amenities');
         Route::resource('/rooms', RoomController::class)->names('rooms');
+        Route::post('/remove-gallery-image',[ RoomController::class , 'remove_gallery_img'])->name('rooms.img.remove');
 
         // Route::resource('media', MediaController::class);
 

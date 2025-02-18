@@ -65,6 +65,10 @@
                                         data-key="t-products">Add Rooms</a>
                                 </li>
                                 <li class="nav-item">
+                                    <a href="{{ route('rooms.index') }}" class="nav-link"
+                                        data-key="t-products">All Rooms</a>
+                                </li>
+                                <li class="nav-item">
                                     <a href="{{ route('amenities.index') }}" class="nav-link"
                                         data-key="t-products-grid">Amenities</a>
                                 </li>
@@ -99,7 +103,7 @@
                     <!-- SETTINGS -->
                     <li class="nav-item">
                         <a href="{{ route('view.settings') }}/" class="nav-link menu-link collapsed" >
-                            <i class="ri-home-line"></i><span>Settings</span>
+                            <i class="ri-home-gear-line"></i><span>Settings</span>
                         </a>
                     </li>
 

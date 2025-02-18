@@ -35,7 +35,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="quantity" class="form-label">Quantity<span class="text-danger">*</span></label>
+                        <label for="quantity" class="form-label">Service Quantity<span class="text-danger">*</span></label>
                         <input type="number" name="quantity" id="quantity" class="form-control @error('quantity') is-invalid @enderror" placeholder="Enter number of quantity" value="{{ $edit_service->quantity ?? '' }}" required>
                         @error('quantity')
                             <div class="invalid-response" style="display:flex">{{ $message }}</div>
@@ -43,11 +43,26 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="price" class="form-label">Price/unit<span class="text-danger">*</span></label>
+                        <label for="price" class="form-label">Service Price/unit<span class="text-danger">*</span></label>
                         <input type="number" name="price" id="price" class="form-control @error('price') is-invalid @enderror" placeholder="Enter service name" value="{{ $edit_service->price ?? '' }}" required>
                         @error('price')
                             <div class="invalid-response" style="display:flex">{{ $message }}</div>
                         @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Service Status <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <label class="input-group-text" for="inputGroupSelect01">Status</label>
+                            <select class="form-select" name="status" id="inputGroupSelect01" required>
+                                <option value="0">Disabled</option>
+                                @if(isset($edit_service))
+                                    <option value="1" {{ $edit_service->status == '1' ? 'selected' : '' }}>Enabled</option>
+                                @else
+                                    <option value="1">Enabled</option>
+                                @endif
+                            </select>
+                        </div>
                     </div>
 
                     <div class="mb-1 text-end">
@@ -85,6 +100,7 @@
                                 <th scope="col">Name</th>
                                 <th scope="col">Price/unit</th>
                                 <th scope="col">Quantity</th>
+                                <th scope="col">status</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -96,6 +112,13 @@
                                         <td>{{ $service->name }}</td>
                                         <td>{{ $service->price }}</td>
                                         <td>{{ $service->quantity }}</td>
+                                        <td>
+                                            @if($service->status == 1)
+                                                <span class="badge bg-success">enabled</span>
+                                            @else
+                                                <span class="badge bg-danger">disabled</span>
+                                            @endif
+                                        </td>
                                         <td>
                                             <div class="dropdown position-static">
                                                 <button class="btn btn-subtle-secondary btn-sm btn-icon" role="button"

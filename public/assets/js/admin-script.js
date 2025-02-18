@@ -6,6 +6,11 @@ function setDeleteFormAction(element) {
 }
 
 $(document).ready(function () {
+
+    $("input[type=number]").on("wheel", function (event) {
+        event.preventDefault();
+    });
+
     $(".search").on("keyup", function () {
         var searchValue = $(this).val().toLowerCase();
         var hasResults = false;
@@ -101,5 +106,30 @@ $(document).ready(function () {
 
     $("#ko_settings_table").on("click", "#remove_new_social_link", function () {
         $(this).parent().remove();
+    });
+
+    $(".remove-gallery-image").on("click", function () {
+        $this = $(this);
+        var imageElement = $this.closest(".position-relative");
+        var image_url = $this.data("image");
+        var admin_url = $this.parent().parent().data("url");
+        var rid = $this.parent().parent().data("id");
+        console.log(image_url);
+        // $.ajax({
+        //     url: "/delete-gallery-image",
+        //     type: "POST",
+        //     data: {
+        //         image: imageUrl,
+        //         _token: $('meta[name="csrf-token"]').attr("content") // For Laravel CSRF protection
+        //     },
+        //     success: function (response) {
+        //         imageElement.fadeOut(300, function () {
+        //             $(this).remove();
+        //         });
+        //     },
+        //     error: function () {
+        //         alert("Failed to delete image. Please try again.");
+        //     }
+        // });
     });
 });
