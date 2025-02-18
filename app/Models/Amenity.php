@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Amenity extends Model
 {
     use HasFactory;
-    protected $table = 'amenites';
+    protected $table = 'amenities';
 
     protected $primaryKey = 'id';
     protected $keyType = 'int';
@@ -16,5 +16,6 @@ class Amenity extends Model
     protected $fillable = [
         'icon',
         'name',
+        'status',
     ];
 }
