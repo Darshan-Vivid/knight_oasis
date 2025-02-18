@@ -5,12 +5,12 @@
         style="background-image: url('{{ asset('images/cart-banner.webp') }}');">
         <div class="ko-container">
             <div class="ko-banner-content">
-                <h2>Transforming Common Spaces in Modern Hotels</h2>
+                <h2>{{ $blog->title }}</h2>
                 <nav>
                     <ol class="ko-banner-list">
                         <li><a href="/">Home</a></li>
-                        <li><a href="{{ route('view.blog') }}">Tips & Tricks</a></li>
-                        <li class="active">Transforming Common Spaces in Modern Hotels</li>
+                        <li><a href="{{ route('view.blog') }}">Blogs</a></li>
+                        <li class="active">{{ $blog->title }}</li>
                     </ol>
                 </nav>
             </div>

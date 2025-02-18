@@ -52,6 +52,15 @@
                                         </div>
                                     </td>
                                     <td>{{ \Illuminate\Support\Str::limit($b->title, 80, '...') }}</td>
+                                    <td>
+                                        @if ($b->categories->isNotEmpty())
+                                            @foreach ($b->categories as $category)
+                                                <span class="badge bg-primary">{{ $category->name }}</span>
+                                            @endforeach
+                                        @else
+                                            <span class="text-muted">No Categories</span>
+                                        @endif
+                                    </td>                                    
                                     <td>{{ \Illuminate\Support\Str::limit(strip_tags($b->description), 150, '.....') }}</td>
                                     <td><div class="dropdown position-static">
                                         <button class="btn btn-subtle-secondary btn-sm btn-icon" role="button"
