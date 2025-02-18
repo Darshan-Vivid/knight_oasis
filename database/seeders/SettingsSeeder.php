@@ -15,9 +15,9 @@ class SettingsSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            ['slug' => 'site_icon', 'value' => 'null' ,"type"=>"img"],
-            ['slug' => 'site_logo_light', 'value' => 'null' ,"type"=>"img"],
-            ['slug' => 'site_logo_dark', 'value' => 'null' ,"type"=>"img"],
+            ['slug' => 'site_icon', 'value' => 'https://cdn-icons-png.freepik.com/512/6660/6660308.png' ,"type"=>"img"],
+            ['slug' => 'site_logo_light', 'value' => 'https://cdn-icons-png.freepik.com/512/6660/6660308.png' ,"type"=>"img"],
+            ['slug' => 'site_logo_dark', 'value' => 'https://cdn-icons-png.freepik.com/512/6660/6660308.png' ,"type"=>"img"],
             ['slug' => 'logo_text', 'value' => 'null',"type"=>"text"],
             ['slug' => 'site_title', 'value' => 'null',"type"=>"text"],
             ['slug' => 'admin_address', 'value' => 'null',"type"=>"text"],
@@ -31,6 +31,10 @@ class SettingsSeeder extends Seeder
             if (!DB::table('settings')->where('slug', $item['slug'])->exists()) {
                 DB::table('settings')->insert($item);
             }
+        }
+
+        if(DB::table('settings')->where('slug', 'site_logo')->exists()){
+            DB::table('settings')->where('slug', 'site_logo')->delete();
         }
     }
 }
