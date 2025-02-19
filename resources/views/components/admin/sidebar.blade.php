@@ -1,7 +1,7 @@
     <div class="app-menu navbar-menu">
         <!-- LOGO -->
         <div class="navbar-brand-box">
-            <a href="index" class="logo logo-light">
+            <a href="{{ route('view.admin.dashboard') }}" class="logo logo-light">
                 <span class="logo-lg">
                     <img class="mt-3"  src="{{ getSetting("site_logo_light") }}" alt="" height="80">
                 </span>

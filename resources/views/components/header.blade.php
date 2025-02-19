@@ -28,7 +28,7 @@
         <div class="ko-container">
             <div class="ko-row">
                 <div class="ko-header-logo">
-                    <a href="index.html">
+                    <a href="{{ route('view.dashboard') }}">
                         <img src="{{ getSetting("site_logo_dark") }}" alt="logo">
                     </a>
                 </div>
@@ -56,9 +56,6 @@
                     <ul>
                         <li>
                             <a href="{{ route("view.dashboard") }}">Home</a>
-                        </li>
-                        <li>
-                            <a href="#">About</a>
                         </li>
                         <li class="ko-has-dropdown">
                             <a href="javascript:void(0);">Rooms</a>
@@ -136,7 +133,20 @@
                             <a href="#">Contact</a>
                         </li>
                         <li>
-                            <a href="#">RESERVATION</a>
+                            <a href="#">About</a>
+                        </li>
+                        <li>
+                            @if(auth()->check())
+                                @if(auth()->user()->hasRole('admin'))
+                                    <a href="{{ route('view.admin.dashboard') }}">Dashboard</a>
+                                @elseif(auth()->user()->hasRole('user'))
+                                    <a href="/">My Account</a>
+                                @else
+                                    <a href="{{ route('login') }}">Login</a>
+                                @endif
+                            @else
+                                <a href="{{ route('login') }}">Login</a>
+                            @endif
                         </li>
                     </ul>
                 </div>
