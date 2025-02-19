@@ -114,6 +114,7 @@ $(document).ready(function () {
         var image_url = $this.data("image");
         var admin_url = $this.parent().parent().data("url");
         var rid = $this.parent().parent().data("id");
+        var token = $this.parent().parent().data("token");
         console.log(image_url);
         // $.ajax({
         //     url: "/delete-gallery-image",

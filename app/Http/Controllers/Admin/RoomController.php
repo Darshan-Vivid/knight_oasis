@@ -42,6 +42,7 @@ class RoomController extends Controller
             'title' => 'required|string|min:2',
             'quantity' => 'required|integer|min:1',
             'price' => 'required|integer|min:0',
+            'offer_price' => 'required|integer|min:0',
             'description' => 'required|string|min:50',
             'allowd_guests' => 'required|integer|min:0',
             'size' => 'required|integer|min:0',
@@ -52,6 +53,7 @@ class RoomController extends Controller
             'featured_image' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
             'gallery_images' => 'required|min:1',
             'gallery_images.*' => 'image|mimes:jpeg,png,jpg,webp|max:2048',
+            'tour_video' => 'mimetypes:video/mp4,video/x-m4v,video/x-msvideo,video/x-matroska,video/x-flv,video/quicktime|max:51200',
         ];
 
         $messages = [
@@ -64,6 +66,9 @@ class RoomController extends Controller
             'price.required' => 'Price is required.',
             'price.integer' => 'Price must be a valid number.',
             'price.min' => 'Price cannot be negative.',
+            'offer_price.required' => 'Offer price is required.',
+            'offer_price.integer' => 'Offer price must be a valid number.',
+            'offer_price.min' => 'Offer price cannot be negative.',
             'description.required' => 'Description is required.',
             'description.string' => 'Description must be a valid string.',
             'description.min' => 'Description must be at least 50 characters.',
@@ -90,6 +95,8 @@ class RoomController extends Controller
             'gallery_images.*.image' => 'Each gallery image must be a valid image file.',
             'gallery_images.*.mimes' => 'Each gallery image must be a file of type: jpeg, png, jpg, webp.',
             'gallery_images.*.max' => 'Each gallery image must not exceed 2MB.',
+            'tour_video.mimetypes' => 'Tour vedio must be a file of type: mp4, avi, mkv, flv, mov.',
+            'tour_video.max' => 'The video must not be greater than 50MB.',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -98,13 +105,14 @@ class RoomController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }else{
 
-            $featuredImageUrl = $request->hasFile('featured_image') ? $this->uploadImage($request->file('featured_image')) : null;
+            $featuredImageUrl = $request->hasFile('featured_image') ? $this->uploadmedia($request->file('featured_image')) : null;
+            $tourVideoUrl = $request->hasFile('tour_video') ? $this->uploadmedia($request->file('tour_video')) : null;
 
             $galleryImageUrls = [];
             if ($request->has('gallery_images')) {
                 foreach ($request->file('gallery_images') as $galleryImage) {
                     if ($galleryImage->isValid()) {
-                        $galleryImageUrls[] = $this->uploadImage($galleryImage);
+                        $galleryImageUrls[] = $this->uploadmedia($galleryImage);
                     }
                 }
             }
@@ -113,6 +121,7 @@ class RoomController extends Controller
                 'name' => $request->title,
                 'quantity' => $request->quantity,
                 'price' => $request->price,
+                'offer_price' => $request->offer_price,
                 'description' => $request->description,
                 'allowd_guests' => $request->allowd_guests,
                 'size' => $request->size,
@@ -121,6 +130,7 @@ class RoomController extends Controller
                 'service' => json_encode($request->services),
                 'feature_img' => $featuredImageUrl,
                 'gallery_img' => json_encode($galleryImageUrls),
+                'tour_video' => $tourVideoUrl,
             ]);
 
             if($new_room){
@@ -135,7 +145,7 @@ class RoomController extends Controller
     /**
      * Upload image and return the url.
      */
-    private function uploadImage($file)
+    private function uploadmedia($file)
     {
         $filePath = "images/rooms/listings/";
         $directoryPath = public_path($filePath);
@@ -195,7 +205,7 @@ class RoomController extends Controller
         return redirect()->route('rooms.index');
     }
 
-    public function remove_gallery_img(Request $request){
+    public function remove_room_media(Request $request){
         dd($request->all());
 
     }

@@ -16,6 +16,7 @@ class Room extends Model
     protected $fillable = [
         'name',
         'price',
+        'offer_price',
         'quantity',
         'description',
         'allowd_guests',
@@ -25,6 +26,7 @@ class Room extends Model
         'service',
         'feature_img',
         'gallery_img',
+        'tour_video',
     ];
 
     protected $casts = [

@@ -122,6 +122,35 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-xxl-4">
+                            <h5 class="mb-3 card-title">Room Offer Price</h5>
+                            <p class="text-muted">Room Offer Price refers to the number related to the offring price of the single
+                                room.</p>
+                        </div>
+                        <div class="col-xxl-8">
+                            <div class="mb-3">
+                                <label for=offer_price class="form-label">Room Offer Price<span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">₹</span>
+                                    <input type="number" name=offer_price id=offer_price class="form-control @error('offer_price') is-invalid @enderror" placeholder="Enter offer price of the single room" min="0" value="{{ old('offer_price', $room->offer_price) }}" required>
+                                    <span class="input-group-text">.00</span>
+                                </div>
+                                @error('offer_price')
+                                    <span class="form-error-message text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xxl-4">
                             <h5 class="mb-3 card-title">Room Description</h5>
                             <p class="text-muted">Room Description refers to the summary or excerpt of a room that
                                 provides a brief overview of its content.</p>
@@ -354,7 +383,7 @@
                                     <span class="form-error-message text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="flex-wrap mt-3 d-flex gallery-imgs-group" data-url="{{ route('rooms.img.remove') }}" data-id="{{ $room->id }}" >
+                            <div class="flex-wrap mt-3 d-flex gallery-imgs-group" data-url="{{ route('rooms.media.remove') }}" data-id="{{ $room->id }}" data-token="{{ csrf_token() }}"  >
                                 @if(count($edit_galleryImages) > 0)
                                     @foreach ($edit_galleryImages as $edit_galleryImage)
                                         <div class="m-2 position-relative">
@@ -363,6 +392,36 @@
                                         </div>
                                     @endforeach
                                 @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4 row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xxl-4">
+                            <h5 class="mb-3 card-title">Tour Video</h5>
+                            <p class="text-muted">Tour Video refersto video for showcase more visuals of the room.</p>
+                        </div>
+                        <div class="col-xxl-8">
+                            <div class="mb-3">
+                                <label class="form-label">Tour Video</label>
+                                <input type="file" name="tour_video" id="tour_video" class="form-control" accept=".mp4,.avi,.mkv,.flv,.mov">
+                                @error('tour_video')
+                                    <span class="form-error-message text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="mt-3">
+                                <video id="videoPreview" controls class="img-fluid" style="max-width: 200px; height: auto;">
+                                    <source id="videoSource" src="{{ $room->tour_video ? $room->tour_video : null }}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
                             </div>
                         </div>
                     </div>
