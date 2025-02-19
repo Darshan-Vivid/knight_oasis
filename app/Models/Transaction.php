@@ -9,5 +9,13 @@ class Transaction extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['amount', 'transaction_id', 'status'];
+    protected $fillable = [
+        'amount',
+        'method',
+        'status',
+        'transaction_id', 
+    ];
+
+    protected $primaryKey = 'id';
+    protected $keyType = 'int';
 }

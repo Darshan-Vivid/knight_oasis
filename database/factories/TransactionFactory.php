@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
 
 class TransactionFactory extends Factory
 {
@@ -12,9 +13,10 @@ class TransactionFactory extends Factory
     public function definition()
     {
         return [
-            'amount' => $this->faker->numberBetween(1, 10000), // Generates random amounts
-            'transaction_id' => $this->faker->unique()->uuid, // Unique transaction ID
-            'status' => $this->faker->randomElement(['0', '1']), // Random status: 0 (cancel) or 1 (paid)
+            'amount' => $this->faker->numberBetween(1, 10000), 
+            'method' => Arr::random(['CASHFREE', 'UPI', 'CASH', 'PAYUMONEY','DEBIT CARD',"CREDIT CARD"]), 
+            'status' => $this->faker->randomElement(['0', '1']),
+            'transaction_id' => $this->faker->unique()->uuid,
         ];
     }
 }

@@ -28,8 +28,9 @@
 
 @endphp
 
-<form class="store-blogs" action="{{ route('rooms.store') }}" method="POST" enctype="multipart/form-data">
-    @csrf
+<form class="store-blogs" action="{{ route('rooms.update' , $room->id) }}" method="POST" enctype="multipart/form-data">
+    @csrf 
+    @method('PUT')
 
     <div class="row">
         <div class="col-lg-12">
@@ -352,12 +353,20 @@
                             <div class="mb-3">
                                 <label class="form-label">Featured Image <span class="text-danger">*</span></label>
                                 <input type="file" name="featured_image" id="featured_image" class="form-control" accept="image/*">
+                                <small class="text-muted">Leave blank if you do not want to update the image.</small>
                                 @error('featured_image')
                                     <span class="form-error-message text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="mt-3">
-                                <img id="imagePreview" src="{{ $room->feature_img ? $room->feature_img : null }}" alt="Featured Image Preview" class="img-fluid" style="max-width: 200px; height: auto;">
+                            
+                            <div class="flex-wrap mt-3 d-flex" data-url="{{ route('rooms.media.remove') }}" data-id="{{ $room->id }}" data-token="{{ csrf_token() }}" data-type ="featured"  >
+                                <div class="m-2 position-relative">
+                                    @if($room->feature_img)
+                                        <img id="imagePreview" src="{{ $room->feature_img }}" alt="Featured Image Preview" class="img-fluid" style="max-width: 200px; height: auto;">
+                                    @else
+                                        <span> No Featured Found </span>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -379,18 +388,21 @@
                             <div class="mb-3">
                                 <label class="form-label">Gallery Images</label>
                                 <input type="file" name="gallery_images[]" id="gallery_images" class="form-control" multiple>
+                                <small class="text-muted">Leave blank if you do not want to update the images.</small>
                                 @error('gallery_images')
                                     <span class="form-error-message text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="flex-wrap mt-3 d-flex gallery-imgs-group" data-url="{{ route('rooms.media.remove') }}" data-id="{{ $room->id }}" data-token="{{ csrf_token() }}"  >
+                            <div class="flex-wrap mt-3 d-flex" data-url="{{ route('rooms.media.remove') }}" data-id="{{ $room->id }}" data-token="{{ csrf_token() }}" data-type ="gallery"  >
                                 @if(count($edit_galleryImages) > 0)
                                     @foreach ($edit_galleryImages as $edit_galleryImage)
                                         <div class="m-2 position-relative">
                                             <img id="imagePreview" src="{{ $edit_galleryImage }}" alt="Gallery Images Preview" class="img-fluid" style="width: 200px; height: auto;">
-                                            <button type="button" class="top-0 btn btn-danger btn-sm position-absolute end-0 remove-gallery-image" data-image="{{ $edit_galleryImage }}">X</button>
+                                            <button type="button" class="top-0 btn btn-danger btn-sm position-absolute end-0 remove-room-media" data-media="{{ $edit_galleryImage }}">X</button>
                                         </div>
                                     @endforeach
+                                @else
+                                    <span> No Images Found </span>
                                 @endif
                             </div>
                         </div>
@@ -410,18 +422,27 @@
                             <p class="text-muted">Tour Video refersto video for showcase more visuals of the room.</p>
                         </div>
                         <div class="col-xxl-8">
-                            <div class="mb-3">
+                            <div class="mb-3 ">
                                 <label class="form-label">Tour Video</label>
                                 <input type="file" name="tour_video" id="tour_video" class="form-control" accept=".mp4,.avi,.mkv,.flv,.mov">
+                                <small class="text-muted">Leave blank if you do not want to update the vedio.</small>
                                 @error('tour_video')
                                     <span class="form-error-message text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="mt-3">
-                                <video id="videoPreview" controls class="img-fluid" style="max-width: 200px; height: auto;">
-                                    <source id="videoSource" src="{{ $room->tour_video ? $room->tour_video : null }}" type="video/mp4">
-                                    Your browser does not support the video tag.
-                                </video>
+
+                            <div class="flex-wrap mt-3 d-flex" data-url="{{ route('rooms.media.remove') }}" data-id="{{ $room->id }}" data-token="{{ csrf_token() }}" data-type ="tour"  >
+                                <div class="m-2 position-relative">
+                                    @if($room->tour_video)
+                                        <video id="videoPreview" controls class="img-fluid" style="max-width: 200px; height: auto;">
+                                            <source id="videoSource" src="{{ $room->tour_video ? $room->tour_video : null }}" type="video/mp4">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                        <button type="button" class="top-0 btn btn-danger btn-sm position-absolute end-0 remove-room-media" data-media="{{ $room->tour_video }}">X</button>
+                                    @else
+                                        <span> No Tour Video Found </span>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>

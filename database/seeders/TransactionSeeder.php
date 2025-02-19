@@ -13,10 +13,11 @@ class TransactionSeeder extends Seeder
      */
     public function run(): void
     {
-        $count = Transaction::count();
+        $transections = 0;
+        $count = 50;
 
-        if ($count < 50) {
-            $remaining = 50 - $count;
+        if ($count > $transections) {
+            $remaining = 50 - $transections;
             Transaction::factory($remaining)->create();
         }
     }

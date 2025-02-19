@@ -108,29 +108,42 @@ $(document).ready(function () {
         $(this).parent().remove();
     });
 
-    $(".remove-gallery-image").on("click", function () {
+    $(".remove-room-media").on("click", function () {
         $this = $(this);
-        var imageElement = $this.closest(".position-relative");
-        var image_url = $this.data("image");
-        var admin_url = $this.parent().parent().data("url");
-        var rid = $this.parent().parent().data("id");
-        var token = $this.parent().parent().data("token");
-        console.log(image_url);
-        // $.ajax({
-        //     url: "/delete-gallery-image",
-        //     type: "POST",
-        //     data: {
-        //         image: imageUrl,
-        //         _token: $('meta[name="csrf-token"]').attr("content") // For Laravel CSRF protection
-        //     },
-        //     success: function (response) {
-        //         imageElement.fadeOut(300, function () {
-        //             $(this).remove();
-        //         });
-        //     },
-        //     error: function () {
-        //         alert("Failed to delete image. Please try again.");
-        //     }
-        // });
+        var parent_div = $this.parent().parent();
+        var mediaElement = $this.closest(".position-relative");
+        var media_url = $this.data("media");
+        var admin_url = parent_div.data("url");
+        var rid = parent_div.data("id");
+        var token = parent_div.data("token");
+        var media_type = parent_div.data("type");
+        
+        $.ajax({
+            url: admin_url,
+            type: "POST",
+            data: {
+                media: media_url,
+                room : rid,
+                type : media_type,
+                _token: token
+            },
+            success: function (response) {
+                if (response.success) {
+                mediaElement.fadeOut(300, function () {$(this).remove();});
+            } else {
+                alert("Unexpected response received.");
+            }
+            },
+            error: function (xhr) {
+                let errorMessage = "ERROR : ";
+                let response = JSON.parse(xhr.responseText);
+                if (response.error) {
+                    errorMessage += response.error;
+                } else {
+                    errorMessage += "Unknown error occurred.";
+                }
+                alert(errorMessage);
+            }
+        });
     });
 });

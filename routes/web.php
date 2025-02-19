@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AmenityController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\BlogCategoriesController;
+use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\RoomController;
 use App\Http\Controllers\Admin\ServiceController;
@@ -45,6 +46,7 @@ Route::get('/blog/{slug}', [BlogController::class, 'blog_list'])->name('blog.lis
 //admin panel
 Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:admin'])->prefix('admin')->group(function () {
+
         Route::get('/dashboard', [AdminController::class, 'show_admin'])->name('view.admin.dashboard');
 
         Route::resource('/blogs', BlogController::class)->names('blogs');
@@ -52,14 +54,17 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/room-services', ServiceController::class)->names('services');
         Route::resource('/room-amenities', AmenityController::class)->names('amenities');
         Route::resource('/rooms', RoomController::class)->names('rooms');
-        Route::post('/remove-room-media',[ RoomController::class , 'remove_room_media'])->name('rooms.media.remove');
-
         // Route::resource('media', MediaController::class);
-
+        
         Route::get('/settings', [AdminController::class, 'show_settings'])->name('view.settings');
         Route::post('/settings', [AdminController::class, 'save_settings'])->name('settings.save');
-
+        
+        Route::get('/manual-booking', [BookingController::class, 'show_manual_booking'])->name('view.manual_booking');
+        Route::post('/manual-booking', [BookingController::class, 'store_manual_booking'])->name('manual_booking.save');
+        
+        Route::post('/remove-room-media',[ RoomController::class , 'remove_room_media'])->name('rooms.media.remove');
         Route::get('/users', [AdminController::class, 'show_users'])->name('view.users');
+        Route::get('/transactions', [AdminController::class, 'show_transactions'])->name('view.transactions');
         Route::get('/routes', [RedirectController::class, 'routeList']);           //route list table
     });
 });

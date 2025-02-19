@@ -1,0 +1,40 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class Booking extends Model
+{
+    use HasFactory;
+
+    protected $table = 'bookings';
+
+    protected $primaryKey = 'id';
+    
+    protected $keyType = 'int';
+
+    protected $fillable = [
+        'type',
+        'user_id',
+        'check_in',
+        'check_out',
+        'adults',
+        'children',
+        'room_count',
+        'room_id',
+        'services',
+        'total_cost',
+        'transaction_id',
+        'customer_note',
+        'customer_details',
+    ];
+
+    protected $casts = [
+        'check_in' => 'datetime',
+        'check_out' => 'datetime',
+        'services' => 'array',
+        'customer_details' => 'array',
+    ];
+}

@@ -191,7 +191,112 @@ class RoomController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+
+        $rules = [
+            'title' => 'required|string|min:2',
+            'quantity' => 'required|integer|min:1',
+            'price' => 'required|integer|min:0',
+            'offer_price' => 'required|integer|min:0',
+            'description' => 'required|string|min:50',
+            'allowd_guests' => 'required|integer|min:0',
+            'size' => 'required|integer|min:0',
+            'bed_quantity' => 'required|integer|min:0',
+            'bed_name' => 'required|string|min:1',
+            'amenities' => 'array',
+            'services' => 'array',
+            'featured_image' => 'image|mimes:jpeg,png,jpg,webp|max:2048',
+            'gallery_images' => 'min:1',
+            'gallery_images.*' => 'image|mimes:jpeg,png,jpg,webp|max:2048',
+            'tour_video' => 'mimetypes:video/mp4,video/x-m4v,video/x-msvideo,video/x-matroska,video/x-flv,video/quicktime|max:51200',
+        ];
+
+        $messages = [
+            'title.required' => 'The title is required.',
+            'title.string' => 'The title must be a valid string.',
+            'title.min' => 'The title must be at least 2 characters.',
+            'quantity.required' => 'Quantity is required.',
+            'quantity.integer' => 'Quantity must be a valid number.',
+            'quantity.min' => 'Quantity must be at least 1.',
+            'price.required' => 'Price is required.',
+            'price.integer' => 'Price must be a valid number.',
+            'price.min' => 'Price cannot be negative.',
+            'offer_price.required' => 'Offer price is required.',
+            'offer_price.integer' => 'Offer price must be a valid number.',
+            'offer_price.min' => 'Offer price cannot be negative.',
+            'description.required' => 'Description is required.',
+            'description.string' => 'Description must be a valid string.',
+            'description.min' => 'Description must be at least 50 characters.',
+            'allowd_guests.required' => 'Allowed guests field is required.',
+            'allowd_guests.integer' => 'Allowed guests must be a number.',
+            'allowd_guests.min' => 'Allowed guests cannot be negative.',
+            'size.required' => 'Size is required.',
+            'size.integer' => 'Size must be a valid number.',
+            'size.min' => 'Size cannot be negative.',
+            'bed_quantity.required' => 'Bed quantity is required.',
+            'bed_quantity.integer' => 'Bed quantity must be a valid number.',
+            'bed_quantity.min' => 'Bed quantity cannot be negative.',
+            'bed_name.required' => 'Bed name is required.',
+            'bed_name.string' => 'Bed name must be a valid string.',
+            'bed_name.min' => 'Bed name must be at least 1 character.',
+            'amenities.array' => 'Amenities must be an array.',
+            'services.array' => 'Services must be an array.',
+            'featured_image.image' => 'The featured image must be a valid image file.',
+            'featured_image.mimes' => 'The featured image must be a file of type: jpeg, png, jpg, webp.',
+            'featured_image.max' => 'The featured image size must not exceed 2MB.',
+            'gallery_images.min' => 'Please upload at least one gallery image.',
+            'gallery_images.*.image' => 'Each gallery image must be a valid image file.',
+            'gallery_images.*.mimes' => 'Each gallery image must be a file of type: jpeg, png, jpg, webp.',
+            'gallery_images.*.max' => 'Each gallery image must not exceed 2MB.',
+            'tour_video.mimetypes' => 'Tour vedio must be a file of type: mp4, avi, mkv, flv, mov.',
+            'tour_video.max' => 'The video must not be greater than 50MB.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        $room = Room::find($id);
+        if(!$room->id){
+            return redirect()->back() ->withErrors(['general' => 'Unable to create or update the room.']);
+        }elseif ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }else{
+
+            if($request->hasFile('featured_image')){
+                $featuredImageUrl = $this->uploadmedia($request->file('featured_image'));
+            }
+            if($request->hasFile('tour_video')){
+                $tourVideoUrl = $this->uploadmedia($request->file('tour_video'));
+            }
+
+            $galleryImageUrls = json_decode($room->gallery_img);
+            if ($request->has('gallery_images')) {
+                foreach ($request->file('gallery_images') as $galleryImage) {
+                    if ($galleryImage->isValid()) {
+                        $galleryImageUrls[] = $this->uploadmedia($galleryImage);
+                    }
+                }
+            }
+
+            $room->update([
+                'name' => $request->title,
+                'quantity' => $request->quantity,
+                'price' => $request->price,
+                'offer_price' => $request->offer_price,
+                'description' => $request->description,
+                'allowd_guests' => $request->allowd_guests,
+                'size' => $request->size,
+                'beds' => json_encode(["quentity" => $request->bed_quantity, 'name' => $request->bed_name]),
+                'amenities' => json_encode($request->amenities),
+                'service' => json_encode($request->services),
+                'feature_img' => $featuredImageUrl ?? $room->feature_img, 
+                'gallery_img' => json_encode($galleryImageUrls),
+                'tour_video' => $tourVideoUrl ?? $room->tour_video,
+            ]);
+
+            if($room){
+                return redirect()->route('rooms.index');
+            }else{
+                return redirect()->back() ->withErrors(['general' => 'Unable to create or update the room.']);
+            }
+        }
     }
 
     /**
@@ -206,7 +311,32 @@ class RoomController extends Controller
     }
 
     public function remove_room_media(Request $request){
-        dd($request->all());
+        
+        if($request->type != "tour" && $request->type != "gallery") {
+            return response()->json(["error" => "Invalid type-".$request->type], 400);
+        }        
+        
+        $room = Room::find($request->room);
 
+        if(!isset($room->id)){
+            return response()->json(["error" => "Room not found"], 400);
+        }else{
+            if($request->type == "tour"){
+                $room->update(['tour_video' => null]);
+                return response()->json(["success" => "Tour video removed successfully."]);
+            }elseif($request->type == "gallery"){
+                $galleryImages = json_decode($room->gallery_img);
+                $filteredImages = array_filter($galleryImages, function ($image) use ($request) {
+                    return $image !== $request->media;
+                });
+            
+                $room->gallery_img = json_encode(array_values($filteredImages));
+                $room->save();
+
+                return response()->json(["success" => "Gallery image removed successfully."]);
+            }else{
+                return response()->json(["error" => "Unable to remove media. "], 400);
+            }
+        }
     }
 }

@@ -291,7 +291,7 @@
                     <div class="row">
                         <div class="col-xxl-4">
                             <h5 class="mb-3 card-title">Room Services</h5>
-                            <p class="text-muted">Room Services refers to the Services you provide with the room price.</p>
+                            <p class="text-muted">Room Services refers to the facilities you provide with the room price.</p>
                         </div>
                         <div class="col-xxl-8">
                             <div class="mb-3">

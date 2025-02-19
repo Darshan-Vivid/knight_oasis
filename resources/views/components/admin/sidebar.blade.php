@@ -37,16 +37,13 @@
                         <div class="collapse menu-dropdown" id="sidebarBlogs">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
-                                    <a href="{{ route('blogs.create') }}" class="nav-link"
-                                        data-key="t-products">Add Blogs</a>
+                                    <a href="{{ route('blogs.create') }}" class="nav-link">Add Blogs</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('blogs.index') }}" class="nav-link"
-                                        data-key="t-products-grid">All Blogs</a>
+                                    <a href="{{ route('blogs.index') }}" class="nav-link">All Blogs</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('blog_categories.index') }}" class="nav-link"
-                                        data-key="t-products-grid">Categories</a>
+                                    <a href="{{ route('blog_categories.index') }}" class="nav-link">Categories</a>
                                 </li>
                             </ul>
                         </div>
@@ -61,20 +58,38 @@
                         <div class="collapse menu-dropdown" id="sidebarRooms">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
-                                    <a href="{{ route('rooms.create') }}" class="nav-link"
-                                        data-key="t-products">Add Rooms</a>
+                                    <a href="{{ route('rooms.create') }}" class="nav-link">Add Rooms</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('rooms.index') }}" class="nav-link"
-                                        data-key="t-products">All Rooms</a>
+                                    <a href="{{ route('rooms.index') }}" class="nav-link">All Rooms</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('amenities.index') }}" class="nav-link"
-                                        data-key="t-products-grid">Amenities</a>
+                                    <a href="{{ route('amenities.index') }}" class="nav-link">Amenities</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('services.index') }}" class="nav-link"
-                                        data-key="t-products-grid">Services</a>
+                                    <a href="{{ route('services.index') }}" class="nav-link">Services</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <!-- BOOKINGS -->
+                    <li class="nav-item">
+                        <a href="#sidebarBookings" class="nav-link menu-link collapsed" data-bs-toggle="collapse"
+                            role="button" aria-expanded="false" aria-controls="sidebarBookings">
+                            <i class=" ri-calendar-check-fill"></i><span>Bookings</span>
+                        </a>
+                        <div class="collapse menu-dropdown" id="sidebarBookings">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="{{ route('view.manual_booking') }}" class="nav-link">Manual Booking</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="collapse menu-dropdown" id="sidebarBookings">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="{{ route('view.transactions') }}" class="nav-link">Transactions</a>
                                 </li>
                             </ul>
                         </div>
@@ -122,5 +137,6 @@
         <div class="sidebar-background"></div>
     </div>
     <!-- Left Sidebar End -->
+    
     <!-- Vertical Overlay-->
     <div class="vertical-overlay"></div>
