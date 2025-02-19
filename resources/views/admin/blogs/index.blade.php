@@ -28,10 +28,8 @@
                     <table id="fixed-header" class="table align-middle table-bordered dt-responsive nowrap table-striped" style="width:100%">
                         <thead>
                             <tr>
-                                <th>IMAGE</th>
                                 <th>TITLE</th>
                                 <th>CATEGORIES</th>
-                                <th>DESCRIPTION</th>
                                 <th>ACTIONS</th>
                             </tr>
                         </thead>
@@ -39,18 +37,6 @@
                             @if (isset($blog))
                                 @foreach ($blog as $b)
                                 <tr>
-                                    <td class="products">
-                                        <div class="d-flex align-items-center">
-                                            <div class="p-1 rounded avatar-xs bg-light me-2">
-                                                <img src="{{ asset($b->image) }}" alt="{{ $b->title }}"
-                                                    class="img-fluid d-block">
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-0"><a href="#"
-                                                        class="text-reset products">{{ $b->title }}</a></h6>
-                                            </div>
-                                        </div>
-                                    </td>
                                     <td>{{ \Illuminate\Support\Str::limit($b->title, 80, '...') }}</td>
                                     <td>
                                         @if ($b->categories->isNotEmpty())
@@ -61,7 +47,6 @@
                                             <span class="text-muted">No Categories</span>
                                         @endif
                                     </td>                                    
-                                    <td>{{ \Illuminate\Support\Str::limit(strip_tags($b->description), 150, '.....') }}</td>
                                     <td><div class="dropdown position-static">
                                         <button class="btn btn-subtle-secondary btn-sm btn-icon" role="button"
                                             data-bs-toggle="dropdown" aria-expanded="false">
