@@ -115,7 +115,7 @@ $(document).ready(function () {
         var media_url = $this.data("media");
         var admin_url = parent_div.data("url");
         var rid = parent_div.data("id");
-        var token = parent_div.data("token");
+        var token = $('meta[name="csrf-token"]').attr('content');
         var media_type = parent_div.data("type");
         
         $.ajax({
@@ -146,4 +146,38 @@ $(document).ready(function () {
             }
         });
     });
+
+    $("#booking_room_type").on('change', function() {
+        $('.booking_form_services').prop('checked', false).prop('disabled', false);
+        get_room_services();
+    });
+    
+    function get_room_services(){
+        let $this = $("#booking_room_type");
+        var token = $('meta[name="csrf-token"]').attr('content');
+        let room_id =  $this.val();
+
+        let ajax_url = $('#get_room_services_url').data('url');
+
+        if(room_id !== null){
+            $.ajax({
+                url: ajax_url,
+                type: "POST",
+                data: {
+                    rid : room_id,
+                    _token: token
+                },
+                dataType: "json",
+                success: function (response) {
+                    if (Array.isArray(response) && response.length > 0) {
+                        response.forEach(function (id) {
+                            $('.booking_form_services[value="' + id + '"]').prop('checked', true).prop('disabled', true);
+                        });
+                    }
+                }
+            });
+        }
+    }
+    get_room_services();
+
 });

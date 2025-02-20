@@ -34,13 +34,13 @@
                         @enderror
                     </div>
 
-                    <div class="mb-3">
+                    {{-- <div class="mb-3">
                         <label for="quantity" class="form-label">Service Quantity<span class="text-danger">*</span></label>
                         <input type="number" name="quantity" id="quantity" class="form-control @error('quantity') is-invalid @enderror" placeholder="Enter number of quantity" value="{{ $edit_service->quantity ?? '' }}" required>
                         @error('quantity')
                             <div class="invalid-response" style="display:flex">{{ $message }}</div>
                         @enderror
-                    </div>
+                    </div> --}}
 
                     <div class="mb-3">
                         <label for="price" class="form-label">Service Price/unit<span class="text-danger">*</span></label>
@@ -98,8 +98,8 @@
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Name</th>
-                                <th scope="col">Price/unit</th>
-                                <th scope="col">Quantity</th>
+                                <th scope="col">Price/service</th>
+                                {{-- <th scope="col">Quantity</th> --}}
                                 <th scope="col">status</th>
                                 <th scope="col">Action</th>
                             </tr>
@@ -111,7 +111,7 @@
                                         <td class="fw-medium">{{ $service->id }}</td>
                                         <td>{{ $service->name }}</td>
                                         <td>{{ $service->price }}</td>
-                                        <td>{{ $service->quantity }}</td>
+                                        {{-- <td>{{ $service->quantity }}</td> --}}
                                         <td>
                                             @if($service->status == 1)
                                                 <span class="badge bg-success">enabled</span>

@@ -30,11 +30,17 @@
 
                     <!-- BLOGS -->
                     <li class="nav-item">
-                        <a href="#sidebarBlogs" class="nav-link menu-link collapsed" data-bs-toggle="collapse"
-                            role="button" aria-expanded="false" aria-controls="sidebarBlogs">
-                            <i class="ri-profile-line"></i><span>Blogs</span>
-                        </a>
-                        <div class="collapse menu-dropdown" id="sidebarBlogs">
+                        @if(Route::is('blogs.*') || Route::is('blog_categories.*'))
+                            <a href="#sidebarBlogs" class="nav-link menu-link" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarBlogs">
+                                <i class="ri-profile-line"></i><span>Blogs</span>
+                            </a>
+                            <div class="menu-dropdown" id="sidebarBlogs">
+                        @else
+                            <a href="#sidebarBlogs" class="nav-link menu-link collapsed" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarBlogs">
+                                <i class="ri-profile-line"></i><span>Blogs</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="sidebarBlogs">
+                        @endif
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
                                     <a href="{{ route('blogs.create') }}" class="nav-link">Add Blogs</a>
@@ -51,11 +57,17 @@
 
                     <!-- ROOMS -->
                     <li class="nav-item">
-                        <a href="#sidebarRooms" class="nav-link menu-link collapsed" data-bs-toggle="collapse"
-                            role="button" aria-expanded="false" aria-controls="sidebarRooms">
-                            <i class=" ri-home-8-line"></i><span>Rooms</span>
-                        </a>
-                        <div class="collapse menu-dropdown" id="sidebarRooms">
+                        @if(Route::is('rooms.*') || Route::is('amenities.*') || Route::is('services.*'))
+                            <a href="#sidebarRooms" class="nav-link menu-link" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarRooms">
+                                <i class=" ri-home-8-line"></i><span>Rooms</span>
+                            </a>
+                            <div class="menu-dropdown" id="sidebarRooms">
+                        @else
+                            <a href="#sidebarRooms" class="nav-link menu-link collapsed" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarRooms">
+                                <i class=" ri-home-8-line"></i><span>Rooms</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="sidebarRooms">
+                        @endif
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
                                     <a href="{{ route('rooms.create') }}" class="nav-link">Add Rooms</a>
@@ -75,24 +87,29 @@
 
                     <!-- BOOKINGS -->
                     <li class="nav-item">
-                        <a href="#sidebarBookings" class="nav-link menu-link collapsed" data-bs-toggle="collapse"
-                            role="button" aria-expanded="false" aria-controls="sidebarBookings">
-                            <i class=" ri-calendar-check-fill"></i><span>Bookings</span>
-                        </a>
-                        <div class="collapse menu-dropdown" id="sidebarBookings">
-                            <ul class="nav nav-sm flex-column">
-                                <li class="nav-item">
-                                    <a href="{{ route('view.manual_booking') }}" class="nav-link">Manual Booking</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="collapse menu-dropdown" id="sidebarBookings">
-                            <ul class="nav nav-sm flex-column">
-                                <li class="nav-item">
-                                    <a href="{{ route('view.transactions') }}" class="nav-link">Transactions</a>
-                                </li>
-                            </ul>
-                        </div>
+                        @if(Route::is('view.offline_booking') || Route::is('view.bookings') || Route::is('view.transactions') || Route::is('view.booking') || Route::is('edit.booking') )
+                            <a href="#sidebarBookings" class="nav-link menu-link" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarBookings">
+                                <i class=" ri-calendar-check-fill"></i><span>Bookings</span>
+                            </a>
+                            <div class="menu-dropdown" id="sidebarBookings">
+                        @else
+                            <a href="#sidebarBookings" class="nav-link menu-link collapsed" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarBookings">
+                                <i class=" ri-calendar-check-fill"></i><span>Bookings</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="sidebarBookings">
+                        @endif
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="{{ route('view.offline_booking') }}" class="nav-link">Offline Booking</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('view.bookings') }}" class="nav-link">Bookings</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('view.transactions') }}" class="nav-link">Transactions</a>
+                                    </li>
+                                </ul>
+                            </div>
                     </li>
 
                     <!-- MEDIA -->
@@ -122,7 +139,7 @@
                         </a>
                     </li>
 
-                    <!-- SETTINGS -->
+                    <!-- Users -->
                     <li class="nav-item">
                         <a href="{{ route('view.users') }}/" class="nav-link menu-link collapsed" >
                             <i class="ph-user-circle"></i><span>Users</span>

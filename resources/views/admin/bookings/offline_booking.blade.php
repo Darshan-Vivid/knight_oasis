@@ -1,18 +1,18 @@
-<x-admin.header :title="'Manual Booking'" />
+<x-admin.header :title="'Offline Booking'" />
 
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header d-flex align-items-center">
                 <div class="flex-grow-1">
-                    <h5 class="mb-4 card-title">Manual Booking</h5>
+                    <h5 class="mb-4 card-title">Offline Booking</h5>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<form class="store-blogs" action="{{ route('manual_booking.save') }}" method="POST" enctype="multipart/form-data">
+<form class="store-blogs" action="{{ route('offline_booking.save') }}" method="POST" enctype="multipart/form-data">
     @csrf
 
     <div class="row">
@@ -78,17 +78,17 @@
                         <div class="gap-4 col-xxl-8 d-flex">
 
                             <div class="mb-3">
-                                <label for="chack_in" class="form-label">Check In Date<span class="text-danger">*</span></label>
-                                <input type="date" name="chack_in" id="chack_in" class="form-control @error('chack_in') is-invalid @enderror" placeholder="Enter date of chack-in" value="{{ old('chack_in') }}" required>
-                                @error('chack_in')
+                                <label for="check_in" class="form-label">Check In Date<span class="text-danger">*</span></label>
+                                <input type="date" name="check_in" id="check_in" class="form-control @error('check_in') is-invalid @enderror" placeholder="Enter date of check-in" value="{{ old('check_in') }}" required>
+                                @error('check_in')
                                     <span class="form-error-message text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
 
                             <div class="mb-3">
-                                <label for="chack_out" class="form-label">Check Out Date<span class="text-danger">*</span></label>
-                                <input type="date" name="chack_out" id="chack_out" class="form-control @error('chack_out') is-invalid @enderror" placeholder="Enter date of chack-out" value="{{ old('chack_out') }}" required>
-                                @error('chack_out')
+                                <label for="check_out" class="form-label">Check Out Date<span class="text-danger">*</span></label>
+                                <input type="date" name="check_out" id="check_out" class="form-control @error('check_out') is-invalid @enderror" placeholder="Enter date of check-out" value="{{ old('check_out') }}" required>
+                                @error('check_out')
                                     <span class="form-error-message text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -154,8 +154,8 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="room_type" class="form-label">Type<span class="text-danger">*</span></label>
-                                <select class="mb-3 form-select @error('room_type') is-invalid @enderror" name="room_type" id="room_type" required>
+                                <label for="booking_room_type" class="form-label">Type<span class="text-danger">*</span></label>
+                                <select class="mb-3 form-select @error('room_type') is-invalid @enderror" name="room_type" id="booking_room_type" required>
                                     <option selected disabled>Select Room Type</option>
                                     @forelse ($rooms as $room)
                                         <option value="{{ $room->id }}" {{ old('room_type') == $room->id ? 'selected': ''}} >{{ $room->name }}</option>
@@ -192,7 +192,7 @@
                                         @if($service->status == 1)
                                             <div class="form-check">
                                                 <input
-                                                    class="form-check-input"
+                                                    class="form-check-input booking_form_services"
                                                     type="checkbox"
                                                     name="services[]"
                                                     value="{{ $service->id }}"
@@ -229,7 +229,8 @@
                                 <select class="mb-3 form-select @error('pay_method') is-invalid @enderror" name="pay_method" id="pay_method" required>
                                     <option selected disabled>Select Payment Method</option>
                                     @foreach ($pay_methods as $pay_method)
-                                        <option value="{{ $pay_method }}" {{ old('pay_method') == $pay_method ? 'selected': ''}} >{{ $pay_method }}</option>
+                                        {{-- <option value="{{ $pay_method }}" {{ old('pay_method') == $pay_method ? 'selected': ''}} >{{ $pay_method }}</option> --}}
+                                        <option value="{{ $pay_method }}" selected >{{ $pay_method }}</option>
                                     @endforeach
                                 </select>
                                 @error('pay_method')
@@ -277,6 +278,8 @@
             </div>
         </div>
     </div>
+
+    <div class="d-none" id="get_room_services_url" data-url="{{ route('rooms.services') }}"></div>
 
     <div class="gap-2 mb-4 hstack justify-content-end">
         <button type="submit" class="btn btn-primary">Submit</button>

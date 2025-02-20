@@ -59,12 +59,18 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/settings', [AdminController::class, 'show_settings'])->name('view.settings');
         Route::post('/settings', [AdminController::class, 'save_settings'])->name('settings.save');
         
-        Route::get('/manual-booking', [BookingController::class, 'show_manual_booking'])->name('view.manual_booking');
-        Route::post('/manual-booking', [BookingController::class, 'store_manual_booking'])->name('manual_booking.save');
+        Route::get('/offline-booking', [BookingController::class, 'show_offline_booking'])->name('view.offline_booking');
+        Route::post('/offline-booking', [BookingController::class, 'store_offline_booking'])->name('offline_booking.save');
         
-        Route::post('/remove-room-media',[ RoomController::class , 'remove_room_media'])->name('rooms.media.remove');
+        Route::get('/transactions', [BookingController::class, 'show_transactions'])->name('view.transactions');
+        Route::get('/bookings', [BookingController::class, 'show_bookings'])->name('view.bookings');
+
+        Route::get('/booking/{id}', [BookingController::class, 'show_single_booking'])->name('view.booking');
+        Route::get('/booking/{id}/edit', [BookingController::class, 'edit_booking'])->name('edit.booking');
+        
         Route::get('/users', [AdminController::class, 'show_users'])->name('view.users');
-        Route::get('/transactions', [AdminController::class, 'show_transactions'])->name('view.transactions');
+        Route::post('/remove-room-media',[ RoomController::class , 'remove_room_media'])->name('rooms.media.remove');
+        Route::post('/room-wise-services',[ RoomController::class , 'room_wise_services'])->name('rooms.services');
         Route::get('/routes', [RedirectController::class, 'routeList']);           //route list table
     });
 });

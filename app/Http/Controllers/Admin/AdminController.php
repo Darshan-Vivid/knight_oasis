@@ -113,9 +113,6 @@ class AdminController extends Controller
         $users = User::whereDoesntHave('roles', fn($q) => $q->where('name', 'admin'))->get();
         return view('admin.users.all')->with(["users"=>$users]);
     }
-    public function show_transactions(){
-        $transactions = Transaction::all();
-        return view('admin.bookings.transactions')->with(["transactions"=>$transactions]);
-    }
+   
     
 }

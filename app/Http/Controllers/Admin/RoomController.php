@@ -339,4 +339,10 @@ class RoomController extends Controller
             }
         }
     }
+
+    public function room_wise_services(Request $request){
+        $room = Room::findOrFail($request->rid);
+        $services = json_decode($room->service, true);
+        return response()->json($services);
+    }
 }

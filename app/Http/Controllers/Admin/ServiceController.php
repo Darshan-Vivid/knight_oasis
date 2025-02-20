@@ -34,15 +34,15 @@ class ServiceController extends Controller
     {
         $rules = [
             'service' => 'required|min:2',
-            'quantity' => 'required|integer|min:0',
+            // 'quantity' => 'required|integer|min:0',
             'price' => 'required|integer|min:0',
         ];
         $messages = [
             'service.required' => 'The name is required.',
             'service.min' => 'The name must be at least 2 characters.',
-            'quantity.required' => 'The quantity is required.',
-            'quantity.integer' => 'The quantity must be a valid integer.',
-            'quantity.min' => 'The quantity must be at least 0.',
+            // 'quantity.required' => 'The quantity is required.',
+            // 'quantity.integer' => 'The quantity must be a valid integer.',
+            // 'quantity.min' => 'The quantity must be at least 0.',
             'price.required' => 'The price is required.',
             'price.integer' => 'The price must be a valid integer.',
             'price.min' => 'The price must be at least 0.',
@@ -59,7 +59,8 @@ class ServiceController extends Controller
                 $service = new Service;
                 $service->name = $request->service;
                 $service->status = $request->status;
-                $service->quantity = $request->quantity;
+                // $service->quantity = $request->quantity;
+                $service->quantity = 1;
                 $service->price = $request->price;
                 $service->save();
             }
