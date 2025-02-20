@@ -29,7 +29,7 @@
         $guest['name'] = $g->name;  
         $guest['email'] = $g->email;
         $guest['phone'] = $g->mobile;
-        $guest['address'] = $g->state.", "$g->country;
+        $guest['address'] = $g->state.", ".$g->country;
         $is_user = true;
     } elseif (strlen($g->name > 0)) {
         $guest['name'] = $g->name;  
