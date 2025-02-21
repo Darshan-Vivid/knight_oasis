@@ -37,10 +37,13 @@ Route::post('/states', [AuthController::class, 'getStates'])->name("get.states")
 
 
 //User
-Route::get('/', [RedirectController::class, 'show_user'])->name('view.dashboard');
+Route::get('/', [RedirectController::class, 'show_home'])->name('view.home');
+Route::get('/rooms', [RedirectController::class, 'show_rooms'])->name('view.rooms');
+Route::get('/room/{id}', [RedirectController::class, 'show_room'])->name('view.room');
 
 Route::get('/blog', [BlogController::class, 'view_blog'])->name('view.blog');
 Route::get('/blog/{slug}', [BlogController::class, 'blog_list'])->name('blog.list');
+Route::get('/check-vailability', [BookingController::class, 'checkRoomAvailability'])->name('view.bookings');
 
 
 //admin panel
@@ -66,7 +69,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/bookings', [BookingController::class, 'show_bookings'])->name('view.bookings');
 
         Route::get('/booking/{id}', [BookingController::class, 'show_single_booking'])->name('view.booking');
-        Route::get('/booking/{id}/edit', [BookingController::class, 'edit_booking'])->name('edit.booking');
+        // Route::get('/booking/{id}/edit', [BookingController::class, 'edit_booking'])->name('view.edit_booking');
+        // Route::post('/booking/{id}/edit', [BookingController::class, 'save_edit_booking'])->name('edit_booking.save');
         
         Route::get('/users', [AdminController::class, 'show_users'])->name('view.users');
         Route::post('/remove-room-media',[ RoomController::class , 'remove_room_media'])->name('rooms.media.remove');

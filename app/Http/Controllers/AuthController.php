@@ -148,7 +148,7 @@ class AuthController extends Controller
             // return view('auth.reset_password');
         } else {
 
-            return redirect()->route('view.dashboard')->with([
+            return redirect()->route('view.home')->with([
                 'success' => true,
                 'message' => 'Email and OTP verified successfully.'
             ]);
@@ -183,7 +183,7 @@ class AuthController extends Controller
             if($user->hasRole('admin')){
                 return redirect()->route('view.admin.dashboard');
             }else{
-                return redirect()->route('view.dashboard');
+                return redirect()->route('view.home');
             }
 
         }
@@ -194,7 +194,7 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('view.dashboard')->with([
+        return redirect()->route('view.home')->with([
             'success' => true,
             'message' => 'Log-out successful!'
         ]);

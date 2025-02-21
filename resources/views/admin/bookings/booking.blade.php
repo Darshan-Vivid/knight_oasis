@@ -55,7 +55,7 @@
                                 <td>{{ $guest_name }}</td>
                                 <td>{{ date("d-m-Y", strtotime($booking->check_in)) }}</td>
                                 <td>{{ date("d-m-Y", strtotime($booking->check_out)) }}</td>
-                                <td>{{ $r_name }} X({{ $booking->room_count }})</td>
+                                <td>{{ $r_name }}({{ $booking->room_count }})</td>
                                 <td>{{ $p_amount }}</td>
                                 <td>{{ $booking->updated_at }}</td>
                                 <td>
@@ -65,7 +65,7 @@
                                             <i class="bi bi-three-dots-vertical"></i>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end">
-                                            <li><a class="dropdown-item edit-item-btn" href="{{ route('edit.booking' , $booking->id) }}" ><i class="align-middle ph-pencil me-1"></i>Edit</a></li>
+                                            {{-- <li><a class="dropdown-item edit-item-btn" href="{{ route('view.edit_booking' , $booking->id) }}" ><i class="align-middle ph-pencil me-1"></i>Edit</a></li> --}}
                                             <li><a class="dropdown-item remove-item-btn" href="{{ route('view.booking' , $booking->id) }}"><i class="align-middle ri-pages-line me-1"></i> View</a></li>
                                         </ul>
                                     </div>

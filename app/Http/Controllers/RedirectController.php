@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Booking;
+use App\Models\Room;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -34,9 +37,22 @@ class RedirectController extends Controller
         }
     }
 
-    public function show_user(){
+    public function show_home(){
         $user = Auth::user();
-        return view('dashboard')->with(["user"=>$user]);
+        $rooms = Room::all();
+        return view('home')->with(["user"=>$user,"rooms"=>$rooms]);
+    }
+
+    public function show_rooms(){
+        $rooms = Room::all();
+        return view('rooms')->with(["rooms"=>$rooms]);
+    }
+
+    public function show_room($id){
+
+        $room = Room::findOrFail($id);
+        $services = Service::where('status' , '=', '1')->get();
+        return view('room')->with(["room"=>$room,"services"=>$services,]);
     }
 
     public function routeList($methods = null)

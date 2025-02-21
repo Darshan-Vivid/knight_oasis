@@ -190,102 +190,26 @@
                 <h3 class="ko-subtitle">Our Rooms</h3>
                 <h2 class="ko-title">Accomodation</h2>
                 <div class="ko-accomodation-cards-wrap">
-                    <div class="ko-accomodation-card">
-                        <div class="ko-accomodation-inner-card">
-                            <div class="ko-accomodation-graphic">
-                                <img src="/assets/images/room-img.webp" alt="room-img" />
+                    @if(count($rooms)> 0)
+                        @foreach ($rooms as $room)
+                            <div class="ko-accomodation-card">
+                                <div class="ko-accomodation-inner-card">
+                                    <div class="ko-accomodation-graphic">
+                                        <img src="{{ asset($room->feature_img) }}" alt="room-img" />
+                                    </div>
+                                    <div class="ko-accomodation-card-content">
+                                        <h2>{{ $room->name }}</h2>
+                                        <ul class="ko-accomodation-list">
+                                            <li>{{ $room->allowd_guests }} Guests</li>
+                                            <li>{{ $room->size }} Feets Size</li>
+                                            <li>₹{{ $room->offer_price }} </li>
+                                        </ul>
+                                    </div>
+                                    <a class="ko-accomodation-btn" href="{{ route('view.room', $room->id ) }}">Book Now</a>
+                                </div>
                             </div>
-                            <div class="ko-accomodation-card-content">
-                                <h2>Presidential Suite</h2>
-                                <ul class="ko-accomodation-list">
-                                    <li>2 Guests</li>
-                                    <li>35 Feets Size</li>
-                                    <li>$199</li>
-                                </ul>
-                            </div>
-                            <a class="ko-accomodation-btn" href="#">Book Now</a>
-                        </div>
-                    </div>
-                    <div class="ko-accomodation-card">
-                        <div class="ko-accomodation-inner-card">
-                            <div class="ko-accomodation-graphic">
-                                <img src="/assets/images/room2-img.webp" alt="room-img" />
-                            </div>
-                            <div class="ko-accomodation-card-content">
-                                <h2>Presidential Suite</h2>
-                                <ul class="ko-accomodation-list">
-                                    <li>2 Guests</li>
-                                    <li>35 Feets Size</li>
-                                    <li>$199</li>
-                                </ul>
-                            </div>
-                            <a class="ko-accomodation-btn" href="#">Book Now</a>
-                        </div>
-                    </div>
-                    <div class="ko-accomodation-card">
-                        <div class="ko-accomodation-inner-card">
-                            <div class="ko-accomodation-graphic">
-                                <img src="/assets/images/room-img.webp" alt="room-img" />
-                            </div>
-                            <div class="ko-accomodation-card-content">
-                                <h2>Presidential Suite</h2>
-                                <ul class="ko-accomodation-list">
-                                    <li>2 Guests</li>
-                                    <li>35 Feets Size</li>
-                                    <li>$199</li>
-                                </ul>
-                            </div>
-                            <a class="ko-accomodation-btn" href="#">Book Now</a>
-                        </div>
-                    </div>
-                    <div class="ko-accomodation-card">
-                        <div class="ko-accomodation-inner-card">
-                            <div class="ko-accomodation-graphic">
-                                <img src="/assets/images/room2-img.webp" alt="room-img" />
-                            </div>
-                            <div class="ko-accomodation-card-content">
-                                <h2>Presidential Suite</h2>
-                                <ul class="ko-accomodation-list">
-                                    <li>2 Guests</li>
-                                    <li>35 Feets Size</li>
-                                    <li>$199</li>
-                                </ul>
-                            </div>
-                            <a class="ko-accomodation-btn" href="#">Book Now</a>
-                        </div>
-                    </div>
-                    <div class="ko-accomodation-card">
-                        <div class="ko-accomodation-inner-card">
-                            <div class="ko-accomodation-graphic">
-                                <img src="/assets/images/room-img.webp" alt="room-img" />
-                            </div>
-                            <div class="ko-accomodation-card-content">
-                                <h2>Presidential Suite</h2>
-                                <ul class="ko-accomodation-list">
-                                    <li>2 Guests</li>
-                                    <li>35 Feets Size</li>
-                                    <li>$199</li>
-                                </ul>
-                            </div>
-                            <a class="ko-accomodation-btn" href="#">Book Now</a>
-                        </div>
-                    </div>
-                    <div class="ko-accomodation-card">
-                        <div class="ko-accomodation-inner-card">
-                            <div class="ko-accomodation-graphic">
-                                <img src="/assets/images/room2-img.webp" alt="room-img" />
-                            </div>
-                            <div class="ko-accomodation-card-content">
-                                <h2>Presidential Suite</h2>
-                                <ul class="ko-accomodation-list">
-                                    <li>2 Guests</li>
-                                    <li>35 Feets Size</li>
-                                    <li>$199</li>
-                                </ul>
-                            </div>
-                            <a class="ko-accomodation-btn" href="#">Book Now</a>
-                        </div>
-                    </div>
+                        @endforeach
+                    @endif
                 </div>
             </div>
         </section>

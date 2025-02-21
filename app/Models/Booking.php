@@ -25,6 +25,7 @@ class Booking extends Model
         'children',
         'room_count',
         'room_id',
+        'extra_beds',
         'services',
         'total_cost',
         'transaction_id',

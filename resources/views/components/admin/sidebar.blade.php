@@ -87,7 +87,7 @@
 
                     <!-- BOOKINGS -->
                     <li class="nav-item">
-                        @if(Route::is('view.offline_booking') || Route::is('view.bookings') || Route::is('view.transactions') || Route::is('view.booking') || Route::is('edit.booking') )
+                        @if(Route::is('view.offline_booking') || Route::is('view.bookings') || Route::is('view.transactions') || Route::is('view.booking') || Route::is('view.edit_booking') )
                             <a href="#sidebarBookings" class="nav-link menu-link" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarBookings">
                                 <i class=" ri-calendar-check-fill"></i><span>Bookings</span>
                             </a>

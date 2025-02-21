@@ -86,7 +86,27 @@
                                     <td>{{ $booking->room_count   }}</td>
                                     <td class="fw-medium text-end">₹{{ $room->price * $booking->room_count }}</td>
                                 </tr>
+                                @if ($booking->extra_beds > 0)
+                                    @php
+                                        $total_amount += $room->bed_price * $booking->extra_beds;
+                                    @endphp
+                                    <tr>
+                                        <td>
+                                            <div class="product-item d-flex align-items-center gap-2">
+                                                <div class="flex-grow-1">
+                                                    <h6 class="fs-md"><a class="text-reset">Extra Beds</a></h6>
+                                                    <p class="text-muted mb-0"><a lass="text-reset">Additional</a></p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>₹{{ $room->bed_price }}</td>
+                                        <td>{{ $booking->extra_beds   }}</td>
+                                        <td class="fw-medium text-end">₹{{ $room->bed_price * $booking->extra_beds }}</td>
+                                    </tr>
+                                    
+                                @endif
                             @endif
+                            
                             @if (count(json_decode($booking->services))>0)
                                 @foreach (json_decode($booking->services) as $s_id)
                                     @php

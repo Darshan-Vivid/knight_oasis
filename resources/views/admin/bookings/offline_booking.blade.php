@@ -181,6 +181,30 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-xxl-4">
+                            <h5 class="mb-3 card-title">Extras</h5>
+                            <p class="text-muted">Extras refers to the additional numbers of items guest wants while booking.</p>
+                        </div>
+                        <div class="gap-4 col-xxl-8">
+                            <div class="mb-3">
+                                <label for="extra_beds" class="form-label">Beds<span class="text-danger">*</span></label>
+                                <input type="number" name="extra_beds" id="extra_beds" class="form-control @error('extra_beds') is-invalid @enderror" placeholder="Enter the number of extra beds" value="{{ old('extra_beds',0) }}" required>
+                                @error('extra_beds')
+                                    <span class="form-error-message text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xxl-4">
                             <h5 class="mb-3 card-title">Services</h5>
                             <p class="text-muted">Services refers to the facilities you provide to the guest.</p>
                         </div>
@@ -283,7 +307,7 @@
 
     <div class="gap-2 mb-4 hstack justify-content-end">
         <button type="submit" class="btn btn-primary">Submit</button>
-        <button type="reset" class="btn btn-danger">Cancel</button>
+        <a href="{{ url()->previous() }}" class="btn btn-danger">Cancel</a>
     </div>
 
 </form>

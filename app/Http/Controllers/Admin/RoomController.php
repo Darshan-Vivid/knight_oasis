@@ -26,8 +26,8 @@ class RoomController extends Controller
      */
     public function create()
     {
-        $amenities = Amenity::all();
-        $services = Service::all();
+        $amenities = Amenity::where('status' , '=', '1')->get();
+        $services = Service::where('status' , '=', '1')->get();
 
         return view('admin.rooms.create')->with(['amenities'=>$amenities,'services'=>$services]);
     }
@@ -48,6 +48,7 @@ class RoomController extends Controller
             'size' => 'required|integer|min:0',
             'bed_quantity' => 'required|integer|min:0',
             'bed_name' => 'required|string|min:1',
+            'bed_price' => 'required|integer|min:0',
             'amenities' => 'array',
             'services' => 'array',
             'featured_image' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
@@ -84,6 +85,9 @@ class RoomController extends Controller
             'bed_name.required' => 'Bed name is required.',
             'bed_name.string' => 'Bed name must be a valid string.',
             'bed_name.min' => 'Bed name must be at least 1 character.',
+            'bed_price.required' => 'Bed price is required.',
+            'bed_price.integer' => 'Bed price must be a valid number.',
+            'bed_price.min' => 'Bed price cannot be negative.',
             'amenities.array' => 'Amenities must be an array.',
             'services.array' => 'Services must be an array.',
             'featured_image.required' => 'A featured image is required.',
@@ -126,8 +130,10 @@ class RoomController extends Controller
                 'allowd_guests' => $request->allowd_guests,
                 'size' => $request->size,
                 'beds' => json_encode(["quentity"=>$request->bed_quantity,'name'=>$request->bed_name]),
+                'bed_price' => $request->bed_price,
                 'amenities' => json_encode($request->amenities),
                 'service' => json_encode($request->services),
+                'features' => $request->features ?? null,
                 'feature_img' => $featuredImageUrl,
                 'gallery_img' => json_encode($galleryImageUrls),
                 'tour_video' => $tourVideoUrl,
@@ -180,8 +186,8 @@ class RoomController extends Controller
     public function edit(string $id)
     {
         $room = Room::findOrFail($id);
-        $amenities = Amenity::all();
-        $services = Service::all();
+        $amenities = Amenity::where('status' , '=', '1')->get();
+        $services = Service::where('status' , '=', '1')->get();
 
         return view('admin.rooms.edit')->with(['room'=>$room,'amenities'=>$amenities,'services'=>$services]);
     }
@@ -202,6 +208,7 @@ class RoomController extends Controller
             'size' => 'required|integer|min:0',
             'bed_quantity' => 'required|integer|min:0',
             'bed_name' => 'required|string|min:1',
+            'bed_price' => 'required|integer|min:0',
             'amenities' => 'array',
             'services' => 'array',
             'featured_image' => 'image|mimes:jpeg,png,jpg,webp|max:2048',
@@ -238,6 +245,9 @@ class RoomController extends Controller
             'bed_name.required' => 'Bed name is required.',
             'bed_name.string' => 'Bed name must be a valid string.',
             'bed_name.min' => 'Bed name must be at least 1 character.',
+            'bed_price.required' => 'Bed price is required.',
+            'bed_price.integer' => 'Bed price must be a valid number.',
+            'bed_price.min' => 'Bed price cannot be negative.',
             'amenities.array' => 'Amenities must be an array.',
             'services.array' => 'Services must be an array.',
             'featured_image.image' => 'The featured image must be a valid image file.',
@@ -284,8 +294,10 @@ class RoomController extends Controller
                 'allowd_guests' => $request->allowd_guests,
                 'size' => $request->size,
                 'beds' => json_encode(["quentity" => $request->bed_quantity, 'name' => $request->bed_name]),
+                'bed_price' => $request->bed_price,
                 'amenities' => json_encode($request->amenities),
                 'service' => json_encode($request->services),
+                'features' => $request->features ?? null,
                 'feature_img' => $featuredImageUrl ?? $room->feature_img, 
                 'gallery_img' => json_encode($galleryImageUrls),
                 'tour_video' => $tourVideoUrl ?? $room->tour_video,

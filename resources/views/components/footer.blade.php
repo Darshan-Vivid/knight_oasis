@@ -19,9 +19,10 @@
                             @endphp
                             @if (!empty($s_media))
                                 @foreach ($s_media as $index => $media)
-                                    <li><a href="{{ $media->link }}" target="_blank"><img src="{{ $media->icon }}" ></img></svg></a></li>
-                                    @endforeach
-                                    @endif
+                                    <li><a href="{{ $media->link }}" target="_blank"><img
+                                                src="{{ $media->icon }}"></img></svg></a></li>
+                                @endforeach
+                            @endif
                         </ul>
                     </div>
                 </div>
@@ -39,10 +40,20 @@
         </div>
     </div>
 </footer>
+
+<button class="scrollToTopBtn">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff"
+        class="size-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
+    </svg>
+</button>
+
 <div class="loader-wrap">
     <span class="loader"></span>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
 <script src="{{ URL::asset('assets/js/custom-script.js') }}"></script>
 </body>
+
 </html>

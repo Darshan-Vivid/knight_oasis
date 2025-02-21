@@ -256,8 +256,20 @@
                                     <span class="form-error-message text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
+                            <div class="mb-3">
+                                <label for="bed_price" class="form-label">Bed Price/Bed<span class="text-danger">*</span></label>
+                                <div class="gap-2">
+                                    <div class="input-group">
+                                        <span class="input-group-text">₹</span>
+                                        <input type="number" name="bed_price" id="bed_price" class="form-control @error('bed_price') is-invalid @enderror" placeholder="Enter price for extra beds" min="0" value="{{ old('bed_price', $room->bed_price) }}" required>
+                                        <span class="input-group-text">.00</span>
+                                    </div>
+                                </div>
+                                @error('bed_price')
+                                <span class="form-error-message text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -316,22 +328,45 @@
                                 <label class="form-label">Select Services <span class="text-danger">*</span></label>
                                 <div class="flex-wrap gap-3">
                                     @forelse ($services as $service)
-                                        @if($service->status == 1)
-                                            <div class="form-check">
-                                                <input
-                                                    class="form-check-input"
-                                                    type="checkbox"
-                                                    name="services[]"
-                                                    value="{{ $service->id }}"
-                                                    {{ in_array($service->id, old('services',$edit_services)) ? 'checked' : '' }}
-                                                >
-                                                <label class="form-check-label" for="services">{{ $service->name }}</label>
-                                            </div>
-                                        @endif
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                name="services[]"
+                                                value="{{ $service->id }}"
+                                                {{ in_array($service->id, old('services',$edit_services)) ? 'checked' : '' }}
+                                            >
+                                            <label class="form-check-label" for="services">{{ $service->name }}</label>
+                                        </div>
                                     @empty
                                         <div class="form-check"> No services found </div>
                                     @endforelse
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xxl-4">
+                            <h5 class="mb-3 card-title">Room Features</h5>
+                            <p class="text-muted">Room Features refers to the description of features related to the room.</p>
+                        </div>
+                        <div class="col-xxl-8">
+                            <div class="mb-3">
+                                <label class="form-label">Room Features</label>
+                                <textarea name="features" id="features" placeholder="Enter room features" rows="5"
+                                    class="myeditor form-control @error('features') is-invalid @enderror">{{ old('features',$room->features) }}</textarea>
+                                @error('features')
+                                    <span class="form-error-message text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -456,8 +491,21 @@
             <div class="invalid-response" style="display:flex">{{ $message }}</div>
         @enderror
         <button type="submit" class="btn btn-primary">Submit</button>
-        <button type="reset" class="btn btn-danger">Cancel</button>
+        <a href="{{ url()->previous() }}" class="btn btn-danger">Cancel</a>
     </div>
 </form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        tinymce.init({
+            selector: "#features",
+            height: 300,
+            menubar: false,
+            plugins: "advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table help",
+            toolbar: "undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help",
+            content_style: "body { font-family: Arial, sans-serif; font-size: 14px; }",
+        });
+    });
+</script>
 
 <x-admin.footer />
