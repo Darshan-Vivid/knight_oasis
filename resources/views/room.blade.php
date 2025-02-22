@@ -56,13 +56,13 @@
                                         <h4 class="ko-com-title">Room Amenities</h4>
                                         <ul class="ko-room-amenities-list">
                                             @foreach ($amenities as $aid)
-                                                                    @php
-                                                                        $amenity = App\Models\Amenity::find($aid);
-                                                                    @endphp
-                                                                    @if ($amenity->id)
-                                                                        <li><img src="{{ $amenity->icon }}" width="35" height="35" class="mr-3" />
-                                                                            {{ $amenity->name }}</li>
-                                                                    @endif
+                                                @php
+                                                    $amenity = App\Models\Amenity::find($aid);
+                                                @endphp
+                                                @if ($amenity->id)
+                                                    <li><img src="{{ $amenity->icon }}" width="35" height="35" class="mr-3" />
+                                                        {{ $amenity->name }}</li>
+                                                @endif
                                             @endforeach
                                         </ul>
                                     </div>
@@ -85,17 +85,30 @@
                     @endif
 
 
-                    <div class="ko-availability-calendar">
+                    {{-- <div class="ko-availability-calendar">
                         <h4 class="ko-com-title">Availability Calendar</h4>
                         <div id="reservationDate"></div>
-                        
-                    </div>
+                    </div> --}}
+                    
                 </div>
                 <div class="ko-deluxe-reserve">
-                    <form action="#" method="post">
+                    <form action="#" method="post" id="ko_booking_form">
+                        @csrf
+
                         <div class="ko-reserve-title">
                             <h2 class="ko-resecomm-title">Reserve</h2>
                             <p>From <del>₹{{ $room->price }}</del> <strong>₹{{ $room->offer_price }}</strong> night</p>
+                        </div>
+
+                        <div class="ko-booking-date-control">
+                            <div class="ko-form-group">
+                                <h6 class="field-label">Check In</h6>
+                                <input type="date" id="booking-data-check_in" class="booking-date-picker form-control" name="check_in" value="{{ old('check_in') }}">
+                            </div>
+                            <div class="ko-form-group">
+                                <h6 class="field-label">Check Out</h6>
+                                <input type="date" id="booking-data-check_out" class="booking-date-picker form-control" name="check_out" value="{{ old('check_out') }}">
+                            </div>
                         </div>
 
                         <div class="ko-room-control">
@@ -103,7 +116,7 @@
                                 <h4>Adult</h4>
                                 <div class="ko-selector-wrap qty-container">
                                     <span class="ko-count-minus room-control-btn qty-btn-minus">-</span>
-                                    <input type="text" class="ko-count input-qty" value="0" />
+                                    <input type="text" class="ko-count input-qty" id="booking-data-adults" name="adults" value="{{ old('adults',0) }}" />
                                     <span class="ko-count-plus room-control-btn qty-btn-plus">+</span>
                                 </div>
                             </div>
@@ -111,7 +124,7 @@
                                 <h4>Children</h4>
                                 <div class="ko-selector-wrap qty-container">
                                     <span class="ko-count-minus room-control-btn qty-btn-minus">-</span>
-                                    <input type="text" class="ko-count input-qty" value="0" />
+                                    <input type="text" class="ko-count input-qty" id="booking-data-children" name="children" value="{{ old('children',0) }}" />
                                     <span class="ko-count-plus room-control-btn qty-btn-plus">+</span>
                                 </div>
                             </div>
@@ -119,7 +132,7 @@
                                 <h4>Rooms</h4>
                                 <div class="ko-selector-wrap qty-container">
                                     <span class="ko-count-minus room-control-btn qty-btn-minus">-</span>
-                                    <input type="text" class="ko-count input-qty" value="0" />
+                                    <input type="text" class="ko-count input-qty" id="booking-data-quantity" name="quantity"  value="{{ old('quantity',0) }}" />
                                     <span class="ko-count-plus room-control-btn qty-btn-plus">+</span>
                                 </div>
                             </div>
@@ -127,7 +140,7 @@
                                 <h4>Extra Bed</h4>
                                 <div class="ko-selector-wrap qty-container">
                                     <span class="ko-count-minus room-control-btn qty-btn-minus">-</span>
-                                    <input type="text" class="ko-count input-qty" value="0" />
+                                    <input type="text" class="ko-count input-qty" id="booking-data-extra_beds" name="extra_beds"  value="{{ old('extra_beds',0) }}" />
                                     <span class="ko-count-plus room-control-btn qty-btn-plus">+</span>
                                 </div>
                             </div>
@@ -140,14 +153,12 @@
                                     @foreach ($services as $service)
                                         <li>
                                             <div class="ko-check-wrap">
-                                                <input class="form-check-input" type="checkbox" name="services[]"
-                                                    value="{{ $service->id }}" data-price="{{ $service->price }}" />
+                                                <input type="checkbox" class="form-check-input" id="booking-data-services" name="services[]" value="{{ $service->id }}" data-price="{{ $service->price }}" {{ in_array($service->id, old('services', [])) ? 'checked' : '' }} />
                                                 <label for="btncheck">{{ $service->name }}</label>
                                             </div>
-                                            <p>₹{{ $service->price }} </p>
+                                            <p>₹{{ $service->price }}</p>
                                         </li>
                                     @endforeach
-
                                 </ul>
                             </div>
 
@@ -157,6 +168,8 @@
                             <h2 class="ko-resecomm-title">Total Cost</h2>
                             <p class="ko-resecomm-title">₹<span>0</span></p>
                         </div>
+
+                        <input type="hidden" name="room_id" id="booking-data-hiddens" value="{{ $room->id}}" data-url="{{ route('view.bookings') }}"/>
                         <button type="submit" class="ko-btn ko-book-btn" id="ko-book-form-sumbit" >Book Your Stay</button>
                     </form>
                 </div>
@@ -165,6 +178,7 @@
     </section>
 </main>
 
+{{-- 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
   flatpickr("#reservationDate", {
@@ -183,6 +197,6 @@
     }         
   });
 
-</script>
+</script> --}}
 
 <x-footer />

@@ -1,16 +1,48 @@
 $(document).ready(function () {
     hide_loader();
-});
 
-/* booking form */
-document.getElementById("ko-book-form-sumbit").addEventListener("click", function (event) {
-  event.preventDefault();
-  if (selectedDates.length === 2) {
-    console.log("Start Date:", selectedDates[0].toISOString().split('T')[0]);
-    console.log("End Date:", selectedDates[1].toISOString().split('T')[0]);
-  } else {
-    console.log("Please select a full date range.");
-  }
+    /* booking form */
+    $("#ko_booking_form").on("submit", function (e) {
+        e.preventDefault();
+        var check_in = $("#booking-data-check_in").val();
+        var check_out = $("#booking-data-check_out").val();
+        var quantity = $("#booking-data-quantity").val();
+        var room_id = $("#booking-data-hiddens").val();
+        var ajax_url = $("#booking-data-hiddens").data('url');
+        var token = $('meta[name="csrf-token"]').attr('content');
+
+        // $.ajax({
+        //     url: ajax_url,
+        //     type: "POST",
+        //     data: {
+        //         media: media_url,
+        //         room : rid,
+        //         type : media_type,
+        //         _token: token
+        //     },
+        //     success: function (response) {
+        //         if (response.success) {
+        //         mediaElement.fadeOut(300, function () {$(this).remove();});
+        //     } else {
+        //         alert("Unexpected response received.");
+        //     }
+        //     },
+        //     error: function (xhr) {
+        //         let errorMessage = "ERROR : ";
+        //         let response = JSON.parse(xhr.responseText);
+        //         if (response.error) {
+        //             errorMessage += response.error;
+        //         } else {
+        //             errorMessage += "Unknown error occurred.";
+        //         }
+        //         alert(errorMessage);
+        //     }
+        // });
+
+
+
+
+    });
 });
 
 /* Header JS start */

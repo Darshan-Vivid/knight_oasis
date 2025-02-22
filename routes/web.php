@@ -43,7 +43,7 @@ Route::get('/room/{id}', [RedirectController::class, 'show_room'])->name('view.r
 
 Route::get('/blog', [BlogController::class, 'view_blog'])->name('view.blog');
 Route::get('/blog/{slug}', [BlogController::class, 'blog_list'])->name('blog.list');
-Route::get('/check-vailability', [BookingController::class, 'checkRoomAvailability'])->name('view.bookings');
+Route::post('/check-availability', [BookingController::class, 'checkRoomAvailability'])->name('view.bookings');
 
 
 //admin panel
