@@ -514,17 +514,6 @@ select.ko-loginRegister-control{cursor: pointer;outline: none;appearance: none;b
 .ko-room-features-list li{ position: relative; font-size: 16px; line-height: 26px; font-family: var(--font-jost); color: var(--paraGray-color); padding-left: 20px; }
 .ko-room-features-list li::before{ position: absolute; content: ''; width: 14px; height: 14px; top: 50%; transform: translateY(-50%); left: 0; background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGFyaWEtaGlkZGVuPSJ0cnVlIiBjbGFzcz0iZS1mb250LWljb24tc3ZnIGUtZmFzLWNoZWNrIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+PHBhdGggZD0iTTE3My44OTggNDM5LjQwNGwtMTY2LjQtMTY2LjRjLTkuOTk3LTkuOTk3LTkuOTk3LTI2LjIwNiAwLTM2LjIwNGwzNi4yMDMtMzYuMjA0YzkuOTk3LTkuOTk4IDI2LjIwNy05Ljk5OCAzNi4yMDQgMEwxOTIgMzEyLjY5IDQzMi4wOTUgNzIuNTk2YzkuOTk3LTkuOTk3IDI2LjIwNy05Ljk5NyAzNi4yMDQgMGwzNi4yMDMgMzYuMjA0YzkuOTk3IDkuOTk3IDkuOTk3IDI2LjIwNiAwIDM2LjIwNGwtMjk0LjQgMjk0LjQwMWMtOS45OTggOS45OTctMjYuMjA3IDkuOTk3LTM2LjIwNC0uMDAxeiIgZmlsbD0iIzA0N0NDMSIvPjwvc3ZnPg=="); background-repeat: no-repeat; background-size: cover; }
 
-
-/* booking dates */
-.ko-booking-date-control{display: grid; grid-template-columns: repeat(2, 1fr); -moz-column-gap: 10px; column-gap: 10px }
-.ko-booking-date-control .ko-form-group { text-align: center; padding: 10px; margin-bottom: 0; }
-.ko-booking-date-control .ko-form-group  h6.field-label{ font-family: var(--font-marcellus); font-size: 14px; margin: 0; color: var(--white-color); font-weight: var(--font-marcellus); margin-bottom: 5px; }
-.ko-booking-date-control .ko-form-group .booking-date-picker { border-radius: 0; padding: 10px; border: 1px solid var(--white-color); text-align: center }
-
-@media (max-width:767px) {
-    .ko-booking-date-control { grid-template-columns: repeat(1, 1fr) }
-}
-
 /* deluxe reserve */
 .ko-deluxe-reserve{ width: 40%; background-color: var(--black-color); padding: 35px 45px; }
 /* reserve title */
@@ -680,8 +669,21 @@ textarea.ko-form-control{ height: 178px; resize: vertical; }
 .ko-aboutus-htgallery .ko-tit{ text-align: center; }
 /* ------------------- about us section end ------------------- */
 
-
-
+.ko-booking-date-control{display: flex;flex-wrap: wrap;}
+.ko-booking-date-control .ko-form-group { width: 45%;flex-grow: 1; text-align: center; padding: 10px; margin-bottom: 0; }
+.ko-booking-date-control .ko-form-group  h6.field-label{ font-family: var(--font-marcellus); font-size: 14px; margin: 0; color: var(--white-color); font-weight: var(--font-marcellus); margin-bottom: 5px; }
+.ko-booking-date-control .ko-form-group .booking-date-picker { border-radius: 0; padding: 10px; border: 1px solid var(--white-color); text-align: center }
+.ko-booking-date-control .ko-form-group .form-control{background: transparent;color: #ffffff;}
+.ko-btn.loading{display: flex;gap: 8px;justify-content: center; position: relative;}
+.ko-btn.loading::after{content:"";width: 20px;height: 20px;border: 2px solid #FFF;border-bottom-color: #047CC1;border-radius: 50%;display: inline-block;box-sizing: border-box;animation: rotation 1s linear infinite;}
+@keyframes rotation {
+	0% {
+	    transform: rotate(0deg);
+	}
+	100% {
+	    transform: rotate(360deg);
+	}
+}
 
 
 
@@ -923,6 +925,7 @@ textarea.ko-form-control{ height: 178px; resize: vertical; }
     .ko-romfacility-graphic img:last-child{ margin-bottom: 0px; margin-top: 30px; }
     .ko-romfacility-graphic img{ width: 100%; padding: 0 0; }
     .ko-romfacility-graphic{ margin: 0; }
+    .ko-booking-date-control .ko-form-group{width: 100%;}
 }
 
 @media(max-width: 480px){

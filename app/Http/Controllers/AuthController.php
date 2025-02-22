@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\AbandonedCart;
 use App\Models\Country;
+use App\Models\User;
 use App\Mail\OTPMail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -85,6 +87,12 @@ class AuthController extends Controller
             $user->otp_expires_at = Carbon::now()->addMinutes(30);
             $user->save();
             $user->assignRole('user');
+
+
+            if(Session::get('abandoned_cart')){
+                $acid = Session::get('abandoned_cart');
+                AbandonedCart::where('id', $acid)->update(['user_id' => $user->id]);
+            }
 
             $mailData = [
                 'email' => $user->email,
@@ -180,6 +188,12 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials, $remember)) {
             $user = Auth::user();
+
+            if(Session::get('abandoned_cart')){
+                $acid = Session::get('abandoned_cart');
+                AbandonedCart::where('id', $acid)->update(['user_id' => $user->id]);
+            }
+
             if($user->hasRole('admin')){
                 return redirect()->route('view.admin.dashboard');
             }else{

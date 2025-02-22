@@ -1,49 +1,79 @@
 $(document).ready(function () {
     hide_loader();
 
+    /* booking qty inc */
+    $(".qty-btn-plus").click(function () {
+        const container = $(this).closest(".qty-container"); 
+        const inputQty = container.find(".input-qty");
+        inputQty.val(Number(inputQty.val()) + 1);
+
+        updateGrandTotal();
+    });
+
+    /* booking qty dec*/
+    $(".qty-btn-minus").click(function () {
+        const container = $(this).closest(".qty-container");
+        const inputQty = container.find(".input-qty");
+        const amount = Number(inputQty.val());
+        if (amount > 0) {
+            inputQty.val(amount - 1);
+        }
+
+        updateGrandTotal();
+    });
+
+    $('#booking-data-check_in, #booking-data-check_out').on('change', updateGrandTotal);
+
+    $('.ko-check-wrap input[type="checkbox"]').on('change', updateGrandTotal);
+
     /* booking form */
+    let isSubmitting = false; // Flag to prevent multiple submissions
+
     $("#ko_booking_form").on("submit", function (e) {
         e.preventDefault();
-        var check_in = $("#booking-data-check_in").val();
-        var check_out = $("#booking-data-check_out").val();
-        var quantity = $("#booking-data-quantity").val();
-        var room_id = $("#booking-data-hiddens").val();
+
+        // Prevent multiple submissions
+        if (isSubmitting) return;
+
+        var cin = $("#booking-data-check_in").val();
+        var cout = $("#booking-data-check_out").val();
+        var qty = $("#booking-data-quantity");
+        var rid = $("#booking-data-hiddens").val();
         var ajax_url = $("#booking-data-hiddens").data('url');
         var token = $('meta[name="csrf-token"]').attr('content');
+        var submit_btn = $('#ko-book-form-sumbit');
+        var error = $(".invalid-response");
 
-        // $.ajax({
-        //     url: ajax_url,
-        //     type: "POST",
-        //     data: {
-        //         media: media_url,
-        //         room : rid,
-        //         type : media_type,
-        //         _token: token
-        //     },
-        //     success: function (response) {
-        //         if (response.success) {
-        //         mediaElement.fadeOut(300, function () {$(this).remove();});
-        //     } else {
-        //         alert("Unexpected response received.");
-        //     }
-        //     },
-        //     error: function (xhr) {
-        //         let errorMessage = "ERROR : ";
-        //         let response = JSON.parse(xhr.responseText);
-        //         if (response.error) {
-        //             errorMessage += response.error;
-        //         } else {
-        //             errorMessage += "Unknown error occurred.";
-        //         }
-        //         alert(errorMessage);
-        //     }
-        // });
+        submit_btn.prop('disabled', true).addClass('loading').text("Checking Date..");
 
-
-
-
+        $.ajax({
+            url: ajax_url,
+            type: "POST",
+            data: {
+                room_id: rid,
+                check_in: cin,
+                check_out: cout,
+                quantity: qty.val(),
+                _token: token
+            },
+            success: function (response) {
+                if (response.status == 1) {
+                    isSubmitting = true;
+                    $("#ko_booking_form")[0].submit();
+                } else {
+                    error.css("display", "block").text(response.message);
+                    qty.attr('data-disable', '1');
+                }
+            },
+            error: function (xhr) {
+                console.error("Submission error:", xhr);
+            }
+        });
+        submit_btn.prop('disabled', false).removeClass('loading').text("Book Your Stay");
     });
+
 });
+
 
 /* Header JS start */
 document.addEventListener("touchmove", Scroll, false);
@@ -127,27 +157,35 @@ if (loginPassEl != null) {
     });
 }
 
-const buttonPlus = document.querySelectorAll(".qty-btn-plus");
-const buttonMinus = document.querySelectorAll(".qty-btn-minus");
+function updateGrandTotal() {
+    let roomPrice = parseFloat($('#booking-data-quantity').data('price')) || 0;
+    let roomQuantity = parseInt($('#booking-data-quantity').val()) || 0;
+    let bedPrice = parseFloat($('#booking-data-extra_beds').data('price')) || 0;
+    let extraBeds = parseInt($('#booking-data-extra_beds').val()) || 0;
+    var checkIn = $('#booking-data-check_in').val();
+    var checkOut = $('#booking-data-check_out').val();
+    let total = 0;
 
-buttonPlus.forEach((button) => {
-    button.addEventListener("click", function () {
-        const container = this.closest(".qty-container");
-        const inputQty = container.querySelector(".input-qty");
-        inputQty.value = Number(inputQty.value) + 1;
-    });
-});
+    if (checkIn && checkOut) {
+        var checkInDate = new Date(checkIn);
+        var checkOutDate = new Date(checkOut);
+        var timeDiff = checkOutDate - checkInDate;
+        var dayGap = Math.floor(timeDiff / (1000 * 60 * 60 * 24)) + 1;
+        var days = dayGap > 0 ? dayGap : 1;
 
-buttonMinus.forEach((button) => {
-    button.addEventListener("click", function () {
-        const container = this.closest(".qty-container");
-        const inputQty = container.querySelector(".input-qty");
-        const amount = Number(inputQty.value);
-        if (amount > 0) {
-            inputQty.value = amount - 1;
-        }
-    });
-});
+        $('input[name="services[]"]:checked:not(:disabled)').each(function() {
+            let servicePrice = parseFloat($(this).data('price')) || 0;
+            total += servicePrice;
+        });
+        
+        total += roomPrice * roomQuantity;
+        total += bedPrice * extraBeds;
+        
+        var grand_total = days * total;
+        
+        $('#booking-grand-total').text(grand_total.toFixed(0));
+    }
+}
 
 function Scroll() {
     var mainElementPosition = document.querySelector(".site-header");

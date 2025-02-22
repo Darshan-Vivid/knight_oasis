@@ -40,10 +40,14 @@ Route::post('/states', [AuthController::class, 'getStates'])->name("get.states")
 Route::get('/', [RedirectController::class, 'show_home'])->name('view.home');
 Route::get('/rooms', [RedirectController::class, 'show_rooms'])->name('view.rooms');
 Route::get('/room/{id}', [RedirectController::class, 'show_room'])->name('view.room');
+Route::post('/check-availability', [BookingController::class, 'checkRoomAvailability'])->name('check.availability');
+Route::post('/book-stay', [BookingController::class, 'book_stay'])->name('book.stay');
+
+Route::get('/cart', [BookingController::class, 'show_cart'])->name('view.cart');
+
 
 Route::get('/blog', [BlogController::class, 'view_blog'])->name('view.blog');
 Route::get('/blog/{slug}', [BlogController::class, 'blog_list'])->name('blog.list');
-Route::post('/check-availability', [BookingController::class, 'checkRoomAvailability'])->name('view.bookings');
 
 
 //admin panel

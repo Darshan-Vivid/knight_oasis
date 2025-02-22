@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
+use DateTime;
 use App\Http\Controllers\Controller;
+use App\Models\AbandonedCart;
 use App\Models\Booking;
 use App\Models\Room;
 use App\Models\Service;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Carbon\CarbonPeriod;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -60,7 +64,7 @@ class BookingController extends Controller
             'room_count' => 'required|integer|min:0',
             'room_type' => 'required|integer',
             'extra_beds' => 'required|integer|min:0',
-            'services' => 'nullable|array',
+            'services' => 'nullable',
             'pay_method' => 'required|string',
             'total_amount' => 'required|numeric|min:0',
             'guest_note' => 'nullable|string|max:1000',
@@ -87,7 +91,6 @@ class BookingController extends Controller
             'room_type.required' => 'Please select a valid room type.',
             'extra_beds.required' => 'Please enter a valid number or 0.',
             'extra_beds.integer' => 'Quantity should 0 or more',
-            'services.array' => 'Services must be an array.',
             'pay_method.required' => 'Please select a payment method.',
             'total_amount.required' => 'Total amount is required.',
             'total_amount.numeric' => 'Total amount must be a valid number.',
@@ -166,7 +169,7 @@ class BookingController extends Controller
             'children' => 'nullable|integer|min:0',
             'room_count' => 'required|integer|min:0',
             'room_type' => 'required|integer',
-            'services' => 'nullable|array',
+            'services' => 'nullable',
             'guest_note' => 'nullable|string|max:1000',
         ];
 
@@ -190,7 +193,6 @@ class BookingController extends Controller
             'room_count.min' => 'Room count cannot be negative.',
             'room_type.required' => 'Please select a room type.',
             'room_type.integer' => 'Room type must be a valid ID.',
-            'services.array' => 'Services must be an array.',
             'guest_note.string' => 'Guest note must be a valid text.',
             'guest_note.max' => 'Guest note cannot exceed 1000 characters.',
         ];
@@ -230,12 +232,38 @@ class BookingController extends Controller
 
     public function checkRoomAvailability(Request $request)
     {
-        $request->validate([
+        $rules = [
             'room_id' => 'required|integer|exists:rooms,id',
-            'check_in' => 'required|date',
+            'check_in' => 'required|date|after_or_equal:today',
             'check_out' => 'required|date|after_or_equal:check_in',
             'quantity' => 'required|integer|min:1',
-        ]);
+        ];
+
+        $messages = [
+            "room_id.*"=>"Unable to find room.",
+            "check_in.required"=> "Check In date is required.",
+            "check_in.date"=> "Check In must be a valid date.",
+            "check_in.after_or_equal"=>"Check In must not be older than today.",
+            "check_out.required"=> "Check Out date is required.",
+            "check_out.date"=> "Check Out must be a valid date.",
+            "check_out."=>"Check Out must not be older than Check In date.",
+            "quantity.required" => "Room Quantity is required",
+            "quantity.integer" => "Room Quantity must be in a valid number",
+            "quantity.min" => "At least 1 room require for process booking "
+        ];
+
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        
+        if ($validator->fails()) {
+            $errorMessages = $validator->errors()->all();
+            $firstError = $errorMessages[0] ?? 'Validation failed.';
+        
+            return response()->json([
+                'status' => 0,
+                'message' => $firstError
+            ]);
+        }
 
         $roomId = $request->room_id;
         $checkIn = $request->check_in;
@@ -267,11 +295,145 @@ class BookingController extends Controller
             $roomsBooked = $reservedRooms[$dateString] ?? 0;
 
             if ($roomsBooked + $requestedQuantity > $totalRooms) {
-                return response()->json(['status' => 0, 'message' => 'Booking Denied. Not enough rooms available.']);
+                return response()->json(['status' => 0, 'message' => 'Not enough rooms available between this dates.']);
             }
         }
 
         return response()->json(['status' => 1, 'message' => 'Booking Allowed. Rooms are available.']);
     }
 
+    public function book_stay(Request $request){
+        $rules = [
+            'check_in' => 'required|date|after_or_equal:today',
+            'room_id' => 'required|integer|exists:rooms,id',
+            'check_out' => 'required|date|after_or_equal:check_in',
+            'quantity' => 'required|integer|min:1',
+            'adults' => 'required|integer|min:1',
+            'children' => 'nullable|integer|min:0',
+            'extra_beds' => 'nullable|integer|min:0',
+            'services' => 'nullable',
+        ];
+
+        $messages = [
+            "room_id.*"=>"Unable to find room.",
+            "check_in.required"=> "Check In date is required.",
+            "check_in.date"=> "Check In must be a valid date.",
+            "check_in.after_or_equal"=>"Check In must not be older than today.",
+            "check_out.required"=> "Check Out date is required.",
+            "check_out.date"=> "Check Out must be a valid date.",
+            "check_out."=>"Check Out must not be older than Check In date.",
+            "quantity.required" => "Room Quantity is required",
+            "quantity.integer" => "Room Quantity must be in a valid number",
+            "quantity.min" => "At least 1 room require for process booking ",
+            "adults.required" => "At least 1 adult person is required",
+            "adults.integer" => "Adults must be in a valid number",
+            "adults.min" => "At least 1 adult person is required ",
+            "children.integer" => "Children must be in a valid number",
+            "children.min" => "Children count cannot be negative",
+            "extra_beds.integer" => "Extra Beds must be in a valid number",
+            "extra_beds.min" => "Extra Beds count cannot be negative",
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }else{
+
+            $roomId = $request->room_id;
+            $checkIn = $request->check_in;
+            $checkOut = $request->check_out;
+            $requestedQuantity = $request->quantity;
+
+            $room = Room::find($roomId);
+            $totalRooms = $room->quantity;
+
+            if($requestedQuantity > $totalRooms){
+                return redirect()->back() ->withErrors(['general' => 'We do not have your requested quantity of rooms']);
+            }
+
+            $bookings = Booking::where('room_id', $roomId)->get();
+
+            $reservedRooms = [];
+
+            foreach ($bookings as $booking) {
+                $period = CarbonPeriod::create( $booking->check_in->format('Y-m-d'), $booking->check_out->format('Y-m-d') );
+
+                foreach ($period as $date) {
+                    $dateString = $date->format('Y-m-d');
+                    $reservedRooms[$dateString] = ($reservedRooms[$dateString] ?? 0) + $booking->room_count;
+                }
+            }
+
+            $requestedPeriod = CarbonPeriod::create($checkIn, $checkOut);
+            foreach ($requestedPeriod as $date) {
+                $dateString = $date->format('Y-m-d');
+                $roomsBooked = $reservedRooms[$dateString] ?? 0;
+
+                if ($roomsBooked + $requestedQuantity > $totalRooms) {
+                    return redirect()->back() ->withErrors(['general' =>'Not enough rooms available between this dates.']);
+                }
+            }
+
+            $ac = new AbandonedCart;
+            
+            if(Auth::check()){
+                $user = Auth::user();
+                $ac->user_id = $user->id;
+            }
+
+            $ac->check_in = $request->check_in ;
+            $ac->check_out = $request->check_out ;
+            $ac->adults = $request->adults ;
+            $ac->children = $request->children ?? 0 ;
+            $ac->room_id = $request->room_id ;
+            $ac->room_count = $request->quantity ;
+            $ac->extra_beds = $request->extra_beds ?? 0 ;
+            $ac->services = (isset($request->services) && count($request->services)>0) ? json_encode($request->services) : "[]";
+
+            $check_in = new DateTime($request->check_in);
+            $check_out = new DateTime($request->check_out);
+
+            $interval = $check_in->diff($check_out);
+
+            $days = $interval->days + 1;
+
+            $total = $room->offer_price * $request->quantity;
+            
+            if($request->extra_beds > 0){
+                $total += $room->bed_price * $request->extra_beds;
+            }
+
+            if(isset($request->services) && count($request->services)>0){
+                foreach($request->services as $sid){
+                    $service = Service::find($sid);
+                    if(isset($service->id) && $service->status == 1){
+                        $total += $service->price;
+                    }else{
+                        return redirect()->back() ->withErrors(['general' =>'One of your selected services we cannot provide. ']);
+                    }
+                }
+            } 
+
+            $grand_total = $total * $days;
+
+            $ac->total_cost = $grand_total;
+
+            $ac->save();
+
+
+            if($ac->id){
+                Session::put('abandoned_cart', $ac->id);
+
+                return redirect()->route('view.cart');
+            }else{
+                return redirect()->back() ->withErrors(['general' =>'Unable to process your request.']);
+            }
+        }
+    }
+
+    public function show_cart(){
+
+        return view('cart')->with(["items"=>null]);
+    }
 }
