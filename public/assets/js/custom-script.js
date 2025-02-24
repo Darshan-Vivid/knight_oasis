@@ -1,38 +1,63 @@
 $(document).ready(function () {
     hide_loader();
 
-    /* booking qty inc */
-    $(".qty-btn-plus").click(function () {
-        const container = $(this).closest(".qty-container"); 
-        const inputQty = container.find(".input-qty");
-        inputQty.val(Number(inputQty.val()) + 1);
+    /* cart page js start */
+    $("#ko_cart_room_count_inc").click(function (e) {
+        e.preventDefault();
+        var counter = $("#ko_cart_room_count");
+        counter.val(Number(counter.val())+1);
+        update_cart_page_price();
 
-        updateGrandTotal();
     });
 
-    /* booking qty dec*/
-    $(".qty-btn-minus").click(function () {
-        const container = $(this).closest(".qty-container");
-        const inputQty = container.find(".input-qty");
-        const amount = Number(inputQty.val());
-        if (amount > 0) {
-            inputQty.val(amount - 1);
+    $("#ko_cart_room_count_dec").click(function (e) {
+        e.preventDefault();
+        var counter = $("#ko_cart_room_count");
+        if(Number(counter.val()) > 1){
+            counter.val(Number(counter.val())-1);
+            update_cart_page_price();
         }
-
-        updateGrandTotal();
     });
 
-    $('#booking-data-check_in, #booking-data-check_out').on('change', updateGrandTotal);
+    $("#ko_cart_remove_room").click(function (e) {
+        e.preventDefault();
+        $(this).css('opacity','0.5');
 
-    $('.ko-check-wrap input[type="checkbox"]').on('change', updateGrandTotal);
+        ajax_url = $(this).data('url');
+        var token = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            url: ajax_url,
+            type: "POST",
+            data: {
+                _token: token
+            },
+            success: function (response) {
+                if (response.redirect_url) {
+                    window.location.href = response.redirect_url; 
+                }
+            },
+            error: function (xhr) {
+                console.error("Submission error:", xhr);
+            }
+        });
+    });
 
-    /* booking form */
-    let isSubmitting = false; // Flag to prevent multiple submissions
+    $('#account_with_hotel').change(function() {
+        if ($(this).is(':checked')) {
+            $('[name="customer_note"]').css('display', 'block');
+        } else {
+            $('[name="customer_note"]').css('display', 'none');
+        }
+    });
+
+    /* cart page js end */
+
+    /* booking page js start */
+    let isSubmitting = false;
 
     $("#ko_booking_form").on("submit", function (e) {
         e.preventDefault();
 
-        // Prevent multiple submissions
         if (isSubmitting) return;
 
         var cin = $("#booking-data-check_in").val();
@@ -71,6 +96,31 @@ $(document).ready(function () {
         });
         submit_btn.prop('disabled', false).removeClass('loading').text("Book Your Stay");
     });
+
+    $(".qty-btn-plus").click(function () {
+        const container = $(this).closest(".qty-container"); 
+        const inputQty = container.find(".input-qty");
+        inputQty.val(Number(inputQty.val()) + 1);
+
+        updateGrandTotal();
+    });
+
+    $(".qty-btn-minus").click(function () {
+        const container = $(this).closest(".qty-container");
+        const inputQty = container.find(".input-qty");
+        const amount = Number(inputQty.val());
+        if (amount > 0) {
+            inputQty.val(amount - 1);
+        }
+
+        updateGrandTotal();
+    });
+
+    $('#booking-data-check_in, #booking-data-check_out').on('change', updateGrandTotal);
+
+    $('.ko-check-wrap input[type="checkbox"]').on('change', updateGrandTotal);
+
+    /* booking page js end */
 
 });
 
@@ -157,6 +207,59 @@ if (loginPassEl != null) {
     });
 }
 
+/* signup js start */
+$('#country_code').select2({
+    placeholder: "Search country code...",
+    allowClear: true,
+    width: '100%'
+});
+
+$('#country_code').change(function() {
+    get_states();
+    var countryCode = $("#country_code option:selected").data("country-code");
+    $('#ko-register-mobile').val(countryCode);
+});
+
+function get_states(){
+    const ajax_url = $("#country_code").data('url');
+    var token = $('meta[name="csrf-token"]').attr('content');
+    var countryName = $("#country_code").val();
+    var countryCode = $("#country_code option:selected").data("country-code");
+    var state = $('#state');
+    var oldState = state.data('value');
+    state.empty();
+    state.append('<option value="" disabled selected>Please select state</option>');
+
+
+    if (countryCode && countryName) {
+        $.ajax({
+            url: ajax_url,
+            type: 'post',
+            data: {
+                country_code: countryCode,
+                country_name: countryName,
+                _token: token,
+            },
+            dataType: 'json',
+            success: function(data) {
+
+                $.each(data, function(key, value) {
+                    var selected = (key == oldState) ? 'selected' : '';
+                    state.append('<option value="' + key + '" ' + selected + '>' + value + '</option>');
+                });
+            },
+            error: function() {
+                console.log('Error fetching states');
+            }
+        });
+    }
+}
+
+/* signup js end */
+
+
+
+
 function updateGrandTotal() {
     let roomPrice = parseFloat($('#booking-data-quantity').data('price')) || 0;
     let roomQuantity = parseInt($('#booking-data-quantity').val()) || 0;
@@ -235,4 +338,27 @@ function hide() {
 
 function hide_loader() {
     $(".loader-wrap").css("display", "none");
+}
+
+function update_cart_page_price(){
+    var count = $('#ko_cart_room_count').val();
+    var ct = $('#ko_cart_cost_total');
+    var gt = $('#ko_cart_grand_total');
+    var st = $('#ko_cart_sub_total');
+    var data = $('#cart-data-hiddens');
+
+    var checkInDate = new Date(data.data('c_in'));
+    var checkOutDate = new Date(data.data('c_out'));
+    var timeDiff = checkOutDate - checkInDate;
+    var dayGap = Math.floor(timeDiff / (1000 * 60 * 60 * 24)) + 1;
+    var days = dayGap > 0 ? dayGap : 1;
+
+    let room_charges = Number(data.data('rp')) * days;
+    let twrc = Number(data.data('total_cost')) - room_charges;
+    let total = twrc + (count * Number(data.data('rp')) * days);
+
+    ct.text(total);
+    gt.text(total);
+    st.text(total);
+
 }

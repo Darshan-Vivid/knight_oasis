@@ -44,6 +44,11 @@ Route::post('/check-availability', [BookingController::class, 'checkRoomAvailabi
 Route::post('/book-stay', [BookingController::class, 'book_stay'])->name('book.stay');
 
 Route::get('/cart', [BookingController::class, 'show_cart'])->name('view.cart');
+Route::post('/cart', [BookingController::class, 'store_cart'])->name('cart.store');
+Route::post('/cart/romove/{id}', [BookingController::class, 'remove_item'])->name('cart.remove_item');
+
+Route::get('/checkout', [BookingController::class, 'show_checkout'])->name('view.checkout');
+Route::post('/checkout', [BookingController::class, 'checkout'])->name('checkout');
 
 
 Route::get('/blog', [BlogController::class, 'view_blog'])->name('view.blog');

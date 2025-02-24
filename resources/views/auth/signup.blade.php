@@ -38,8 +38,8 @@
 
                             <div class="ko-col-6">
                                 <div class="ko-loginRegister-grp">
-                                    <label for="mobile">Country Code <sup>*</sup></label>
-                                    <select name="country" id="country_code" class="ko-loginRegister-control">
+                                    <label for="country">Country Code <sup>*</sup></label>
+                                    <select name="country" id="country_code" data-url="{{ route(name: "get.states") }}" class="ko-loginRegister-control">
                                         <option value="Please select country code" disabled selected>Please select country code</option>
                                         @foreach ($countries as $country)
                                             <option
@@ -58,7 +58,7 @@
                             </div>
                             <div class="ko-col-6">
                                 <div class="ko-loginRegister-grp">
-                                    <label for="email">Phone Number<sup>*</sup></label>
+                                    <label for="mobile">Phone Number<sup>*</sup></label>
                                     <input type="tel"
                                         class="ko-loginRegister-control @error('mobile') is-invalid @enderror"
                                         name="mobile" id="ko-register-mobile" value="{{ old('mobile') }}" required />
@@ -71,7 +71,7 @@
                             <div class="ko-col-12">
                                 <div class="ko-loginRegister-grp">
                                     <label for="state">State <sup>*</sup></label>
-                                    <select name="state" value="{{ old('state') }}" id="state" class="ko-loginRegister-control">
+                                    <select name="state" data-value="{{ old('state',0) }}" id="state" class="ko-loginRegister-control">
                                         <option value="" disabled selected>Please select state</option>
                                         <!-- States will be populated here -->
                                     </select>
@@ -115,52 +115,7 @@
     </section>
 </main>
 <script>
-
     $(document).ready(function() {
-        $('#country_code').select2({
-            placeholder: "Search country code...",
-            allowClear: true,
-            width: '100%'
-        });
-
-        $('#country_code').change(function() {
-            get_states();
-            var countryCode = $("#country_code option:selected").data("country-code");
-            $('#ko-register-mobile').val(countryCode);
-        });
-
-        function get_states(){
-            var countryName = $("#country_code").val();
-            var countryCode = $("#country_code option:selected").data("country-code");
-            $('#state').empty();
-            $('#state').append('<option value="" disabled selected>Please select state</option>');
-
-
-            if (countryCode && countryName) {
-                $.ajax({
-                    url: '{{ route(name: "get.states") }}',
-                    type: 'post',
-                    data: {
-                        country_code: countryCode,
-                        country_name: countryName,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    dataType: 'json',
-                    success: function(data) {
-                        var oldState = "{{ old('state') }}";
-
-                        $.each(data, function(key, value) {
-                            var selected = (key == oldState) ? 'selected' : '';
-                            $('#state').append('<option value="' + key + '" ' + selected + '>' + value + '</option>');
-                        });
-                    },
-                    error: function() {
-                        console.log('Error fetching states');
-                    }
-                });
-            }
-        }
-
         get_states();
     });
 </script>

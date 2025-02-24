@@ -25,6 +25,9 @@ class SettingsSeeder extends Seeder
             ['slug' => 'admin_email', 'value' => 'null',"type"=>"text"],
             ['slug' => 'site_copyright_text', 'value' => 'null',"type"=>"text"],
             ['slug' => 'site_social_links', 'value' => '[]',"type"=>"social"],
+            ['slug' => 'map_link', 'value' => '',"type"=>"map_link"],
+            ['slug' => 'hotel_surroundings', 'value' => '',"type"=>"textarea"],
+            ['slug' => 'hotel_rules', 'value' => '',"type"=>"textarea"],
         ];
 
         foreach ($data as $item) {

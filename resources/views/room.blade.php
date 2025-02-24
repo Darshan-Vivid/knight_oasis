@@ -75,6 +75,19 @@
                         </div>
                     @endif
 
+                    <div class="ko-room-features mt-3">
+                        <h4 class="ko-com-title">Hotel Surroundings</h4>
+                        {!! getSetting("hotel_surroundings") !!}
+                    </div>
+
+
+                    <div class="ko-room-features mt-3 mb-3">
+                        <h4 class="ko-com-title">Hotel Rules</h4>
+                        {!! getSetting("hotel_rules") !!}
+                    </div>
+
+
+
                     @if ($room->tour_video)
                         <div class="ko-tour-video-section">
                             <h4 class="ko-com-title">Room Tour</h4>

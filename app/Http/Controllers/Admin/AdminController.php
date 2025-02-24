@@ -46,6 +46,14 @@ class AdminController extends Controller
         if(isset($request->site_copyright_text) && strlen($request->site_copyright_text) > 0){
             DB::table('settings')->where('slug', '=', 'site_copyright_text')->update(['value' => $request->site_copyright_text]);
         }
+
+        if(isset($request->map_link) && strlen($request->map_link) > 0){
+            DB::table('settings')->where('slug', '=', 'map_link')->update(['value' => $request->map_link]);
+        }if(isset($request->hotel_surroundings) && strlen($request->hotel_surroundings) > 0){
+            DB::table('settings')->where('slug', '=', 'hotel_surroundings')->update(['value' => $request->hotel_surroundings]);
+        }if(isset($request->hotel_rules) && strlen($request->hotel_rules) > 0){
+            DB::table('settings')->where('slug', '=', 'hotel_rules')->update(['value' => $request->hotel_rules]);
+        }
         if(isset($request->site_icon) && $request->hasFile('site_icon')){
             $file = $request->file('site_icon');
             $fileName = $file->getClientOriginalName();

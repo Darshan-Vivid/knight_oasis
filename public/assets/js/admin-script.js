@@ -59,6 +59,18 @@ $(document).ready(function () {
             );
         }
 
+        if (button.attr("id") == "ko_settings_table_map_link" ) {
+            valueCell.html(
+                '<input type="text" name="' + currentSlug + '" class="form-control" value="' + currentValue +'">'
+            );
+        }
+
+        if (button.attr("id") == "ko_settings_table_textarea" ) {
+            valueCell.html(
+                '<textarea name="' + currentSlug + '" id="textareas" class="form-control">' + currentValue +'</textarea>'
+            );
+        }
+
         if (button.attr("id") == "ko_settings_table_site_social_links") {
             var old_links = button.data('links');
             html_string="<input type='hidden' name='settings_social_link_edited' value='true' />";

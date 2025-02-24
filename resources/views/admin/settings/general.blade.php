@@ -72,6 +72,13 @@
                                             <td><button type="button" class="btn btn-sm btn-light ko_settings_btn"
                                                     id="ko_settings_table_{{ $setting->type }}">Edit</button></td>
                                         </tr>
+                                    @elseif($setting->type == 'textarea')
+                                        <tr>
+                                            <td>{{ $setting->slug }}</td>
+                                            <td>{!! $setting->value !!}</td>
+                                            <td><button type="button" class="btn btn-sm btn-light ko_settings_btn"
+                                                    id="ko_settings_table_{{ $setting->type }}">Edit</button></td>
+                                        </tr>
                                     @else
                                         <tr>
                                             <td>{{ $setting->slug }}</td>
@@ -90,6 +97,18 @@
     </div>
 </div>
 
-
+<script src="{{ URL::asset('admin/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        tinymce.init({
+            selector: '#textareas',
+            height: 300,
+            menubar: false,
+            plugins: 'advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table help',
+            toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
+            content_style: "body { font-family: Arial, sans-serif; font-size: 14px; }"
+        });
+    });
+</script>
 
 <x-admin.footer />
