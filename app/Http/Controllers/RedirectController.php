@@ -17,6 +17,14 @@ class RedirectController extends Controller
         return view('auth.login');
     }
 
+    public function show_about(){
+        return view('about');
+    }
+
+    public function show_contact(){
+        return view('contact');
+    }
+
     public function forgotPassword(){
         return view('auth.forgot-password');
     }

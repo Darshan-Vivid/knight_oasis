@@ -97,6 +97,8 @@
                         </div>
                     @endif
 
+                    
+
 
                     {{-- <div class="ko-availability-calendar">
                         <h4 class="ko-com-title">Availability Calendar</h4>
@@ -216,6 +218,12 @@
             </div>
         </div>
     </section>
+
+    <!-- ------map section start------ -->
+    <section class="ko-map-section">
+        <iframe src="{{ getSetting("map_link") }} " width="100%" height="500" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </section>
+    <!-- ------map section end------ -->
 </main>
 
 {{-- 

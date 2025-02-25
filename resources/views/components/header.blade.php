@@ -61,13 +61,13 @@
                             <a href="{{ route('view.rooms') }}">Rooms</a>
                         </li>
                         <li>
-                            <a href="{{ route("view.blog");}}">Blog</a>
+                            <a href="{{ route("view.blog")}}">Blog</a>
                         </li>
                         <li>
-                            <a href="#">Contact</a>
+                            <a href="{{ route("view.about" ) }}">About</a>
                         </li>
                         <li>
-                            <a href="#">About</a>
+                            <a href="{{ route("view.contact" ) }}">Contact</a>
                         </li>
                         <li>
                             @if(auth()->check())

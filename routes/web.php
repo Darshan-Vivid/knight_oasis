@@ -39,6 +39,8 @@ Route::post('/states', [AuthController::class, 'getStates'])->name("get.states")
 //User
 Route::get('/', [RedirectController::class, 'show_home'])->name('view.home');
 Route::post('/', [BookingController::class, 'quick_book'])->name('home.book');
+Route::get('/about-us', [RedirectController::class, 'show_about'])->name('view.about');
+Route::get('/contact-us', [RedirectController::class, 'show_contact'])->name('view.contact');
 
 Route::get('/blog', [BlogController::class, 'view_blog'])->name('view.blog');
 Route::get('/blog/{slug}', [BlogController::class, 'blog_list'])->name('blog.list');
