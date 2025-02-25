@@ -36,7 +36,7 @@
 
                                     <div class="ko-form-group">
                                         <input type="text" name="name" class="ko-form-control @error('name') is-invalid @enderror" placeholder="" required value="{{ old('name', ($user->name ?? null)) }}" {{ isset($user) ? 'disabled':''}}/>
-                                        <label for="" class="ko-form-label">Phone</label>
+                                        <label for="" class="ko-form-label">Full Name</label>
                                     </div>
                                     @error('name')
                                         <div class="invalid-response" style="display:flex">{{ $message }}</div>
@@ -103,25 +103,25 @@
                                         <ul>
                                             <li>
                                                 <div class="ko-payment-radio">
-                                                    <input type="radio" name="option" value="CASHFREE" required/>
+                                                    <input type="radio" name="gateway" value="CASHFREE" required/>
                                                     <label for="ko_bank_transfer1">Cashfree</label>
                                                 </div>
                                             </li>
                                             <li>
                                                 <div class="ko-payment-radio">
-                                                    <input type="radio" name="option" value="PAYUMONEY" />
+                                                    <input type="radio" name="gateway" value="PAYUMONEY" />
                                                     <label for="ko_bank_transfer2">Payumoney</label>
                                                 </div>
                                             </li>
                                         </ul>
-                                        @error("option")
+                                        @error("gateway")
                                             <div class="invalid-response" style="display:flex">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="ko-checkbox-group">
                                         <input type="checkbox" class="ko-form-checkbox" id="account_with_hotel" />
                                         <label for="account_with_hotel" class="ko-form-label">Add a note to your order</label>
-                                        <input type="textarea" name="customer_note" class="ko-form-control ko-customer-note" style="display: none" placeholder="Write your customer note here"> </textarea>
+                                        <input type="textarea" name="guest_note" class="ko-form-control ko-customer-note" style="display: none" placeholder="Write your customer note here"> </textarea>
                                     </div>
                                     <p class="ko-paymentProccess-ctn">By proceeding with your purchase you agree to our Terms and Conditions and Privacy Policy</p>
                                 </div>

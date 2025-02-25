@@ -10,9 +10,10 @@ use App\Models\Country;
 use App\Models\Room;
 use App\Models\Service;
 use App\Models\Transaction;
-use Illuminate\Http\Request;
 use Carbon\CarbonPeriod;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -447,11 +448,11 @@ class BookingController extends Controller
                     $room = Room::findOrFail($ac->room_id);
 
                     $rp = $room->offer_price;
-                    
+
                     $checkInDate = new DateTime($ac->check_in);
                     $checkOutDate = new DateTime($ac->check_out);
                     $interval = $checkInDate->diff($checkOutDate);
-                    $dayGap = $interval->days + 1; 
+                    $dayGap = $interval->days + 1;
                     $days = $dayGap > 0 ? $dayGap : 1;
                     $room_charges = $rp * $days;
                     $twrc = $ac->total_cost - $room_charges;
@@ -498,16 +499,17 @@ class BookingController extends Controller
             $room = Room::find($ac->room_id);
 
             $countries = Country::select('c_code', 'c_name')->distinct('c_name')->get()->sortBy(function ($country) {
-                return (int) filter_var($country->c_code, FILTER_SANITIZE_NUMBER_INT); });
+                return (int) filter_var($country->c_code, FILTER_SANITIZE_NUMBER_INT);
+            });
 
             if (Auth::user()) {
                 $user = Auth::user();
                 $sid = Country::where('s_name', '=', $user->state)->where('c_name', '=', $user->country)->first();
 
-                return view('checkout')->with(['user' => $user, 'countries' => $countries, 'sid' => $sid ,'ac'=>$ac ,'room'=>$room]);
+                return view('checkout')->with(['user' => $user, 'countries' => $countries, 'sid' => $sid, 'ac' => $ac, 'room' => $room]);
             }
 
-            return view('checkout')->with(['countries' => $countries,'ac'=>$ac ,'room'=>$room]);
+            return view('checkout')->with(['countries' => $countries, 'ac' => $ac, 'room' => $room]);
 
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['general' => 'Unable to process your request.']);
@@ -515,19 +517,41 @@ class BookingController extends Controller
 
     }
 
-    public function checkout(Request $request){
-
-        $rules = [
-            'option' => 'required|in:CASHFREE,PAYUMONEY',
-        ];
-
+    public function checkout(Request $request)
+    {
+        
+        if (Auth::user()) {
+            $rules = [
+                'gateway' => 'required|in:CASHFREE,PAYUMONEY',
+            ];
+        }else{
+            $rules = [
+                'name' => 'required|min:2',
+                'email' => 'required|email|unique:users,email',
+                'mobile' => 'required|min:10',
+                'country' => 'required',
+                'state' => 'required',
+                'gateway' => 'required|in:CASHFREE,PAYUMONEY',
+            ];
+        }
+        
         $messages = [
-            'option.required' => 'Please select any one payment method.',
-            'option.in' => 'Invalid payment method selected.',
+            'name.required' => 'The name field is required.',
+            'name.min' => 'The name must be at least 2 characters.',
+            'email.required' => 'The email field is required.',
+            'email.email' => 'The email must be a valid email address.',
+            'email.unique' => 'Email already exists in our system, please login with the same email.',
+            'mobile.required' => 'The mobile field is required.',
+            'mobile.min' => 'The mobile must be at least 10 characters.',
+            'country.required' => 'The country code field is required.',
+            'state.required' => 'The state field is required.',
+            'gateway.required' => 'Please select any one payment method.',
+            'gateway.in' => 'Invalid payment method selected.',
         ];
-
+        
         $validator = Validator::make($request->all(), $rules, $messages);
 
+        
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator);
         } else {
@@ -538,21 +562,151 @@ class BookingController extends Controller
             }
 
             try {
+
                 $ac = AbandonedCart::findOrFail($acid);
                 $room = Room::find($ac->room_id);
-            
+                $booking = new Booking;
+                $transaction = new Transaction;
 
+                if(Auth::user()){
+                    $user = Auth::user();
+                    $booking->type = $user->id;
+                    $guest_info["phone"]= $user->mobile;
+                }else{
+                    $guest_info["name"] = $request->name;
+                    $guest_info["email"] = $request->email;
+                    $guest_info["phone"] = $request->mobile;
+                    $guest_info["address"] = $request->state.','.$request->country;
+                    $booking->customer_details = json_encode($guest_info);
+                }
+
+                $transaction->amount = $ac->total_cost;
+                $transaction->method = $request->gateway;
+                $transaction->status = 0;
+                $transaction->transaction_id = Str::uuid();
+                // $transaction->save();
+
+                $booking->type = "WEBSITE";
+                $booking->check_in = $ac->check_in;
+                $booking->check_out = $ac->check_out;
+                $booking->adults = $ac->adults;
+                $booking->children = $ac->children;
+                $booking->room_id = $ac->room_id;
+                $booking->room_count = $ac->room_count;
+                $booking->extra_beds = $ac->extra_beds;
+                $booking->services = $ac->services ?? "[]";
+                $booking->total_cost = $ac->total_cost;
+                $booking->customer_note = (isset($request->guest_note) && strlen($request->guest_note) > 0) ? $request->guest_note : null;
+                $booking->transaction_id = $transaction->transaction_id;
+                // $booking->save();
+
+                if( $transaction->method == 'CASHFREE'){
+
+                    $orderData = [
+                        "order_id" => $transaction->transaction_id,
+                        "order_amount" => $ac->total_cost,
+                        "order_currency" => "INR",
+                        "customer_details" => [
+                            "customer_phone" => $guest_info["phone"],
+                        ],
+                        "order_meta" => [
+                            "return_url" => route('cashfree.success', $transaction->transaction_id),
+                            "payment_methods" => explode(',', env('CASHFREE_PAYMENT_METHODS')),
+                        ]
+                    ];
+        
+                    $apiEndpoint = (env('PAYMENTS_MODE') === "PRODUCTION") ? env('CASHFREE_BASE_URL') : env('CASHFREE_SANDBOX_URL');
+                    $apiKey = env('CASHFREE_APP_ID');
+                    $apiSecret = env('CASHFREE_SECRET_KEY');
+
+
+                    $response = Http::withHeaders([
+                        'Content-Type' => 'application/json',
+                        'x-client-id' => $apiKey,
+                        'x-client-secret' => $apiSecret,
+                        'x-api-version' => env('CASHFREE_API_VERSION'),
+                    ])->post($apiEndpoint, $orderData);
+    
+                    $responseData = $response->json();
+
+                    dd($responseData);
+    
+                    if (isset($responseData['payment_session_id']) && !empty($responseData['payment_session_id'])) {
+                        $paymentSessionId = $responseData['payment_session_id'];
+                        $mode = (env('PAYMENTS_MODE') === "PRODUCTION") ? 'production' :'sandbox';
+    
+                        return view('payments.cashfree_checkout', [
+                            'paymentSessionId' => $paymentSessionId,
+                            'mode' => $mode
+                        ]);
+                    } else {
+                        return redirect()->back()->withErrors(['general' => 'Unable to process your request.']);
+                    }
+                }elseif($transaction->method == 'CASHFREE'){
+
+                }else{
+                    
+                    return redirect()->back()->withErrors(['general' => 'Unable to process your request.']);
+                }
+                
             } catch (\Exception $e) {
                 return redirect()->back()->withErrors(['general' => 'Unable to process your request.']);
             }
 
+        }
+    }
 
-            
+    public function CashFreeSuccess(Request $request)
+    {
+        $order_id = $request->input('order_id');
+        $tx_status = $request->input('txStatus');
+
+        if ($tx_status === 'SUCCESS') {
+            return "Payment for Order ID {$order_id} was successful!";
+        } else {
+            return "Payment for Order ID {$order_id} failed.";
+        }
+    }
+
+
+    public function quick_book(Request $request){
+
+        $rules = [
+            'room_type' => 'required|integer|exists:rooms,id',
+            'quantity' => 'required|integer|min:1',
+            'check_in' => 'required|date|after_or_equal:today',
+            'check_out' => 'required|date|after_or_equal:check_in',
+        ];
+
+        $messages = [
+            "room_type.*" => "Unable to find room.",
+            "check_in.required" => "Check In date is required.",
+            "check_in.date" => "Check In must be a valid date.",
+            "check_in.after_or_equal" => "Check In must not be older than today.",
+            "check_out.required" => "Check Out date is required.",
+            "check_out.date" => "Check Out must be a valid date.",
+            "check_out." => "Check Out must not be older than Check In date.",
+            "quantity.required" => "Room Quantity is required",
+            "quantity.integer" => "Room Quantity must be in a valid number",
+            "quantity.min" => "At least 1 room require for process booking "
+        ];
+
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        } else {
+
+            $is_availavle = $this->check_room_availability($request->room_type, $request->quantity, $request->check_in, $request->check_out);
+            if (!$is_availavle) {
+                return redirect()->back()->withErrors(['quick_reserve' => 'Not enough rooms available between this dates.'])->withInput();
+            }
+
+            return redirect()->route("view.room", $request->room_type);
+
         }
 
-
-
-        dd($request->all());
 
     }
 
@@ -567,14 +721,18 @@ class BookingController extends Controller
         $reservedRooms = [];
 
         foreach ($bookings as $booking) {
-            $period = CarbonPeriod::create(
-                $booking->check_in->format('Y-m-d'),
-                $booking->check_out->format('Y-m-d')
-            );
+            $transaction = Transaction::where('transaction_id','=',$booking->transaction_id)->first(); 
 
-            foreach ($period as $date) {
-                $dateString = $date->format('Y-m-d');
-                $reservedRooms[$dateString] = ($reservedRooms[$dateString] ?? 0) + $booking->room_count;
+            if($transaction->status == 1){
+                $period = CarbonPeriod::create(
+                    $booking->check_in->format('Y-m-d'),
+                    $booking->check_out->format('Y-m-d')
+                );
+                
+                foreach ($period as $date) {
+                    $dateString = $date->format('Y-m-d');
+                    $reservedRooms[$dateString] = ($reservedRooms[$dateString] ?? 0) + $booking->room_count;
+                }
             }
         }
 

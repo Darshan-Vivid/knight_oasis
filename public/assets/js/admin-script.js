@@ -65,10 +65,14 @@ $(document).ready(function () {
             );
         }
 
-        if (button.attr("id") == "ko_settings_table_textarea" ) {
+        if (button.attr("id") == "ko_settings_table_textarea") {
+            destroyTinyMCE('dynamic_tinymce');
+
             valueCell.html(
-                '<textarea name="' + currentSlug + '" id="textareas" class="form-control">' + currentValue +'</textarea>'
+                '<textarea name="' + currentSlug + '" id="dynamic_tinymce" class="form-control">' + currentValue + '</textarea>'
             );
+
+            initTinyMCE('#dynamic_tinymce');
         }
 
         if (button.attr("id") == "ko_settings_table_site_social_links") {
@@ -163,6 +167,24 @@ $(document).ready(function () {
         $('.booking_form_services').prop('checked', false).prop('disabled', false);
         get_room_services();
     });
+
+    function initTinyMCE(selector) {
+        tinymce.init({
+            selector: selector,
+            height: 300,
+            menubar: false,
+            plugins: 'advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table help',
+            toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
+            content_style: "body { font-family: Arial, sans-serif; font-size: 14px; }"
+        });
+    }
+
+
+    function destroyTinyMCE(selector) {
+        if (tinymce.get(selector)) {
+            tinymce.get(selector).remove();
+        }
+    }
     
     function get_room_services(){
         let $this = $("#booking_room_type");

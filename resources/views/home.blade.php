@@ -40,43 +40,66 @@
                         <h3>Reservation</h3>
                     </div>
                     <div class="ko-reservation-inner">
-                        <form action="">
+                        <form action="{{ route('home.book') }}" method="post">
+                            @csrf
+
                             <div class="ko-reservation-wrap">
                                 <div class="ko-reservation-group">
                                     <h6>Check In</h6>
-                                    <input type="text" class="ko-reservation-date" name="start_date" value="2025-02-04" />
+                                    <input class="ko-reservation-date checkin_date_picker" type="text" name="check_in" value="{{ old('check_in', date('Y-m-d')) }}" data-old="{{ old('check_in', date('Y-m-d')) }}" placeholder="Checkin date" />
                                 </div>
                                 <div class="ko-reservation-group">
-                                    <h6>Check In</h6>
-                                    <input type="text" class="ko-reservation-date" name="start_date" value="2025-02-05" />
+                                    <h6>Check Out</h6>
+                                    <input class="ko-reservation-date checkout_date_picker" type="text" name="check_out" value="{{ old('check_out', date('Y-m-d')) }}" data-old="{{ old('check_out', date('Y-m-d')) }}" placeholder="Checkout date" />
                                 </div>
-                             </div>
+                            </div>
                              <div class="ko-reservation-wrap">
                                 <div class="ko-reservation-group">
-                                    <h6>Adult</h6>
-                                    <div class="ko-number">
-                                        <span class="ko-minus">-</span>
-                                        <input class="ko-num-input" type="text" value="1" name="adult_quantity">
-                                        <span class="ko-plus">+</span>
+                                    <h6>Rooms</h6>
+                                    <div class="ko-number qty-container">
+                                        <select class="ko-rooms-info" name="room_type" required>
+                                            <option disabled selected>select room</option>
+                                            @if(count($rooms)> 0)
+                                                @foreach ($rooms as $room)
+                                                    <option value="{{ $room->id }}" {{ (old('room_type') == $room->id)?'selected':''  }} >{{ $room->name }}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="ko-reservation-group">
-                                    <h6>Children</h6>
-                                    <div class="ko-number">
-                                        <span class="ko-minus">-</span>
-                                        <input class="ko-num-input" type="text" value="1" name="adult_quantity">
-                                        <span class="ko-plus">+</span>
+                                    <h6>No. of Rooms</h6>
+                                    <div class="ko-number qty-container">
+                                        <span class="ko-minus qty-btn-minus">-</span>
+                                        <input type="text" class="ko-num-input input-qty" value="{{ old('quantity',0) }}" name="quantity" required />
+                                        <span class="ko-plus qty-btn-plus">+</span>
                                     </div>
                                 </div>
                              </div>
                              <div class="">
-                                <button type="button" class="ko-btn">Check Availability</button>
+                                <button type="submit" class="ko-btn">Check Availability</button>
                              </div>
                         </form>
                     </div>
                 </div>
             </div>
+            @error('check_in')
+                <div class="invalid-response h1 text-center mt-2 mb-0" style="font-size: 1rem; display:block;" >{{ $message}}</div>
+            @enderror
+            @error('check_out')
+                <div class="invalid-response h1 text-center mt-2 mb-0" style="font-size: 1rem; display:block;" >{{ $message}}</div>
+            @enderror
+            @error('room_type')
+                <div class="invalid-response h1 text-center mt-2 mb-0" style="font-size: 1rem; display:block;" >{{ $message}}</div>
+            @enderror
+            @error('quantity')
+                <div class="invalid-response h1 text-center mt-2 mb-0" style="font-size: 1rem; display:block;" >{{ $message}}</div>
+            @enderror
+            @error('quick_reserve')
+                <div class="invalid-response h1 text-center mt-2 mb-0" style="font-size: 1rem; display:block;" >{{ $message}}</div>
+            @enderror
         </section>
+
         <!-- ------------Reservation block end------------- -->
 
         <!-- -----------about section start----------------  -->
@@ -256,5 +279,4 @@
         <!-- --------------------facilities section end--------------------- -->
 
     </main>
-
     <x-footer />

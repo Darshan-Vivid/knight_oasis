@@ -38,8 +38,14 @@ Route::post('/states', [AuthController::class, 'getStates'])->name("get.states")
 
 //User
 Route::get('/', [RedirectController::class, 'show_home'])->name('view.home');
+Route::post('/', [BookingController::class, 'quick_book'])->name('home.book');
+
+Route::get('/blog', [BlogController::class, 'view_blog'])->name('view.blog');
+Route::get('/blog/{slug}', [BlogController::class, 'blog_list'])->name('blog.list');
+
 Route::get('/rooms', [RedirectController::class, 'show_rooms'])->name('view.rooms');
 Route::get('/room/{id}', [RedirectController::class, 'show_room'])->name('view.room');
+
 Route::post('/check-availability', [BookingController::class, 'checkRoomAvailability'])->name('check.availability');
 Route::post('/book-stay', [BookingController::class, 'book_stay'])->name('book.stay');
 
@@ -50,9 +56,7 @@ Route::post('/cart/romove/{id}', [BookingController::class, 'remove_item'])->nam
 Route::get('/checkout', [BookingController::class, 'show_checkout'])->name('view.checkout');
 Route::post('/checkout', [BookingController::class, 'checkout'])->name('checkout');
 
-
-Route::get('/blog', [BlogController::class, 'view_blog'])->name('view.blog');
-Route::get('/blog/{slug}', [BlogController::class, 'blog_list'])->name('blog.list');
+Route::get('/cashfree/success/{tid}', [BookingController::class, 'CashFreeSuccess'])->name('cashfree.success');
 
 
 //admin panel

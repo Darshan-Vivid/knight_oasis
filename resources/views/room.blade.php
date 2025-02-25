@@ -116,11 +116,11 @@
                         <div class="ko-booking-date-control">
                             <div class="ko-form-group">
                                 <h6 class="field-label">Check In</h6>
-                                <input type="date" id="booking-data-check_in" class="booking-date-picker form-control" name="check_in" value="{{ old('check_in' ) }}">
+                                <input type="text" id="booking-data-check_in" class="booking-date-picker form-control checkin_date_picker" name="check_in" value="{{ old('check_in', date('Y-m-d')) }}" data-old="{{ old('check_in', date('Y-m-d')) }}" placeholder="Checkin date">
                             </div>
                             <div class="ko-form-group">
                                 <h6 class="field-label">Check Out</h6>
-                                <input type="date" id="booking-data-check_out" class="booking-date-picker form-control" name="check_out" value="{{ old('check_out' ) }}">
+                                <input type="text" id="booking-data-check_out" class="booking-date-picker form-control checkout_date_picker" name="check_out" value="{{ old('check_out', date('Y-m-d')) }}" data-old="{{ old('check_out', date('Y-m-d')) }}" placeholder="Checkout date" >
                             </div>
                         </div>
 
