@@ -11,7 +11,13 @@ $(document).ready(function () {
             minCheckoutDate.setDate(minCheckoutDate.getDate());
             checkoutPicker.set('minDate', minCheckoutDate);
             checkoutPicker.setDate(minCheckoutDate);
+            $(".checkout_date_picker").focus();
+
         }
+    });
+
+    $(".checkin_date_picker").on('change' , function(){
+        $(".checkout_date_picker").focus();
     });
 
     var checkoutPicker = $(".checkout_date_picker").flatpickr({
@@ -83,7 +89,7 @@ $(document).ready(function () {
         var cin = $("#booking-data-check_in").val();
         var cout = $("#booking-data-check_out").val();
         var qty = $("#booking-data-quantity");
-        var rid = $("#booking-data-hiddens").val();
+        var rslug = $("#booking-data-hiddens").val();
         var ajax_url = $("#booking-data-hiddens").data('url');
         var token = $('meta[name="csrf-token"]').attr('content');
         var submit_btn = $('#ko-book-form-sumbit');
@@ -95,7 +101,7 @@ $(document).ready(function () {
             url: ajax_url,
             type: "POST",
             data: {
-                room_id: rid,
+                room: rslug,
                 check_in: cin,
                 check_out: cout,
                 quantity: qty.val(),
@@ -136,9 +142,15 @@ $(document).ready(function () {
         updateGrandTotal();
     });
 
-    $('#booking-data-check_in, #booking-data-check_out').on('change', updateGrandTotal);
+    $("#booking-data-adults, #booking-data-children, #booking-data-quantity, #booking-data-extra_beds").on("change blur", updateGrandTotal);
+
+    
 
     $('.ko-check-wrap input[type="checkbox"]').on('change', updateGrandTotal);
+
+    if($('#booking-data-check_in, #booking-data-check_out')){
+        updateGrandTotal();
+    }
 
     /* booking page js end */
 
@@ -282,12 +294,36 @@ function get_states(){
 
 function updateGrandTotal() {
     let roomPrice = parseFloat($('#booking-data-quantity').data('price')) || 0;
-    let roomQuantity = parseInt($('#booking-data-quantity').val()) || 0;
     let bedPrice = parseFloat($('#booking-data-extra_beds').data('price')) || 0;
-    let extraBeds = parseInt($('#booking-data-extra_beds').val()) || 0;
+    var extraBeds = parseInt($('#booking-data-extra_beds').val()) || 0;
+    var adult_count = parseInt($('#booking-data-adults').val());
+    var children_count = parseInt($('#booking-data-children').val());
+    var roomQuantity = parseInt($('#booking-data-quantity').val()) || 0;
     var checkIn = $('#booking-data-check_in').val();
     var checkOut = $('#booking-data-check_out').val();
+    var max_guest = parseInt($("#booking-data-hiddens").data('max_guest'));
+    var max_rooms = parseInt($("#booking-data-hiddens").data('max_rooms'));
     let total = 0;
+
+    
+    if(roomQuantity > max_rooms){
+        $('#booking-data-quantity').val(max_rooms);
+    }
+    
+    if(extraBeds > (roomQuantity * 3) ){
+        $('#booking-data-extra_beds').val((roomQuantity * 3));
+    }
+
+    if(adult_count > (roomQuantity * max_guest)){
+        $('#booking-data-adults').val((roomQuantity * max_guest));
+    }
+
+    if(children_count > (roomQuantity * 3)){
+        $('#booking-data-children').val((roomQuantity * 3));
+    }
+
+    extraBeds = parseInt($('#booking-data-extra_beds').val()) || 0;
+    roomQuantity = parseInt($('#booking-data-quantity').val()) || 0;
 
     if (checkIn && checkOut) {
         var checkInDate = new Date(checkIn);

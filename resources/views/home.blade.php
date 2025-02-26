@@ -61,7 +61,7 @@
                                             <option disabled selected>select room</option>
                                             @if(count($rooms)> 0)
                                                 @foreach ($rooms as $room)
-                                                    <option value="{{ $room->id }}" {{ (old('room_type') == $room->id)?'selected':''  }} >{{ $room->name }}</option>
+                                                    <option value="{{ $room->slug }}" {{ (old('room_type') == $room->slug)?'selected':''  }} data-max_qty={{ $room->quantity}}  >{{ $room->name }}</option>
                                                 @endforeach
                                             @endif
                                         </select>
@@ -228,7 +228,7 @@
                                             <li>₹{{ $room->offer_price }} </li>
                                         </ul>
                                     </div>
-                                    <a class="ko-accomodation-btn" href="{{ route('view.room', $room->id ) }}">Book Now</a>
+                                    <a class="ko-accomodation-btn" href="{{ route('view.room', $room->slug ) }}">Book Now</a>
                                 </div>
                             </div>
                         @endforeach

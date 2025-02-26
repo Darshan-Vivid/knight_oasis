@@ -79,7 +79,7 @@
 
                             <div class="mb-3">
                                 <label for="check_in" class="form-label">Check In Date<span class="text-danger">*</span></label>
-                                <input type="date" name="check_in" id="check_in" class="form-control @error('check_in') is-invalid @enderror" placeholder="Enter date of check-in" value="{{ old('check_in') }}" required>
+                                <input type="text" name="check_in" id="check_in" class="form-control checkin_date_picker @error('check_in') is-invalid @enderror" placeholder="Enter date of check-in" value="{{ old('check_in', date('Y-m-d')) }}" data-old="{{ old('check_in', date('Y-m-d')) }}" placeholder="Checkin date" required>
                                 @error('check_in')
                                     <span class="form-error-message text-danger">{{ $message }}</span>
                                 @enderror
@@ -87,7 +87,7 @@
 
                             <div class="mb-3">
                                 <label for="check_out" class="form-label">Check Out Date<span class="text-danger">*</span></label>
-                                <input type="date" name="check_out" id="check_out" class="form-control @error('check_out') is-invalid @enderror" placeholder="Enter date of check-out" value="{{ old('check_out') }}" required>
+                                <input type="text" name="check_out" id="check_out" class="form-control checkout_date_picker @error('check_out') is-invalid @enderror" placeholder="Enter date of check-out" value="{{ old('check_out', date('Y-m-d')) }}" data-old="{{ old('check_out', date('Y-m-d')) }}" placeholder="Checkout date" required>
                                 @error('check_out')
                                     <span class="form-error-message text-danger">{{ $message }}</span>
                                 @enderror
@@ -113,7 +113,7 @@
 
                             <div class="mb-3">
                                 <label for="adults" class="form-label">Adults<span class="text-danger">*</span></label>
-                                <input type="number" name="adults" id="adults" class="form-control @error('adults') is-invalid @enderror" placeholder="Enter the number of adults" value="{{ old('adults',0) }}" required>
+                                <input type="number" name="adults" id="adults" class="form-control @error('adults') is-invalid @enderror" placeholder="Enter the number of adults" value="{{ old('adults',1) }}" required>
                                 @error('adults')
                                     <span class="form-error-message text-danger">{{ $message }}</span>
                                 @enderror
@@ -158,7 +158,7 @@
                                 <select class="mb-3 form-select @error('room_type') is-invalid @enderror" name="room_type" id="booking_room_type" required>
                                     <option selected disabled>Select Room Type</option>
                                     @forelse ($rooms as $room)
-                                        <option value="{{ $room->id }}" {{ old('room_type') == $room->id ? 'selected': ''}} >{{ $room->name }}</option>
+                                        <option value="{{ $room->slug }}" {{ old('room_type') == $room->slug ? 'selected': ''}} >{{ $room->name }}</option>
                                     @empty
                                         <option selected disabled>No Rooms To Show Here</option>
                                     @endforelse
@@ -167,7 +167,6 @@
                                     <span class="form-error-message text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-
                         </div>
                     </div>
                 </div>

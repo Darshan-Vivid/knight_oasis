@@ -40,13 +40,16 @@ Route::post('/states', [AuthController::class, 'getStates'])->name("get.states")
 Route::get('/', [RedirectController::class, 'show_home'])->name('view.home');
 Route::post('/', [BookingController::class, 'quick_book'])->name('home.book');
 Route::get('/about-us', [RedirectController::class, 'show_about'])->name('view.about');
+Route::get('/faqs', [RedirectController::class, 'show_faqs'])->name('view.faqs');
+Route::get('/my-account', [AuthController::class, 'my_account'])->name('view.my_account');
 Route::get('/contact-us', [RedirectController::class, 'show_contact'])->name('view.contact');
+Route::post('/contact-us', [RedirectController::class, 'mail_contact'])->name('contact.mail');
 
 Route::get('/blog', [BlogController::class, 'view_blog'])->name('view.blog');
 Route::get('/blog/{slug}', [BlogController::class, 'blog_list'])->name('blog.list');
 
 Route::get('/rooms', [RedirectController::class, 'show_rooms'])->name('view.rooms');
-Route::get('/room/{id}', [RedirectController::class, 'show_room'])->name('view.room');
+Route::get('/room/{slug}', [RedirectController::class, 'show_room'])->name('view.room');
 
 Route::post('/check-availability', [BookingController::class, 'checkRoomAvailability'])->name('check.availability');
 Route::post('/book-stay', [BookingController::class, 'book_stay'])->name('book.stay');
@@ -58,7 +61,8 @@ Route::post('/cart/romove/{id}', [BookingController::class, 'remove_item'])->nam
 Route::get('/checkout', [BookingController::class, 'show_checkout'])->name('view.checkout');
 Route::post('/checkout', [BookingController::class, 'checkout'])->name('checkout');
 
-Route::get('/cashfree/success/{tid}', [BookingController::class, 'CashFreeSuccess'])->name('cashfree.success');
+Route::any('/cashfree/success/{tid}', [BookingController::class, 'CashFreeSuccess'])->name('cashfree.success');
+Route::any('/payu/success/{tid}', [BookingController::class, 'PayUSuccess'])->name('payu.success');
 
 
 //admin panel

@@ -5,12 +5,12 @@
         <section class="ko-banner" style="background-image: url('assets/images/cart-banner.webp');">
             <div class="ko-container">
                 <div class="ko-banner-content">
-                    <h2>Contact</h2>
+                    <h2>Contact US</h2>
                     <p>Stay updated with the latest happenings at our hotel! From exciting events and special offers to exclusive insights and behind-the-scenes stories.</p>
                     <nav>
                         <ol class="ko-banner-list">
-                          <li><a href="#">Home</a></li>
-                          <li class="active">Contact</li>
+                            <li><a href="{{ route('view.home') }}">Home</a></li>
+                          <li class="active">Contact Us</li>
                         </ol>
                       </nav>
                 </div>
@@ -23,37 +23,54 @@
             <div class="ko-container">
                 <div class="ko-contact-us-content">
                     <h3>Write a Message</h3>
-                    <form action="#">
+                    <form action="{{ route('contact.mail') }}" method="post">
+                        @csrf
                         <div class="ko-col-6">
                             <div class="ko-form-group">
-                                <label for="fname" class="ko-contact-label">First Name</label>
-                                <input id="fname" class="ko-form-control" type="text" placeholder="First Name">
+                                <label for="fname" class="ko-contact-label @error('fname') is-invalid @enderror">First Name</label>
+                                <input id="fname" name="fname" class="ko-form-control" type="text" value="{{ old('fname') }}" placeholder="First Name" required>
                             </div>
                         </div>
                         <div class="ko-col-6">
                             <div class="ko-form-group">
-                                <label for="lname"class="ko-contact-label" >Last Name</label>
-                                <input id="lname" class="ko-form-control" type="text" placeholder="Last Name">
+                                <label for="lname"class="ko-contact-label @error('lname') is-invalid @enderror" >Last Name</label>
+                                <input id="lname" name="lname" class="ko-form-control" type="text" value="{{ old('lname') }}" placeholder="Last Name" required>
                             </div>
                         </div>
+                        @error('fname')
+                            <span class="form-error-message text-danger">{{ $message }}</span>
+                        @enderror
+                        @error('lname')
+                            <span class="form-error-message text-danger">{{ $message }}</span>
+                        @enderror
                         <div class="ko-col-12">
                             <div class="ko-form-group">
-                                <label for="email"class="ko-contact-label" >Email <span>*</span></label>
-                                <input id="email" class="ko-form-control" type="email" placeholder="Email Address" required>
+                                <label for="email"class="ko-contact-label @error('email') is-invalid @enderror" >Email <span>*</span></label>
+                                <input id="email" name="email" class="ko-form-control" type="email" value="{{ old('email') }}" placeholder="Email Address" required>
                             </div>
                         </div>
+                        @error('email')
+                            <span class="form-error-message text-danger">{{ $message }}</span>
+                        @enderror
                         <div class="ko-col-12">
                             <div class="ko-form-group">
-                                <label for="fname" class="ko-contact-label" >Subject</label>
-                                <input id="fname"  class="ko-form-control" type="text" placeholder="Subject">
+                                <label for="subject" class="ko-contact-label @error('subject') is-invalid @enderror" >Subject</label>
+                                <input id="subject" name="subject"  class="ko-form-control" type="text" value="{{ old('subject') }}" placeholder="Subject" required>
                             </div>
                         </div>
+                        @error('subject')
+                            <span class="form-error-message text-danger">{{ $message }}</span>
+                        @enderror
                         <div class="ko-col-12">
                             <div class="ko-form-group">
-                                <label for="subject" class="ko-contact-label" >Your Message <span>*</span></label>
-                                <textarea name="Message" class="ko-form-control"  rows="4" cols="2" id="subject" placeholder="Your Message" required></textarea>
+                                <label for="message" class="ko-contact-label @error('message') is-invalid @enderror" >Your Message <span>*</span></label>
+                                <textarea name="message" class="ko-form-control"  rows="4" cols="2" id="message" placeholder="Your Message" required>{{ old('message') }}</textarea>
                             </div>
                         </div>
+                        @error('message')
+                            <span class="form-error-message text-danger">{{ $message }}</span>
+                        @enderror
+                        
                         <div class="ko-col-12">
                             <button type="submit" class="ko-btn">Submit Your Message</button>
                         </div>

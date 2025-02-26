@@ -12,18 +12,18 @@
     {{-- favicon icon end --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link id="fontsLink" href="https://fonts.googleapis.com/admin2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-    <script src="{{ URL::asset('admin/js/layout.js') }}"></script>
+    <link rel="stylesheet" id="fontsLink" href="https://fonts.googleapis.com/admin2?family=Poppins:wght@300;400;500;600;700&display=swap" >
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="{{ URL::asset('admin/css/bootstrap.min.css') }}" type="text/css" />
     <link rel="stylesheet" href="{{ URL::asset('admin/css/icons.min.css') }}" type="text/css" />
     <link rel="stylesheet" href="{{ URL::asset('admin/css/app.min.css') }}" type="text/css" />
     <link rel="stylesheet" href="{{ URL::asset('admin/css/custom.min.css') }}" type="text/css" />
+    <script src="{{ URL::asset('admin/js/layout.js') }}"></script>
     <script src="{{ URL::asset('admin/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ URL::asset('admin/libs/simplebar/simplebar.min.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/tinymce@5/tinymce.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </head>
 
 <body>

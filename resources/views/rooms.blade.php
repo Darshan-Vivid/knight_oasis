@@ -31,7 +31,7 @@
                                             <div class="label">From</div>
                                             <h3 class="price"><del>₹{{ $room->price }}</del></h3>
                                             <h3 class="price">₹{{ $room->offer_price }}</h3>
-                                            <a class="details-btn" href="{{ route('view.room', $room->id ) }}">View Details</a>
+                                            <a class="details-btn" href="{{ route('view.room', $room->slug ) }}">View Details</a>
                                         </div>
                                     </div>
 

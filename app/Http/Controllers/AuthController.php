@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\AbandonedCart;
+use App\Models\Booking;
 use App\Models\Country;
+use App\Models\Transaction;
 use App\Models\User;
 use App\Mail\OTPMail;
 use Carbon\Carbon;
@@ -105,7 +107,6 @@ class AuthController extends Controller
         }
     }
 
-
     public function view_otp_verify($token)
     {
         $user = User::where('token', $token)->first();
@@ -153,7 +154,6 @@ class AuthController extends Controller
 
         if ($is_password_reset) {
             return redirect()->route('view.new_password', ['token' => $user->token]);
-            // return view('auth.reset_password');
         } else {
 
             return redirect()->route('view.home')->with([
@@ -265,15 +265,28 @@ class AuthController extends Controller
     }
 
     public function getStates(Request $request)
-{
-    $country_code = $request->country_code;
-    $country_name = $request->country_name;
+    {
+        $country_code = $request->country_code;
+        $country_name = $request->country_name;
 
-    $states = Country::where('c_code', $country_code)
-        ->where('c_name', $country_name)
-        ->pluck('s_name', 'id');
+        $states = Country::where('c_code', $country_code)
+            ->where('c_name', $country_name)
+            ->pluck('s_name', 'id');
 
-    return response()->json($states);
-}
+        return response()->json($states);
+    }
 
+    public function my_account(){
+        $user = Auth::user();
+
+        if($user->id){
+            $bookings = Booking::where("user_id",'=',$user->id)->get();
+            $transactions = Transaction::where("user_id",'=',$user->id)->get();
+            dd($user,$bookings,$transactions);
+
+        }else{
+            return redirect()->back();
+        }
+
+    }
 }

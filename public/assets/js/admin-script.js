@@ -7,6 +7,30 @@ function setDeleteFormAction(element) {
 
 $(document).ready(function () {
 
+     /* date picker js start */
+     var checkinPicker = $(".checkin_date_picker").flatpickr({
+        dateFormat: "Y-m-d",
+        minDate: "today",
+        defaultDate: $(".checkin_date_picker").data('old'),
+        onChange: function (selectedDates) {
+            var minCheckoutDate = new Date(selectedDates[0]);
+            minCheckoutDate.setDate(minCheckoutDate.getDate());
+            checkoutPicker.set('minDate', minCheckoutDate);
+            checkoutPicker.setDate(minCheckoutDate);
+        }
+    });
+
+    $(".checkin_date_picker").on('change' , function(){
+        $(".checkout_date_picker").focus();
+    });
+
+    var checkoutPicker = $(".checkout_date_picker").flatpickr({
+        dateFormat: "Y-m-d",
+        minDate: new Date().fp_incr(0),
+        defaultDate: $(".checkout_date_picker").data('old'),
+    });
+    /* date picker js end */
+
     $("input[type=number]").on("wheel", function (event) {
         event.preventDefault();
     });

@@ -34,43 +34,43 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if( isset($bookings) && count($bookings) > 0)
+                        @if( isset($bookings) && count(value: $bookings) > 0)
                             @foreach ( $bookings as $booking)
-                            @php
-                                $guest_name = "UNKNOWN";
-                                $r_name = optional(App\Models\Room::find($booking->room_id))->name ?? 'Unknown';
-                                $p_amount = optional(App\Models\Transaction::where("transaction_id", $booking->transaction_id)->first())->amount ?? '0';
-                                $c_detail = json_decode($booking->customer_details);
-                                
-                                if(isset($booking->user_id)){
-                                    $guest_name = App\Models\User::find($booking->user_id)->name;
-                                }elseif(strlen($c_detail->name > 0)){
-                                    $guest_name = $c_detail->name;
-                                }
-                            @endphp
+                                @php
+                                    $guest_name = "UNKNOWN";
+                                    $r_name = optional(App\Models\Room::find($booking->room_id))->name ?? 'Unknown';
+                                    $p_amount = optional(App\Models\Transaction::where("transaction_id", $booking->transaction_id)->first())->amount ?? '0';
+                                    $c_detail = json_decode($booking->customer_details);
+                                    
+                                    if(isset($booking->user_id)){
+                                        $guest_name = App\Models\User::find($booking->user_id)->name;
+                                    }elseif(strlen($c_detail->name > 0)){
+                                        $guest_name = $c_detail->name;
+                                    }
+                                @endphp
 
-                            <tr>
-                                <td>{{ $booking->id }}</td>
-                                <td>{{ $booking->type }}</td>
-                                <td>{{ $guest_name }}</td>
-                                <td>{{ date("d-m-Y", strtotime($booking->check_in)) }}</td>
-                                <td>{{ date("d-m-Y", strtotime($booking->check_out)) }}</td>
-                                <td>{{ $r_name }}({{ $booking->room_count }})</td>
-                                <td>{{ $p_amount }}</td>
-                                <td>{{ $booking->updated_at }}</td>
-                                <td>
-                                    <div class="dropdown position-static">
-                                        <button class="btn btn-subtle-secondary btn-sm btn-icon" role="button"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="bi bi-three-dots-vertical"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end">
-                                            {{-- <li><a class="dropdown-item edit-item-btn" href="{{ route('view.edit_booking' , $booking->id) }}" ><i class="align-middle ph-pencil me-1"></i>Edit</a></li> --}}
-                                            <li><a class="dropdown-item remove-item-btn" href="{{ route('view.booking' , $booking->id) }}"><i class="align-middle ri-pages-line me-1"></i> View</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>{{ $booking->id }}</td>
+                                    <td>{{ $booking->type }}</td>
+                                    <td>{{ $guest_name }}</td>
+                                    <td>{{ date("d-m-Y", strtotime($booking->check_in)) }}</td>
+                                    <td>{{ date("d-m-Y", strtotime($booking->check_out)) }}</td>
+                                    <td>{{ $r_name }}({{ $booking->room_count }})</td>
+                                    <td>{{ $p_amount }}</td>
+                                    <td>{{ $booking->updated_at }}</td>
+                                    <td>
+                                        <div class="dropdown position-static">
+                                            <button class="btn btn-subtle-secondary btn-sm btn-icon" role="button"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                {{-- <li><a class="dropdown-item edit-item-btn" href="{{ route('view.edit_booking' , $booking->id) }}" ><i class="align-middle ph-pencil me-1"></i>Edit</a></li> --}}
+                                                <li><a class="dropdown-item remove-item-btn" href="{{ route('view.booking' , $booking->id) }}"><i class="align-middle ri-pages-line me-1"></i> View</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
                                 
                             @endforeach
                         @endif

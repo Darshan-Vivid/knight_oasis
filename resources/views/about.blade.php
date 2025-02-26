@@ -9,7 +9,7 @@
                     <p>Stay updated with the latest happenings at our hotel! From exciting events and special offers to exclusive insights and behind-the-scenes stories.</p>
                     <nav>
                         <ol class="ko-banner-list">
-                          <li><a href="#">Home</a></li>
+                            <li><a href="{{ route('view.home') }}">Home</a></li>
                           <li class="active">About Us</li>
                         </ol>
                       </nav>

@@ -80,13 +80,10 @@
                         {!! getSetting("hotel_surroundings") !!}
                     </div>
 
-
                     <div class="ko-room-features mt-3 mb-3">
                         <h4 class="ko-com-title">Hotel Rules</h4>
                         {!! getSetting("hotel_rules") !!}
                     </div>
-
-
 
                     @if ($room->tour_video)
                         <div class="ko-tour-video-section">
@@ -96,9 +93,6 @@
                                 type="video/m3u8" x-webkit-airplay="allow" width="100%" height="500"></video>
                         </div>
                     @endif
-
-                    
-
 
                     {{-- <div class="ko-availability-calendar">
                         <h4 class="ko-com-title">Availability Calendar</h4>
@@ -118,11 +112,11 @@
                         <div class="ko-booking-date-control">
                             <div class="ko-form-group">
                                 <h6 class="field-label">Check In</h6>
-                                <input type="text" id="booking-data-check_in" class="booking-date-picker form-control checkin_date_picker" name="check_in" value="{{ old('check_in', date('Y-m-d')) }}" data-old="{{ old('check_in', date('Y-m-d')) }}" placeholder="Checkin date">
+                                <input type="text" id="booking-data-check_in" class="booking-date-picker form-control checkin_date_picker" name="check_in" value="{{ old('check_in', (count($find_booking) > 0 ? $find_booking['check_in'] : date('Y-m-d'))) }}" data-old="{{ old('check_in', (count($find_booking) > 0 ? $find_booking['check_in'] : date('Y-m-d'))) }}" placeholder="Checkin date">
                             </div>
                             <div class="ko-form-group">
                                 <h6 class="field-label">Check Out</h6>
-                                <input type="text" id="booking-data-check_out" class="booking-date-picker form-control checkout_date_picker" name="check_out" value="{{ old('check_out', date('Y-m-d')) }}" data-old="{{ old('check_out', date('Y-m-d')) }}" placeholder="Checkout date" >
+                                <input type="text" id="booking-data-check_out" class="booking-date-picker form-control checkout_date_picker" name="check_out" value="{{ old('check_out', (count($find_booking) > 0 ? $find_booking['check_out'] : date('Y-m-d'))) }}" data-old="{{ old('check_out', (count($find_booking) > 0 ? $find_booking['check_out'] : date('Y-m-d'))) }}" placeholder="Checkout date" >
                             </div>
                         </div>
 
@@ -131,7 +125,7 @@
                                 <h4>Adult</h4>
                                 <div class="ko-selector-wrap qty-container">
                                     <span class="ko-count-minus room-control-btn qty-btn-minus">-</span>
-                                    <input type="text" class="ko-count input-qty" id="booking-data-adults" name="adults" value="{{ old('adults',1) }}" />
+                                    <input type="number" class="ko-count input-qty" id="booking-data-adults" name="adults" value="{{ old('adults',1) }}" />
                                     <span class="ko-count-plus room-control-btn qty-btn-plus">+</span>
                                 </div>
                             </div>
@@ -139,7 +133,7 @@
                                 <h4>Children</h4>
                                 <div class="ko-selector-wrap qty-container">
                                     <span class="ko-count-minus room-control-btn qty-btn-minus">-</span>
-                                    <input type="text" class="ko-count input-qty" id="booking-data-children" name="children" value="{{ old('children',0) }}" />
+                                    <input type="number" class="ko-count input-qty" id="booking-data-children" name="children" value="{{ old('children',0) }}" />
                                     <span class="ko-count-plus room-control-btn qty-btn-plus">+</span>
                                 </div>
                             </div>
@@ -147,7 +141,7 @@
                                 <h4>Rooms</h4>
                                 <div class="ko-selector-wrap qty-container">
                                     <span class="ko-count-minus room-control-btn qty-btn-minus">-</span>
-                                    <input type="text" class="ko-count input-qty" id="booking-data-quantity" name="quantity"  value="{{ old('quantity',1) }}" data-price="{{ $room->offer_price }}"/>
+                                    <input type="number" class="ko-count input-qty" id="booking-data-quantity" name="quantity"  value="{{ old('quantity', (count($find_booking) > 0 ? $find_booking['quantity'] : 1 )) }}" data-price="{{ $room->offer_price }}"/>
                                     <span class="ko-count-plus room-control-btn qty-btn-plus" >+</span>
                                 </div>
                             </div>
@@ -155,7 +149,7 @@
                                 <h4>Extra Bed</h4>
                                 <div class="ko-selector-wrap qty-container">
                                     <span class="ko-count-minus room-control-btn qty-btn-minus">-</span>
-                                    <input type="text" class="ko-count input-qty" id="booking-data-extra_beds" name="extra_beds"  value="{{ old('extra_beds',0) }}" data-price="{{ $room->bed_price }}" />
+                                    <input type="number" class="ko-count input-qty" id="booking-data-extra_beds" name="extra_beds"  value="{{ old('extra_beds',0) }}" data-price="{{ $room->bed_price }}" />
                                     <span class="ko-count-plus room-control-btn qty-btn-plus">+</span>
                                 </div>
                             </div>
@@ -184,7 +178,7 @@
                         @error('check_in')
                             <div class="invalid-response h1 text-center" style="font-size: 1rem; display:block;" >{{ $message }}</div>
                         @enderror
-                        @error('room_id')
+                        @error('room')
                             <div class="invalid-response h1 text-center" style="font-size: 1rem; display:block;" >{{ $message }}</div>
                         @enderror
                         @error('check_out')
@@ -211,7 +205,7 @@
                             <p class="ko-resecomm-title">₹<span id="booking-grand-total">0</span></p>
                         </div>
 
-                        <input type="hidden" name="room_id" id="booking-data-hiddens" value="{{ $room->id}}" data-url="{{ route('check.availability') }}"  />
+                        <input type="hidden" name="room" id="booking-data-hiddens" value="{{ $room->slug}}" data-url="{{ route('check.availability') }}" data-max_guest="{{ $room->allowd_guests }}" data-max_rooms="{{ $room->quantity }}" />
                         <button type="submit" class="ko-btn ko-book-btn" id="ko-book-form-sumbit" >Book Your Stay</button>
                     </form>
                 </div>

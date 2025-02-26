@@ -36,7 +36,7 @@
                                     <tr>
                                         <td>
                                             <div class="ko-cart-room-img">
-                                                <a href="{{ route('view.room', $room->id) }}" target="_blank">
+                                                <a href="{{ route('view.room', $room->slug) }}" target="_blank">
                                                     <img src="{{ $room->feature_img }}" alt="room img" />
                                                 </a>
                                             </div>
@@ -54,8 +54,7 @@
                                                         </span>
                                                     </li>
                                                     <li>
-                                                        <span><strong>Details: </strong> Room:
-                                                            <small>{{ $ac->room_count }}</small>, Extra Bed:
+                                                        <span><strong>Details: </strong> Extra Bed:
                                                             <small>{{ $ac->extra_beds }}</small>, Adult:
                                                             <small>{{ $ac->adults }}</small>, Children:
                                                             <small>{{ $ac->children }}</small></span>
