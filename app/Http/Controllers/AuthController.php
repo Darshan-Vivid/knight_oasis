@@ -72,7 +72,7 @@ class AuthController extends Controller
             return redirect()->back()->withErrors(['mobile' => 'Mobile number already exists.'])->withInput();
         } else {
 
-            $state_name = Country::find(  $request->state);
+            $state_name = Country::find($request->state);
 
             $otp = rand(100000, 999999);
             $token = Str::random(32);
@@ -91,7 +91,7 @@ class AuthController extends Controller
             $user->assignRole('user');
 
 
-            if(Session::get('abandoned_cart')){
+            if (Session::get('abandoned_cart')) {
                 $acid = Session::get('abandoned_cart');
                 AbandonedCart::where('id', $acid)->update(['user_id' => $user->id]);
             }
@@ -189,17 +189,16 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             $user = Auth::user();
 
-            if(Session::get('abandoned_cart')){
+            if (Session::get('abandoned_cart')) {
                 $acid = Session::get('abandoned_cart');
                 AbandonedCart::where('id', $acid)->update(['user_id' => $user->id]);
             }
 
-            if($user->hasRole('admin')){
+            if ($user->hasRole('admin')) {
                 return redirect()->route('view.admin.dashboard');
-            }else{
+            } else {
                 return redirect()->route('view.home');
             }
-
         }
 
         return redirect()->back()->withErrors(['email' => 'Invalid credentials.'])->withInput();
@@ -276,17 +275,65 @@ class AuthController extends Controller
         return response()->json($states);
     }
 
-    public function my_account(){
+    public function my_account()
+    {
         $user = Auth::user();
 
-        if($user->id){
-            $bookings = Booking::where("user_id",'=',$user->id)->get();
-            $transactions = Transaction::where("user_id",'=',$user->id)->get();
-            dd($user,$bookings,$transactions);
+        if ($user->id) {
+            $bookings = Booking::where("user_id", '=', $user->id)->get();
+            $transactions = Transaction::where("user_id", '=', $user->id)->get();
+            $countries = Country::select('c_code', 'c_name')->distinct('c_name')->get()->sortBy(function ($country) {
+                return (int) filter_var($country->c_code, FILTER_SANITIZE_NUMBER_INT);
+            });
+            $sid = Country::where('s_name', '=', $user->state)->where('c_name', '=', $user->country)->first();
 
-        }else{
+            return view('account')->with(['bookings' => $bookings, 'transactions' => $transactions, 'countries' => $countries, 'user' => $user, 'sid' => $sid]);
+        } else {
             return redirect()->back();
         }
+    }
 
+    public function profile_update(Request $request)
+    {
+        $rules = [
+            'name' => 'required|min:2',
+            'email' => 'required|email',
+            'country' => 'required',
+            'mobile' => 'required|min:10',
+            'state' => 'required',
+        ];
+
+        $messages = [
+            'name.required' => 'The name field is required.',
+            'name.min' => 'The name must be at least 2 characters.',
+            'email.required' => 'The email field is required.',
+            'email.email' => 'The email must be a valid email address.',
+            'country.required' => 'The country code field is required.',
+            'mobile.required' => 'The mobile field is required.',
+            'mobile.min' => 'The mobile must be at least 10 characters.',
+            'state.required' => 'The state field is required.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        } else {
+            $u = Auth::user();
+            $user = User::find($u->id);
+            if (!$user) {
+                return redirect()->back()->withErrors(['email' => "This account no longer exists"])->withInput();
+            }
+
+            $state_name = Country::find($request->state);
+
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->mobile = $request->mobile;
+            $user->state = $state_name->s_name;
+            $user->country = $request->country;
+            $user->save();
+            return redirect()->back();
+        }
     }
 }

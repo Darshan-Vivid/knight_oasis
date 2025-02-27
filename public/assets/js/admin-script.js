@@ -7,7 +7,6 @@ function setDeleteFormAction(element) {
 
 $(document).ready(function () {
 
-     /* date picker js start */
      var checkinPicker = $(".checkin_date_picker").flatpickr({
         dateFormat: "Y-m-d",
         minDate: "today",
@@ -69,7 +68,7 @@ $(document).ready(function () {
         var valueCell = selectedRowForSettings.find("td").eq(1);
         var slugCell = selectedRowForSettings.find("td").eq(0);
         var currentValue = valueCell.text();
-        var currentSlug = slugCell.text();
+        var currentSlug = slugCell.data('slug');
 
         if (button.attr("id") == "ko_settings_table_text") {
             valueCell.html(
@@ -105,7 +104,6 @@ $(document).ready(function () {
             if ($("#add_new_social_link").length === 0) {
                 button.parent().append("<div class='row'><button class='btn btn-sm btn-light mt-3' id='add_new_social_link'>add new</button></div>");
             }
-            console.log(old_links);
             if (old_links && old_links.length  != 0 && Array.isArray(old_links)) {
                 old_links.forEach(function(item) {
                     html_string += "<div class='row'>";
@@ -157,7 +155,7 @@ $(document).ready(function () {
         var rid = parent_div.data("id");
         var token = $('meta[name="csrf-token"]').attr('content');
         var media_type = parent_div.data("type");
-        
+
         $.ajax({
             url: admin_url,
             type: "POST",
@@ -209,7 +207,7 @@ $(document).ready(function () {
             tinymce.get(selector).remove();
         }
     }
-    
+
     function get_room_services(){
         let $this = $("#booking_room_type");
         var token = $('meta[name="csrf-token"]').attr('content');

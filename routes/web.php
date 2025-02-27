@@ -41,9 +41,13 @@ Route::get('/', [RedirectController::class, 'show_home'])->name('view.home');
 Route::post('/', [BookingController::class, 'quick_book'])->name('home.book');
 Route::get('/about-us', [RedirectController::class, 'show_about'])->name('view.about');
 Route::get('/faqs', [RedirectController::class, 'show_faqs'])->name('view.faqs');
-Route::get('/my-account', [AuthController::class, 'my_account'])->name('view.my_account');
 Route::get('/contact-us', [RedirectController::class, 'show_contact'])->name('view.contact');
 Route::post('/contact-us', [RedirectController::class, 'mail_contact'])->name('contact.mail');
+
+Route::middleware(['auth', 'role:admin|user'])->group(function () {
+    Route::get('/my-account', [AuthController::class, 'my_account'])->name('view.my_account');
+    Route::post('/update-profile', [AuthController::class, 'profile_update'])->name('profile.update');
+});
 
 Route::get('/blog', [BlogController::class, 'view_blog'])->name('view.blog');
 Route::get('/blog/{slug}', [BlogController::class, 'blog_list'])->name('blog.list');
@@ -77,24 +81,25 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/room-amenities', AmenityController::class)->names('amenities');
         Route::resource('/rooms', RoomController::class)->names('rooms');
         // Route::resource('media', MediaController::class);
-        
+
         Route::get('/settings', [AdminController::class, 'show_settings'])->name('view.settings');
         Route::post('/settings', [AdminController::class, 'save_settings'])->name('settings.save');
-        
+
         Route::get('/offline-booking', [BookingController::class, 'show_offline_booking'])->name('view.offline_booking');
         Route::post('/offline-booking', [BookingController::class, 'store_offline_booking'])->name('offline_booking.save');
-        
+
         Route::get('/transactions', [BookingController::class, 'show_transactions'])->name('view.transactions');
         Route::get('/bookings', [BookingController::class, 'show_bookings'])->name('view.bookings');
 
         Route::get('/booking/{id}', [BookingController::class, 'show_single_booking'])->name('view.booking');
         // Route::get('/booking/{id}/edit', [BookingController::class, 'edit_booking'])->name('view.edit_booking');
         // Route::post('/booking/{id}/edit', [BookingController::class, 'save_edit_booking'])->name('edit_booking.save');
-        
+
         Route::get('/users', [AdminController::class, 'show_users'])->name('view.users');
         Route::post('/remove-room-media',[ RoomController::class , 'remove_room_media'])->name('rooms.media.remove');
         Route::post('/room-wise-services',[ RoomController::class , 'room_wise_services'])->name('rooms.services');
         Route::get('/routes', [RedirectController::class, 'routeList']);           //route list table
     });
 });
+
 

@@ -17,10 +17,10 @@
     $bed = json_decode($room->beds, true);
     $edit_amenities = json_decode($room->amenities);
     $edit_services = json_decode($room->service);
-    if( empty($edit_amenities)|| count($edit_amenities) == 0){
+    if (empty($edit_amenities) || count($edit_amenities) == 0) {
         $edit_amenities[] = 0;
     }
-    if( empty($edit_services)|| count($edit_services) == 0){
+    if (empty($edit_services) || count($edit_services) == 0) {
         $edit_services[] = 0;
     }
 
@@ -28,8 +28,8 @@
 
 @endphp
 
-<form class="store-blogs" action="{{ route('rooms.update' , $room->id) }}" method="POST" enctype="multipart/form-data">
-    @csrf 
+<form class="store-blogs" action="{{ route('rooms.update', $room->id) }}" method="POST" enctype="multipart/form-data">
+    @csrf
     @method('PUT')
 
     <div class="row">
@@ -37,440 +37,225 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-xxl-4">
-                            <h5 class="mb-3 card-title">Room Title</h5>
-                            <p class="text-muted">Room Title Information refers to the data related to the group of the
-                                rooms.</p>
-                        </div>
-                        <div class="col-xxl-8">
-                            <div class="mb-3">
-                                <label for="title" class="form-label">Room Title <span
-                                        class="text-danger">*</span></label>
-                                <input type="text" name="title" id="title"
-                                    class="form-control @error('title') is-invalid @enderror"
-                                    placeholder="Enter room title" value="{{ old('title',$room->name) }}" required>
-                                @error('title')
-                                    <span class="form-error-message text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-xxl-4">
-                            <h5 class="mb-3 card-title">Room Quantity</h5>
-                            <p class="text-muted">Room Quantity refers to the number related to the number of rooms in
-                                group.</p>
-                        </div>
-                        <div class="col-xxl-8">
-                            <div class="mb-3">
-                                <label for="quantity" class="form-label">Room Quantity <span
-                                        class="text-danger">*</span></label>
-                                <input type="number" name="quantity" id="quantity"
-                                    class="form-control @error('quantity') is-invalid @enderror"
-                                    placeholder="Enter number of rooms in group" min="0" value="{{ old('quantity', $room->quantity) }}" required>
-                                @error('quantity')
-                                    <span class="form-error-message text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-xxl-4">
-                            <h5 class="mb-3 card-title">Room Price</h5>
-                            <p class="text-muted">Room Price refers to the number related to the price of the single
-                                room.</p>
-                        </div>
-                        <div class="col-xxl-8">
-                            <div class="mb-3">
-                                <label for="price" class="form-label">Room Price<span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <span class="input-group-text">₹</span>
-                                    <input type="number" name="price" id="price" class="form-control @error('price') is-invalid @enderror" placeholder="Enter price of the single room" min="0" value="{{ old('price', $room->price) }}" required>
-                                    <span class="input-group-text">.00</span>
-                                </div>
-                                @error('price')
-                                    <span class="form-error-message text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-xxl-4">
-                            <h5 class="mb-3 card-title">Room Offer Price</h5>
-                            <p class="text-muted">Room Offer Price refers to the number related to the offring price of the single
-                                room.</p>
-                        </div>
-                        <div class="col-xxl-8">
-                            <div class="mb-3">
-                                <label for=offer_price class="form-label">Room Offer Price<span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <span class="input-group-text">₹</span>
-                                    <input type="number" name=offer_price id=offer_price class="form-control @error('offer_price') is-invalid @enderror" placeholder="Enter offer price of the single room" min="0" value="{{ old('offer_price', $room->offer_price) }}" required>
-                                    <span class="input-group-text">.00</span>
-                                </div>
-                                @error('offer_price')
-                                    <span class="form-error-message text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-xxl-4">
-                            <h5 class="mb-3 card-title">Room Description</h5>
-                            <p class="text-muted">Room Description refers to the summary or excerpt of a room that
-                                provides a brief overview of its content.</p>
-                        </div>
-                        <div class="col-xxl-8">
-                            <div class="mb-3">
-                                <label class="form-label">Room Description <span class="text-danger">*</span></label>
-                                <textarea name="description" id="description" placeholder="Enter room description"
-                                    rows="5"
-                                    class="myeditor form-control @error('description') is-invalid @enderror">{{ old('description' ,$room->description) }}</textarea>
-                                @error('description')
-                                    <span class="form-error-message text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-xxl-4">
-                            <h5 class="mb-3 card-title">Room Allow Guest</h5>
-                            <p class="text-muted">Room Allow Guest refers to the number related to allowd number of the
-                                guests in the single room.</p>
-                        </div>
-                        <div class="col-xxl-8">
-                            <div class="mb-3">
-                                <label for="allowd_guests" class="form-label">Room Allow Guest<span
-                                        class="text-danger">*</span></label>
-                                <input type="number" name="allowd_guests" id="allowd_guests"
-                                    class="form-control @error('allowd_guests') is-invalid @enderror"
-                                    placeholder="Enter the number of guest allowd in the single room" min="0" value="{{ old('allowd_guests', $room->allowd_guests) }}" required>
-                                @error('allowd_guests')
-                                    <span class="form-error-message text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-xxl-4">
-                            <h5 class="mb-3 card-title">Room Size</h5>
-                            <p class="text-muted">Room Size refers to the size of the single room in feets .</p>
-                        </div>
-                        <div class="col-xxl-8">
-                            <div class="mb-3">
-                                <label for="size" class="form-label">Room Size<span class="text-danger">*</span></label>
-                                <input type="number" name="size" id="size"
-                                    class="form-control @error('size') is-invalid @enderror"
-                                    placeholder="Enter the size of the single room in feets" min="0" value="{{ old('size', $room->size) }}" required>
-                                @error('size')
-                                    <span class="form-error-message text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-xxl-4">
-                            <h5 class="mb-3 card-title">Room Beds</h5>
-                            <p class="text-muted">Room Beds refers to quantity and the name of Bed of the single room.
-                            </p>
-                        </div>
-                        <div class="col-xxl-8">
-                            <div class="mb-3">
-                                <label for="bed_quantity" class="form-label">Room Beds <span
-                                        class="text-danger">*</span></label>
-                                <div class="gap-2 d-flex">
-                                    <input type="number" name="bed_quantity" id="bed_quantity"
-                                        class="form-control @error('bed_quantity') is-invalid @enderror"
-                                        placeholder="Quantity" min="0" value="{{ old('bed_quantity',$bed['quentity'] ?? '') }}" required>
-                                    <input type="text" name="bed_name" id="bed_name"
-                                        class="form-control @error('bed_name') is-invalid @enderror"
-                                        placeholder="Name of bed" value="{{ old('bed_name',$bed['name'] ?? '' ) }}" required>
-                                </div>
-                                @error('bed_quantity')
-                                    <span class="form-error-message text-danger">{{ $message }}</span>
-                                @enderror
-                                @error('bed_name')
-                                    <span class="form-error-message text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label for="bed_price" class="form-label">Bed Price/Bed<span class="text-danger">*</span></label>
-                                <div class="gap-2">
-                                    <div class="input-group">
-                                        <span class="input-group-text">₹</span>
-                                        <input type="number" name="bed_price" id="bed_price" class="form-control @error('bed_price') is-invalid @enderror" placeholder="Enter price for extra beds" min="0" value="{{ old('bed_price', $room->bed_price) }}" required>
-                                        <span class="input-group-text">.00</span>
-                                    </div>
-                                </div>
-                                @error('bed_price')
+                        <div class="mb-3 col-xxl-4">
+                            <label for="title" class="form-label">Room Title <span
+                                    class="text-danger">*</span></label>
+                            <input type="text" name="title" id="title"
+                                class="form-control @error('title') is-invalid @enderror" placeholder="Enter room title"
+                                value="{{ old('title', $room->name) }}" required>
+                            @error('title')
                                 <span class="form-error-message text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3 col-xxl-4">
+                            <label for="quantity" class="form-label">Room Quantity <span
+                                    class="text-danger">*</span></label>
+                            <input type="number" name="quantity" id="quantity"
+                                class="form-control @error('quantity') is-invalid @enderror"
+                                placeholder="Enter number of rooms in group" min="0"
+                                value="{{ old('quantity', $room->quantity) }}" required>
+                            @error('quantity')
+                                <span class="form-error-message text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3 col-xxl-4">
+                            <label for="size" class="form-label">Room Size<span class="text-danger">*</span></label>
+                            <input type="number" name="size" id="size"
+                                class="form-control @error('size') is-invalid @enderror"
+                                placeholder="Enter the size of the single room in feets" min="0"
+                                value="{{ old('size', $room->size) }}" required>
+                            @error('size')
+                                <span class="form-error-message text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
                     <div class="row">
-                        <div class="col-xxl-4">
-                            <h5 class="mb-3 card-title">Room Amenities</h5>
-                            <p class="text-muted">Room Amenities refers to the facilities you provide to the room.</p>
+                        <div class="mb-3 col-xxl-4">
+                            <label for="price" class="form-label">Room Price<span
+                                    class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text">₹</span>
+                                <input type="number" name="price" id="price"
+                                    class="form-control @error('price') is-invalid @enderror"
+                                    placeholder="Enter price of the single room" min="0"
+                                    value="{{ old('price', $room->price) }}" required>
+                                <span class="input-group-text">.00</span>
+                            </div>
+                            @error('price')
+                                <span class="form-error-message text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
-                        <div class="col-xxl-8">
-                            <div class="mb-3">
-                                <label class="form-label">Select Amenities <span class="text-danger">*</span></label>
-                                <div class="flex-wrap gap-3">
-                                    @forelse ($amenities as $amenity)
-                                        @if($amenity->status == 1)
-                                            <div class="form-check">
-                                                <input
-                                                    class="form-check-input"
-                                                    type="checkbox"
-                                                    name="amenities[]"
-                                                    value="{{ $amenity->id }}"
-                                                    {{ in_array($amenity->id, old('amenities',$edit_amenities)) ? 'checked' : '' }}
-                                                >
-                                                <label class="form-check-label" for="amenities">{{ $amenity->name }}</label>
-                                            </div>
-                                        @endif
-                                    @empty
-                                        <div class="form-check"> No amenities found </div>
-                                    @endforelse
+
+                        <div class="mb-3 col-xxl-4">
+                            <label for=offer_price class="form-label">Room Offer Price<span
+                                    class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text">₹</span>
+                                <input type="number" name=offer_price id=offer_price
+                                    class="form-control @error('offer_price') is-invalid @enderror"
+                                    placeholder="Enter offer price of the single room" min="0"
+                                    value="{{ old('offer_price', $room->offer_price) }}" required>
+                                <span class="input-group-text">.00</span>
+                            </div>
+                            @error('offer_price')
+                                <span class="form-error-message text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3 col-xxl-4">
+                            <label for="bed_price" class="form-label">Bed Price/Bed<span
+                                    class="text-danger">*</span></label>
+                            <div class="gap-2">
+                                <div class="input-group">
+                                    <span class="input-group-text">₹</span>
+                                    <input type="number" name="bed_price" id="bed_price"
+                                        class="form-control @error('bed_price') is-invalid @enderror"
+                                        placeholder="Enter price for extra beds" min="0"
+                                        value="{{ old('bed_price', $room->bed_price) }}" required>
+                                    <span class="input-group-text">.00</span>
                                 </div>
                             </div>
+                            @error('bed_price')
+                                <span class="form-error-message text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
                     <div class="row">
-                        <div class="col-xxl-4">
-                            <h5 class="mb-3 card-title">Room Services</h5>
-                            <p class="text-muted">Room Services refers to the Services you provide with the room price.</p>
+                        <div class="mb-3 col-xxl-4">
+                            <label for="price" class="form-label">Room Beds<span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input type="number" name="bed_quantity" id="bed_quantity"
+                                    class="form-control @error('bed_quantity') is-invalid @enderror"
+                                    placeholder="Quantity" min="0"
+                                    value="{{ old('bed_quantity', $bed['quentity'] ?? '') }}" required>
+                            </div>
+                            @error('bed_quantity')
+                                <span class="form-error-message text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
-                        <div class="col-xxl-8">
-                            <div class="mb-3">
-                                <label class="form-label">Select Services <span class="text-danger">*</span></label>
-                                <div class="flex-wrap gap-3">
-                                    @forelse ($services as $service)
+
+                        <div class="mb-3 col-xxl-4">
+                            <label for=offer_price class="form-label">Room Bed Name<span
+                                    class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input type="text" name="bed_name" id="bed_name"
+                                    class="form-control @error('bed_name') is-invalid @enderror"
+                                    placeholder="Name of bed" value="{{ old('bed_name', $bed['name'] ?? '') }}"
+                                    required>
+                            </div>
+                            @error('bed_name')
+                                <span class="form-error-message text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3 col-xxl-4">
+                            <label for="allowd_guests" class="form-label">Room Allow Guest<span
+                                    class="text-danger">*</span></label>
+                            <input type="number" name="allowd_guests" id="allowd_guests"
+                                class="form-control @error('allowd_guests') is-invalid @enderror"
+                                placeholder="Enter the number of guest allowd in the single room" min="0"
+                                value="{{ old('allowd_guests', $room->allowd_guests) }}" required>
+                            @error('allowd_guests')
+                                <span class="form-error-message text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="mb-3 col-xxl-6">
+                            <label class="form-label">Room Amenities <span class="text-danger">*</span></label>
+                            <div class="flex-wrap gap-3">
+                                @forelse ($amenities as $amenity)
+                                    @if ($amenity->status == 1)
                                         <div class="form-check">
-                                            <input
-                                                class="form-check-input"
-                                                type="checkbox"
-                                                name="services[]"
-                                                value="{{ $service->id }}"
-                                                {{ in_array($service->id, old('services',$edit_services)) ? 'checked' : '' }}
-                                            >
-                                            <label class="form-check-label" for="services">{{ $service->name }}</label>
+                                            <input class="form-check-input" type="checkbox" name="amenities[]"
+                                                value="{{ $amenity->id }}"
+                                                {{ in_array($amenity->id, old('amenities', $edit_amenities)) ? 'checked' : '' }}>
+                                            <label class="form-check-label"
+                                                for="amenities">{{ $amenity->name }}</label>
                                         </div>
-                                    @empty
-                                        <div class="form-check"> No services found </div>
-                                    @endforelse
-                                </div>
+                                    @endif
+                                @empty
+                                    <div class="form-check"> No amenities found </div>
+                                @endforelse
+                            </div>
+                        </div>
+
+                        <div class="mb-3 col-xxl-6">
+                            <label class="form-label">Room Services <span class="text-danger">*</span></label>
+                            <div class="flex-wrap gap-3">
+                                @forelse ($services as $service)
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="services[]"
+                                            value="{{ $service->id }}"
+                                            {{ in_array($service->id, old('services', $edit_services)) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="services">{{ $service->name }}</label>
+                                    </div>
+                                @empty
+                                    <div class="form-check"> No services found </div>
+                                @endforelse
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
                     <div class="row">
-                        <div class="col-xxl-4">
-                            <h5 class="mb-3 card-title">Room Features</h5>
-                            <p class="text-muted">Room Features refers to the description of features related to the room.</p>
-                        </div>
-                        <div class="col-xxl-8">
-                            <div class="mb-3">
-                                <label class="form-label">Room Features</label>
-                                <textarea name="features" id="features" placeholder="Enter room features" rows="5"
-                                    class="myeditor form-control @error('features') is-invalid @enderror">{{ old('features',$room->features) }}</textarea>
-                                @error('features')
-                                    <span class="form-error-message text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
+                        <div class="mb-3">
+                            <label class="form-label">Room Description <span class="text-danger">*</span></label>
+                            <textarea name="description" id="description" placeholder="Enter room description" rows="5"
+                                class="myeditor form-control @error('description') is-invalid @enderror">{{ old('description', $room->description) }}</textarea>
+                            @error('description')
+                                <span class="form-error-message text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
                     <div class="row">
-                        <div class="col-xxl-4">
-                            <h5 class="mb-3 card-title">Featured Image</h5>
-                            <p class="text-muted">Featured Image refers to the visual multimedia element associated with a room.</p>
+                        <div class="mb-3">
+                            <label class="form-label">Room Features</label>
+                            <textarea name="features" id="features" placeholder="Enter room features" rows="5"
+                                class="myeditor form-control @error('features') is-invalid @enderror">{{ old('features', $room->features) }}</textarea>
+                            @error('features')
+                                <span class="form-error-message text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
-                        <div class="col-xxl-8">
-                            <div class="mb-3">
-                                <label class="form-label">Featured Image <span class="text-danger">*</span></label>
-                                <input type="file" name="featured_image" id="featured_image" class="form-control" accept="image/*">
-                                <small class="text-muted">Leave blank if you do not want to update the image.</small>
-                                @error('featured_image')
-                                    <span class="form-error-message text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            
-                            <div class="flex-wrap mt-3 d-flex" data-url="{{ route('rooms.media.remove') }}" data-id="{{ $room->id }}" data-token="{{ csrf_token() }}" data-type ="featured"  >
+                    </div>
+
+                    <div class="row">
+                        <div class="mb-3 col-xxl-4">
+                            <label class="form-label">Featured Image <span class="text-danger">*</span></label>
+                            <input type="file" name="featured_image" id="featured_image" class="form-control" accept="image/*">
+                            <small class="text-muted">Leave blank if you do not want to update the image.</small>
+                            @error('featured_image')
+                                <span class="form-error-message text-danger">{{ $message }}</span>
+                            @enderror
+
+                            <div class="flex-wrap mt-3 d-flex" data-url="{{ route('rooms.media.remove') }}" data-id="{{ $room->id }}" data-token="{{ csrf_token() }}" data-type="featured">
                                 <div class="m-2 position-relative">
-                                    @if($room->feature_img)
-                                        <img id="imagePreview" src="{{ $room->feature_img }}" alt="Featured Image Preview" class="img-fluid" style="max-width: 200px; height: auto;">
+                                    @if ($room->feature_img)
+                                        <img id="imagePreview" src="{{ $room->feature_img }}" alt="Featured Image Preview" class="img-fluid admin-media-preview">
                                     @else
                                         <span> No Featured Found </span>
                                     @endif
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="mt-4 row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-xxl-4">
-                            <h5 class="mb-3 card-title">Gallery Images</h5>
-                            <p class="text-muted">Gallery Images refers images to showcase more visuals of the room.</p>
-                        </div>
-                        <div class="col-xxl-8">
-                            <div class="mb-3">
-                                <label class="form-label">Gallery Images</label>
-                                <input type="file" name="gallery_images[]" id="gallery_images" class="form-control" multiple>
-                                <small class="text-muted">Leave blank if you do not want to update the images.</small>
-                                @error('gallery_images')
-                                    <span class="form-error-message text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="flex-wrap mt-3 d-flex" data-url="{{ route('rooms.media.remove') }}" data-id="{{ $room->id }}" data-token="{{ csrf_token() }}" data-type ="gallery"  >
-                                @if(count($edit_galleryImages) > 0)
-                                    @foreach ($edit_galleryImages as $edit_galleryImage)
-                                        <div class="m-2 position-relative">
-                                            <img id="imagePreview" src="{{ $edit_galleryImage }}" alt="Gallery Images Preview" class="img-fluid" style="width: 200px; height: auto;">
-                                            <button type="button" class="top-0 btn btn-danger btn-sm position-absolute end-0 remove-room-media" data-media="{{ $edit_galleryImage }}">X</button>
-                                        </div>
-                                    @endforeach
-                                @else
-                                    <span> No Images Found </span>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="mt-4 row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-xxl-4">
-                            <h5 class="mb-3 card-title">Tour Video</h5>
-                            <p class="text-muted">Tour Video refersto video for showcase more visuals of the room.</p>
-                        </div>
-                        <div class="col-xxl-8">
-                            <div class="mb-3 ">
-                                <label class="form-label">Tour Video</label>
-                                <input type="file" name="tour_video" id="tour_video" class="form-control" accept=".mp4,.avi,.mkv,.flv,.mov">
-                                <small class="text-muted">Leave blank if you do not want to update the vedio.</small>
-                                @error('tour_video')
-                                    <span class="form-error-message text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-
-                            <div class="flex-wrap mt-3 d-flex" data-url="{{ route('rooms.media.remove') }}" data-id="{{ $room->id }}" data-token="{{ csrf_token() }}" data-type ="tour"  >
+                        <div class="mb-3 col-xxl-4">
+                            <label class="form-label">Tour Video</label>
+                            <input type="file" name="tour_video" id="tour_video" class="form-control" accept=".mp4,.avi,.mkv,.flv,.mov">
+                            <small class="text-muted">Leave blank if you do not want to update the video.</small>
+                            @error('tour_video')
+                                <span class="form-error-message text-danger">{{ $message }}</span>
+                            @enderror
+                            <div class="flex-wrap mt-3 d-flex" data-url="{{ route('rooms.media.remove') }}" data-id="{{ $room->id }}" data-token="{{ csrf_token() }}" data-type="tour">
                                 <div class="m-2 position-relative">
-                                    @if($room->tour_video)
-                                        <video id="videoPreview" controls class="img-fluid" style="max-width: 200px; height: auto;">
-                                            <source id="videoSource" src="{{ $room->tour_video ? $room->tour_video : null }}" type="video/mp4">
+                                    @if ($room->tour_video)
+                                        <video id="videoPreview" controls class="img-fluid admin-media-preview">
+                                            <source id="videoSource" src="{{ $room->tour_video }}" type="video/mp4">
                                             Your browser does not support the video tag.
                                         </video>
                                         <button type="button" class="top-0 btn btn-danger btn-sm position-absolute end-0 remove-room-media" data-media="{{ $room->tour_video }}">X</button>
@@ -480,7 +265,29 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="mb-3 col-xxl-4">
+                            <label class="form-label">Gallery Images</label>
+                            <input type="file" name="gallery_images[]" id="gallery_images" class="form-control" multiple>
+                            <small class="text-muted">Leave blank if you do not want to update the images.</small>
+                            @error('gallery_images')
+                                <span class="form-error-message text-danger">{{ $message }}</span>
+                            @enderror
+                            <div class="flex-wrap mt-3 d-flex" data-url="{{ route('rooms.media.remove') }}" data-id="{{ $room->id }}" data-token="{{ csrf_token() }}" data-type="gallery">
+                                @if (count($edit_galleryImages) > 0)
+                                    @foreach ($edit_galleryImages as $edit_galleryImage)
+                                        <div class="m-2 position-relative">
+                                            <img id="imagePreview" src="{{ $edit_galleryImage }}" alt="Gallery Images Preview" class="img-fluid admin-media-preview">
+                                            <button type="button" class="top-0 btn btn-danger btn-sm position-absolute end-0 remove-room-media" data-media="{{ $edit_galleryImage }}">X</button>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <span> No Images Found </span>
+                                @endif
+                            </div>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -498,8 +305,8 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         tinymce.init({
-            selector: "#features",
-            height: 300,
+            selector: ".myeditor",
+            height: 250,
             menubar: false,
             plugins: "advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table help",
             toolbar: "undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help",

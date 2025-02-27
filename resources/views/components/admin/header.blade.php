@@ -12,12 +12,12 @@
     {{-- favicon icon end --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" id="fontsLink" href="https://fonts.googleapis.com/admin2?family=Poppins:wght@300;400;500;600;700&display=swap" >
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="{{ URL::asset('admin/css/bootstrap.min.css') }}" type="text/css" />
     <link rel="stylesheet" href="{{ URL::asset('admin/css/icons.min.css') }}" type="text/css" />
     <link rel="stylesheet" href="{{ URL::asset('admin/css/app.min.css') }}" type="text/css" />
     <link rel="stylesheet" href="{{ URL::asset('admin/css/custom.min.css') }}" type="text/css" />
+    <link rel="stylesheet" href="{{ URL::asset('assets/css/admin-style.css') }}" type="text/css" />
     <script src="{{ URL::asset('admin/js/layout.js') }}"></script>
     <script src="{{ URL::asset('admin/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ URL::asset('admin/libs/simplebar/simplebar.min.js') }}"></script>
@@ -31,26 +31,6 @@
         <div class="layout-width">
             <div class="navbar-header">
                 <div class="d-flex">
-                    <div class="navbar-brand-box horizontal-logo">
-                        <a href="index" class="logo logo-dark">
-                            <span class="logo-sm">
-                                <img src="{{ URL::asset('admin/images/logo-sm.png') }}" alt="" height="22">
-                            </span>
-                            <span class="logo-lg">
-                                <img src="{{ URL::asset('admin/images/logo-dark.png') }}" alt=""
-                                    height="22">
-                            </span>
-                        </a>
-                        <a href="index" class="logo logo-light">
-                            <span class="logo-sm">
-                                <img src="{{ URL::asset('admin/images/logo-sm.png') }}" alt="" height="22">
-                            </span>
-                            <span class="logo-lg">
-                                <img src="{{ URL::asset('admin/images/logo-light.png') }}" alt=""
-                                    height="22">
-                            </span>
-                        </a>
-                    </div>
                     <button type="button"
                         class="px-3 shadow-none btn btn-sm fs-16 header-item vertical-menu-btn topnav-hamburger"
                         id="topnav-hamburger-icon">

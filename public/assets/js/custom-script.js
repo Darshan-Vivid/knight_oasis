@@ -1,78 +1,77 @@
 $(document).ready(function () {
     hide_loader();
+    Scroll()
 
     /* date picker js start */
     var checkinPicker = $(".checkin_date_picker").flatpickr({
         dateFormat: "Y-m-d",
         minDate: "today",
-        defaultDate: $(".checkin_date_picker").data('old'),
+        defaultDate: $(".checkin_date_picker").data("old"),
         onChange: function (selectedDates) {
             var minCheckoutDate = new Date(selectedDates[0]);
             minCheckoutDate.setDate(minCheckoutDate.getDate());
-            checkoutPicker.set('minDate', minCheckoutDate);
+            checkoutPicker.set("minDate", minCheckoutDate);
             checkoutPicker.setDate(minCheckoutDate);
             $(".checkout_date_picker").focus();
-
-        }
+        },
     });
 
-    $(".checkin_date_picker").on('change' , function(){
+    $(".checkin_date_picker").on("change", function () {
         $(".checkout_date_picker").focus();
     });
 
     var checkoutPicker = $(".checkout_date_picker").flatpickr({
         dateFormat: "Y-m-d",
         minDate: new Date().fp_incr(0),
-        defaultDate: $(".checkout_date_picker").data('old'),
+        defaultDate: $(".checkout_date_picker").data("old"),
     });
     /* date picker js end */
-    
+
     /* cart page js start */
     $("#ko_cart_room_count_inc").click(function (e) {
         e.preventDefault();
         var counter = $("#ko_cart_room_count");
-        counter.val(Number(counter.val())+1);
+        counter.val(Number(counter.val()) + 1);
         update_cart_page_price();
-
     });
 
     $("#ko_cart_room_count_dec").click(function (e) {
         e.preventDefault();
         var counter = $("#ko_cart_room_count");
-        if(Number(counter.val()) > 1){
-            counter.val(Number(counter.val())-1);
+        if (Number(counter.val()) > 1) {
+            counter.val(Number(counter.val()) - 1);
             update_cart_page_price();
         }
     });
 
     $("#ko_cart_remove_room").click(function (e) {
         e.preventDefault();
-        $(this).css('opacity','0.5');
+        $(this).css("opacity", "0.5");
 
-        ajax_url = $(this).data('url');
-        var token = $('meta[name="csrf-token"]').attr('content');
+        ajax_url = $(this).data("url");
+        var token = $('meta[name="csrf-token"]').attr("content");
         $.ajax({
             url: ajax_url,
             type: "POST",
             data: {
-                _token: token
+                _token: token,
             },
             success: function (response) {
                 if (response.redirect_url) {
-                    window.location.href = response.redirect_url; 
+                    window.location.href = response.redirect_url;
                 }
             },
             error: function (xhr) {
                 console.error("Submission error:", xhr);
-            }
+            },
         });
     });
 
-    $('#account_with_hotel').change(function() {
-        if ($(this).is(':checked')) {
-            $('[name="customer_note"]').css('display', 'block');
+    $("#account_with_hotel").change(function () {
+        if ($(this).is(":checked")) {
+            $('[name="customer_note"]').css("display", "block");
         } else {
-            $('[name="customer_note"]').css('display', 'none');
+            $('[name="customer_note"]').css("display", "none");
         }
     });
 
@@ -90,12 +89,15 @@ $(document).ready(function () {
         var cout = $("#booking-data-check_out").val();
         var qty = $("#booking-data-quantity");
         var rslug = $("#booking-data-hiddens").val();
-        var ajax_url = $("#booking-data-hiddens").data('url');
-        var token = $('meta[name="csrf-token"]').attr('content');
-        var submit_btn = $('#ko-book-form-sumbit');
+        var ajax_url = $("#booking-data-hiddens").data("url");
+        var token = $('meta[name="csrf-token"]').attr("content");
+        var submit_btn = $("#ko-book-form-sumbit");
         var error = $(".invalid-response");
 
-        submit_btn.prop('disabled', true).addClass('loading').text("Checking Date..");
+        submit_btn
+            .prop("disabled", true)
+            .addClass("loading")
+            .text("Checking Date..");
 
         $.ajax({
             url: ajax_url,
@@ -105,7 +107,7 @@ $(document).ready(function () {
                 check_in: cin,
                 check_out: cout,
                 quantity: qty.val(),
-                _token: token
+                _token: token,
             },
             success: function (response) {
                 if (response.status == 1) {
@@ -113,18 +115,21 @@ $(document).ready(function () {
                     $("#ko_booking_form")[0].submit();
                 } else {
                     error.css("display", "block").text(response.message);
-                    qty.attr('data-disable', '1');
+                    qty.attr("data-disable", "1");
                 }
             },
             error: function (xhr) {
                 console.error("Submission error:", xhr);
-            }
+            },
         });
-        submit_btn.prop('disabled', false).removeClass('loading').text("Book Your Stay");
+        submit_btn
+            .prop("disabled", false)
+            .removeClass("loading")
+            .text("Book Your Stay");
     });
 
     $(".qty-btn-plus").click(function () {
-        const container = $(this).closest(".qty-container"); 
+        const container = $(this).closest(".qty-container");
         const inputQty = container.find(".input-qty");
         inputQty.val(Number(inputQty.val()) + 1);
 
@@ -142,20 +147,18 @@ $(document).ready(function () {
         updateGrandTotal();
     });
 
-    $("#booking-data-adults, #booking-data-children, #booking-data-quantity, #booking-data-extra_beds").on("change blur", updateGrandTotal);
+    $(
+        "#booking-data-adults, #booking-data-children, #booking-data-quantity, #booking-data-extra_beds"
+    ).on("change blur", updateGrandTotal);
 
-    
+    $('.ko-check-wrap input[type="checkbox"]').on("change", updateGrandTotal);
 
-    $('.ko-check-wrap input[type="checkbox"]').on('change', updateGrandTotal);
-
-    if($('#booking-data-check_in, #booking-data-check_out')){
+    if ($("#booking-data-check_in, #booking-data-check_out")) {
         updateGrandTotal();
     }
 
     /* booking page js end */
-
 });
-
 
 /* Header JS start */
 document.addEventListener("touchmove", Scroll, false);
@@ -240,90 +243,132 @@ if (loginPassEl != null) {
 }
 
 /* signup js start */
-$('#country_code').select2({
+$("#country_code").select2({
     placeholder: "Search country code...",
     allowClear: true,
-    width: '100%'
+    width: "100%",
 });
 
-$('#country_code').change(function() {
+$("#country_code").change(function () {
     get_states();
     var countryCode = $("#country_code option:selected").data("country-code");
-    $('#ko-register-mobile').val(countryCode);
+    $("#ko-register-mobile").val(countryCode);
 });
 
-function get_states(){
-    const ajax_url = $("#country_code").data('url');
-    var token = $('meta[name="csrf-token"]').attr('content');
+function get_states() {
+    const ajax_url = $("#country_code").data("url");
+    var token = $('meta[name="csrf-token"]').attr("content");
     var countryName = $("#country_code").val();
     var countryCode = $("#country_code option:selected").data("country-code");
-    var state = $('#state');
-    var oldState = state.data('value');
+    var state = $("#state");
+    var oldState = state.data("value");
     state.empty();
-    state.append('<option value="" disabled selected>Please select state</option>');
-
+    state.append(
+        '<option value="" disabled selected>Please select state</option>'
+    );
 
     if (countryCode && countryName) {
         $.ajax({
             url: ajax_url,
-            type: 'post',
+            type: "post",
             data: {
                 country_code: countryCode,
                 country_name: countryName,
                 _token: token,
             },
-            dataType: 'json',
-            success: function(data) {
-
-                $.each(data, function(key, value) {
-                    var selected = (key == oldState) ? 'selected' : '';
-                    state.append('<option value="' + key + '" ' + selected + '>' + value + '</option>');
+            dataType: "json",
+            success: function (data) {
+                $.each(data, function (key, value) {
+                    var selected = key == oldState ? "selected" : "";
+                    state.append(
+                        '<option value="' +
+                            key +
+                            '" ' +
+                            selected +
+                            ">" +
+                            value +
+                            "</option>"
+                    );
                 });
             },
-            error: function() {
-                console.log('Error fetching states');
-            }
+            error: function () {
+                console.log("Error fetching states");
+            },
         });
     }
 }
 
 /* signup js end */
 
+if (document.querySelectorAll(".ko-accordion-item-header").length > 0) {
+    const accordionItemHeaders = document.querySelectorAll(
+        ".ko-accordion-item-header"
+    );
+    accordionItemHeaders.forEach((accordionItemHeader) => {
+        accordionItemHeader.addEventListener("click", (event) => {
+            // Remove active class from all other accordion headers
+            accordionItemHeaders.forEach((item) => {
+                if (item !== accordionItemHeader) {
+                    item.classList.remove("active");
+                    item.nextElementSibling.style.maxHeight = 0;
+                }
+            });
 
+            // Toggle active class for clicked header
+            accordionItemHeader.classList.toggle("active");
+            const accordionItemBody = accordionItemHeader.nextElementSibling;
+            if (accordionItemHeader.classList.contains("active")) {
+                accordionItemBody.style.maxHeight =
+                    accordionItemBody.scrollHeight + "px";
+            } else {
+                accordionItemBody.style.maxHeight = 0;
+            }
+        });
+    });
+}
 
+const handleClick = (evt, tabcont) => {
+    const tabcontent = document.querySelectorAll(".ko-tabcontent");
+    tabcontent.forEach((content) => (content.style.display = "none"));
+
+    const tablinks = document.querySelectorAll(".ko-tablinks");
+    tablinks.forEach((link) => link.classList.remove("active"));
+
+    document.getElementById(tabcont).style.display = "block";
+    evt.currentTarget.classList.add("active");
+};
 
 function updateGrandTotal() {
-    let roomPrice = parseFloat($('#booking-data-quantity').data('price')) || 0;
-    let bedPrice = parseFloat($('#booking-data-extra_beds').data('price')) || 0;
-    var extraBeds = parseInt($('#booking-data-extra_beds').val()) || 0;
-    var adult_count = parseInt($('#booking-data-adults').val());
-    var children_count = parseInt($('#booking-data-children').val());
-    var roomQuantity = parseInt($('#booking-data-quantity').val()) || 0;
-    var checkIn = $('#booking-data-check_in').val();
-    var checkOut = $('#booking-data-check_out').val();
-    var max_guest = parseInt($("#booking-data-hiddens").data('max_guest'));
-    var max_rooms = parseInt($("#booking-data-hiddens").data('max_rooms'));
+    let roomPrice = parseFloat($("#booking-data-quantity").data("price")) || 0;
+    let bedPrice = parseFloat($("#booking-data-extra_beds").data("price")) || 0;
+    var extraBeds = parseInt($("#booking-data-extra_beds").val()) || 0;
+    var adult_count = parseInt($("#booking-data-adults").val());
+    var children_count = parseInt($("#booking-data-children").val());
+    var roomQuantity = parseInt($("#booking-data-quantity").val()) || 0;
+    var checkIn = $("#booking-data-check_in").val();
+    var checkOut = $("#booking-data-check_out").val();
+    var max_guest = parseInt($("#booking-data-hiddens").data("max_guest"));
+    var max_rooms = parseInt($("#booking-data-hiddens").data("max_rooms"));
     let total = 0;
 
-    
-    if(roomQuantity > max_rooms){
-        $('#booking-data-quantity').val(max_rooms);
-    }
-    
-    if(extraBeds > (roomQuantity * 3) ){
-        $('#booking-data-extra_beds').val((roomQuantity * 3));
+    if (roomQuantity > max_rooms) {
+        $("#booking-data-quantity").val(max_rooms);
     }
 
-    if(adult_count > (roomQuantity * max_guest)){
-        $('#booking-data-adults').val((roomQuantity * max_guest));
+    if (extraBeds > roomQuantity * 3) {
+        $("#booking-data-extra_beds").val(roomQuantity * 3);
     }
 
-    if(children_count > (roomQuantity * 3)){
-        $('#booking-data-children').val((roomQuantity * 3));
+    if (adult_count > roomQuantity * max_guest) {
+        $("#booking-data-adults").val(roomQuantity * max_guest);
     }
 
-    extraBeds = parseInt($('#booking-data-extra_beds').val()) || 0;
-    roomQuantity = parseInt($('#booking-data-quantity').val()) || 0;
+    if (children_count > roomQuantity * 3) {
+        $("#booking-data-children").val(roomQuantity * 3);
+    }
+
+    extraBeds = parseInt($("#booking-data-extra_beds").val()) || 0;
+    roomQuantity = parseInt($("#booking-data-quantity").val()) || 0;
 
     if (checkIn && checkOut) {
         var checkInDate = new Date(checkIn);
@@ -332,21 +377,25 @@ function updateGrandTotal() {
         var dayGap = Math.floor(timeDiff / (1000 * 60 * 60 * 24)) + 1;
         var days = dayGap > 0 ? dayGap : 1;
 
-        $('input[name="services[]"]:checked:not(:disabled)').each(function() {
-            let servicePrice = parseFloat($(this).data('price')) || 0;
+        $('input[name="services[]"]:checked:not(:disabled)').each(function () {
+            let servicePrice = parseFloat($(this).data("price")) || 0;
             total += servicePrice;
         });
-        
+
         total += roomPrice * roomQuantity;
         total += bedPrice * extraBeds;
-        
+
         var grand_total = days * total;
-        
-        $('#booking-grand-total').text(grand_total.toFixed(0));
+
+        $("#booking-grand-total").text(grand_total.toFixed(0));
     }
 }
 
 function Scroll() {
+    let logoLink = document.getElementById('ko_header_logo_link');
+    let darkLogo = logoLink.querySelector('img:nth-child(1)');
+    let lightLogo = logoLink.querySelector('img:nth-child(2)');
+    let menuLinks = document.querySelectorAll(".ko-header-menu a");
     var mainElementPosition = document.querySelector(".site-header");
     var elementPosition = mainElementPosition.offsetTop;
     var windowScroll = window.scrollY;
@@ -354,10 +403,23 @@ function Scroll() {
     var checkScroll = windowScroll > bodyScroll ? windowScroll : bodyScroll;
     if (checkScroll > elementPosition) {
         document.body.classList.add("sticky-mode");
+        darkLogo.style.display = "block";
+        lightLogo.style.display = "none";
+        menuLinks.forEach(function (link) {
+            link.style.color = "var(--black-color)";
+        });
+
     } else {
         document.body.classList.remove("sticky-mode");
+        darkLogo.style.display = "none";
+        lightLogo.style.display = "block";
+        menuLinks.forEach(function (link) {
+            link.style.color = "var(--white-color)";
+        });
     }
 }
+
+
 
 function loginPassword() {
     if (loginPassEl.type === "password") {
@@ -396,25 +458,24 @@ function hide_loader() {
     $(".loader-wrap").css("display", "none");
 }
 
-function update_cart_page_price(){
-    var count = $('#ko_cart_room_count').val();
-    var ct = $('#ko_cart_cost_total');
-    var gt = $('#ko_cart_grand_total');
-    var st = $('#ko_cart_sub_total');
-    var data = $('#cart-data-hiddens');
+function update_cart_page_price() {
+    var count = $("#ko_cart_room_count").val();
+    var ct = $("#ko_cart_cost_total");
+    var gt = $("#ko_cart_grand_total");
+    var st = $("#ko_cart_sub_total");
+    var data = $("#cart-data-hiddens");
 
-    var checkInDate = new Date(data.data('c_in'));
-    var checkOutDate = new Date(data.data('c_out'));
+    var checkInDate = new Date(data.data("c_in"));
+    var checkOutDate = new Date(data.data("c_out"));
     var timeDiff = checkOutDate - checkInDate;
     var dayGap = Math.floor(timeDiff / (1000 * 60 * 60 * 24)) + 1;
     var days = dayGap > 0 ? dayGap : 1;
 
-    let room_charges = Number(data.data('rp')) * days;
-    let twrc = Number(data.data('total_cost')) - room_charges;
-    let total = twrc + (count * Number(data.data('rp')) * days);
+    let room_charges = Number(data.data("rp")) * days;
+    let twrc = Number(data.data("total_cost")) - room_charges;
+    let total = twrc + count * Number(data.data("rp")) * days;
 
     ct.text(total);
     gt.text(total);
     st.text(total);
-
 }

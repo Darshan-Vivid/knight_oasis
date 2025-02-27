@@ -41,7 +41,7 @@
                                     $r_name = optional(App\Models\Room::find($booking->room_id))->name ?? 'Unknown';
                                     $p_amount = optional(App\Models\Transaction::where("transaction_id", $booking->transaction_id)->first())->amount ?? '0';
                                     $c_detail = json_decode($booking->customer_details);
-                                    
+
                                     if(isset($booking->user_id)){
                                         $guest_name = App\Models\User::find($booking->user_id)->name;
                                     }elseif(strlen($c_detail->name > 0)){
@@ -71,7 +71,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                
+
                             @endforeach
                         @endif
                     </tbody>

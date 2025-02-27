@@ -34,16 +34,15 @@
                             <thead class="table-light">
                                 <tr>
                                     <th scope="col">Type</th>
-                                    <th scope="col">Value</th>
+                                    <th scope="col" class="w-25">Value</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-
                                 @foreach ($settings as $setting)
                                     @if ($setting->slug == 'site_social_links')
                                         <tr>
-                                            <td>{{ $setting->slug }}</td>
+                                            <td data-slug="{{ $setting->slug }}">{{ $setting->name }}</td>
                                             <td data-value="{{ htmlspecialchars($setting->value, ENT_QUOTES, 'UTF-8') }}">
                                                 @php
                                                     $s_media = json_decode($setting->value, true);
@@ -67,21 +66,21 @@
                                         </tr>
                                     @elseif($setting->slug == 'site_icon' || $setting->slug == 'site_logo_light' || $setting->slug == 'site_logo_dark')
                                         <tr>
-                                            <td>{{ $setting->slug }}</td>
+                                            <td data-slug="{{ $setting->slug }}">{{ $setting->name }}</td>
                                             <td><img src="{{ $setting->value }}" alt="{{ $setting->slug }}" height="100"></td>
                                             <td><button type="button" class="btn btn-sm btn-light ko_settings_btn"
                                                     id="ko_settings_table_{{ $setting->type }}">Edit</button></td>
                                         </tr>
                                     @elseif($setting->type == 'textarea')
                                         <tr>
-                                            <td>{{ $setting->slug }}</td>
+                                            <td data-slug="{{ $setting->slug }}">{{ $setting->name }}</td>
                                             <td>{!! $setting->value !!}</td>
                                             <td><button type="button" class="btn btn-sm btn-light ko_settings_btn"
                                                     id="ko_settings_table_{{ $setting->type }}">Edit</button></td>
                                         </tr>
                                     @else
                                         <tr>
-                                            <td>{{ $setting->slug }}</td>
+                                            <td data-slug="{{ $setting->slug }}">{{ $setting->name }}</td>
                                             <td>{{ $setting->value }}</td>
                                             <td><button type="button" class="btn btn-sm btn-light ko_settings_btn"
                                                     id="ko_settings_table_{{ $setting->type }}">Edit</button></td>

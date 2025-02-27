@@ -10,7 +10,6 @@
     <link rel="shortcut icon" href="{{ getSetting("site_icon") }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('assets/css/custom-style.css') }}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Marcellus&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -24,8 +23,9 @@
         <div class="ko-container">
             <div class="ko-row">
                 <div class="ko-header-logo">
-                    <a href="{{ route('view.home') }}">
+                    <a href="{{ route('view.home') }}" id="ko_header_logo_link">
                         <img src="{{ getSetting("site_logo_dark") }}" alt="logo">
+                        <img src="{{ getSetting("site_logo_light") }}" style="display:none" alt="logo">
                     </a>
                 </div>
                 <div class="ko-mb-toogle-btn">
