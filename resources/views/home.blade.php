@@ -50,7 +50,7 @@
                                 </div>
                                 <div class="ko-reservation-group">
                                     <h6>Check Out</h6>
-                                    <input class="ko-reservation-date checkout_date_picker" type="text" name="check_out" value="{{ old('check_out', date('Y-m-d')) }}" data-old="{{ old('check_out', date('Y-m-d')) }}" placeholder="Checkout date" />
+                                    <input class="ko-reservation-date checkout_date_picker" type="text" name="check_out" value="{{ old('check_out', date('Y-m-d', strtotime('+1 day'))) }}" data-old="{{ old('check_out', date('Y-m-d', strtotime('+1 day'))) }}" placeholder="Checkout date" />
                                 </div>
                             </div>
                              <div class="ko-reservation-wrap">
@@ -71,7 +71,7 @@
                                     <h6>No. of Rooms</h6>
                                     <div class="ko-number qty-container">
                                         <span class="ko-minus qty-btn-minus">-</span>
-                                        <input type="text" class="ko-num-input input-qty" value="{{ old('quantity',0) }}" name="quantity" required />
+                                        <input type="text" class="ko-num-input input-qty" value="{{ old('quantity',1) }}" name="quantity" required />
                                         <span class="ko-plus qty-btn-plus">+</span>
                                     </div>
                                 </div>
@@ -279,4 +279,62 @@
         <!-- --------------------facilities section end--------------------- -->
 
     </main>
+
+@if(session('success'))
+    <style>
+        .ko-pop-message { 
+            position: fixed; 
+            top: 10px; 
+            right: 10px; 
+            z-index: 999; 
+            display: block; 
+            background: #fff5ed; 
+            padding: 1rem 1.5rem; 
+            border: 1px solid #ab8965; 
+            border-radius: 5px; 
+        }
+        .ko-pop-message[data-show="false"] { display: none; }
+        .ko-pop-message .ko-pop-close { 
+            line-height: 1; 
+            position: absolute; 
+            right: -8px; 
+            top: -8px; 
+            background: #fff5ed; 
+            border: 1px solid #ab8965; 
+            width: 20px; 
+            height: 20px; 
+            font-size: 15px; 
+            display: flex; 
+            flex-wrap: wrap; 
+            align-items: center; 
+            justify-content: center; 
+            color: #ab8965; 
+            border-radius: 50%; 
+            cursor: pointer; 
+        }
+    </style>
+
+    <div class="ko-pop-message" data-show="true">
+        <span class="ko-pop-close">X</span>
+        <h4>Success</h4>
+        <p>{{ session('success') }}</p>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let popElm = document.querySelector('.ko-pop-message');
+            if(popElm) {
+                let closeElm = popElm.querySelector('.ko-pop-close');
+                closeElm.addEventListener('click', function() {
+                    popElm.dataset.show = "false";
+                });
+
+                setTimeout(() => {
+                    popElm.dataset.show = "false";
+                }, 10000);
+            }
+        });
+    </script>
+@endif
+
     <x-footer />

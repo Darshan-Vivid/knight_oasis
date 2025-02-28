@@ -112,7 +112,16 @@ class RedirectController extends Controller
     }
 
     public function show_room($slug){
-        $find_booking = Session::get('find_booking') ?? [];
+        $booking_session = Session::get('find_booking', []);
+        $find_booking = [];
+
+        if (!empty($booking_session)) {
+            $filtered = array_filter($booking_session, function ($session_room) use ($slug) {
+                return $session_room['room_type'] == $slug;
+            });
+            $find_booking = array_values($filtered)[0] ?? [];
+        }
+
         $room = Room::where('slug','=',$slug)->first();
         $services = Service::where('status' , '=', '1')->get();
         return view('room')->with(["room"=>$room,"services"=>$services,"find_booking"=>$find_booking]);

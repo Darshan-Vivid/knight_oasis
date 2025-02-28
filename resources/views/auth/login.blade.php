@@ -50,6 +50,7 @@
                         </div>
                         <button type="submit" class="ko-btn">Log in</button>
                         <a href="{{ route('view.forget_password') }}" class="ko-forgot-pass">Lost your password?</a>
+                        <a href="{{ route('view.signup') }}" class="ko-forgot-pass">Don't have account? create here</a>
                     </form>
                 </div>
             </div>

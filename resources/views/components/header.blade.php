@@ -24,9 +24,16 @@
             <div class="ko-row">
                 <div class="ko-header-logo">
                     <a href="{{ route('view.home') }}" id="ko_header_logo_link">
+
+
                         <img src="{{ getSetting("site_logo_dark") }}" alt="logo">
                         <img src="{{ getSetting("site_logo_light") }}" style="display:none" alt="logo">
                     </a>
+                @if (Route::is('login') || Route::is('view.signup') || Route::is('') || Route::is('view.forget_password') || Route::is('view.otp_verify') || Route::is('view.new_password') || Route::is('auth.logout') || Route::is('view.home'))
+                    <input type="hidden" value="0" id="ko_header_allow_b_w" />
+                @else
+                    <input type="hidden" value="1" id="ko_header_allow_b_w" />
+                @endif
                 </div>
                 <div class="ko-mb-toogle-btn">
                     <button class="ko-toogle-btn">

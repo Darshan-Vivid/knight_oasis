@@ -116,7 +116,7 @@
                             </div>
                             <div class="ko-form-group">
                                 <h6 class="field-label">Check Out</h6>
-                                <input type="text" id="booking-data-check_out" class="booking-date-picker form-control checkout_date_picker" name="check_out" value="{{ old('check_out', (count($find_booking) > 0 ? $find_booking['check_out'] : date('Y-m-d'))) }}" data-old="{{ old('check_out', (count($find_booking) > 0 ? $find_booking['check_out'] : date('Y-m-d'))) }}" placeholder="Checkout date" >
+                                <input type="text" id="booking-data-check_out" class="booking-date-picker form-control checkout_date_picker" name="check_out" value="{{ old('check_out', (count($find_booking) > 0 ? $find_booking['check_out'] : date('Y-m-d', strtotime('+1 day')))) }}" data-old="{{ old('check_out', (count($find_booking) > 0 ? $find_booking['check_out'] : date('Y-m-d', strtotime('+1 day')))) }}" placeholder="Checkout date" >
                             </div>
                         </div>
 
@@ -125,7 +125,7 @@
                                 <h4>Adult</h4>
                                 <div class="ko-selector-wrap qty-container">
                                     <span class="ko-count-minus room-control-btn qty-btn-minus">-</span>
-                                    <input type="number" class="ko-count input-qty" id="booking-data-adults" name="adults" value="{{ old('adults',1) }}" />
+                                    <input type="number" class="ko-count input-qty" id="booking-data-adults" name="adults" value="{{ old('adults',2) }}" />
                                     <span class="ko-count-plus room-control-btn qty-btn-plus">+</span>
                                 </div>
                             </div>
@@ -205,7 +205,7 @@
                             <p class="ko-resecomm-title">₹<span id="booking-grand-total">0</span></p>
                         </div>
 
-                        <input type="hidden" name="room" id="booking-data-hiddens" value="{{ $room->slug}}" data-url="{{ route('check.availability') }}" data-max_guest="{{ $room->allowd_guests }}" data-max_rooms="{{ $room->quantity }}" />
+                        <input type="hidden" name="room" id="booking-data-hiddens" value="{{ $room->slug}}" data-url="{{ route('check.availability') }}" data-max_guest="{{ $room->allowd_guests }}" data-max_rooms="{{ $room->quantity }}" data-max_extra_beds = {{ $room->extra_beds }} />
                         <button type="submit" class="ko-btn ko-book-btn" id="ko-book-form-sumbit" >Book Your Stay</button>
                     </form>
                 </div>

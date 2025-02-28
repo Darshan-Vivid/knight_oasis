@@ -61,7 +61,13 @@
                                     <label for="mobile">Phone Number<sup>*</sup></label>
                                     <input type="tel"
                                         class="ko-loginRegister-control @error('mobile') is-invalid @enderror"
-                                        name="mobile" id="ko-register-mobile" value="{{ old('mobile') }}" required />
+                                        name="mobile" id="ko-register-mobile"
+                                        value="{{ old('mobile') }}"
+                                        required
+                                        minlength="10" maxlength="14" pattern="^\+?\d{10,15}$"
+                                        title="Phone number must be between 10 to 14 digits and can optionally start with +"
+                                    />
+
                                     @error('mobile')
                                         <div class="invalid-response" style="display:flex">{{ $message }}</div>
                                     @enderror

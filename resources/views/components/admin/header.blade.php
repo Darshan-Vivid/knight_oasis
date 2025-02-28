@@ -76,13 +76,14 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
                             <h6 class="dropdown-header">Welcome {{ auth()->user()->name }}!</h6>
-                            <a class="dropdown-item" href="{{ route('auth.logout') }}"
-                                onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i
-                                    class="align-middle mdi mdi-logout text-muted fs-lg me-1"></i> <span
-                                    class="align-middle" data-key="t-logout">Logout</span></a>
-                            <form id="logout-form" action="{{ route('auth.logout') }}" method="GET" class="d-none">
-                                @csrf
-                            </form>
+                            <a class="dropdown-item" href="{{ route('view.home') }}">
+                                <i class="align-middle ri-pages-line text-muted fs-lg me-1"></i> 
+                                <span class="align-middle" data-key="t-logout">Home</span>
+                            </a>
+                            <a class="dropdown-item" href="{{ route('auth.logout') }}">
+                                <i class="align-middle mdi mdi-logout text-muted fs-lg me-1"></i> 
+                                <span class="align-middle" data-key="t-logout">Logout</span>
+                            </a>
                         </div>
                     </div>
                 </div>

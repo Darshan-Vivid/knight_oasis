@@ -24,6 +24,7 @@ class Room extends Model
         'size',
         'beds',
         'bed_price',
+        'extra_beds',
         'amenities',
         'service',
         'features',

@@ -166,6 +166,18 @@
                     </div>
 
                     <div class="row">
+                        <div class="mb-3 col-xxl-4">
+                            <label for="price" class="form-label">Room Allowd Extra Beds<span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input type="number" name="extra_bed_quantity" id="extra_bed_quantity" class="form-control @error('extra_bed_quantity') is-invalid @enderror" placeholder="Quantity" min="0" value="{{ old('extra_bed_quantity',$room->extra_beds) }}" required>
+                            </div>
+                            @error('extra_bed_quantity')
+                                <span class="form-error-message text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="row">
                         <div class="mb-3 col-xxl-6">
                             <label class="form-label">Room Amenities <span class="text-danger">*</span></label>
                             <div class="flex-wrap gap-3">

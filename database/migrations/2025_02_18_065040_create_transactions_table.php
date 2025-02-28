@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->integer('amount')->check('amount >= 0');
-            $table->string('status')->comment('0=>cancel , 1=>paid')->nullable(false);
+            $table->string('status')->comment('0=>cancel, 1=>paid, 2=>processing')->nullable(false);
             $table->string('transaction_id')->unique();
             $table->timestamps();
         });

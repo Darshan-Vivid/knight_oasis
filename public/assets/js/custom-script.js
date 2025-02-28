@@ -1,6 +1,23 @@
 $(document).ready(function () {
     hide_loader();
-    Scroll()
+    Scroll();
+
+
+    $('input[type="tel"]').on('input', function () {
+        let value = $(this).val();
+
+        if (!/^\+?\d*$/.test(value)) {
+            $(this).val(value.slice(0, -1));
+        }
+    });
+
+    $('input[type="tel"]').on('keydown', function (e) {
+        if (!/[\d]/.test(e.key) && e.key !== "Backspace" && e.key !== "Delete" &&
+            e.key !== "ArrowLeft" && e.key !== "ArrowRight" &&
+            !(e.key === "+" && this.selectionStart === 0)) {
+            e.preventDefault();
+        }
+    });
 
     /* date picker js start */
     var checkinPicker = $(".checkin_date_picker").flatpickr({
@@ -158,6 +175,11 @@ $(document).ready(function () {
     }
 
     /* booking page js end */
+
+    if (window.location.hash === "#bookings") {
+        $(".ko-myacc-tab-wrap div button:eq(1)").addClass("active");
+        $("#tab2").css("display", "block");
+    }
 });
 
 /* Header JS start */
@@ -343,6 +365,8 @@ function updateGrandTotal() {
     let bedPrice = parseFloat($("#booking-data-extra_beds").data("price")) || 0;
     var extraBeds = parseInt($("#booking-data-extra_beds").val()) || 0;
     var adult_count = parseInt($("#booking-data-adults").val());
+    var extra_beds = parseInt($("#booking-data-extra_beds").val());
+    var max_extra_beds = parseInt($("#booking-data-hiddens").data("max_extra_beds"));
     var children_count = parseInt($("#booking-data-children").val());
     var roomQuantity = parseInt($("#booking-data-quantity").val()) || 0;
     var checkIn = $("#booking-data-check_in").val();
@@ -353,6 +377,10 @@ function updateGrandTotal() {
 
     if (roomQuantity > max_rooms) {
         $("#booking-data-quantity").val(max_rooms);
+    }
+
+    if(extra_beds > max_extra_beds){
+        $("#booking-data-extra_beds").val(max_extra_beds)
     }
 
     if (extraBeds > roomQuantity * 3) {
@@ -392,34 +420,41 @@ function updateGrandTotal() {
 }
 
 function Scroll() {
-    let logoLink = document.getElementById('ko_header_logo_link');
-    let darkLogo = logoLink.querySelector('img:nth-child(1)');
-    let lightLogo = logoLink.querySelector('img:nth-child(2)');
+    let logoLink = document.getElementById("ko_header_logo_link");
+    let allow_b_w = document.getElementById("ko_header_allow_b_w");
+    let darkLogo = logoLink.querySelector("img:nth-child(1)");
+    let lightLogo = logoLink.querySelector("img:nth-child(2)");
     let menuLinks = document.querySelectorAll(".ko-header-menu a");
     var mainElementPosition = document.querySelector(".site-header");
     var elementPosition = mainElementPosition.offsetTop;
     var windowScroll = window.scrollY;
     var bodyScroll = document.body.scrollTop;
     var checkScroll = windowScroll > bodyScroll ? windowScroll : bodyScroll;
-    if (checkScroll > elementPosition) {
+    if (Number(allow_b_w.value) == 1) {
+        if (checkScroll > elementPosition) {
+            document.body.classList.add("sticky-mode");
+            darkLogo.style.display = "block";
+            lightLogo.style.display = "none";
+            menuLinks.forEach(function (link) {
+                link.style.color = "var(--black-color)";
+            });
+        } else {
+            document.body.classList.remove("sticky-mode");
+            darkLogo.style.display = "none";
+            lightLogo.style.display = "block";
+            menuLinks.forEach(function (link) {
+                link.style.color = "var(--white-color)";
+            });
+        }
+    } else {
         document.body.classList.add("sticky-mode");
         darkLogo.style.display = "block";
         lightLogo.style.display = "none";
         menuLinks.forEach(function (link) {
             link.style.color = "var(--black-color)";
         });
-
-    } else {
-        document.body.classList.remove("sticky-mode");
-        darkLogo.style.display = "none";
-        lightLogo.style.display = "block";
-        menuLinks.forEach(function (link) {
-            link.style.color = "var(--white-color)";
-        });
     }
 }
-
-
 
 function loginPassword() {
     if (loginPassEl.type === "password") {

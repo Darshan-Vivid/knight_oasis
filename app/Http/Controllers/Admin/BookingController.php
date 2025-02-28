@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use DateTime;
+use App\Mail\BookingMail;
 use App\Http\Controllers\Controller;
 use App\Models\AbandonedCart;
 use App\Models\Booking;
@@ -10,12 +11,15 @@ use App\Models\Country;
 use App\Models\Room;
 use App\Models\Service;
 use App\Models\Transaction;
+use App\Models\User;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class BookingController extends Controller
@@ -346,14 +350,14 @@ class BookingController extends Controller
             if ($request->quantity > $room->quantity) {
                 return redirect()->back()->withErrors(['general' => 'Not enough rooms available between this dates.'])->withInput();
             }
-            if ($request->extra_beds > ($room->quantity * 3 )) {
-                return redirect()->back()->withErrors(['general' => 'Only 3 extra beds are allowd per room.'])->withInput();
-            }
             if ($request->adults > ( $room->quantity * $room->allowd_guests)) {
                 return redirect()->back()->withErrors(['general' => 'Only'.$room->allowd_guests .'Adults are allowd per room.'])->withInput();
             }
             if ($request->children > ($room->quantity * 3 )) {
                 return redirect()->back()->withErrors(['general' => 'Only 3 children are allowd per room.'])->withInput();
+            }
+            if ( $request->extra_beds >  $room->extra_beds ){
+                return redirect()->back()->withErrors(['general' => 'Only'.$room->extra_beds.' allowd for this room'])->withInput();
             }
 
             if (Auth::check()) {
@@ -480,8 +484,6 @@ class BookingController extends Controller
                 return redirect()->back()->withErrors(['general' => 'Unable to process your request.']);
             }
         }
-
-
     }
 
     public function remove_item($id)
@@ -624,11 +626,13 @@ class BookingController extends Controller
                         "order_amount" => $ac->total_cost,
                         "order_currency" => "INR",
                         "customer_details" => [
+                            "customer_id"=> $transaction->transaction_id,
                             "customer_phone" => $guest_info["phone"],
                         ],
                         "order_meta" => [
                             "return_url" => route('cashfree.success', $transaction->transaction_id),
-                            "payment_methods" => explode(',', env('CASHFREE_PAYMENT_METHODS')),
+                            "notify_url" => route('cashfree.callback'),
+                            "payment_methods" =>  env('CASHFREE_PAYMENT_METHODS', ''),
                         ]
                     ];
 
@@ -645,7 +649,6 @@ class BookingController extends Controller
 
                     $responseData = $response->json();
 
-                    dd($responseData);
 
                     if (isset($responseData['payment_session_id']) && !empty($responseData['payment_session_id'])) {
                         $paymentSessionId = $responseData['payment_session_id'];
@@ -700,18 +703,81 @@ class BookingController extends Controller
         }
     }
 
-    public function CashFreeSuccess(Request $request, $tid)
+    public function CashFreeSuccess(Request $request , $tid)
     {
-        dd($tid);
-        $order_id = $request->input('order_id');
-        $tx_status = $request->input('txStatus');
 
-        if ($tx_status === 'SUCCESS') {
-            return "Payment for Order ID {$order_id} was successful!";
-        } else {
-            return "Payment for Order ID {$order_id} failed.";
+        $transaction = Transaction::where('transaction_id', $tid)->first();
+
+        if (!$transaction) {
+            return response()->json(['message' => 'Transaction not found'], 404);
         }
+
+        $transaction->status = 2; //processong
+        $transaction->save();
+        $booking = Booking::where('transaction_id', $tid)->first();
+
+        if($booking->user_id != null){
+            $user = User::find($booking->user_id); 
+            $user_email =$user->email;
+        }else{
+            $guest = json_decode($booking->customer_details);
+            $user_email = $guest->email;
+        }
+        
+        Mail::to($user_email)->send(new BookingMail($booking->id));
+        
+        return redirect()->route('view.home')->with('success','we sent you an email for your payment status');
     }
+
+    public function CashFreeCallback(Request $request){
+        $inputData = file_get_contents('php://input');
+        $decodedData = json_decode($inputData, true);
+        Storage::put('webhook_logs/webhook_log.txt', now() . " - " . $inputData . PHP_EOL, 'public');
+
+    //     $providedSignature = $_SERVER['HTTP_X_CASHFREE_SIGNATURE'] ?? ''; 
+    //     $secretKey = (MODE == "PRODUCTION") ? CASHFREE_PRODUCTION_APP_SECRET : CASHFREE_SANDBOX_APP_SECRET; 
+    //     $computedSignature = hash_hmac('sha256', $inputData, $secretKey);
+
+    //     if ($providedSignature !== $computedSignature) {
+    //         http_response_code(401);
+    //         echo 'Invalid signature';
+    //         exit;
+    //     }
+
+    //     // Handle the webhook event
+    //     if (isset($decodedData['event'])) {
+    //         switch ($decodedData['event']) {
+    //             case 'PAYMENT_SUCCESS':
+    //                 $orderId = $decodedData['data']['order_id'];
+    //                 $paymentId = $decodedData['data']['cf_payment_id'];
+    //                 $amount = $decodedData['data']['order_amount'];
+    //                 http_response_code(200);
+    //                 echo 'Payment success handled';
+    //                 break;
+
+    //             case 'PAYMENT_FAILURE':
+    //                 $orderId = $decodedData['data']['order_id'];
+    //                 http_response_code(200);
+    //                 echo 'Payment failure handled';
+    //                 break;
+
+    //             case 'PAYMENT_CANCELLED':
+    //                 $orderId = $decodedData['data']['order_id'];
+    //                 http_response_code(200);
+    //                 echo 'Payment cancellation handled';
+    //                 break;
+
+    //             default:
+    //                 http_response_code(400);
+    //                 echo 'Unknown event type';
+    //                 break;
+    //         }
+    //     } else {
+    //         http_response_code(400);
+    //         echo 'Invalid webhook payload';
+    //     }
+    }
+
 
     public function PayUSuccess(Request $request, $tid)
     {
@@ -761,7 +827,24 @@ class BookingController extends Controller
             if (!$is_availavle) {
                 return redirect()->back()->withErrors(['quick_reserve' => 'Not enough rooms available between this dates.'])->withInput();
             }
-            Session::put('find_booking', array("room_type"=>$request->room_type, "quantity"=>$request->quantity, "check_in"=>$request->check_in, "check_out"=>$request->check_out) );
+            
+            $booking_session = Session::get('find_booking', []);
+
+            if (!empty($booking_session)) {
+                $booking_session = array_filter($booking_session, function ($session_room) use ($request) {
+                    return $session_room['room_type'] !== $request->room_type;
+                });
+            }
+
+            $booking_session[] = [
+                "room_type" => $request->room_type,
+                "quantity"  => $request->quantity,
+                "check_in"  => $request->check_in,
+                "check_out" => $request->check_out
+            ];
+
+            Session::put('find_booking', array_values($booking_session));
+
             return redirect()->route("view.room", $request->room_type);
         }
     }
