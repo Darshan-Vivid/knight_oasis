@@ -700,13 +700,14 @@ class BookingController extends Controller
 
     public function CashFreeSuccess(Request $request, $tid)
     {
-
+        
         $transaction = Transaction::where('transaction_id', $tid)->first();
-
+        
+        
         if (!$transaction) {
             return response()->json(['message' => 'Transaction not found'], 404);
         }
-
+        
         if (empty($transaction->mail_status)) {
 
             $transaction->status = 2; //processong
