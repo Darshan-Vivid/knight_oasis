@@ -13,6 +13,7 @@ class Transaction extends Model
         'amount',
         'method',
         'status',
+        'mail_status',
         'transaction_id', 
     ];
 

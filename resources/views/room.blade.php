@@ -24,6 +24,7 @@
             </div>
         </div>
     </section>
+    <div style="height:60px; "></div>
     @if (count($gallery) > 0)
         <section class="ko-splide-rooms splide" role="group" aria-label="Splide Basic HTML Example">
             <div class="splide__track">

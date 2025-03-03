@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Exception;
 
 class BookingController extends Controller
 {
@@ -49,7 +50,7 @@ class BookingController extends Controller
         $pay_methods = ['CASH'];
 
         $services = Service::where('status', 1)->get();
-        $rooms = Room::select('id','slug', 'name')->get();
+        $rooms = Room::select('id', 'slug', 'name')->get();
 
         return view('admin.bookings.offline_booking')
             ->with([
@@ -119,7 +120,7 @@ class BookingController extends Controller
             if (!$is_availavle) {
                 return redirect()->back()->withErrors(['check_out' => 'Not enough rooms available between this dates.'])->withInput();
             }
-            $room = Room::where('slug' , '=' , $request->room_type)->first();
+            $room = Room::where('slug', '=', $request->room_type)->first();
 
             $guest_info["name"] = $request->guest_full_name;
             $guest_info["email"] = $request->guest_email;
@@ -170,7 +171,6 @@ class BookingController extends Controller
                 'pay_methods' => $pay_methods,
 
             ]);
-
     }
 
     public function save_edit_booking(Request $request, int $id)
@@ -344,20 +344,20 @@ class BookingController extends Controller
             }
 
 
-            $room = Room::where('slug','=',$request->room)->first();
+            $room = Room::where('slug', '=', $request->room)->first();
             $ac = new AbandonedCart;
 
             if ($request->quantity > $room->quantity) {
                 return redirect()->back()->withErrors(['general' => 'Not enough rooms available between this dates.'])->withInput();
             }
-            if ($request->adults > ( $room->quantity * $room->allowd_guests)) {
-                return redirect()->back()->withErrors(['general' => 'Only'.$room->allowd_guests .'Adults are allowd per room.'])->withInput();
+            if ($request->adults > ($room->quantity * $room->allowd_guests)) {
+                return redirect()->back()->withErrors(['general' => 'Only' . $room->allowd_guests . 'Adults are allowd per room.'])->withInput();
             }
-            if ($request->children > ($room->quantity * 3 )) {
+            if ($request->children > ($room->quantity * 3)) {
                 return redirect()->back()->withErrors(['general' => 'Only 3 children are allowd per room.'])->withInput();
             }
-            if ( $request->extra_beds >  $room->extra_beds ){
-                return redirect()->back()->withErrors(['general' => 'Only'.$room->extra_beds.' allowd for this room'])->withInput();
+            if ($request->extra_beds >  $room->extra_beds) {
+                return redirect()->back()->withErrors(['general' => 'Only' . $room->extra_beds . ' allowd for this room'])->withInput();
             }
 
             if (Auth::check()) {
@@ -430,7 +430,6 @@ class BookingController extends Controller
             }
 
             return view('cart')->with(['ac' => $ac, 'room' => $room, 'services' => $services]);
-
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['general' => 'Unable to process your request.']);
         }
@@ -525,11 +524,9 @@ class BookingController extends Controller
             }
 
             return view('checkout')->with(['countries' => $countries, 'ac' => $ac, 'room' => $room]);
-
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['general' => 'Unable to process your request.']);
         }
-
     }
 
     public function checkout(Request $request)
@@ -587,7 +584,7 @@ class BookingController extends Controller
                     $user = Auth::user();
                     $booking->user_id = $user->id;
                     $booking->customer_details = json_encode("{}", JSON_UNESCAPED_SLASHES);
-                    $transaction->user_id= $user->id;
+                    $transaction->user_id = $user->id;
                     $guest_info["name"] = $user->name;
                     $guest_info["email"] = $user->email;
                     $guest_info["phone"] = $user->mobile;
@@ -626,7 +623,7 @@ class BookingController extends Controller
                         "order_amount" => $ac->total_cost,
                         "order_currency" => "INR",
                         "customer_details" => [
-                            "customer_id"=> $transaction->transaction_id,
+                            "customer_id" => $transaction->transaction_id,
                             "customer_phone" => $guest_info["phone"],
                         ],
                         "order_meta" => [
@@ -668,7 +665,7 @@ class BookingController extends Controller
 
                     $transaction_id = $transaction->transaction_id;
                     $amount = $ac->total_cost;
-                    $product_info = "Booking: ".$booking->id;
+                    $product_info = "Booking: " . $booking->id;
                     $customer_name = $guest_info["name"];
                     $customer_email = $guest_info["email"];
 
@@ -695,15 +692,13 @@ class BookingController extends Controller
                 } else {
                     return redirect()->back()->withErrors(['general' => 'Unable to process your request.']);
                 }
-
             } catch (\Exception $e) {
                 return redirect()->back()->withErrors(['general' => 'Unable to process your request.']);
             }
-
         }
     }
 
-    public function CashFreeSuccess(Request $request , $tid)
+    public function CashFreeSuccess(Request $request, $tid)
     {
 
         $transaction = Transaction::where('transaction_id', $tid)->first();
@@ -711,31 +706,121 @@ class BookingController extends Controller
         if (!$transaction) {
             return response()->json(['message' => 'Transaction not found'], 404);
         }
+        if (empty($transaction->mail_status)) {
 
-        $transaction->status = 2; //processong
-        $transaction->save();
-        $booking = Booking::where('transaction_id', $tid)->first();
+            $transaction->status = 2; //processong
+            $transaction->save();
+            $booking = Booking::where('transaction_id', $tid)->first();
 
-        if($booking->user_id != null){
-            $user = User::find($booking->user_id); 
-            $user_email =$user->email;
-        }else{
-            $guest = json_decode($booking->customer_details);
-            $user_email = $guest->email;
+            if ($booking->user_id != null) {
+                $user = User::find($booking->user_id);
+                $user_email = $user->email;
+            } else {
+                $guest = json_decode($booking->customer_details);
+                $user_email = $guest->email;
+            }
         }
-        
+
         Mail::to($user_email)->send(new BookingMail($booking->id));
-        
+
         return redirect()->route('view.home')->with([
             'success' => true,
             'message' => 'we sent you an email for your payment status'
         ]);
     }
 
-    public function CashFreeCallback(Request $request){
-        $inputData = file_get_contents('php://input');
-        $decodedData = json_decode($inputData, true);
-        Storage::put('webhook_logs/webhook_log.txt', now() . " - " . $inputData . PHP_EOL, 'public');
+    public function CashFreeCallback(Request $request)
+    {
+        try {
+            $inputData = file_get_contents('php://input');
+            $decodedData = json_decode($inputData, true);
+            Storage::put('webhook_logs/webhook_log.txt', now() . " - " . $inputData . PHP_EOL, 'public');
+
+            if (!isset($decodedData['data']['order']['order_id']) || !isset($decodedData['data']['payment']['payment_status'])) {
+                throw new Exception('Invalid webhook data');
+            }
+
+            $tid = $decodedData['data']['order']['order_id'];
+            $paymentStatus = $decodedData['data']['payment']['payment_status'];
+
+            $transaction = Transaction::where('transaction_id', $tid)->first();
+
+            $booking = Booking::where('transaction_id', $tid)->first();
+
+            if ($booking) {
+                if ($booking->user_id) {
+                    $user = User::find($booking->user_id);
+                    $user_email = $user->email;
+                } else {
+                    $guest = json_decode($booking->customer_details);
+                    $user_email = $guest->email ?? null;
+                }
+            }
+
+
+            if (!$transaction) {
+                throw new Exception("Transaction not found for ID: $tid");
+            }
+
+            switch ($paymentStatus) {
+                case 'SUCCESS':
+                case 'FLAGGED':
+                    if (empty($transaction->mail_status) || $transaction->mail_status != '1') {
+
+                        $transaction->status = 1; // Payment successful or flagged
+                        $transaction->save();
+                        if ($user_email) {
+                            Mail::to($user_email)->send(new BookingMail($booking->id));
+                        }
+                    }
+                    break;
+
+                case 'FAILED':
+                case 'CANCELLED':
+                case 'INCOMPLETE':
+                case 'VOID':
+                case 'USER_DROPPED':
+                    if (empty($transaction->mail_status) || $transaction->mail_status != '0') {
+                        $transaction->status = 0; // Payment failed, canceled, or incomplete
+                        $transaction->save();
+                        if ($user_email) {
+                            Mail::to($user_email)->send(new BookingMail($booking->id));
+                        }
+                    }
+                    break;
+
+                case 'PENDING':
+                    if (empty($transaction->mail_status) || $transaction->mail_status != '2') {
+                        $transaction->status = 2; // Payment is pending
+                        $transaction->save();
+                        if ($user_email) {
+                            Mail::to($user_email)->send(new BookingMail($booking->id));
+                        }
+                    }
+                    break;
+
+                default:
+                    if (empty($transaction->mail_status) || $transaction->mail_status != '0') {
+                        $transaction->status = 0; // Default case if status is unknown
+                        $transaction->save();
+                        if ($user_email) {
+                            Mail::to($user_email)->send(new BookingMail($booking->id));
+                        }
+                    }
+            }
+
+            // Storage::append('webhook_logs/DEBUG.LOG', now() . " : " . json_encode([
+            //     "TID" => $tid,
+            //     "paymentStatus" => $paymentStatus,
+            //     "transaction" => $transaction
+            // ]) . PHP_EOL);
+
+            return response()->json(['message' => 'Payment status updated successfully']);
+        } catch (Exception $e) {
+            Storage::append('webhook_logs/webhook_error_log.txt', now() . " - ERROR: " . $e->getMessage() . " - Data: " . $inputData . PHP_EOL, 'public');
+
+            return response()->json(['error' => 'An error occurred while processing the payment webhook'], 500);
+        }
     }
 
 
@@ -787,7 +872,7 @@ class BookingController extends Controller
             if (!$is_availavle) {
                 return redirect()->back()->withErrors(['quick_reserve' => 'Not enough rooms available between this dates.'])->withInput();
             }
-            
+
             $booking_session = Session::get('find_booking', []);
 
             if (!empty($booking_session)) {
@@ -809,10 +894,10 @@ class BookingController extends Controller
         }
     }
 
-    private function check_room_availability( $room_slug, int $quantity, $checkIn, $checkOut)
+    private function check_room_availability($room_slug, int $quantity, $checkIn, $checkOut)
     {
 
-        $room = Room::where('slug' , '=',$room_slug)->first();
+        $room = Room::where('slug', '=', $room_slug)->first();
         $totalRooms = $room->quantity;
 
         $bookings = Booking::where('room_id', $room->id)->get();
@@ -846,5 +931,4 @@ class BookingController extends Controller
         }
         return true;
     }
-
 }
