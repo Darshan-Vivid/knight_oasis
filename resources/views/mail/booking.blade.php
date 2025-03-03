@@ -3,7 +3,84 @@
     $booking = App\Models\Booking::find($mailData); 
     $transaction =  App\Models\Transaction::where('transaction_id', $booking->transaction_id)->first();
 @endphp
-<pre>
-    <?php var_dump($booking)?>
-    <?php var_dump($transaction)?>
-</pre>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Status</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin: auto;
+        }
+        h2 {
+            color: #333;
+        }
+        .details {
+            margin: 20px 0;
+        }
+        .details p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Booking Status</h2>
+        <p>Dear Customer,</p>
+        <p>Thank you for your booking. Here are your details:</p>
+        <div class="details">
+            <p><strong>Booking ID     :</strong> {{ $booking->id }}</p>
+            <p><strong>Check-in       :</strong> {{ date('d-m-Y', $booking->check_in )}}</p>
+            <p><strong>Check-out      :</strong> {{ date('d-m-Y', $booking->check_out )}}</p>
+            <p><strong>Adults         :</strong> {{ $booking->adults }}</p> 
+            <p><strong>Children       :</strong> {{ $booking->children }}</p>
+            <p><strong>Number of Rooms:</strong> {{ $booking->room_count }}</p>
+            <p><strong>Total Amount   :</strong> {{ $transaction->amount }}</p>
+            <p><strong>Transaction ID :</strong> {{ $transaction->transaction_id }}</p>
+            <p><strong>Payment Mode   :</strong> {{ $transaction->method }}</p>
+            <p><strong>Payment Status :</strong> 
+                @switch($transaction->status)
+                    @case(0)
+                        FAILED
+                        @break
+                    @case(1)
+                        PAID
+                        @break
+                    @case(1)
+                        PROCESSING
+                        @break
+                
+                    @default
+                        PROCESSING
+                        @break
+                @endswitch
+            
+            </p>
+        </div>
+        <p>If you have any questions, feel free to contact us.</p>
+        <div class="footer">
+            <p>{{ getSetting("site_copyright_text") }}</p>
+        </div>
+    </div>
+</body>
+</html>
