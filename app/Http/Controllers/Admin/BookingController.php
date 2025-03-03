@@ -803,7 +803,7 @@ class BookingController extends Controller
                     break;
 
                 default:
-                    if (empty($transaction->mail_status) || $transaction->mail_status != '0') {
+                    if (empty($transaction->mail_status)) {
                         $transaction->mail_status = 0; // Default case if status is unknown
                         $transaction->status = 0; // Default case if status is unknown
                         $transaction->save();
@@ -812,12 +812,6 @@ class BookingController extends Controller
                         }
                     }
             }
-
-            // Storage::append('webhook_logs/DEBUG.LOG', now() . " : " . json_encode([
-            //     "TID" => $tid,
-            //     "paymentStatus" => $paymentStatus,
-            //     "transaction" => $transaction
-            // ]) . PHP_EOL);
 
             return response()->json(['message' => 'Payment status updated successfully']);
         } catch (Exception $e) {
