@@ -1,7 +1,7 @@
-{{ $mailData }}
 @php
+    use Carbon\Carbon;
     $booking = App\Models\Booking::find($mailData); 
-    $transaction =  App\Models\Transaction::where('transaction_id', $booking->transaction_id)->first();
+    $transaction = App\Models\Transaction::where('transaction_id', $booking->transaction_id)->first();
 @endphp
 
 <!DOCTYPE html>
@@ -50,8 +50,8 @@
         <p>Thank you for your booking. Here are your details:</p>
         <div class="details">
             <p><strong>Booking ID     :</strong> {{ $booking->id }}</p>
-            <p><strong>Check-in       :</strong> {{ date('d-m-Y', $booking->check_in )}}</p>
-            <p><strong>Check-out      :</strong> {{ date('d-m-Y', $booking->check_out )}}</p>
+            <p><strong>Check-in       :</strong> {{ Carbon::parse($booking->check_in)->format('d-m-Y') }}</p>
+            <p><strong>Check-out      :</strong> {{ Carbon::parse($booking->check_out)->format('d-m-Y') }}</p>
             <p><strong>Adults         :</strong> {{ $booking->adults }}</p> 
             <p><strong>Children       :</strong> {{ $booking->children }}</p>
             <p><strong>Number of Rooms:</strong> {{ $booking->room_count }}</p>
@@ -66,15 +66,13 @@
                     @case(1)
                         PAID
                         @break
-                    @case(1)
+                    @case(2)
                         PROCESSING
                         @break
-                
                     @default
-                        PROCESSING
+                        UNKNOWN
                         @break
                 @endswitch
-            
             </p>
         </div>
         <p>If you have any questions, feel free to contact us.</p>
