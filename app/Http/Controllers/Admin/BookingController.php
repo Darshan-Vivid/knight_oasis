@@ -767,6 +767,7 @@ class BookingController extends Controller
                 case 'FLAGGED':
                     if (empty($transaction->mail_status) || $transaction->mail_status != '1') {
 
+                        $transaction->mail_status = 1; // Payment successful or flagged
                         $transaction->status = 1; // Payment successful or flagged
                         $transaction->save();
                         if ($user_email) {
@@ -781,6 +782,7 @@ class BookingController extends Controller
                 case 'VOID':
                 case 'USER_DROPPED':
                     if (empty($transaction->mail_status) || $transaction->mail_status != '0') {
+                        $transaction->mail_status = 0; // Payment failed, canceled, or incomplete
                         $transaction->status = 0; // Payment failed, canceled, or incomplete
                         $transaction->save();
                         if ($user_email) {
@@ -791,6 +793,7 @@ class BookingController extends Controller
 
                 case 'PENDING':
                     if (empty($transaction->mail_status) || $transaction->mail_status != '2') {
+                        $transaction->mail_status = 2; // Payment is pending
                         $transaction->status = 2; // Payment is pending
                         $transaction->save();
                         if ($user_email) {
@@ -801,6 +804,7 @@ class BookingController extends Controller
 
                 default:
                     if (empty($transaction->mail_status) || $transaction->mail_status != '0') {
+                        $transaction->mail_status = 0; // Default case if status is unknown
                         $transaction->status = 0; // Default case if status is unknown
                         $transaction->save();
                         if ($user_email) {
