@@ -66,7 +66,7 @@ Route::get('/checkout', [BookingController::class, 'show_checkout'])->name('view
 Route::post('/checkout', [BookingController::class, 'checkout'])->name('checkout');
 
 Route::any('/cashfree/success/{tid}', [BookingController::class, 'CashFreeSuccess'])->name('cashfree.success');
-Route::any('/cashfree/callback/', [BookingController::class, 'CashFreeCallback'])->name('cashfree.callback');
+Route::post('/cashfree/callback/', [BookingController::class, 'CashFreeCallback'])->name('cashfree.callback');
 Route::any('/payu/success/{tid}', [BookingController::class, 'PayUSuccess'])->name('payu.success');
 
 

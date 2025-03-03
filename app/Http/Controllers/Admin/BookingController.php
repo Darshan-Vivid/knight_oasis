@@ -726,56 +726,16 @@ class BookingController extends Controller
         
         Mail::to($user_email)->send(new BookingMail($booking->id));
         
-        return redirect()->route('view.home')->with('success','we sent you an email for your payment status');
+        return redirect()->route('view.home')->with([
+            'success' => true,
+            'message' => 'we sent you an email for your payment status'
+        ]);
     }
 
     public function CashFreeCallback(Request $request){
         $inputData = file_get_contents('php://input');
         $decodedData = json_decode($inputData, true);
         Storage::put('webhook_logs/webhook_log.txt', now() . " - " . $inputData . PHP_EOL, 'public');
-
-    //     $providedSignature = $_SERVER['HTTP_X_CASHFREE_SIGNATURE'] ?? ''; 
-    //     $secretKey = (MODE == "PRODUCTION") ? CASHFREE_PRODUCTION_APP_SECRET : CASHFREE_SANDBOX_APP_SECRET; 
-    //     $computedSignature = hash_hmac('sha256', $inputData, $secretKey);
-
-    //     if ($providedSignature !== $computedSignature) {
-    //         http_response_code(401);
-    //         echo 'Invalid signature';
-    //         exit;
-    //     }
-
-    //     // Handle the webhook event
-    //     if (isset($decodedData['event'])) {
-    //         switch ($decodedData['event']) {
-    //             case 'PAYMENT_SUCCESS':
-    //                 $orderId = $decodedData['data']['order_id'];
-    //                 $paymentId = $decodedData['data']['cf_payment_id'];
-    //                 $amount = $decodedData['data']['order_amount'];
-    //                 http_response_code(200);
-    //                 echo 'Payment success handled';
-    //                 break;
-
-    //             case 'PAYMENT_FAILURE':
-    //                 $orderId = $decodedData['data']['order_id'];
-    //                 http_response_code(200);
-    //                 echo 'Payment failure handled';
-    //                 break;
-
-    //             case 'PAYMENT_CANCELLED':
-    //                 $orderId = $decodedData['data']['order_id'];
-    //                 http_response_code(200);
-    //                 echo 'Payment cancellation handled';
-    //                 break;
-
-    //             default:
-    //                 http_response_code(400);
-    //                 echo 'Unknown event type';
-    //                 break;
-    //         }
-    //     } else {
-    //         http_response_code(400);
-    //         echo 'Invalid webhook payload';
-    //     }
     }
 
 
