@@ -2,8 +2,7 @@ $(document).ready(function () {
     hide_loader();
     Scroll();
 
-
-    $('input[type="tel"]').on('input', function () {
+    $('input[type="tel"]').on("input", function () {
         let value = $(this).val();
 
         if (!/^\+?\d*$/.test(value)) {
@@ -11,10 +10,15 @@ $(document).ready(function () {
         }
     });
 
-    $('input[type="tel"]').on('keydown', function (e) {
-        if (!/[\d]/.test(e.key) && e.key !== "Backspace" && e.key !== "Delete" &&
-            e.key !== "ArrowLeft" && e.key !== "ArrowRight" &&
-            !(e.key === "+" && this.selectionStart === 0)) {
+    $('input[type="tel"]').on("keydown", function (e) {
+        if (
+            !/[\d]/.test(e.key) &&
+            e.key !== "Backspace" &&
+            e.key !== "Delete" &&
+            e.key !== "ArrowLeft" &&
+            e.key !== "ArrowRight" &&
+            !(e.key === "+" && this.selectionStart === 0)
+        ) {
             e.preventDefault();
         }
     });
@@ -322,43 +326,54 @@ function get_states() {
 
 /* signup js end */
 
-if (document.querySelectorAll(".ko-accordion-item-header").length > 0) {
-    const accordionItemHeaders = document.querySelectorAll(
-        ".ko-accordion-item-header"
-    );
-    accordionItemHeaders.forEach((accordionItemHeader) => {
-        accordionItemHeader.addEventListener("click", (event) => {
-            // Remove active class from all other accordion headers
-            accordionItemHeaders.forEach((item) => {
-                if (item !== accordionItemHeader) {
-                    item.classList.remove("active");
-                    item.nextElementSibling.style.maxHeight = 0;
+/* tabs js start */
+let check_tab_elm = setInterval(() => {
+    if (
+        document.querySelectorAll("[data-hunter-tabs]").length > 0 &&
+        document.querySelectorAll("[data-target-tabs]").length > 0
+    ) {
+        clearInterval(check_tab_elm);
+        document
+            .querySelectorAll("[data-hunter-tabs]")
+            .forEach((hunterelm, hunterindex) => {
+                if (
+                    hunterelm.querySelectorAll("[data-hunter-item]").length > 0
+                ) {
+                    hunterelm
+                        .querySelectorAll("[data-hunter-item]")
+                        .forEach((itemelm, itemindex) => {
+                            itemelm.addEventListener("click", () => {
+                                let targetval =
+                                    itemelm.getAttribute("data-hunter-item");
+                                if (
+                                    document.querySelectorAll(
+                                        `[data-target-tabs] [data-target-item="${targetval}"]`
+                                    ).length > 0
+                                ) {
+                                    hunterelm
+                                        .querySelector(
+                                            "[data-hunter-item].active"
+                                        )
+                                        .classList.remove("active");
+                                    itemelm.classList.add("active");
+                                    hunterelm.parentNode
+                                        .querySelector(
+                                            "[data-target-tabs] [data-target-item].active"
+                                        )
+                                        .classList.remove("active");
+                                    hunterelm.parentNode
+                                        .querySelector(
+                                            `[data-target-tabs] [data-target-item="${targetval}"]`
+                                        )
+                                        .classList.add("active");
+                                }
+                            });
+                        });
                 }
             });
-
-            // Toggle active class for clicked header
-            accordionItemHeader.classList.toggle("active");
-            const accordionItemBody = accordionItemHeader.nextElementSibling;
-            if (accordionItemHeader.classList.contains("active")) {
-                accordionItemBody.style.maxHeight =
-                    accordionItemBody.scrollHeight + "px";
-            } else {
-                accordionItemBody.style.maxHeight = 0;
-            }
-        });
-    });
-}
-
-const handleClick = (evt, tabcont) => {
-    const tabcontent = document.querySelectorAll(".ko-tabcontent");
-    tabcontent.forEach((content) => (content.style.display = "none"));
-
-    const tablinks = document.querySelectorAll(".ko-tablinks");
-    tablinks.forEach((link) => link.classList.remove("active"));
-
-    document.getElementById(tabcont).style.display = "block";
-    evt.currentTarget.classList.add("active");
-};
+    }
+});
+/* tabs js end */
 
 function updateGrandTotal() {
     let roomPrice = parseFloat($("#booking-data-quantity").data("price")) || 0;
@@ -366,7 +381,9 @@ function updateGrandTotal() {
     var extraBeds = parseInt($("#booking-data-extra_beds").val()) || 0;
     var adult_count = parseInt($("#booking-data-adults").val());
     var extra_beds = parseInt($("#booking-data-extra_beds").val());
-    var max_extra_beds = parseInt($("#booking-data-hiddens").data("max_extra_beds"));
+    var max_extra_beds = parseInt(
+        $("#booking-data-hiddens").data("max_extra_beds")
+    );
     var children_count = parseInt($("#booking-data-children").val());
     var roomQuantity = parseInt($("#booking-data-quantity").val()) || 0;
     var checkIn = $("#booking-data-check_in").val();
@@ -379,8 +396,8 @@ function updateGrandTotal() {
         $("#booking-data-quantity").val(max_rooms);
     }
 
-    if(extra_beds > max_extra_beds){
-        $("#booking-data-extra_beds").val(max_extra_beds)
+    if (extra_beds > max_extra_beds) {
+        $("#booking-data-extra_beds").val(max_extra_beds);
     }
 
     if (extraBeds > roomQuantity * 3) {

@@ -22,7 +22,7 @@ body{
 .ko-container{max-width: 1230px;width: 100%;padding-left: 15px;padding-right: 15px;margin: 0 auto;}
 .ko-row{display: flex;flex-wrap: wrap;margin: 0 -15px;}
 .ko-btn{text-align: center; color: var(--white-color);font-family: var(--font-jost); font-weight: 500;text-transform: uppercase;text-decoration: none;padding: 5px 20px;font-size: 12px;letter-spacing: 2px;border: none;background-color: var(--primary-color);transition: 0.3s all ease-in-out;display: inline-block;line-height: 27px;font-weight: 500;appearance: none;outline: none;cursor: pointer;}
-.ko-btn:hover{box-shadow: 2px 2px 20px 0px rgba(29, 29, 31, .5);}
+.ko-btn:hover{box-shadow: 2px 2px 20px 0px rgba(29, 29, 31, .5);}    
 h1,h2,h3,h4,h5,h6{font-family: var(--font-marcellus);}
 img,video{max-width: 100%;height: auto;}
 a,button{outline: none;}
@@ -49,28 +49,28 @@ a,button,span,i,svg,path{transition: all 0.33s ease; text-decoration: none;}
     }
     5%,
     95% {
-        box-shadow: 0 -0.83em 0 -0.4em,
-        0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em,
+        box-shadow: 0 -0.83em 0 -0.4em, 
+        0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 
         0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
     }
     10%,
     59% {
-        box-shadow: 0 -0.83em 0 -0.4em,
-        -0.087em -0.825em 0 -0.42em, -0.173em -0.812em 0 -0.44em,
+        box-shadow: 0 -0.83em 0 -0.4em, 
+        -0.087em -0.825em 0 -0.42em, -0.173em -0.812em 0 -0.44em, 
         -0.256em -0.789em 0 -0.46em, -0.297em -0.775em 0 -0.477em;
     }
     20% {
         box-shadow: 0 -0.83em 0 -0.4em, -0.338em -0.758em 0 -0.42em,
-        -0.555em -0.617em 0 -0.44em, -0.671em -0.488em 0 -0.46em,
+        -0.555em -0.617em 0 -0.44em, -0.671em -0.488em 0 -0.46em, 
         -0.749em -0.34em 0 -0.477em;
     }
     38% {
         box-shadow: 0 -0.83em 0 -0.4em, -0.377em -0.74em 0 -0.42em,
-        -0.645em -0.522em 0 -0.44em, -0.775em -0.297em 0 -0.46em,
+        -0.645em -0.522em 0 -0.44em, -0.775em -0.297em 0 -0.46em, 
         -0.82em -0.09em 0 -0.477em;
     }
     100% {
-        box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em,
+        box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 
         0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
     }
 }
@@ -79,7 +79,7 @@ a,button,span,i,svg,path{transition: all 0.33s ease; text-decoration: none;}
     0% { transform: rotate(0deg) }
     100% { transform: rotate(360deg) }
 }
-
+   
 
 /* ---------------------Header start------------------- */
 .site-header{position: relative;position: fixed;top: 0;width: 100%;left: 0;z-index: 9;transition: all 0.33s ease;}
@@ -404,7 +404,7 @@ a,button,span,i,svg,path{transition: all 0.33s ease; text-decoration: none;}
 /* -----------------------blog single post section end----------------- */
 
 /* --------------Top bar css start------------------ */
-.ko-topbar{display: none;}
+.ko-topbar{display: none;}  
 /* --------------Top bar css end------------------ */
 
 
@@ -531,7 +531,7 @@ select.ko-loginRegister-control{cursor: pointer;outline: none;appearance: none;b
 .room-control-btn {user-select: none; width: 36px; height: 36px; border-radius: 50%; border: none; background-color: var(--primary-color); color: var(--white-color); font-size: 20px; cursor: pointer; display: flex; justify-content: center; align-items: center; }
 .room-control-btn:hover { background-color: var(--primary-color); }
 .ko-count { width: 40px; text-align: center; background: transparent; outline: none; border: 0; font-size: 20px; margin: 0 10px; color: var(--white-color); font-family: var(--font-jost); }
-.ko-selector-wrap input[type="number"]::-webkit-outer-spin-button,
+.ko-selector-wrap input[type="number"]::-webkit-outer-spin-button, 
 .ko-selector-wrap input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0;}
 /* Extra Services */
 .ko-extra-service{ margin-bottom: 26px; }
@@ -552,6 +552,7 @@ select.ko-loginRegister-control{cursor: pointer;outline: none;appearance: none;b
 /* deluxe room info section end */
 
 /* rooms slider section start */
+.ko-splide-rooms h2{ padding: 30px 0; text-align: center; font-size: 52px; line-height: 62px; font-weight: 300; color: var(--black-color); font-family: var(--font-marcellus); }
 .ko-rooms img{ display: block; width: 100%; height: 600px; object-fit: cover; }
 .ko-splide-rooms .splide__arrow{ opacity: 1; }
 .ko-splide-rooms .splide__arrow svg path{ fill: var(--white-color); }
@@ -710,19 +711,20 @@ textarea.ko-form-control{ height: 178px; resize: vertical; }
 /* booking section start */
 .ko-booking-section{ padding: 60px 0; }
 .ko-myacc-tab-wrap{ display: flex; flex-direction: column; overflow: hidden; }
-.ko-myacc-tab-wrap button{ background-color: transparent; color: var(--black-color); border: none; outline: none; padding: 14px 16px; font-size: 17px; line-height: 27px; font-family: var(--font-marcellus); font-weight: 500; cursor: pointer; transition: all 0.3s ease; }
-.ko-myacc-tab-wrap button span{ text-align: left;color: inherit; transition: all 0.3s ease;}
-.ko-myacc-tab-wrap button:hover,.ko-myacc-tab-wrap button.active{ background-color: var(--primary-color); }
-.ko-myacc-tab-wrap button:hover span,.ko-myacc-tab-wrap button.active span{color: var(--white-color);}
-#tab1{ display: block; }
+.ko-myacc-tab-wrap .ko-tablinks{ background-color: transparent; color: var(--black-color); border: none; outline: none; padding: 14px 16px; font-size: 17px; line-height: 27px; font-family: var(--font-marcellus); font-weight: 500; cursor: pointer; transition: all 0.3s ease; }
+.ko-myacc-tab-wrap .ko-tablinks span{ text-align: left;color: inherit; transition: all 0.3s ease;}
+.ko-myacc-tab-wrap .ko-tablinks:hover,.ko-myacc-tab-wrap .ko-tablinks.active{ color: #ffffff; background-color: var(--primary-color); }
 .ko-booking-section .ko-col-9{ border: 0; border-left: 1px solid #dfdfdf; }
+.ko-tabcontent{display: none;min-height: 444px;}
+.ko-tabcontent.active{display: block;}
 .ko-tabcontent{ display: none; padding: 10px; animation: fadeEffect 1s; }
 .ko-tabcontent .ko-cart-table-wrap table{ border-top: 0px; }
+.ko-tabcontent .ko-cart-table-wrap table tbody tr{ border-bottom: 1px solid #dfdfdf; }
 .ko-tabcontent.ko-room-details h4{ word-break: keep-all; }
-.ko-room-details h4 span{ display: initial; }
+.ko-room-details h4 span{ display: initial; } 
 .ko-services-ty{ display: flex; gap: 6px; }
 .ko-transation-content{ width: 100%; }
-.ko-tabcontent .ko-transation-content thead tr th{ text-align: start; }
+.ko-tabcontent .ko-transation-content thead tr th{ text-align: start; font-size: 16px;line-height: 1.4;font-weight: 600; text-transform: capitalize;}
 .ko-tabcontent .ko-transation-content tbody tr td{ border-bottom: 1px solid #dfdfdf; padding: 10px 0; }
 .ko-status{ display: inline-block; width: 6px; height: 6px; border-radius: 30px; background-color: #ffd500; }
 .ko-success{ background-color: #9dff00; }
@@ -732,6 +734,8 @@ textarea.ko-form-control{ height: 178px; resize: vertical; }
     100% { opacity: 1; }
 }
 /* booking section end */
+
+
 
 
 /* ----------------------------Media Query start----------------------------- */
@@ -752,7 +756,7 @@ textarea.ko-form-control{ height: 178px; resize: vertical; }
     .ko-topbar-contact li svg, .ko-topbar-social li svg{width: 20px;color: var(--white-color);}
     .ko-topbar-social{justify-content: flex-end;color: var(--white-color);}
     .ko-topbar-social li a{display: block;}
-
+    
 }
 
 @media(min-width: 992px){
@@ -769,6 +773,8 @@ textarea.ko-form-control{ height: 178px; resize: vertical; }
 
     /* about us section */
     .ko-tit{ font-size: 40px; line-height: 50px; }
+    /* rooms gallery */
+    .ko-splide-rooms h2{ font-size: 32px; line-height: 42px; }
 }
 
 @media(max-width: 1280px){
@@ -781,7 +787,7 @@ textarea.ko-form-control{ height: 178px; resize: vertical; }
     .ko-reservation-wrap{gap: 6px;}
     .ko-reservation-title {width: 16%;}
     .ko-reservation-form .ko-btn{max-width: 178px;line-height: 1.7;}
-
+    
     /* accomodation section start */
     .ko-title{ font-size: 30px; line-height: 40px; }
     /* accomodation section end */
@@ -806,6 +812,8 @@ textarea.ko-form-control{ height: 178px; resize: vertical; }
     /* about us section */
     .ko-tit{ font-size: 36px; line-height: 46px; }
     .ko-romfacility-item li{ width: calc(100% / 1); }
+    /* rooms gallery */
+    .ko-splide-rooms h2{ font-size: 30px; line-height: 40px; }
 
 }
 
@@ -907,9 +915,13 @@ textarea.ko-form-control{ height: 178px; resize: vertical; }
     .ko-aboutus-romfacility .ko-container{ padding: 100px 15px; border: none; }
 
     /* booking section */
+    .ko-booking-section .ko-loginRegister-from .ko-col-6{ width: 100%; }
     .ko-booking-section .ko-row{ flex-direction: column; }
     .ko-booking-section .ko-row .ko-col-3,.ko-booking-section .ko-row .ko-col-9{ width: 100%; }
     .ko-booking-section .ko-col-9{ border: 0; }
+
+    /* rooms gallery */
+    .ko-splide-rooms h2{ font-size: 28px; line-height: 38px; }
 
 }
 
@@ -978,6 +990,9 @@ textarea.ko-form-control{ height: 178px; resize: vertical; }
 
     .ko-accordion-item-header{padding: 10px 0;font-size: 16px;}
     .ko-accordion-item-body-content{font-size: 14px;}
+
+    /* rooms gallery */
+    .ko-splide-rooms h2{ font-size: 26px; line-height: 36px; }
 }
 
 @media(max-width: 480px){
@@ -1034,6 +1049,9 @@ textarea.ko-form-control{ height: 178px; resize: vertical; }
     .ko-tit{ font-size: 28px; line-height: 38px; }
     .ko-menu-selection h2{ font-size: 45px; line-height: 55px; }
     .ko-hoh-content-wrap .ko-col-6 > p, .ko-menu-selection p{ font-size: 14px; line-height: 22px; }
+
+    /* rooms gallery */
+    .ko-splide-rooms h2{ font-size: 25px; line-height: 35px; }
 
 }
 
