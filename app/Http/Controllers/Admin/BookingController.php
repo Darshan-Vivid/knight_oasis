@@ -706,6 +706,7 @@ class BookingController extends Controller
         if (!$transaction) {
             return response()->json(['message' => 'Transaction not found'], 404);
         }
+
         if (empty($transaction->mail_status)) {
 
             $transaction->status = 2; //processong
@@ -719,9 +720,9 @@ class BookingController extends Controller
                 $guest = json_decode($booking->customer_details);
                 $user_email = $guest->email;
             }
+            Mail::to($user_email)->send(new BookingMail($booking->id));
         }
 
-        Mail::to($user_email)->send(new BookingMail($booking->id));
 
         return redirect()->route('view.home')->with([
             'success' => true,
