@@ -184,6 +184,55 @@ $(document).ready(function () {
         $(".ko-myacc-tab-wrap div button:eq(1)").addClass("active");
         $("#tab2").css("display", "block");
     }
+
+    /* tabs js start */
+    let check_tab_elm = setInterval(() => {
+        if (
+            document.querySelectorAll("[data-hunter-tabs]").length > 0 &&
+            document.querySelectorAll("[data-target-tabs]").length > 0
+        ) {
+            clearInterval(check_tab_elm);
+            document
+                .querySelectorAll("[data-hunter-tabs]")
+                .forEach((hunterelm, hunterindex) => {
+                    if (
+                        hunterelm.querySelectorAll("[data-hunter-item]").length > 0
+                    ) {
+                        hunterelm
+                            .querySelectorAll("[data-hunter-item]")
+                            .forEach((itemelm, itemindex) => {
+                                itemelm.addEventListener("click", () => {
+                                    let targetval =
+                                        itemelm.getAttribute("data-hunter-item");
+                                    if (
+                                        document.querySelectorAll(
+                                            `[data-target-tabs] [data-target-item="${targetval}"]`
+                                        ).length > 0
+                                    ) {
+                                        hunterelm
+                                            .querySelector(
+                                                "[data-hunter-item].active"
+                                            )
+                                            .classList.remove("active");
+                                        itemelm.classList.add("active");
+                                        hunterelm.parentNode
+                                            .querySelector(
+                                                "[data-target-tabs] [data-target-item].active"
+                                            )
+                                            .classList.remove("active");
+                                        hunterelm.parentNode
+                                            .querySelector(
+                                                `[data-target-tabs] [data-target-item="${targetval}"]`
+                                            )
+                                            .classList.add("active");
+                                    }
+                                });
+                            });
+                    }
+                });
+        }
+    });
+    /* tabs js end */
 });
 
 /* Header JS start */
@@ -326,54 +375,7 @@ function get_states() {
 
 /* signup js end */
 
-/* tabs js start */
-let check_tab_elm = setInterval(() => {
-    if (
-        document.querySelectorAll("[data-hunter-tabs]").length > 0 &&
-        document.querySelectorAll("[data-target-tabs]").length > 0
-    ) {
-        clearInterval(check_tab_elm);
-        document
-            .querySelectorAll("[data-hunter-tabs]")
-            .forEach((hunterelm, hunterindex) => {
-                if (
-                    hunterelm.querySelectorAll("[data-hunter-item]").length > 0
-                ) {
-                    hunterelm
-                        .querySelectorAll("[data-hunter-item]")
-                        .forEach((itemelm, itemindex) => {
-                            itemelm.addEventListener("click", () => {
-                                let targetval =
-                                    itemelm.getAttribute("data-hunter-item");
-                                if (
-                                    document.querySelectorAll(
-                                        `[data-target-tabs] [data-target-item="${targetval}"]`
-                                    ).length > 0
-                                ) {
-                                    hunterelm
-                                        .querySelector(
-                                            "[data-hunter-item].active"
-                                        )
-                                        .classList.remove("active");
-                                    itemelm.classList.add("active");
-                                    hunterelm.parentNode
-                                        .querySelector(
-                                            "[data-target-tabs] [data-target-item].active"
-                                        )
-                                        .classList.remove("active");
-                                    hunterelm.parentNode
-                                        .querySelector(
-                                            `[data-target-tabs] [data-target-item="${targetval}"]`
-                                        )
-                                        .classList.add("active");
-                                }
-                            });
-                        });
-                }
-            });
-    }
-});
-/* tabs js end */
+
 
 function updateGrandTotal() {
     let roomPrice = parseFloat($("#booking-data-quantity").data("price")) || 0;
