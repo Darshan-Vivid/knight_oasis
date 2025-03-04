@@ -154,13 +154,13 @@ class BlogController extends Controller
     {
         $blogs = Blogs::all();
         // dd($blogs);
-        return view('front.blogs.index', compact('blogs'));
+        return view('blogs', compact('blogs'));
     }
 
     public function blog_list($slug)
     {
         $blog = Blogs::where('slug', $slug)->firstOrFail();
         $recentBlogs = Blogs::orderBy('created_at', 'desc')->take(5)->get();
-        return view('front.blogs.blog_listing', compact('blog', 'recentBlogs'));
+        return view('blog', compact('blog', 'recentBlogs'));
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ContactMail;
+use App\Models\Blogs;
 use App\Models\User;
 use App\Models\Booking;
 use App\Models\Room;
@@ -99,7 +100,13 @@ class RedirectController extends Controller
     public function show_home(){
         $user = Auth::user();
         $rooms = Room::all();
-        return view('home')->with(["user"=>$user,"rooms"=>$rooms]);
+        $blogs = Blogs::latest()->take(3)->get();
+
+        if ($blogs->count() < 3) {
+            $blogs = collect([]);
+        }
+
+        return view('home')->with(["user"=>$user,"rooms"=>$rooms,"blogs"=>$blogs]);
     }
 
     public function show_rooms(){

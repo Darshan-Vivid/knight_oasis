@@ -239,43 +239,29 @@
         <!-- ----------accomodation section end----------- -->
 
         <!-- --------------------facilities section start------------------- -->
-        <section class="ko-facilities-section">
-            <div class="ko-facilities-row">
-                <div class="ko-facilities-col">
-                    <div class="ko-facilities-imgblock">
-                        <img src="assets/images/4-5.webp" alt="facilities" />
-                        <h4>Stay</h4>
-                    </div>
-                    <div class="ko-facilities-content">
-                        <h3>Stay</h3>
-                        <p>Non ullamco magna qui non dolore sit ut proident quis ad ex nisi in esse sed occaecat dolore consectetur tempor nostrud sit laboris in nostrud sed cillum mollit irure excepteur nulla magna cupidatat magna officia eiusmod dolore.</p>
-                        <a href="#" class="ko-btn">Read More</a>
-                    </div>
+        @if (!empty($blogs || count($blogs) > 2))
+            
+            <section class="ko-facilities-section">
+                <div class="ko-facilities-row">
+                    @foreach ($blogs as $blog)
+                    
+                        <div class="ko-facilities-col">
+                            <div class="ko-facilities-imgblock">
+                                <img src="{{ $blog->image }}" alt="facilities" />
+                                <h4>{{ $blog->title }}</h4>
+                            </div>
+                            <div class="ko-facilities-content">
+                                <h3>{{ $blog->title }}</h3>
+                                <p></p>
+                                <a href="{{ route('blog.list', $blog->slug) }}" class="ko-btn">Read More</a>
+                            </div>
+                        </div>
+                    
+                    @endforeach
+
                 </div>
-                <div class="ko-facilities-col">
-                    <div class="ko-facilities-imgblock">
-                        <img src="assets/images/4-5.webp" alt="facilities" />
-                        <h4>Dine</h4>
-                    </div>
-                    <div class="ko-facilities-content">
-                        <h3>Dine</h3>
-                        <p>Non ullamco magna qui non dolore sit ut proident quis ad ex nisi in esse sed occaecat dolore consectetur tempor nostrud sit laboris in nostrud sed cillum mollit irure excepteur nulla magna cupidatat magna officia eiusmod dolore.</p>
-                        <a href="#" class="ko-btn">Read More</a>
-                    </div>
-                </div>
-                <div class="ko-facilities-col">
-                    <div class="ko-facilities-imgblock">
-                        <img src="assets/images/4-5.webp" alt="facilities" />
-                        <h4>Offers</h4>
-                    </div>
-                    <div class="ko-facilities-content">
-                        <h3>Offers</h3>
-                        <p>Non ullamco magna qui non dolore sit ut proident quis ad ex nisi in esse sed occaecat dolore consectetur tempor nostrud sit laboris in nostrud sed cillum mollit irure excepteur nulla magna cupidatat magna officia eiusmod dolore.</p>
-                        <a href="#" class="ko-btn">Read More</a>
-                    </div>
-                </div>
-            </div>
-        </section>
+            </section>
+        @endif
         <!-- --------------------facilities section end--------------------- -->
 
     </main>
