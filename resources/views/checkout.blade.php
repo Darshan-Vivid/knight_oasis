@@ -103,13 +103,13 @@
                                         <ul>
                                             <li>
                                                 <div class="ko-payment-radio">
-                                                    <input type="radio" name="gateway" value="CASHFREE" required/>
+                                                    <input type="radio" name="gateway" value="CASHFREE" {{ old('gateway') == 'CASHFREE' ? 'checked' : '' }} required/>
                                                     <label for="ko_bank_transfer1">Cashfree</label>
                                                 </div>
                                             </li>
                                             <li>
                                                 <div class="ko-payment-radio">
-                                                    <input type="radio" name="gateway" value="PAYUMONEY" />
+                                                    <input type="radio" name="gateway" value="PAYUMONEY" {{ old('gateway') == 'PAYUMONEY' ? 'checked' : '' }} />
                                                     <label for="ko_bank_transfer2">Payumoney</label>
                                                 </div>
                                             </li>
@@ -119,9 +119,9 @@
                                         @enderror
                                     </div>
                                     <div class="ko-checkbox-group">
-                                        <input type="checkbox" class="ko-form-checkbox" id="account_with_hotel" />
+                                        <input type="checkbox" class="ko-form-checkbox" id="add_customer_note" />
                                         <label for="account_with_hotel" class="ko-form-label">Add a note to your order</label>
-                                        <input type="textarea" name="guest_note" class="ko-form-control ko-customer-note" style="display: none" placeholder="Write your customer note here"> </textarea>
+                                        <textarea name="guest_note" class="ko-form-control ko-customer-note" style="display: none" placeholder="Write your customer note here">{{ old('guest_note') }}</textarea>
                                     </div>
                                     <p class="ko-paymentProccess-ctn">By proceeding with your purchase you agree to our Terms and Conditions and Privacy Policy</p>
                                 </div>

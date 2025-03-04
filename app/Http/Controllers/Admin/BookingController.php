@@ -451,7 +451,7 @@ class BookingController extends Controller
         $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator);
+            return redirect()->back()->withErrors($validator)->withInput();
         } else {
             $acid = Session::get('abandoned_cart');
 
@@ -564,7 +564,7 @@ class BookingController extends Controller
         
         
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator);
+            return redirect()->back()->withErrors($validator)->withInput();
         } else {
             $acid = Session::get('abandoned_cart');
             

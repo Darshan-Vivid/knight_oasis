@@ -88,13 +88,14 @@ $(document).ready(function () {
         });
     });
 
-    $("#account_with_hotel").change(function () {
+    $("#add_customer_note").on('change', function () {
         if ($(this).is(":checked")) {
-            $('[name="customer_note"]').css("display", "block");
+            $('[name="guest_note"]').css("display", "block");
         } else {
-            $('[name="customer_note"]').css("display", "none");
+            $('[name="guest_note"]').css("display", "none");
         }
     });
+    
 
     /* cart page js end */
 
