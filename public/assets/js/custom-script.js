@@ -549,11 +549,18 @@ function hide_loader() {
 }
 
 function update_cart_page_price() {
+
     var count = $("#ko_cart_room_count").val();
     var ct = $("#ko_cart_cost_total");
     var gt = $("#ko_cart_grand_total");
     var st = $("#ko_cart_sub_total");
     var data = $("#cart-data-hiddens");
+    var max_allow = $("#ko_cart_room_count").data('max');
+
+    if(count > max_allow){
+        $("#ko_cart_room_count").val(max_allow);
+    }
+    var count = $("#ko_cart_room_count").val();
 
     var checkInDate = new Date(data.data("c_in"));
     var checkOutDate = new Date(data.data("c_out"));

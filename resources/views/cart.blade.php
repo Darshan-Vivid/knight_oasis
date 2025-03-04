@@ -73,7 +73,7 @@
                                                 <div class="ko-counter-wrap">
                                                     <div class="ko-qty-counter">
                                                         <button type="button" class="ko-qty-minus"id="ko_cart_room_count_dec">-</button>
-                                                        <input  type="text" name="count" class="ko-qty-input" id="ko_cart_room_count" value="{{ $ac->room_count }}" />
+                                                        <input  type="text" name="count" class="ko-qty-input" id="ko_cart_room_count" value="{{ $ac->room_count }}" data-max="{{ $room->quantity }}" />
                                                         <button type="button" class="ko-qty-plus" id="ko_cart_room_count_inc">+</button>
                                                     </div>
 
