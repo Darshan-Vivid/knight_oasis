@@ -132,18 +132,32 @@
                         </div>
                     </li> --}}
 
+
                     <!-- SETTINGS -->
                     <li class="nav-item">
-                        <a href="{{ route('view.settings') }}/" class="nav-link menu-link collapsed" >
-                            <i class="ri-home-gear-line"></i><span>Settings</span>
-                        </a>
-                    </li>
-
-                    <!-- FAQs -->
-                    <li class="nav-item">
-                        <a href="{{ route('faqs.index') }}/" class="nav-link menu-link collapsed" >
-                            <i class="ri-message-3-line"></i><span>FAQs</span>
-                        </a>
+                        @if(Route::is('view.settings.*') || Route::is('faqs.*') )
+                            <a href="#sidebarSettings" class="nav-link menu-link" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarSettings">
+                                <i class="ri-home-gear-line"></i><span>Settings</span>
+                            </a>
+                            <div class="menu-dropdown" id="sidebarSettings">
+                        @else
+                            <a href="#sidebarSettings" class="nav-link menu-link collapsed" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarSettings">
+                                <i class="ri-home-gear-line"></i><span>Settings</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="sidebarSettings">
+                        @endif
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="{{ route('view.settings.general') }}/" class="nav-link">General</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('view.settings.about') }}/" class="nav-link">About Us</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('faqs.index') }}/" class="nav-link">FAQs</a>
+                                    </li>
+                                </ul>
+                            </div>
                     </li>
 
                     <!-- Users -->

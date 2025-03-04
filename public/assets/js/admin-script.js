@@ -89,14 +89,16 @@ $(document).ready(function () {
         }
 
         if (button.attr("id") == "ko_settings_table_textarea") {
-            destroyTinyMCE('dynamic_tinymce');
-
+            let textareaName = currentSlug;
+            let textareaSelector = 'textarea[name="' + textareaName + '"]';
+        
             valueCell.html(
-                '<textarea name="' + currentSlug + '" id="dynamic_tinymce" class="form-control">' + currentValue + '</textarea>'
+                '<textarea name="' + textareaName + '" class="form-control">' + currentValue + '</textarea>'
             );
-
-            initTinyMCE('#dynamic_tinymce');
+        
+            initTinyMCE(textareaSelector);
         }
+        
 
         if (button.attr("id") == "ko_settings_table_site_social_links") {
             var old_links = button.data('links');

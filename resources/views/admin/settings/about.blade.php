@@ -1,11 +1,12 @@
-<x-admin.header :title="'Site Settings'" />
+<x-admin.header :title="'Site Faqs'" />
+
 
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header d-flex align-items-center">
                 <div class="flex-grow-1">
-                    <h5 class="mb-4 card-title">General Settings</h5>
+                    <h5 class="mb-4 card-title">About Us</h5>
                 </div>
             </div>
         </div>

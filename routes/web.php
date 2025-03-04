@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\RoomController;
 use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\SettingController;
 use App\Models\Faq;
 
 //Auth
@@ -80,12 +81,18 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/blog-categories', BlogCategoriesController::class)->names('blog_categories');
         Route::resource('/room-services', ServiceController::class)->names('services');
         Route::resource('/room-amenities', AmenityController::class)->names('amenities');
-        Route::resource('/faqs', FaqController::class)->names('faqs');
         Route::resource('/rooms', RoomController::class)->names('rooms');
         // Route::resource('media', MediaController::class);
 
-        Route::get('/settings', [AdminController::class, 'show_settings'])->name('view.settings');
-        Route::post('/settings', [AdminController::class, 'save_settings'])->name('settings.save');
+        Route::prefix('settings')->group(function () {
+            Route::resource('/faqs', FaqController::class)->names('faqs');
+            
+            Route::get('/general', [SettingController::class, 'show_general'])->name('view.settings.general');
+            Route::post('/general', [SettingController::class, 'save_general'])->name('settings.general.save');
+
+            
+            Route::get('/about-us', [SettingController::class, 'show_about_us'])->name('view.settings.about');
+        });
 
         Route::get('/offline-booking', [BookingController::class, 'show_offline_booking'])->name('view.offline_booking');
         Route::post('/offline-booking', [BookingController::class, 'store_offline_booking'])->name('offline_booking.save');
