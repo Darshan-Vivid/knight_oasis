@@ -20,7 +20,7 @@
 <script src="{{ URL::asset('admin/libs/dropzone/dropzone-min.js') }}"></script>
 {{-- <script src="{{ URL::asset('admin/js/pages/ecommerce-product-list.init.js') }}"></script> --}}
 <script src="{{ URL::asset('admin/js/app.js') }}"></script>
-<script src="{{ URL::asset('assets/js/admin-script.js') }}"></script>
+<script src="{{ URL::asset('assets/js/admin-script.js') }}?version={{ rand(10,99) }}.{{ rand(10,99) }}.{{ rand(100,999) }}"></script>
 </div>
 </div>
 </body>

@@ -16,8 +16,8 @@
     <link rel="stylesheet" href="{{ URL::asset('admin/css/bootstrap.min.css') }}" type="text/css" />
     <link rel="stylesheet" href="{{ URL::asset('admin/css/icons.min.css') }}" type="text/css" />
     <link rel="stylesheet" href="{{ URL::asset('admin/css/app.min.css') }}" type="text/css" />
-    <link rel="stylesheet" href="{{ URL::asset('admin/css/custom.min.css') }}" type="text/css" />
-    <link rel="stylesheet" href="{{ URL::asset('assets/css/admin-style.css') }}" type="text/css" />
+    <link rel="stylesheet" href="{{ URL::asset('admin/css/custom.min.css') }}?version={{ rand(10,99) }}.{{ rand(10,99) }}.{{ rand(100,999) }}" type="text/css" />
+    <link rel="stylesheet" href="{{ URL::asset('assets/css/admin-style.css') }}?version={{ rand(10,99) }}.{{ rand(10,99) }}.{{ rand(100,999) }}" type="text/css" />
     <script src="{{ URL::asset('admin/js/layout.js') }}"></script>
     <script src="{{ URL::asset('admin/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ URL::asset('admin/libs/simplebar/simplebar.min.js') }}"></script>
