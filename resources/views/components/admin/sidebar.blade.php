@@ -139,6 +139,13 @@
                         </a>
                     </li>
 
+                    <!-- FAQs -->
+                    <li class="nav-item">
+                        <a href="{{ route('faqs.index') }}/" class="nav-link menu-link collapsed" >
+                            <i class="ri-message-3-line"></i><span>FAQs</span>
+                        </a>
+                    </li>
+
                     <!-- Users -->
                     <li class="nav-item">
                         <a href="{{ route('view.users') }}/" class="nav-link menu-link collapsed" >

@@ -196,14 +196,17 @@ $(document).ready(function () {
                 .querySelectorAll("[data-hunter-tabs]")
                 .forEach((hunterelm, hunterindex) => {
                     if (
-                        hunterelm.querySelectorAll("[data-hunter-item]").length > 0
+                        hunterelm.querySelectorAll("[data-hunter-item]")
+                            .length > 0
                     ) {
                         hunterelm
                             .querySelectorAll("[data-hunter-item]")
                             .forEach((itemelm, itemindex) => {
                                 itemelm.addEventListener("click", () => {
                                     let targetval =
-                                        itemelm.getAttribute("data-hunter-item");
+                                        itemelm.getAttribute(
+                                            "data-hunter-item"
+                                        );
                                     if (
                                         document.querySelectorAll(
                                             `[data-target-tabs] [data-target-item="${targetval}"]`
@@ -233,6 +236,34 @@ $(document).ready(function () {
         }
     });
     /* tabs js end */
+
+    if (document.querySelectorAll(".ko-accordion-item-header").length > 0) {
+        const accordionItemHeaders = document.querySelectorAll(
+            ".ko-accordion-item-header"
+        );
+        accordionItemHeaders.forEach((accordionItemHeader) => {
+            accordionItemHeader.addEventListener("click", (event) => {
+                // Remove active class from all other accordion headers
+                accordionItemHeaders.forEach((item) => {
+                    if (item !== accordionItemHeader) {
+                        item.classList.remove("active");
+                        item.nextElementSibling.style.maxHeight = 0;
+                    }
+                });
+
+                // Toggle active class for clicked header
+                accordionItemHeader.classList.toggle("active");
+                const accordionItemBody =
+                    accordionItemHeader.nextElementSibling;
+                if (accordionItemHeader.classList.contains("active")) {
+                    accordionItemBody.style.maxHeight =
+                        accordionItemBody.scrollHeight + "px";
+                } else {
+                    accordionItemBody.style.maxHeight = 0;
+                }
+            });
+        });
+    }
 });
 
 /* Header JS start */
@@ -374,8 +405,6 @@ function get_states() {
 }
 
 /* signup js end */
-
-
 
 function updateGrandTotal() {
     let roomPrice = parseFloat($("#booking-data-quantity").data("price")) || 0;

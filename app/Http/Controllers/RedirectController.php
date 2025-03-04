@@ -25,10 +25,6 @@ class RedirectController extends Controller
         return view('about');
     }
 
-    public function show_faqs(){
-        return view('faqs');
-    }
-
     public function show_contact(){
         return view('contact');
     }

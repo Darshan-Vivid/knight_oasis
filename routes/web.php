@@ -14,11 +14,11 @@ use App\Http\Controllers\Admin\AmenityController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\BlogCategoriesController;
 use App\Http\Controllers\Admin\BookingController;
+use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\RoomController;
 use App\Http\Controllers\Admin\ServiceController;
-
-
+use App\Models\Faq;
 
 //Auth
 Route::get('/login',[RedirectController::class , 'login'])->name('login');
@@ -40,7 +40,7 @@ Route::post('/states', [AuthController::class, 'getStates'])->name("get.states")
 Route::get('/', [RedirectController::class, 'show_home'])->name('view.home');
 Route::post('/', [BookingController::class, 'quick_book'])->name('home.book');
 Route::get('/about-us', [RedirectController::class, 'show_about'])->name('view.about');
-Route::get('/faqs', [RedirectController::class, 'show_faqs'])->name('view.faqs');
+Route::get('/faqs', [FaqController::class, 'show'])->name('view.faqs');
 Route::get('/contact-us', [RedirectController::class, 'show_contact'])->name('view.contact');
 Route::post('/contact-us', [RedirectController::class, 'mail_contact'])->name('contact.mail');
 
@@ -80,6 +80,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/blog-categories', BlogCategoriesController::class)->names('blog_categories');
         Route::resource('/room-services', ServiceController::class)->names('services');
         Route::resource('/room-amenities', AmenityController::class)->names('amenities');
+        Route::resource('/faqs', FaqController::class)->names('faqs');
         Route::resource('/rooms', RoomController::class)->names('rooms');
         // Route::resource('media', MediaController::class);
 
