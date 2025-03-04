@@ -5,7 +5,7 @@ $(document).ready(function () {
     $('input[type="tel"]').on("input", function () {
         let value = $(this).val();
 
-        if (!/^\+?\d*$/.test(value)) {
+        if (!/^\+?\d*$/.test(value) || value.length > 14) {
             $(this).val(value.slice(0, -1));
         }
     });
@@ -483,23 +483,29 @@ function Scroll() {
             document.body.classList.add("sticky-mode");
             darkLogo.style.display = "block";
             lightLogo.style.display = "none";
-            menuLinks.forEach(function (link) {
-                link.style.color = "var(--black-color)";
+            menuLinks.forEach((link, index) => {
+                if (index !== menuLinks.length - 1) {
+                    link.style.color = "var(--black-color)";
+                }
             });
         } else {
             document.body.classList.remove("sticky-mode");
             darkLogo.style.display = "none";
             lightLogo.style.display = "block";
-            menuLinks.forEach(function (link) {
-                link.style.color = "var(--white-color)";
+            menuLinks.forEach((link, index) => {
+                if (index !== menuLinks.length - 1) {
+                    link.style.color = "var(--black-color)";
+                }
             });
         }
     } else {
         document.body.classList.add("sticky-mode");
         darkLogo.style.display = "block";
         lightLogo.style.display = "none";
-        menuLinks.forEach(function (link) {
-            link.style.color = "var(--black-color)";
+        menuLinks.forEach((link, index) => {
+            if (index !== menuLinks.length - 1) {
+                link.style.color = "var(--black-color)";
+            }
         });
     }
 }

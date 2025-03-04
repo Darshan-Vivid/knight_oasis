@@ -531,7 +531,6 @@ class BookingController extends Controller
 
     public function checkout(Request $request)
     {
-
         if (Auth::user()) {
             $rules = [
                 'gateway' => 'required|in:CASHFREE,PAYUMONEY',
@@ -546,7 +545,7 @@ class BookingController extends Controller
                 'gateway' => 'required|in:CASHFREE,PAYUMONEY',
             ];
         }
-
+        
         $messages = [
             'name.required' => 'The name field is required.',
             'name.min' => 'The name must be at least 2 characters.',
@@ -560,26 +559,26 @@ class BookingController extends Controller
             'gateway.required' => 'Please select any one payment method.',
             'gateway.in' => 'Invalid payment method selected.',
         ];
-
+        
         $validator = Validator::make($request->all(), $rules, $messages);
-
-
+        
+        
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator);
         } else {
             $acid = Session::get('abandoned_cart');
-
+            
             if (!$acid) {
                 return redirect()->back()->withErrors(['general' => 'Unable to process your request.']);
             }
-
+            
             try {
-
+                
                 $ac = AbandonedCart::findOrFail($acid);
                 $room = Room::find($ac->room_id);
                 $booking = new Booking;
                 $transaction = new Transaction;
-
+                
                 if (Auth::user()) {
                     $user = Auth::user();
                     $booking->user_id = $user->id;
@@ -595,13 +594,13 @@ class BookingController extends Controller
                     $guest_info["address"] = $request->state . ',' . $request->country;
                     $booking->customer_details = json_encode($guest_info);
                 }
-
+                
                 $transaction->amount = $ac->total_cost;
                 $transaction->method = $request->gateway;
                 $transaction->status = 0;
                 $transaction->transaction_id = Str::uuid();
                 $transaction->save();
-
+                
                 $booking->type = "WEBSITE";
                 $booking->check_in = $ac->check_in;
                 $booking->check_out = $ac->check_out;
@@ -615,47 +614,51 @@ class BookingController extends Controller
                 $booking->customer_note = (isset($request->guest_note) && strlen($request->guest_note) > 0) ? $request->guest_note : json_encode("{}", JSON_UNESCAPED_SLASHES);
                 $booking->transaction_id = $transaction->transaction_id;
                 $booking->save();
-
+                
                 if ($transaction->method == 'CASHFREE') {
 
-                    $orderData = [
-                        "order_id" => $transaction->transaction_id,
-                        "order_amount" => $ac->total_cost,
-                        "order_currency" => "INR",
-                        "customer_details" => [
-                            "customer_id" => $transaction->transaction_id,
-                            "customer_phone" => $guest_info["phone"],
-                        ],
-                        "order_meta" => [
-                            "return_url" => route('cashfree.success', $transaction->transaction_id),
-                            "notify_url" => route('cashfree.callback'),
-                            "payment_methods" =>  env('CASHFREE_PAYMENT_METHODS', ''),
-                        ]
-                    ];
+                    if(env('PAYMENTS_MODE')) {
+                        $orderData = [
+                            "order_id" => $transaction->transaction_id,
+                            "order_amount" => $ac->total_cost,
+                            "order_currency" => "INR",
+                            "customer_details" => [
+                                "customer_id" => $transaction->transaction_id,
+                                "customer_phone" => $guest_info["phone"],
+                            ],
+                            "order_meta" => [
+                                "return_url" => route('cashfree.success', $transaction->transaction_id),
+                                "notify_url" => route('cashfree.callback'),
+                                "payment_methods" =>  env('CASHFREE_PAYMENT_METHODS', ''),
+                                ]
+                        ];
+                            
+                        $apiEndpoint = (env('PAYMENTS_MODE') === "PRODUCTION") ? env('CASHFREE_BASE_URL') : env('CASHFREE_SANDBOX_URL');
+                        $apiKey = env('CASHFREE_APP_ID');
+                        $apiSecret = env('CASHFREE_SECRET_KEY');
+                        
+                        
+                        $response = Http::withHeaders([
+                            'Content-Type' => 'application/json',
+                            'x-client-id' => $apiKey,
+                            'x-client-secret' => $apiSecret,
+                            'x-api-version' => env('CASHFREE_API_VERSION'),
+                        ])->post($apiEndpoint, $orderData);
+                            
+                        $responseData = $response->json();
 
-                    $apiEndpoint = (env('PAYMENTS_MODE') === "PRODUCTION") ? env('CASHFREE_BASE_URL') : env('CASHFREE_SANDBOX_URL');
-                    $apiKey = env('CASHFREE_APP_ID');
-                    $apiSecret = env('CASHFREE_SECRET_KEY');
+                        if (isset($responseData['payment_session_id']) && !empty($responseData['payment_session_id'])) {
+                            $paymentSessionId = $responseData['payment_session_id'];
+                            $mode = (env('PAYMENTS_MODE') === "PRODUCTION") ? 'production' : 'sandbox';
 
-                    $response = Http::withHeaders([
-                        'Content-Type' => 'application/json',
-                        'x-client-id' => $apiKey,
-                        'x-client-secret' => $apiSecret,
-                        'x-api-version' => env('CASHFREE_API_VERSION'),
-                    ])->post($apiEndpoint, $orderData);
-
-                    $responseData = $response->json();
-
-
-                    if (isset($responseData['payment_session_id']) && !empty($responseData['payment_session_id'])) {
-                        $paymentSessionId = $responseData['payment_session_id'];
-                        $mode = (env('PAYMENTS_MODE') === "PRODUCTION") ? 'production' : 'sandbox';
-
-                        return view('payments.cashfree_checkout', [
-                            'paymentSessionId' => $paymentSessionId,
-                            'mode' => $mode
-                        ]);
-                    } else {
+                            return view('payments.cashfree_checkout', [
+                                'paymentSessionId' => $paymentSessionId,
+                                'mode' => $mode
+                            ]);
+                        } else {
+                            return redirect()->back()->withErrors(['general' => 'Unable to process your request.']);
+                        }
+                    }else{
                         return redirect()->back()->withErrors(['general' => 'Unable to process your request.']);
                     }
                 } elseif ($transaction->method == 'PAYUMONEY') {
