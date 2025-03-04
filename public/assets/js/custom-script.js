@@ -485,7 +485,7 @@ function Scroll() {
             darkLogo.style.display = "block";
             lightLogo.style.display = "none";
             menuLinks.forEach((link, index) => {
-                if (index !== menuLinks.length - 1) {
+                if (index != menuLinks.length - 1) {
                     link.style.color = "var(--black-color)";
                 }
             });
@@ -494,8 +494,8 @@ function Scroll() {
             darkLogo.style.display = "none";
             lightLogo.style.display = "block";
             menuLinks.forEach((link, index) => {
-                if (index !== menuLinks.length - 1) {
-                    link.style.color = "var(--black-color)";
+                if (index != menuLinks.length - 1) {
+                    link.style.color = "var(--white-color)";
                 }
             });
         }
@@ -504,7 +504,7 @@ function Scroll() {
         darkLogo.style.display = "block";
         lightLogo.style.display = "none";
         menuLinks.forEach((link, index) => {
-            if (index !== menuLinks.length - 1) {
+            if (index != menuLinks.length - 1) {
                 link.style.color = "var(--black-color)";
             }
         });
