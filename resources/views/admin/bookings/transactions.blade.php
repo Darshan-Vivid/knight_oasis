@@ -38,9 +38,16 @@
                                 <td>{{ $transaction->method }}</td>
                                 <td>
                                     @if($transaction->status == 1)
-                                        <span class="badge bg-info-subtle text-info">PAID</span>
+                                        <span class="badge bg-success-subtle text-success status">PAID</span>
                                     @elseif ($transaction->status == 0)
-                                        <span class="badge bg-danger">CANCLED</span>
+                                        <span class="badge bg-danger-subtle text-danger status">CANCLED</span>
+                                    @elseif ($transaction->status == 2)
+                                        @if ($transaction->method == 'CASH')
+                                            <span class="badge bg-warning-subtle text-warning status">PENDING</span>
+                                        @else
+                                            
+                                            <span class="badge bg-warning-subtle text-warning status">PROCESSING</span>
+                                        @endif
                                     @endif
                                 </td>
                                 <td>{{ $transaction->created_at }}</td>

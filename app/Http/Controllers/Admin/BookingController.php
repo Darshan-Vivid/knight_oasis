@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use DateTime;
 use App\Mail\BookingMail;
+use App\Mail\PasswordResetMail;
 use App\Http\Controllers\Controller;
 use App\Models\AbandonedCart;
 use App\Models\Booking;
@@ -12,9 +13,11 @@ use App\Models\Room;
 use App\Models\Service;
 use App\Models\Transaction;
 use App\Models\User;
+use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
@@ -533,7 +536,7 @@ class BookingController extends Controller
     {
         if (Auth::user()) {
             $rules = [
-                'gateway' => 'required|in:CASHFREE,PAYUMONEY',
+                'gateway' => 'required|in:CASHFREE,PAYUMONEY,CASH',
             ];
         } else {
             $rules = [
@@ -542,7 +545,7 @@ class BookingController extends Controller
                 'mobile' => 'required|min:10',
                 'country' => 'required',
                 'state' => 'required',
-                'gateway' => 'required|in:CASHFREE,PAYUMONEY',
+                'gateway' => 'required|in:CASHFREE,PAYUMONEY,CASH',
             ];
         }
         
@@ -576,32 +579,41 @@ class BookingController extends Controller
                 
                 $ac = AbandonedCart::findOrFail($acid);
                 $room = Room::find($ac->room_id);
-                $booking = new Booking;
-                $transaction = new Transaction;
                 
                 if (Auth::user()) {
                     $user = Auth::user();
-                    $booking->user_id = $user->id;
-                    $booking->customer_details = json_encode("{}", JSON_UNESCAPED_SLASHES);
-                    $transaction->user_id = $user->id;
-                    $guest_info["name"] = $user->name;
-                    $guest_info["email"] = $user->email;
-                    $guest_info["phone"] = $user->mobile;
                 } else {
-                    $guest_info["name"] = $request->name;
-                    $guest_info["email"] = $request->email;
-                    $guest_info["phone"] = $request->mobile;
-                    $guest_info["address"] = $request->state . ',' . $request->country;
-                    $booking->customer_details = json_encode($guest_info);
+                    $otp = rand(100000, 999999);
+                    $token = Str::random(32);
+
+                    $user = new User;
+                    $user->name = $request->name;
+                    $user->email = $request->email;
+                    $user->mobile = $request->mobile;
+                    $user->state = $request->state;
+                    $user->country = $request->country;
+                    $user->otp = $otp;
+                    $user->token = $token;
+                    $user->password = Hash::make(Carbon::now());
+                    $user->otp_expires_at = Carbon::now()->addMinutes(30);
+                    $user->save();
+                    $user->assignRole('user');
+
+                    Auth::login($user);
+                    Mail::to($user->email)->send(new PasswordResetMail($token));
                 }
                 
+                $transaction = new Transaction;
+                $transaction->user_id = $user->id;
                 $transaction->amount = $ac->total_cost;
                 $transaction->method = $request->gateway;
                 $transaction->status = 0;
                 $transaction->transaction_id = Str::uuid();
                 $transaction->save();
                 
+                $booking = new Booking;
                 $booking->type = "WEBSITE";
+                $booking->user_id = $user->id;
                 $booking->check_in = $ac->check_in;
                 $booking->check_out = $ac->check_out;
                 $booking->adults = $ac->adults;
@@ -611,11 +623,22 @@ class BookingController extends Controller
                 $booking->extra_beds = $ac->extra_beds;
                 $booking->services = $ac->services ?? json_encode("[]", JSON_UNESCAPED_SLASHES);
                 $booking->total_cost = $ac->total_cost;
+                $booking->customer_details = json_encode("{}", JSON_UNESCAPED_SLASHES);
                 $booking->customer_note = (isset($request->guest_note) && strlen($request->guest_note) > 0) ? $request->guest_note : json_encode("{}", JSON_UNESCAPED_SLASHES);
                 $booking->transaction_id = $transaction->transaction_id;
-                $booking->save();
-                
-                if ($transaction->method == 'CASHFREE') {
+
+                if($transaction->method == 'CASH'){
+                    $booking->save();
+                    Transaction::where('transaction_id','=' , $booking->transaction_id)->update(['status'=> 2]);
+                    Mail::to($user->email)->send(new BookingMail($booking->id));
+
+                    return redirect()->route('view.home')->with([
+                        'success' => true,
+                        'message' => 'we sent you an email for your payment status'
+                    ]);
+
+                } elseif ($transaction->method == 'CASHFREE') {
+                    
 
                     if(env('PAYMENTS_MODE')) {
                         $orderData = [
@@ -624,7 +647,7 @@ class BookingController extends Controller
                             "order_currency" => "INR",
                             "customer_details" => [
                                 "customer_id" => $transaction->transaction_id,
-                                "customer_phone" => $guest_info["phone"],
+                                "customer_phone" => $user->mobile,
                             ],
                             "order_meta" => [
                                 "return_url" => route('cashfree.success', $transaction->transaction_id),
@@ -651,6 +674,8 @@ class BookingController extends Controller
                             $paymentSessionId = $responseData['payment_session_id'];
                             $mode = (env('PAYMENTS_MODE') === "PRODUCTION") ? 'production' : 'sandbox';
 
+                            $booking->save();
+
                             return view('payments.cashfree_checkout', [
                                 'paymentSessionId' => $paymentSessionId,
                                 'mode' => $mode
@@ -662,6 +687,7 @@ class BookingController extends Controller
                         return redirect()->back()->withErrors(['general' => 'Unable to process your request.']);
                     }
                 } elseif ($transaction->method == 'PAYUMONEY') {
+                    $booking->save();
 
                     $MERCHANT_KEY = env('PAYU_MERCHANT_KEY');
                     $SALT = env('PAYU_MERCHANT_SALT');
@@ -669,8 +695,9 @@ class BookingController extends Controller
                     $transaction_id = $transaction->transaction_id;
                     $amount = $ac->total_cost;
                     $product_info = "Booking: " . $booking->id;
-                    $customer_name = $guest_info["name"];
-                    $customer_email = $guest_info["email"];
+                    $customer_name = $user->name;
+                    $customer_email = $user->email;
+
 
                     $hash_string = "$MERCHANT_KEY|$transaction_id|$amount|$product_info|$customer_name|$customer_email|||||||||||$SALT";
                     $hash = strtolower(hash('sha512', $hash_string));
@@ -772,8 +799,8 @@ class BookingController extends Controller
                 case 'FLAGGED':
                     if (empty($transaction->mail_status) || $transaction->mail_status != '1') {
 
-                        $transaction->mail_status = 1; // Payment successful or flagged
-                        $transaction->status = 1; // Payment successful or flagged
+                        $transaction->mail_status = 1;
+                        $transaction->status = 1;
                         $transaction->save();
                         if ($user_email) {
                             Mail::to($user_email)->send(new BookingMail($booking->id));
@@ -787,8 +814,8 @@ class BookingController extends Controller
                 case 'VOID':
                 case 'USER_DROPPED':
                     if (empty($transaction->mail_status) || $transaction->mail_status != '0') {
-                        $transaction->mail_status = 0; // Payment failed, canceled, or incomplete
-                        $transaction->status = 0; // Payment failed, canceled, or incomplete
+                        $transaction->mail_status = 0;
+                        $transaction->status = 0;
                         $transaction->save();
                         if ($user_email) {
                             Mail::to($user_email)->send(new BookingMail($booking->id));
@@ -798,8 +825,8 @@ class BookingController extends Controller
 
                 case 'PENDING':
                     if (empty($transaction->mail_status) || $transaction->mail_status != '2') {
-                        $transaction->mail_status = 2; // Payment is pending
-                        $transaction->status = 2; // Payment is pending
+                        $transaction->mail_status = 2;
+                        $transaction->status = 2;
                         $transaction->save();
                         if ($user_email) {
                             Mail::to($user_email)->send(new BookingMail($booking->id));
@@ -809,8 +836,8 @@ class BookingController extends Controller
 
                 default:
                     if (empty($transaction->mail_status)) {
-                        $transaction->mail_status = 0; // Default case if status is unknown
-                        $transaction->status = 0; // Default case if status is unknown
+                        $transaction->mail_status = 0;
+                        $transaction->status = 0;
                         $transaction->save();
                         if ($user_email) {
                             Mail::to($user_email)->send(new BookingMail($booking->id));

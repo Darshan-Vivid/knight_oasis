@@ -117,6 +117,12 @@ class RoomController extends Controller
             $featuredImageUrl = $request->hasFile('featured_image') ? $this->uploadmedia($request->file('featured_image')) : null;
             $tourVideoUrl = $request->hasFile('tour_video') ? $this->uploadmedia($request->file('tour_video')) : null;
 
+            $slug = Str::slug($request->title);
+
+            if (Room::where('slug', $slug)->exists()) {
+                return redirect()->back()->withErrors(['general' => 'Room with the same name already exists.']);
+            }
+
             $galleryImageUrls = [];
             if ($request->has('gallery_images')) {
                 foreach ($request->file('gallery_images') as $galleryImage) {
@@ -128,7 +134,7 @@ class RoomController extends Controller
 
             $new_room = new Room();
             $new_room->name = $request->title;
-            $new_room->slug = Str::slug($request->title);
+            $new_room->slug = $slug;
             $new_room->quantity = $request->quantity;
             $new_room->size = $request->size;
             $new_room->price = $request->price;

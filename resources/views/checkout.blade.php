@@ -64,7 +64,7 @@
                                                         <option
                                                             value="{{ $country->c_name }}"
                                                             data-country-code="{{ $country->c_code }}"
-                                                            {{ $country->c_name == old('country',($user->country)??null) ? 'selected' : '' }}>
+                                                            {{ $country->c_name == old('country',($user->country)?? 'India') ? 'selected' : '' }}>
                                                             {{ $country->c_code }} - {{ $country->c_name }}
                                                         </option>
                                                     @endforeach
@@ -88,7 +88,7 @@
                                     </div>
                                     <div class="ko-checkout-infoBlock">
                                         <div class="ko-form-group">
-                                            <input type="tel" name="mobile" id="ko-register-mobile" class="ko-form-control @error('mobile') is-invalid @enderror" placeholder="" required value="{{ old('mobile', ($user->mobile ?? null)) }}" {{ isset($user) ? 'disabled':''}}/>
+                                            <input type="tel" name="mobile" id="ko-register-mobile" class="ko-form-control @error('mobile') is-invalid @enderror" placeholder="" required value="{{ old('mobile', ($user->mobile ?? "+91")) }}" {{ isset($user) ? 'disabled':''}}/>
                                             <label for="" class="ko-form-label">Phone</label>
                                         </div>
                                         @error('mobile')
@@ -111,6 +111,12 @@
                                                 <div class="ko-payment-radio">
                                                     <input type="radio" name="gateway" value="PAYUMONEY" {{ old('gateway') == 'PAYUMONEY' ? 'checked' : '' }} />
                                                     <label for="ko_bank_transfer2">Payumoney</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="ko-payment-radio">
+                                                    <input type="radio" name="gateway" value="CASH" {{ old('gateway') == 'CASH' ? 'checked' : '' }} />
+                                                    <label for="ko_bank_transfer2">Cash On Check-In</label>
                                                 </div>
                                             </li>
                                         </ul>

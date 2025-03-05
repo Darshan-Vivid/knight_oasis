@@ -67,11 +67,14 @@
                         PAID
                         @break
                     @case(2)
-                        PROCESSING
+                        @if ($transaction->method == 'CASH')
+                            PENDING
+                        @else
+                            PROCESSING
+                        @endif
                         @break
                     @default
                         UNKNOWN
-                        @break
                 @endswitch
             </p>
         </div>

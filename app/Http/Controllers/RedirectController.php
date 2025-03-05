@@ -10,6 +10,7 @@ use App\Models\Room;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -37,6 +38,7 @@ class RedirectController extends Controller
             'email' => 'required|email|max:255',
             'subject' => 'required|string|max:255',
             'message' => 'required|string|min:10',
+            'g-recaptcha-response' => 'required'
         ];
 
         $messages = [
@@ -55,6 +57,7 @@ class RedirectController extends Controller
             'message.required' => 'Message is required.',
             'message.string' => 'Message must be a valid string.',
             'message.min' => 'Message should be at least 10 characters long.',
+            'g-recaptcha-response.required' => 'Please solve the captcha before submit.',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -62,6 +65,22 @@ class RedirectController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }else{
+            $recaptchaResponse = $request->input('g-recaptcha-response');
+            $secretKey = env('CAPTCHA_SECRET_KEY'); 
+
+            $verifyResponse = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+                'secret' => $secretKey,
+                'response' => $recaptchaResponse,
+                'remoteip' => $request->ip(),
+            ]);
+
+            $responseData = $verifyResponse->json();
+
+            if (!$responseData['success']) {
+                return back()->withErrors(['g-recaptcha-response' => 'reCAPTCHA verification failed. Please try again.']);
+            }
+
+
             $mailData = [
                 'email' => $request->email,
                 'fname' => $request->fname,

@@ -227,7 +227,25 @@
                                         <td>{{ $transaction->transaction_id }}</td>
                                         <td>{{ $transaction->method }}</td>
                                         <td>{{ $transaction->amount }}</td>
-                                        <td>{{ $transaction->status == 1 ? 'PAID' : 'CANCELED' }}</td>
+                                        <td>
+                                            @switch($transaction->status)
+                                                @case(0)
+                                                    FAILED
+                                                    @break
+                                                @case(1)
+                                                    PAID
+                                                    @break
+                                                @case(2)
+                                                    @if ($transaction->method == 'CASH')
+                                                        PENDING
+                                                    @else
+                                                        PROCESSING
+                                                    @endif
+                                                    @break
+                                                @default
+                                                    UNKNOWN
+                                            @endswitch
+                                        </td>
                                         <td>{{ $transaction->created_at }}</td>
                                     </tr>
                                 @endforeach

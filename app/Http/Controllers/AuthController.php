@@ -259,8 +259,13 @@ class AuthController extends Controller
         $user->password = Hash::make($request->password);
         $user->token = null;
         $user->save();
-        return redirect()->route('login')
-            ->with(['message' => 'Password changed successfully. Please log in with your new password.', 'status' => 'success']);
+
+        Auth::login($user);
+
+        return redirect()->route('view.home')->with([
+            'success' => true,
+            'message' => 'Password changed successfully.'
+        ]);
     }
 
     public function getStates(Request $request)

@@ -47,29 +47,39 @@
                             <div class="ko-form-group">
                                 <label for="email"class="ko-contact-label @error('email') is-invalid @enderror" >Email <span>*</span></label>
                                 <input id="email" name="email" class="ko-form-control" type="email" value="{{ old('email') }}" placeholder="Email Address" required>
+                                @error('email')
+                                    <span class="form-error-message text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
-                        @error('email')
-                            <span class="form-error-message text-danger">{{ $message }}</span>
-                        @enderror
                         <div class="ko-col-12">
                             <div class="ko-form-group">
                                 <label for="subject" class="ko-contact-label @error('subject') is-invalid @enderror" >Subject</label>
                                 <input id="subject" name="subject"  class="ko-form-control" type="text" value="{{ old('subject') }}" placeholder="Subject" required>
+                                @error('subject')
+                                    <span class="form-error-message text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
-                        @error('subject')
-                            <span class="form-error-message text-danger">{{ $message }}</span>
-                        @enderror
                         <div class="ko-col-12">
                             <div class="ko-form-group">
                                 <label for="message" class="ko-contact-label @error('message') is-invalid @enderror" >Your Message <span>*</span></label>
                                 <textarea name="message" class="ko-form-control"  rows="4" cols="2" id="message" placeholder="Your Message" required>{{ old('message') }}</textarea>
+                                @error('message')
+                                    <span class="form-error-message text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
-                        @error('message')
-                            <span class="form-error-message text-danger">{{ $message }}</span>
-                        @enderror
+                        
+                        <div class="ko-col-12">
+                            <div class="ko-form-group">
+                                <div class="g-recaptcha" data-sitekey="{{ env('CAPTCHA_SITE_KEY') }}"></div>
+                                @error('g-recaptcha-response')
+                                    <span class="form-error-message text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+
                         
                         <div class="ko-col-12">
                             <button type="submit" class="ko-btn">Submit Your Message</button>
@@ -82,5 +92,5 @@
 
     </main>
 
-    <!-- footer start -->
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <x-footer />
