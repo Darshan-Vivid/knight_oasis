@@ -125,24 +125,25 @@ class RoomController extends Controller
                 }
             }
 
-            $new_room =  Room::create([
-                'name' => $request->title,
-                'quantity' => $request->quantity,
-                'price' => $request->price,
-                'offer_price' => $request->offer_price,
-                'description' => $request->description,
-                'allowd_guests' => $request->allowd_guests,
-                'size' => $request->size,
-                'beds' => json_encode(["quentity"=>$request->bed_quantity,'name'=>$request->bed_name]),
-                'bed_price' => $request->bed_price,
-                'extra_beds' => $request->extra_bed_quantity,
-                'amenities' => json_encode($request->amenities),
-                'service' => json_encode($request->services),
-                'features' => $request->features ?? null,
-                'feature_img' => $featuredImageUrl,
-                'gallery_img' => json_encode($galleryImageUrls),
-                'tour_video' => $tourVideoUrl,
-            ]);
+            $new_room = new Room();
+            $new_room->name = $request->title;
+            $new_room->quantity = $request->quantity;
+            $new_room->size = $request->size;
+            $new_room->price = $request->price;
+            $new_room->offer_price = $request->offer_price;
+            $new_room->description = $request->description;
+            $new_room->allowd_guests = $request->allowd_guests;
+            $new_room->beds = json_encode(["quentity" => $request->bed_quantity, "name" => $request->bed_name]);
+            $new_room->bed_price = $request->bed_price;
+            $new_room->extra_beds = $request->extra_bed_quantity;
+            $new_room->amenities = json_encode($request->amenities);
+            $new_room->service = json_encode($request->services);
+            $new_room->features = $request->features ?? null;
+            $new_room->feature_img = $featuredImageUrl;
+            $new_room->gallery_img = json_encode($galleryImageUrls);
+            $new_room->tour_video = $tourVideoUrl;
+            $new_room->save();
+            dd($new_room);
 
             if($new_room){
                 return redirect()->route('rooms.index');
