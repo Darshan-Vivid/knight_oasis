@@ -145,7 +145,6 @@ class RoomController extends Controller
             $new_room->gallery_img = json_encode($galleryImageUrls);
             $new_room->tour_video = $tourVideoUrl;
             $new_room->save();
-            dd($new_room);
 
             if($new_room){
                 return redirect()->route('rooms.index');
