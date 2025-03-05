@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Models\Amenity;
 use App\Models\Setting;
 
 class SettingController extends Controller
@@ -34,14 +34,16 @@ class SettingController extends Controller
         if(isset($request->site_copyright_text) && strlen($request->site_copyright_text) > 0){
             Setting::where('slug', '=', 'site_copyright_text')->update(['value' => $request->site_copyright_text]);
         }
-
         if(isset($request->map_link) && strlen($request->map_link) > 0){
             Setting::where('slug', '=', 'map_link')->update(['value' => $request->map_link]);
-        }if(isset($request->hotel_surroundings) && strlen($request->hotel_surroundings) > 0){
+        }
+        if(isset($request->hotel_surroundings) && strlen($request->hotel_surroundings) > 0){
             Setting::where('slug', '=', 'hotel_surroundings')->update(['value' => $request->hotel_surroundings]);
-        }if(isset($request->hotel_rules) && strlen($request->hotel_rules) > 0){
+        }
+        if(isset($request->hotel_rules) && strlen($request->hotel_rules) > 0){
             Setting::where('slug', '=', 'hotel_rules')->update(['value' => $request->hotel_rules]);
         }
+
         if(isset($request->site_icon) && $request->hasFile('site_icon')){
             $file = $request->file('site_icon');
             $fileName = $file->getClientOriginalName();
@@ -103,6 +105,52 @@ class SettingController extends Controller
 
     public function show_about_us(Request $request){
         $settings = Setting::where('page','=','about')->get();
-        return view('admin.settings.about')->with(["settings"=>$settings]);
+        $amenities = Amenity::all();
+        return view('admin.settings.about')->with(["settings"=>$settings,'amenities'=>$amenities]);
+    }
+
+
+    public function save_about_us(Request $request){
+        $filePath = 'images/settings/';
+        $directoryPath = public_path($filePath);
+
+        if(isset($request->about_welcome_title) && strlen($request->about_welcome_title) > 0){
+            Setting::where('slug', '=', 'about_welcome_title')->update(['value' => $request->about_welcome_title]);
+        }
+        if(isset($request->about_welcome_description) && strlen($request->about_welcome_description) > 0){
+            Setting::where('slug', '=', 'about_welcome_description')->update(['value' => $request->about_welcome_description]);
+        }
+        if(isset($request->about_welcome_counter_text_1) && strlen($request->about_welcome_counter_text_1) > 0){
+            Setting::where('slug', '=', 'about_welcome_counter_text_1')->update(['value' => $request->about_welcome_counter_text_1]);
+        }
+        if(isset($request->about_welcome_counter_text_2) && strlen($request->about_welcome_counter_text_2) > 0){
+            Setting::where('slug', '=', 'about_welcome_counter_text_2')->update(['value' => $request->about_welcome_counter_text_2]);
+        }
+        if(isset($request->about_welcome_counter_count_1) && strlen($request->about_welcome_counter_count_1) > 0){
+            Setting::where('slug', '=', 'about_welcome_counter_count_1')->update(['value' => $request->about_welcome_counter_count_1]);
+        }
+        if(isset($request->about_welcome_counter_count_2) && strlen($request->about_welcome_counter_count_2) > 0){
+            Setting::where('slug', '=', 'about_welcome_counter_count_2')->update(['value' => $request->about_welcome_counter_count_2]);
+        }
+        if(isset($request->about_amenities)){
+            Setting::where('slug', '=', 'about_amenities')->update(['value' => json_encode($request->about_amenities)]);
+        }else{
+            Setting::where('slug', '=', 'about_amenities')->update(['value' => json_encode([])]);
+        }
+        
+        if (!file_exists($directoryPath)) {
+            mkdir($directoryPath, 0777, true);
+        }
+        
+        foreach ($request->all() as $slug => $value) {
+            if ($value instanceof \Illuminate\Http\UploadedFile) {
+                $fileName = time() . '_' . $value->getClientOriginalName();
+                $value->move($directoryPath, $fileName);
+                $fileUrl = url($filePath . $fileName);
+                Setting::where('slug', $slug)->update(['value' => $fileUrl]);
+            }
+        }
+
+        return redirect()->route('view.settings.about');
     }
 }

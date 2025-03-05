@@ -29,14 +29,14 @@ class SettingsSeeder extends Seeder
             ['page' => 'general', "type" => "textarea", 'name' => 'Hotel surroundings', 'slug' => 'hotel_surroundings', 'value' => 'null'],
             ['page' => 'general', "type" => "textarea", 'name' => 'Hotel Rules', 'slug' => 'hotel_rules', 'value' => 'null'],
             ['page' => 'about',   "type" => "text", 'name' => 'Welcome title', 'slug' => 'about_welcome_title', 'value' => 'null'],
-            ['page' => 'about',   "type" => "text", 'name' => 'Welcome description', 'slug' => 'about_welcome_description', 'value' => 'null'],
+            ['page' => 'about',   "type" => "textarea", 'name' => 'Welcome description', 'slug' => 'about_welcome_description', 'value' => 'null'],
             ['page' => 'about',   "type" => "img", 'name' => 'Welcome Image 1', 'slug' => 'about_welcome_img_1', 'value' => 'null'],
             ['page' => 'about',   "type" => "img", 'name' => 'Welcome Image 2', 'slug' => 'about_welcome_img_2', 'value' => 'null'],
-            ['page' => 'about',   "type" => "text", 'name' => 'Welcome Counter 1 text', 'slug' => 'about_welcome_counter_text_1', 'value' => 'null'],
-            ['page' => 'about',   "type" => "text", 'name' => 'Welcome Counter 2 text', 'slug' => 'about_welcome_counter_text_2', 'value' => 'null'],
             ['page' => 'about',   "type" => "text", 'name' => 'Welcome Counter 1 count', 'slug' => 'about_welcome_counter_count_1', 'value' => 'null'],
-            ['page' => 'about',   "type" => "text", 'name' => 'Welcome Counter 1 count', 'slug' => 'about_welcome_counter_count_2', 'value' => 'null'],
-            ['page' => 'about',   "type" => "json", 'name' => 'Amenities', 'slug' => 'about_amenities', 'value' => 'null'],
+            ['page' => 'about',   "type" => "text", 'name' => 'Welcome Counter 1 text', 'slug' => 'about_welcome_counter_text_1', 'value' => 'null'],
+            ['page' => 'about',   "type" => "text", 'name' => 'Welcome Counter 2 count', 'slug' => 'about_welcome_counter_count_2', 'value' => 'null'],
+            ['page' => 'about',   "type" => "text", 'name' => 'Welcome Counter 2 text', 'slug' => 'about_welcome_counter_text_2', 'value' => 'null'],
+            ['page' => 'about',   "type" => "json", 'name' => 'Amenities', 'slug' => 'about_amenities', 'value' => '[]'],
             ['page' => 'about',   "type" => "img", 'name' => 'Amenity image 1', 'slug' => 'about_amenity_img_1', 'value' => 'null'],
             ['page' => 'about',   "type" => "img", 'name' => 'Amenity image 2', 'slug' => 'about_amenity_img_2', 'value' => 'null'],
         ];
@@ -51,6 +51,10 @@ class SettingsSeeder extends Seeder
             if (DB::table('settings')->where('slug', $item['slug'])->first()->page != $item['page']) {
                 DB::table('settings')->where('slug', $item['slug'])->update(['page' => $item['page']]);
             }
+            if (DB::table('settings')->where('slug', $item['slug'])->first()->type != $item['type']) {
+                DB::table('settings')->where('slug', $item['slug'])->update(['type' => $item['type']]);
+            }
+
         }
 
         if (DB::table('settings')->where('slug', 'site_logo')->exists()) {

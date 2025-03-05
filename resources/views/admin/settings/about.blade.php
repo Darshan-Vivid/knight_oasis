@@ -16,7 +16,7 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
-            <form action="{{ route('settings.general.save') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('settings.about.save') }}" method="post" enctype="multipart/form-data">
                 @csrf
 
                 <div class="card-header d-flex align-items-center">
@@ -41,50 +41,44 @@
                             </thead>
                             <tbody>
                                 @foreach ($settings as $setting)
-                                    @if ($setting->slug == 'site_social_links')
+                                    @if ($setting->slug == 'about_amenities')
+                                    @php
+                                        $edit_amenities = json_decode($setting->value);
+                                        if (empty($edit_amenities) || count($edit_amenities) == 0) {
+                                            $edit_amenities[] = 0;
+                                        }
+                                    @endphp
                                         <tr>
                                             <td data-slug="{{ $setting->slug }}">{{ $setting->name }}</td>
-                                            <td data-value="{{ htmlspecialchars($setting->value, ENT_QUOTES, 'UTF-8') }}">
-                                                @php
-                                                    $s_media = json_decode($setting->value, true);
-                                                @endphp
-                                                @if (!empty($s_media))
-                                                    @foreach ($s_media as $index => $media)
-                                                        <a href="{{ $media['link'] }}" target="_blank"
-                                                            style="margin-right: 10px;">
-                                                            <img src="{{ $media['icon'] }}" alt="Social Icon" width="30"
-                                                                height="30">
-                                                        </a>
-                                                    @endforeach
-                                                @else
-                                                        <div id="ko_settings_no_media"> no media found </div>
-                                                @endif
-                                            </td>
                                             <td>
-                                                <button type="button" class="btn btn-sm btn-light ko_settings_btn"
-                                                    id="ko_settings_table_{{ $setting->slug }}" data-links="{{ $setting->value }}" >Edit</button>
-                                            </td>
+                                                @forelse ($amenities as $amenity)
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" name="{{ $setting->slug }}[]" value="{{ $amenity->id }}" {{ in_array($amenity->id, old($setting->slug , $edit_amenities)) ? 'checked' : '' }} >
+                                                            <label class="form-check-label" for="amenities">{{ $amenity->name }}</label>
+                                                        </div>
+                                                    @empty
+                                                        <div class="form-check"> No amenities found </div>
+                                                    @endforelse
+                                                </td>
+                                            <td></td>
                                         </tr>
-                                    @elseif($setting->slug == 'site_icon' || $setting->slug == 'site_logo_light' || $setting->slug == 'site_logo_dark')
+                                    @elseif($setting->type == 'img')
                                         <tr>
                                             <td data-slug="{{ $setting->slug }}">{{ $setting->name }}</td>
                                             <td><img src="{{ $setting->value }}" alt="{{ $setting->slug }}" height="100"></td>
-                                            <td><button type="button" class="btn btn-sm btn-light ko_settings_btn"
-                                                    id="ko_settings_table_{{ $setting->type }}">Edit</button></td>
+                                            <td><button type="button" class="btn btn-sm btn-light ko_settings_btn" id="ko_settings_table_{{ $setting->type }}">Edit</button></td>
                                         </tr>
                                     @elseif($setting->type == 'textarea')
                                         <tr>
                                             <td data-slug="{{ $setting->slug }}">{{ $setting->name }}</td>
                                             <td>{!! $setting->value !!}</td>
-                                            <td><button type="button" class="btn btn-sm btn-light ko_settings_btn"
-                                                    id="ko_settings_table_{{ $setting->type }}">Edit</button></td>
+                                            <td><button type="button" class="btn btn-sm btn-light ko_settings_btn" id="ko_settings_table_{{ $setting->type }}">Edit</button></td>
                                         </tr>
                                     @else
                                         <tr>
                                             <td data-slug="{{ $setting->slug }}">{{ $setting->name }}</td>
                                             <td>{{ $setting->value }}</td>
-                                            <td><button type="button" class="btn btn-sm btn-light ko_settings_btn"
-                                                    id="ko_settings_table_{{ $setting->type }}">Edit</button></td>
+                                            <td><button type="button" class="btn btn-sm btn-light ko_settings_btn" id="ko_settings_table_{{ $setting->type }}">Edit</button></td>
                                         </tr>
                                     @endif
                                 @endforeach

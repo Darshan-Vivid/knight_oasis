@@ -78,7 +78,7 @@ $(document).ready(function () {
 
         if (button.attr("id") == "ko_settings_table_img" ) {
             valueCell.html(
-                '<input type="file" name="' + currentSlug + '" class="form-control" accept="image/*">'
+                '<input type="file" name="' + currentSlug + '" class="form-control" accept="image/*"><small class="text-muted d-flex justify-content-center mt-2">please leave it blank if you do not wants to change.</small>'
             );
         }
 
