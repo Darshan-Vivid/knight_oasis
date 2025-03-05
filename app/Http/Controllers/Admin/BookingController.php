@@ -585,12 +585,13 @@ class BookingController extends Controller
                 } else {
                     $otp = rand(100000, 999999);
                     $token = Str::random(32);
+                    $state_name = Country::find($request->state);
 
                     $user = new User;
                     $user->name = $request->name;
                     $user->email = $request->email;
                     $user->mobile = $request->mobile;
-                    $user->state = $request->state;
+                    $user->state = $state_name->s_name;
                     $user->country = $request->country;
                     $user->otp = $otp;
                     $user->token = $token;
