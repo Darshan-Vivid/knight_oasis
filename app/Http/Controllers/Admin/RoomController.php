@@ -8,6 +8,7 @@ use App\Models\Room;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 
 class RoomController extends Controller
@@ -127,6 +128,7 @@ class RoomController extends Controller
 
             $new_room = new Room();
             $new_room->name = $request->title;
+            $new_room->slug = Str::slug($request->title);
             $new_room->quantity = $request->quantity;
             $new_room->size = $request->size;
             $new_room->price = $request->price;
