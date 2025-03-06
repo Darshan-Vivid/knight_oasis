@@ -565,7 +565,6 @@ class BookingController extends Controller
         
         $validator = Validator::make($request->all(), $rules, $messages);
         
-        
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         } else {
@@ -629,8 +628,8 @@ class BookingController extends Controller
                 $booking->transaction_id = $transaction->transaction_id;
                
 
-                $booking->save();
                 if($transaction->method == 'CASH'){
+                    $booking->save();
                     Transaction::where('transaction_id','=' , $booking->transaction_id)->update(['status'=> 2]);
                     Mail::to($user->email)->send(new BookingMail($booking->id));
 
@@ -640,7 +639,7 @@ class BookingController extends Controller
                     ]);
 
                 } elseif ($transaction->method == 'CASHFREE') {
-                    
+                    $booking->save();
 
                     if(env('PAYMENTS_MODE')) {
                         $orderData = [
@@ -774,35 +773,22 @@ class BookingController extends Controller
             $paymentStatus = $decodedData['data']['payment']['payment_status'];
 
             $transaction = Transaction::where('transaction_id', $tid)->first();
-
-            $booking = Booking::where('transaction_id', $tid)->first();
-
-            if ($booking) {
-                if ($booking->user_id) {
-                    $user = User::find($booking->user_id);
-                    $user_email = $user->email;
-                } else {
-                    $guest = json_decode($booking->customer_details);
-                    $user_email = $guest->email ?? null;
-                }
-            }
-
-
             if (!$transaction) {
                 throw new Exception("Transaction not found for ID: $tid");
             }
+
+            $booking = Booking::where('transaction_id', $tid)->first();
+            $user = User::find($booking->user_id);
+
 
             switch ($paymentStatus) {
                 case 'SUCCESS':
                 case 'FLAGGED':
                     if (empty($transaction->mail_status) || $transaction->mail_status != '1') {
-
                         $transaction->mail_status = 1;
                         $transaction->status = 1;
                         $transaction->save();
-                        if ($user_email) {
-                            Mail::to($user_email)->send(new BookingMail($booking->id));
-                        }
+                        Mail::to($user->email)->send(new BookingMail($booking->id));
                     }
                     break;
 
@@ -815,9 +801,7 @@ class BookingController extends Controller
                         $transaction->mail_status = 0;
                         $transaction->status = 0;
                         $transaction->save();
-                        if ($user_email) {
-                            Mail::to($user_email)->send(new BookingMail($booking->id));
-                        }
+                        Mail::to($user->email)->send(new BookingMail($booking->id));
                     }
                     break;
 
@@ -826,9 +810,7 @@ class BookingController extends Controller
                         $transaction->mail_status = 2;
                         $transaction->status = 2;
                         $transaction->save();
-                        if ($user_email) {
-                            Mail::to($user_email)->send(new BookingMail($booking->id));
-                        }
+                        Mail::to($user->email)->send(new BookingMail($booking->id));
                     }
                     break;
 
@@ -837,42 +819,66 @@ class BookingController extends Controller
                         $transaction->mail_status = 0;
                         $transaction->status = 0;
                         $transaction->save();
-                        if ($user_email) {
-                            Mail::to($user_email)->send(new BookingMail($booking->id));
-                        }
+                        Mail::to($user->email)->send(new BookingMail($booking->id));
                     }
             }
 
-            return response()->json(['message' => 'Payment status updated successfully']);
         } catch (Exception $e) {
             Storage::append('webhook_logs/webhook_error_log.txt', now() . " - ERROR: " . $e->getMessage() . " - Data: " . $inputData . PHP_EOL, 'public');
-
-            return response()->json(['error' => 'An error occurred while processing the payment webhook'], 500);
         }
     }
 
-
     public function PayUSuccess(Request $request, $tid){
-        $order_id = $request->input('order_id');
-        $tx_status = $request->input('txStatus');
-        dd($request->all(),$order_id,$tx_status);
 
+        try {
+            if($request->status = "success"){
 
-        // if ($tx_status === 'SUCCESS') {
-        //     return "Payment for Order ID {$order_id} was successful!";
-        // } else {
-        //     return "Payment for Order ID {$order_id} failed.";
-        // }
+                $transaction = Transaction::where('transaction_id', $request->txnid)->first();
+                if (!$transaction->id) {
+                    throw new Exception("Transaction not found for ID: $request->txnid");
+                }
+                
+                $booking = Booking::where('transaction_id', $transaction->id)->first();
+                $user = User::find($booking->user_id);
+
+                $transaction->mail_status = 1;
+                $transaction->status = 1;
+                $transaction->save();
+                Mail::to($user->email)->send(new BookingMail($booking->id));
+            }
+            return redirect()->route('view.home')->with([
+                'success' => true,
+                'message' => 'we sent you an email for your payment status'
+            ]);
+        }
+        catch (Exception $e) {
+            Storage::append('webhook_logs/webhook_error_log.txt', now() . " - ERROR: " . $e->getMessage() . " - Data: " . $request . PHP_EOL);
+            return response()->json(['error' => 'An error occurred while processing the payment webhook'], 500);
+        } 
     }
 
     public function PayUfail(Request $request, $tid){
-        dd($request->all());
+        $transaction = Transaction::where('transaction_id', $request->tid)->first();
+        if (!$transaction->id) {
+            throw new Exception("Transaction not found for ID: $request->txnid");
+        }
+        
+        $booking = Booking::where('transaction_id', $transaction->id)->first();
+        $user = User::find($booking->user_id);
+
+        $transaction->mail_status = 0;
+        $transaction->status = 0;
+        $transaction->save();
+        Mail::to($user->email)->send(new BookingMail($booking->id));
+        return redirect()->route('view.home')->with([
+            'success' => true,
+            'message' => 'we sent you an email for your payment status'
+        ]);
     }
 
 
     public function quick_book(Request $request)
     {
-
         $rules = [
             'room_type' => 'required|exists:rooms,slug',
             'quantity' => 'required|integer|min:1',
@@ -892,7 +898,6 @@ class BookingController extends Controller
             "quantity.integer" => "Room Quantity must be in a valid number",
             "quantity.min" => "At least 1 room require for process booking "
         ];
-
 
         $validator = Validator::make($request->all(), $rules, $messages);
 
