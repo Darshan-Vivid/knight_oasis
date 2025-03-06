@@ -211,19 +211,26 @@
                             <div class="mb-3">
                                 <label class="form-label">Select Services</label>
                                 <div class="flex-wrap gap-3">
+                                    @php
+                                        $counterForId=1;
+                                    @endphp
                                     @forelse ($services as $service)
                                         @if($service->status == 1)
                                             <div class="form-check">
                                                 <input
                                                     class="form-check-input booking_form_services"
                                                     type="checkbox"
+                                                    id="services_{{ $counterForId }}"
                                                     name="services[]"
                                                     value="{{ $service->id }}"
                                                     {{ in_array($service->id, old('services', [])) ? 'checked' : '' }}
                                                 >
-                                                <label class="form-check-label" for="services">{{ $service->name }}</label>
+                                                <label class="form-check-label" for="services_{{ $counterForId }}">{{ $service->name }}</label>
                                             </div>
                                         @endif
+                                        @php
+                                            $counterForId++
+                                        @endphp
                                     @empty
                                         <div class="form-check"> No services found </div>
                                     @endforelse

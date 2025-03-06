@@ -7,7 +7,28 @@ function setDeleteFormAction(element) {
 
 $(document).ready(function () {
 
-     var checkinPicker = $(".checkin_date_picker").flatpickr({
+    $('input[type="tel"]').on("input", function () {
+        let value = $(this).val();
+
+        if (!/^\+?\d*$/.test(value) || value.length > 14) {
+            $(this).val(value.slice(0, -1));
+        }
+    });
+
+    $('input[type="tel"]').on("keydown", function (e) {
+        if (
+            !/[\d]/.test(e.key) &&
+            e.key !== "Backspace" &&
+            e.key !== "Delete" &&
+            e.key !== "ArrowLeft" &&
+            e.key !== "ArrowRight" &&
+            !(e.key === "+" && this.selectionStart === 0)
+        ) {
+            e.preventDefault();
+        }
+    });
+    
+    var checkinPicker = $(".checkin_date_picker").flatpickr({
         dateFormat: "Y-m-d",
         minDate: "today",
         defaultDate: $(".checkin_date_picker").data('old'),

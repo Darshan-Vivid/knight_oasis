@@ -30,6 +30,9 @@
 
     $interval = $check_in->diff($check_out);
     $days_of_stay = $interval->days;
+    if($days_of_stay <= 0){
+        $days_of_stay = 1;
+    }
     
     $guest['name'] = '--';  
     $guest['email'] = '--';
@@ -41,7 +44,7 @@
         $guest['name'] = $g->name;  
         $guest['email'] = $g->email;
         $guest['phone'] = $g->mobile;
-        $guest['address'] = $g->state.$g->country;
+        $guest['address'] = $g->state.", ".$g->country;
     } elseif (strlen($g->name > 0)) {
         $guest['name'] = $g->name;  
         $guest['email'] = $g->email;
@@ -237,7 +240,7 @@
                                         @if($booking->type =="OFFLINE")
                                             <th class="text-end">₹{{ $booking->total_cost }}</th>
                                         @else()
-                                            <th class="text-end">₹{{ $total_amount*$days_of_stay }}</th>
+                                            <th class="text-end">₹{{ $booking->total_cost*$days_of_stay }}</th>
                                         @endif
                                     </tr>
                                 </tbody>

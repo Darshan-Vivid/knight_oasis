@@ -143,19 +143,26 @@
                         <div class="mb-3 col-xxl-6">
                             <label class="form-label">Room Amenities <span class="text-danger">*</span></label>
                             <div class="flex-wrap gap-3">
+                                @php
+                                    $counterForId=1;
+                                @endphp
                                 @forelse ($amenities as $amenity)
                                     @if($amenity->status == 1)
                                         <div class="form-check">
                                             <input
                                                 class="form-check-input"
                                                 type="checkbox"
+                                                id="amenities_{{ $counterForId }}"
                                                 name="amenities[]"
                                                 value="{{ $amenity->id }}"
                                                 {{ in_array($amenity->id, old('amenities', [])) ? 'checked' : '' }}
                                             >
-                                            <label class="form-check-label" for="amenities">{{ $amenity->name }}</label>
+                                            <label class="form-check-label" for="amenities_{{ $counterForId }}">{{ $amenity->name }}</label>
                                         </div>
                                     @endif
+                                    @php
+                                        $counterForId++
+                                    @endphp
                                 @empty
                                     <div class="form-check"> No amenities found </div>
                                 @endforelse
@@ -165,17 +172,24 @@
                         <div class="mb-3 col-xxl-6">
                             <label class="form-label">Room Services <span class="text-danger">*</span></label>
                             <div class="flex-wrap gap-3">
+                                @php
+                                    $counterForId=1;
+                                @endphp
                                 @forelse ($services as $service)
                                     <div class="form-check">
                                         <input
                                             class="form-check-input"
                                             type="checkbox"
+                                            id="services{{ $counterForId }}"
                                             name="services[]"
                                             value="{{ $service->id }}"
                                             {{ in_array($service->id, old('services', [])) ? 'checked' : '' }}
                                         >
-                                        <label class="form-check-label" for="services">{{ $service->name }}</label>
+                                        <label class="form-check-label" for="services{{ $counterForId }}">{{ $service->name }}</label>
                                     </div>
+                                    @php
+                                        $counterForId++
+                                    @endphp
                                 @empty
                                     <div class="form-check"> No services found </div>
                                 @endforelse

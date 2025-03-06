@@ -39,4 +39,9 @@ class Booking extends Model
         'services' => 'array',
         'customer_details' => 'array',
     ];
+
+    public function transaction()
+    {
+        return $this->belongsTo(Transaction::class, 'transaction_id', 'transaction_id');
+    }
 }

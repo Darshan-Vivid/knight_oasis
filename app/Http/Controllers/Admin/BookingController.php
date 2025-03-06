@@ -878,7 +878,8 @@ class BookingController extends Controller
         ];
 
         $messages = [
-            "room_type.*" => "Unable to find room.",
+            "room_type.required" => "Please select valid room from list.",
+            "room_type.exists" => "This room does not exists.",
             "check_in.required" => "Check In date is required.",
             "check_in.date" => "Check In must be a valid date.",
             "check_in.after_or_equal" => "Check In must not be older than today.",

@@ -51,14 +51,20 @@
                                         <tr>
                                             <td data-slug="{{ $setting->slug }}">{{ $setting->name }}</td>
                                             <td>
+                                                @php
+                                                    $counterForId=1;
+                                                @endphp
                                                 @forelse ($amenities as $amenity)
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" name="{{ $setting->slug }}[]" value="{{ $amenity->id }}" {{ in_array($amenity->id, old($setting->slug , $edit_amenities)) ? 'checked' : '' }} >
-                                                            <label class="form-check-label" for="amenities">{{ $amenity->name }}</label>
-                                                        </div>
-                                                    @empty
-                                                        <div class="form-check"> No amenities found </div>
-                                                    @endforelse
+                                                        <input class="form-check-input" id="amenities_{{ $counterForId }}" type="checkbox" name="{{ $setting->slug }}[]" value="{{ $amenity->id }}" {{ in_array($amenity->id, old($setting->slug , $edit_amenities)) ? 'checked' : '' }} >
+                                                        <label class="form-check-label" for="amenities_{{ $counterForId }}">{{ $amenity->name }}</label>
+                                                    </div>
+                                                    @php
+                                                        $counterForId++
+                                                    @endphp
+                                                @empty
+                                                    <div class="form-check"> No amenities found </div>
+                                                @endforelse
                                                 </td>
                                             <td></td>
                                         </tr>
