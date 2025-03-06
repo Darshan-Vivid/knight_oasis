@@ -181,27 +181,35 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
-        }
+        }else{
 
-        $credentials = $request->only('email', 'password');
-        $remember = $request->has('remember');
+            
+            $credentials = $request->only('email', 'password');
+            $remember = $request->has('remember');
 
-        if (Auth::attempt($credentials, $remember)) {
-            $user = Auth::user();
+            $user = User::where('email', $credentials['email'])->first();
+            
+            if ($user && is_null($user->email_verified_at)) {
+                return back()->withErrors(['email' => 'Your email is not verified. Please try to reset your password.']);
+            }
+
+            if (Auth::attempt($credentials, $remember)) {
+                $user = Auth::user();
 
             if (Session::get('abandoned_cart')) {
                 $acid = Session::get('abandoned_cart');
                 AbandonedCart::where('id', $acid)->update(['user_id' => $user->id]);
             }
-
+            
             if ($user->hasRole('admin')) {
                 return redirect()->route('view.admin.dashboard');
             } else {
                 return redirect()->route('view.home');
             }
         }
-
-        return redirect()->back()->withErrors(['email' => 'Invalid credentials.'])->withInput();
+        
+        return redirect(s)->back()->withErrors(['email' => 'Invalid credentials.'])->withInput();
+        }
     }
 
     public function logout()
@@ -258,6 +266,7 @@ class AuthController extends Controller
 
         $user->password = Hash::make($request->password);
         $user->token = null;
+        $user->email_verified_at = Carbon::now();
         $user->save();
 
         Auth::login($user);

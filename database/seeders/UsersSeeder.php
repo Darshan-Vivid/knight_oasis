@@ -44,6 +44,7 @@ class UsersSeeder extends Seeder
                 $user->mobile = $userData['mobile'];
                 $user->state = $userData['state'];
                 $user->country = $userData['country'];
+                $user->email_verified_at = now();
                 $user->password = Hash::make($userData['password']);
                 $user->save();
                 $user->assignRole($userData['role']);

@@ -627,9 +627,10 @@ class BookingController extends Controller
                 $booking->customer_details = json_encode("{}", JSON_UNESCAPED_SLASHES);
                 $booking->customer_note = (isset($request->guest_note) && strlen($request->guest_note) > 0) ? $request->guest_note : json_encode("{}", JSON_UNESCAPED_SLASHES);
                 $booking->transaction_id = $transaction->transaction_id;
+               
 
+                $booking->save();
                 if($transaction->method == 'CASH'){
-                    $booking->save();
                     Transaction::where('transaction_id','=' , $booking->transaction_id)->update(['status'=> 2]);
                     Mail::to($user->email)->send(new BookingMail($booking->id));
 
@@ -689,37 +690,36 @@ class BookingController extends Controller
                     }
                 } elseif ($transaction->method == 'PAYUMONEY') {
                     $booking->save();
-
+                    
                     $MERCHANT_KEY = env('PAYU_MERCHANT_KEY');
                     $SALT = env('PAYU_MERCHANT_SALT');
-
+                    
                     $transaction_id = $transaction->transaction_id;
                     $amount = $ac->total_cost;
                     $product_info = "Booking: " . $booking->id;
                     $customer_name = $user->name;
                     $customer_email = $user->email;
-
-
+                    
+                    
                     $hash_string = "$MERCHANT_KEY|$transaction_id|$amount|$product_info|$customer_name|$customer_email|||||||||||$SALT";
                     $hash = strtolower(hash('sha512', $hash_string));
+                    
+                    $url = (env('PAYMENTS_MODE') === "PRODUCTION") ? env('PAYU_BASE_URL') : env('PAYU_SANDBOX_URL');
+                    
+                    $data = [];
+                    $data['key'] = $MERCHANT_KEY;
+                    $data['txnid'] = $transaction_id;
+                    $data['amount'] = $amount;
+                    $data['productinfo'] = $product_info;
+                    $data['firstname'] = $customer_name;
+                    $data['email'] = $customer_email;
+                    $data['surl'] = route('payu.success',$transaction_id);
+                    $data['furl'] = route('view.checkout');
+                    $data['service_provider'] = 'payu_paisa';
+                    $data['hash'] = $hash;
+                    $data['pg'] = 'UPI';
 
-                    $PAYU_URL = (env('PAYMENTS_MODE') === "PRODUCTION") ? env('PAYU_BASE_URL') : env('PAYU_SANDBOX_URL');
-
-                    $data = [
-                        'key' => $MERCHANT_KEY,
-                        'txnid' => $transaction_id,
-                        'amount' => $amount,
-                        'productinfo' => $product_info,
-                        'firstname' => $customer_name,
-                        'email' => $customer_email,
-                        'surl' => route('payu.success'),
-                        'furl' => route('view.checkout'),
-                        'service_provider' => 'payu_paisa',
-                        'hash' => $hash,
-                        'pg' => 'UPI'
-                    ];
-
-                    return view('payments.payu_checkout', compact('data', 'PAYU_URL'));
+                    return view('payments.payu_checkout', compact('data', 'url'));
                 } else {
                     return redirect()->back()->withErrors(['general' => 'Unable to process your request.']);
                 }
@@ -857,6 +857,7 @@ class BookingController extends Controller
 
     public function PayUSuccess(Request $request, $tid)
     {
+
         dd($tid);
         $order_id = $request->input('order_id');
         $tx_status = $request->input('txStatus');
