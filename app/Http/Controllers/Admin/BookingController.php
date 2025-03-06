@@ -706,7 +706,7 @@ class BookingController extends Controller
                     
                     $data = [];
                     $data['surl'] = route('payu.success',$transaction_id);
-                    $data['furl'] = route('view.checkout');
+                    $data['furl'] = route('payu.fail',$transaction_id);
                     $data['key'] = $MERCHANT_KEY;
                     $data['txnid'] = $transaction_id;
                     $data['amount'] = $amount;
@@ -852,18 +852,21 @@ class BookingController extends Controller
     }
 
 
-    public function PayUSuccess(Request $request, $tid)
-    {
-
-        dd($tid);
+    public function PayUSuccess(Request $request, $tid){
         $order_id = $request->input('order_id');
         $tx_status = $request->input('txStatus');
+        dd($request->all(),$order_id,$tx_status);
 
-        if ($tx_status === 'SUCCESS') {
-            return "Payment for Order ID {$order_id} was successful!";
-        } else {
-            return "Payment for Order ID {$order_id} failed.";
-        }
+
+        // if ($tx_status === 'SUCCESS') {
+        //     return "Payment for Order ID {$order_id} was successful!";
+        // } else {
+        //     return "Payment for Order ID {$order_id} failed.";
+        // }
+    }
+
+    public function PayUfail(Request $request, $tid){
+        dd($request->all());
     }
 
 
