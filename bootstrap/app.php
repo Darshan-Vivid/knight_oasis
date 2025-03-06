@@ -17,7 +17,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
         ]);
         $middleware->validateCsrfTokens(except: [
-            'cashfree/callback'
+            'cashfree/callback',
+            'payu/success/*',
+            'payu/failed/*',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

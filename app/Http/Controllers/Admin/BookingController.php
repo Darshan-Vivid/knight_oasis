@@ -700,24 +700,21 @@ class BookingController extends Controller
                     $customer_name = $user->name;
                     $customer_email = $user->email;
                     
-                    
-                    $hash_string = "$MERCHANT_KEY|$transaction_id|$amount|$product_info|$customer_name|$customer_email|||||||||||$SALT";
-                    $hash = strtolower(hash('sha512', $hash_string));
+                    $hash = hash('sha512', $MERCHANT_KEY . '|' . $transaction_id . '|' . $amount . '|' . $product_info . '|' . $customer_name . '|' . $customer_email . '|' . "" . '|' . "" . '|' . "" . '|' . "" . '|' . "" . '||||||' . $SALT);
                     
                     $url = (env('PAYMENTS_MODE') === "PRODUCTION") ? env('PAYU_BASE_URL') : env('PAYU_SANDBOX_URL');
                     
                     $data = [];
+                    $data['surl'] = route('payu.success',$transaction_id);
+                    $data['furl'] = route('view.checkout');
                     $data['key'] = $MERCHANT_KEY;
                     $data['txnid'] = $transaction_id;
                     $data['amount'] = $amount;
                     $data['productinfo'] = $product_info;
                     $data['firstname'] = $customer_name;
+                    $data['lastname'] = '';
                     $data['email'] = $customer_email;
-                    $data['surl'] = route('payu.success',$transaction_id);
-                    $data['furl'] = route('view.checkout');
-                    $data['service_provider'] = 'payu_paisa';
                     $data['hash'] = $hash;
-                    $data['pg'] = 'UPI';
 
                     return view('payments.payu_checkout', compact('data', 'url'));
                 } else {

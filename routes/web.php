@@ -64,11 +64,13 @@ Route::post('/cart', [BookingController::class, 'store_cart'])->name('cart.store
 Route::post('/cart/romove/{id}', [BookingController::class, 'remove_item'])->name('cart.remove_item');
 
 Route::get('/checkout', [BookingController::class, 'show_checkout'])->name('view.checkout');
-Route::post('/checkout', [BookingController::class, 'checkout'])->name('checkout');
+Route::post('/checkout_', [BookingController::class, 'checkout'])->name('checkout');
 
 Route::any('/cashfree/success/{tid}', [BookingController::class, 'CashFreeSuccess'])->name('cashfree.success');
 Route::post('/cashfree/callback/', [BookingController::class, 'CashFreeCallback'])->name('cashfree.callback');
+
 Route::any('/payu/success/{tid}', [BookingController::class, 'PayUSuccess'])->name('payu.success');
+Route::any('/payu/failed/{tid}', [BookingController::class, 'PayUfail'])->name('payu.fail');
 
 
 //admin panel
