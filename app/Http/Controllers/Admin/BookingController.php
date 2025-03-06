@@ -829,37 +829,32 @@ class BookingController extends Controller
     }
 
     public function PayUSuccess(Request $request, $tid){
-        $transaction = Transaction::where('transaction_id', $request->txnid)->first(); 
-        $booking = Booking::where('transaction_id', $transaction->id)->first();
-        $user = User::find($booking->user_id);
-        dd($request->status);
         try {
             if($request->status = "success"){
-
+                $transaction = Transaction::where('transaction_id', $request->txnid)->first(); 
+                $booking = Booking::where('transaction_id', $transaction->transaction_id)->first();
+                $user = User::find($booking->user_id);
 
                 $transaction->mail_status = 1;
                 $transaction->status = 1;
                 $transaction->save();
                 Mail::to($user->email)->send(new BookingMail($booking->id));
             }
-            return redirect()->route('view.home')->with([
-                'success' => true,
-                'message' => 'we sent you an email for your payment status'
-            ]);
+            
         }
         catch (Exception $e) {
             Storage::append('webhook_logs/webhook_error_log.txt', now() . " - ERROR: " . $e->getMessage() . " - Data: " . $request . PHP_EOL);
-            return response()->json(['error' => 'An error occurred while processing the payment webhook'], 500);
         } 
+
+        return redirect()->route('view.home')->with([
+            'success' => true,
+            'message' => 'we sent you an email for your payment status'
+        ]);
     }
 
     public function PayUfail(Request $request, $tid){
-        $transaction = Transaction::where('transaction_id', $request->tid)->first();
-        if (!$transaction->id) {
-            throw new Exception("Transaction not found for ID: $request->txnid");
-        }
-        
-        $booking = Booking::where('transaction_id', $transaction->id)->first();
+        $transaction = Transaction::where('transaction_id', $tid)->first();        
+        $booking = Booking::where('transaction_id', $transaction->transaction_id)->first();
         $user = User::find($booking->user_id);
 
         $transaction->mail_status = 0;
