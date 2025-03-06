@@ -829,17 +829,13 @@ class BookingController extends Controller
     }
 
     public function PayUSuccess(Request $request, $tid){
-
+        $transaction = Transaction::where('transaction_id', $request->txnid)->first(); 
+        $booking = Booking::where('transaction_id', $transaction->id)->first();
+        $user = User::find($booking->user_id);
+        dd($request->status);
         try {
             if($request->status = "success"){
 
-                $transaction = Transaction::where('transaction_id', $request->txnid)->first();
-                if (!$transaction->id) {
-                    throw new Exception("Transaction not found for ID: $request->txnid");
-                }
-                
-                $booking = Booking::where('transaction_id', $transaction->id)->first();
-                $user = User::find($booking->user_id);
 
                 $transaction->mail_status = 1;
                 $transaction->status = 1;
