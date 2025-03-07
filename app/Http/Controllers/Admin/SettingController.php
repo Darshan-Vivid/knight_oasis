@@ -215,8 +215,27 @@ class SettingController extends Controller
             Setting::where('slug', '=', 'home_middle_description')->update(['value' => $request->home_middle_description]);
         }
 
+        if (isset($request->home_review_area_edited) && $request->home_review_area_edited == "true") {
+            $home_reviews = [];
+        
+            foreach ($request->all() as $key => $value) {
+                if (strpos($key, 'name_') === 0) { 
+                    $index = substr($key, 5);
+        
+                    if (isset($request->{'rate_' . $index}) && isset($request->{'review_' . $index})) {
+                        $home_reviews[] = [
+                            'name' => $value,
+                            'rate' => $request->{'rate_' . $index},
+                            'review' => $request->{'review_' . $index},
+                        ];
+                    }
+                }
+            }
+            
+            $home_reviewJson = json_encode($home_reviews, JSON_UNESCAPED_SLASHES);
+            Setting::where('slug', '=', 'home_review_area')->update(['value' => $home_reviewJson]);
+        }
         
         return redirect()->route('view.settings.home');
-
     }
 }

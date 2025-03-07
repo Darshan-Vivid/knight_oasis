@@ -25,6 +25,11 @@
     min-width: 60px;
 }
 
+.ko_setting_add_btn {
+    width: 100px;
+    margin-left: 10px;
+}
+
 #ko_settings_table {
     table-layout: fixed;
     width: 100%;

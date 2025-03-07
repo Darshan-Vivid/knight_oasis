@@ -54,6 +54,21 @@
                                             <td>{!! $setting->value !!}</td>
                                             <td><button type="button" class="btn btn-sm btn-light ko_settings_btn" id="ko_settings_table_{{ $setting->type }}">Edit</button></td>
                                         </tr>
+                                    @elseif($setting->slug == "home_review_area")
+                                        <tr>
+                                            <td data-slug="{{ $setting->slug }}">{{ $setting->name }}</td>
+                                            <td>
+                                                @php
+                                                    $reviews = json_decode($setting->value, true);
+                                                @endphp
+                                                @if (!empty($reviews))
+                                                <div id="ko_settings_no_review">{{ count($reviews) ?? 0 }} Reviews</div>
+                                                @else
+                                                    <div id="ko_settings_no_review"> no review added</div>
+                                                @endif
+                                            </td>
+                                            <td><button type="button" class="btn btn-sm btn-light ko_settings_btn" id="ko_settings_table_{{ $setting->slug }}" data-reviews="{{ $setting->value }}">Edit</button></td>
+                                        </tr>
                                     @else
                                         <tr>
                                             <td data-slug="{{ $setting->slug }}">{{ $setting->name }}</td>

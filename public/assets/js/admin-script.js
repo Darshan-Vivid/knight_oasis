@@ -82,6 +82,7 @@ $(document).ready(function () {
 
     var selectedRowForSettings;
     var social_link_counter = 0;
+    var site_reviews_counter = 0;
 
     $("#ko_settings_table").on("click", ".ko_settings_btn", function (event) {
         var button = $(this);
@@ -93,19 +94,19 @@ $(document).ready(function () {
 
         if (button.attr("id") == "ko_settings_table_text") {
             valueCell.html(
-                '<input type="text" name="' + currentSlug + '" class="form-control" value="' + currentValue +'">'
+                '<input type="text" name="' + currentSlug + '" class="form-control" value="' + currentValue +'" required>'
             );
         }
 
         if (button.attr("id") == "ko_settings_table_img" ) {
             valueCell.html(
-                '<input type="file" name="' + currentSlug + '" class="form-control" accept="image/*"><small class="text-muted d-flex justify-content-center mt-2">please leave it blank if you do not wants to change.</small>'
+                '<input type="file" name="' + currentSlug + '" class="form-control" accept="image/*" ><small class="text-muted d-flex justify-content-center mt-2">please leave it blank if you do not wants to change.</small>'
             );
         }
 
         if (button.attr("id") == "ko_settings_table_map_link" ) {
             valueCell.html(
-                '<input type="text" name="' + currentSlug + '" class="form-control" value="' + currentValue +'">'
+                '<input type="text" name="' + currentSlug + '" class="form-control" value="' + currentValue +'" required>'
             );
         }
 
@@ -114,7 +115,7 @@ $(document).ready(function () {
             let textareaSelector = 'textarea[name="' + textareaName + '"]';
         
             valueCell.html(
-                '<textarea name="' + textareaName + '" class="form-control">' + currentValue + '</textarea>'
+                '<textarea name="' + textareaName + '" class="form-control" required>' + currentValue + '</textarea>'
             );
         
             initTinyMCE(textareaSelector);
@@ -125,27 +126,59 @@ $(document).ready(function () {
             var old_links = button.data('links');
             html_string="<input type='hidden' name='settings_social_link_edited' value='true' />";
             if ($("#add_new_social_link").length === 0) {
-                button.parent().append("<div class='row'><button class='btn btn-sm btn-light mt-3' id='add_new_social_link'>add new</button></div>");
+                button.parent().append("<div class='row'><button class='btn btn-sm btn-light mt-3 ko_setting_add_btn' id='add_new_social_link'>add new</button></div>");
             }
+
             if (old_links && old_links.length  != 0 && Array.isArray(old_links)) {
                 old_links.forEach(function(item) {
-                    html_string += "<div class='row'>";
                     social_link_counter += 1;
-                    html_string +="<button class='btn btn-subtle-danger mb-2 mt-2' id='remove_new_social_link'> remove</button>";
-                    html_string +="<div class='col-xl-6'><div class='mb-3'><label class='form-label'>Icon</label><input type='url' class='form-control' name='icon_"+social_link_counter +"' value='" +item.icon +"' placeholder='https://'></div></div>";
-                    html_string +="<div class='col-xl-6'><div class='mb-3'><label class='form-label'>Link</label><input type='url' class='form-control' name='url_"+social_link_counter+"' value='" +item.link +"' placeholder='https://'></div></div>";
+                    html_string += "<div class='row'>";
+                    html_string +="<button class='btn btn-subtle-danger mb-2 mt-2' id='remove_setting_table_row'> remove</button>";
+                    html_string +="<div class='col-xl-6'><div class='mb-3'><label class='form-label'>Icon</label><input type='url' required class='form-control' name='icon_"+social_link_counter +"' value='" +item.icon +"' placeholder='https://'></div></div>";
+                    html_string +="<div class='col-xl-6'><div class='mb-3'><label class='form-label'>Link</label><input type='url' required class='form-control' name='url_"+social_link_counter+"' value='" +item.link +"' placeholder='https://'></div></div>";
                      html_string += "</div>";
                 });
             }else{
                 social_link_counter += 1;
                 html_string += "<div class='row'>";
-                html_string += "<button class='btn btn-subtle-danger mb-2 mt-2' id='remove_new_social_link'> remove</button>";
-                html_string += "<div class='row social-link-item'><div class='col-xl-6'><div class='mb-3'><label class='form-label'>Icon</label><input type='url' class='form-control' name='icon_"+social_link_counter +"' placeholder='https://'></div></div>";
-                html_string += "<div class='col-xl-6'><div class='mb-3'><label class='form-label'>Link</label><input type='url' class='form-control' name='url_"+social_link_counter+"' placeholder='https://'></div></div></div>";
+                html_string += "<button class='btn btn-subtle-danger mb-2 mt-2' id='remove_setting_table_row'> remove</button>";
+                html_string += "<div class='row social-link-item'><div class='col-xl-6'><div class='mb-3'><label class='form-label'>Icon</label><input type='url' class='form-control' required name='icon_"+social_link_counter +"' placeholder='https://'></div></div>";
+                html_string += "<div class='col-xl-6'><div class='mb-3'><label class='form-label'>Link</label><input type='url' class='form-control' required name='url_"+social_link_counter+"' placeholder='https://'></div></div></div>";
                 html_string += "</div>";
             }
 
             valueCell.html(html_string);
+        }
+
+        if (button.attr("id") == "ko_settings_table_home_review_area") {
+            var old_reviews = button.data('reviews');
+            html_string="<input type='hidden' name='home_review_area_edited' value='true' />";
+            if ($("#add_new_home_review").length === 0) {
+                button.parent().append("<div class='row'><button type='button' class='btn btn-sm btn-light mt-3 ko_setting_add_btn' id='add_new_home_review'>add new</button></div>");
+            }
+            console.log(old_reviews);
+            if(old_reviews && old_reviews.length  != 0 && Array.isArray(old_reviews)){
+                old_reviews.forEach(function(item) {
+                    site_reviews_counter += 1;
+                    html_string +="<div class='row'><button class='btn btn-subtle-danger mx-auto d-block' style='width: 98%;' id='remove_setting_table_row'>Remove</button>";
+                    html_string +="<div class='col-lg-12 mt-1'><div class='row'>";
+                    html_string +="<div class='col-md-6'><input type='text' class='form-control' required name='name_"+site_reviews_counter+"' value='" +item.name +"' placeholder='Name'></div>";
+                    html_string +="<div class='col-md-6'><input type='number' class='form-control' required name='rate_"+site_reviews_counter+"' value='" +item.rate +"' placeholder='Rating'></div>";
+                    html_string +="</div><div class='row mt-2'><div class='col-md-12'><textarea class='form-control' name='review_"+site_reviews_counter+"' placeholder='Write the review here' required>" +item.review +"</textarea>";
+                    html_string +="</div></div></div></div>";
+                });
+            }else{
+                site_reviews_counter += 1;
+                html_string +="<div class='row'><button class='btn btn-subtle-danger mx-auto d-block' style='width: 98%;' id='remove_setting_table_row'>Remove</button>";
+                html_string +="<div class='col-lg-12 mt-1'><div class='row'>";
+                html_string +="<div class='col-md-6'><input type='text' class='form-control' required name='name_"+site_reviews_counter+"' placeholder='Name'></div>";
+                html_string +="<div class='col-md-6'><input type='number' class='form-control' required name='rate_"+site_reviews_counter+"' placeholder='Rating'></div>";
+                html_string +="</div><div class='row mt-2'><div class='col-md-12'><textarea class='form-control' name='review_"+site_reviews_counter+"' placeholder='Review' required></textarea>";
+                html_string +="</div></div></div></div>";
+            }
+
+            valueCell.html(html_string);
+
         }
     });
 
@@ -158,14 +191,33 @@ $(document).ready(function () {
 
         social_link_counter += 1;
         var new_html = "<div class='row'>";
-        new_html += "<button class='btn btn-subtle-danger mb-2 mt-2' id='remove_new_social_link'> remove</button>";
-        new_html += "<div class='row social-link-item'><div class='col-xl-6'><div class='mb-3'><label class='form-label'>Icon</label><input type='url' class='form-control' name='icon_"+social_link_counter +"' placeholder='https://'></div></div>";
-        new_html += "<div class='col-xl-6'><div class='mb-3'><label class='form-label'>Link</label><input type='url' class='form-control' name='url_"+social_link_counter+"' placeholder='https://'></div></div></div>";
+        new_html += "<button class='btn btn-subtle-danger mb-2 mt-2' id='remove_setting_table_row'>remove</button>";
+        new_html += "<div class='row social-link-item'><div class='col-xl-6'><div class='mb-3'><label class='form-label'>Icon</label><input required type='url' class='form-control' name='icon_"+social_link_counter +"' placeholder='https://'></div></div>";
+        new_html += "<div class='col-xl-6'><div class='mb-3'><label class='form-label'>Link</label><input required type='url' class='form-control' name='url_"+social_link_counter+"' placeholder='https://'></div></div></div>";
         new_html += "</div>";
         valueCell.append(new_html);
     });
 
-    $("#ko_settings_table").on("click", "#remove_new_social_link", function () {
+    $("#ko_settings_table").on("click", "#add_new_home_review", function (event) {
+        event.preventDefault();
+        $("#ko_settings_no_review").remove();
+        var button = $(this);
+        selectedRowForSettings = button.closest("tr");
+        var valueCell = selectedRowForSettings.find("td").eq(1);
+
+        site_reviews_counter += 1;
+        var new_html ="<div class='row'><button class='btn btn-subtle-danger mx-auto d-block mt-2' style='width: 98%;' id='remove_setting_table_row'>Remove</button>";
+        new_html +="<div class='col-lg-12 mt-1'><div class='row'>";
+        new_html +="<div class='col-md-6'><input required type='text' class='form-control' name='name_"+site_reviews_counter+"' placeholder='Name'></div>";
+        new_html +="<div class='col-md-6'><input required type='number' class='form-control' name='rate_"+site_reviews_counter+"' placeholder='Rating'></div>";
+        new_html +="</div><div class='row mt-2'><div class='col-md-12'><textarea class='form-control' required name='review_"+site_reviews_counter+"' placeholder='Review'></textarea>";
+        new_html +="</div></div></div></div>";
+        valueCell.append(new_html);
+    });
+
+
+
+    $("#ko_settings_table").on("click", "#remove_setting_table_row", function () {
         $(this).parent().remove();
     });
 

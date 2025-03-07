@@ -128,7 +128,7 @@
                                                 <ul class="dropdown-menu dropdown-menu-end">
                                                     <li><a href="{{ route('services.edit', $service->id) }}" class="dropdown-item edit-item-btn" ><i class="align-middle ph-pencil me-1"></i>Edit</a></li>
                                                     <li>
-                                                        <a class="dropdown-item remove-item-btn"
+                                                        <a href="javascript:void(0)" class="dropdown-item remove-item-btn"
                                                             data-delete-url="{{ route('services.destroy', $service->id) }}"
                                                             onclick="setDeleteFormAction(this)"><i class="align-middle ph-trash me-1">
                                                         </i> Remove</a>
