@@ -92,7 +92,7 @@ class RedirectController extends Controller
                 'message' => $request->message,
             ];
 
-            // Mail::to(env('ADMIN_EMAIL'))->send(new ContactMail($mailData));
+            Mail::to(env('ADMIN_EMAIL'))->send(new ContactMail($mailData));
             return redirect()->route('view.home')->with([
                 'success' => true,
                 'message' => 'Thanks for Contact us, We will contact you back shortly '
