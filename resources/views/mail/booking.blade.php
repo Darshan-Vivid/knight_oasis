@@ -78,10 +78,7 @@
                 @endswitch
             </p>
         </div>
-        <p>If you have any questions, feel free to contact us.</p>
-        <div class="footer">
-            <p>{{ getSetting("site_copyright_text") }}</p>
-        </div>
+        <p>feel free to contact us on: help@knightoasis.in</p>
     </div>
 </body>
 </html>

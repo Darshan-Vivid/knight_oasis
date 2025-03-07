@@ -9,7 +9,7 @@
     <title>{{ $title }}</title>
     {{-- favicon icon --}}
     <link rel="shortcut icon" href="{{ getSetting("site_icon") }}">
-    {{-- favicon icon end --}}
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -27,7 +27,7 @@
 </head>
 
 <body>
-    <header id="page-topbar">
+    <header id="page-topbar" id="fontsLink">
         <div class="layout-width">
             <div class="navbar-header">
                 <div class="d-flex">

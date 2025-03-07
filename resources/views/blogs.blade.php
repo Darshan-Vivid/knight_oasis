@@ -4,7 +4,7 @@
     <section class="ko-banner" style="background-image: url('{{ asset('images/cart-banner.webp') }}');">
         <div class="ko-container">
             <div class="ko-banner-content">
-                <h2>News</h2>
+                <h2>Blogs</h2>
                 <p>Stay updated with the latest happenings at our hotel! From exciting events and special offers to exclusive insights and behind-the-scenes stories.</p>
                 <nav>
                     <ol class="ko-banner-list">

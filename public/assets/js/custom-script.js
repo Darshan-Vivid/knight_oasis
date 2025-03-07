@@ -24,28 +24,40 @@ $(document).ready(function () {
     });
 
     /* date picker js start */
-    var checkinPicker = $(".checkin_date_picker").flatpickr({
-        dateFormat: "Y-m-d",
-        minDate: "today",
-        defaultDate: $(".checkin_date_picker").data("old"),
-        onChange: function (selectedDates) {
-            var minCheckoutDate = new Date(selectedDates[0]);
-            minCheckoutDate.setDate(minCheckoutDate.getDate());
-            checkoutPicker.set("minDate", minCheckoutDate);
-            checkoutPicker.setDate(minCheckoutDate);
+    var checkinInput = $(".checkin_date_picker");
+    var checkoutInput = $(".checkout_date_picker");
+
+    if (checkinInput && checkoutInput) {
+        var checkinDate = checkinInput.val()
+            ? new Date(checkinInput.val())
+            : null;
+        var minCheckoutDate = new Date(checkinDate);
+
+        var checkinPicker = $(".checkin_date_picker").flatpickr({
+            dateFormat: "Y-m-d",
+            minDate: "today",
+            defaultDate: $(".checkin_date_picker").data("old"),
+            onChange: function (selectedDates) {
+                if (selectedDates.length > 0) {
+                    var minCheckoutDate = new Date(selectedDates[0]);
+                    minCheckoutDate.setDate(minCheckoutDate.getDate() + 1);
+                    checkoutPicker.set("minDate", minCheckoutDate);
+                    checkoutPicker.setDate(minCheckoutDate);
+                }
+                $(".checkout_date_picker").focus();
+            },
+        });
+
+        $(".checkin_date_picker").on("change", function () {
             $(".checkout_date_picker").focus();
-        },
-    });
+        });
 
-    $(".checkin_date_picker").on("change", function () {
-        $(".checkout_date_picker").focus();
-    });
-
-    var checkoutPicker = $(".checkout_date_picker").flatpickr({
-        dateFormat: "Y-m-d",
-        minDate: new Date().fp_incr(0),
-        defaultDate: $(".checkout_date_picker").data("old"),
-    });
+        var checkoutPicker = $(".checkout_date_picker").flatpickr({
+            dateFormat: "Y-m-d",
+            minDate: new Date().fp_incr(1),
+            defaultDate: $(".checkout_date_picker").data("old"),
+        });
+    }
     /* date picker js end */
 
     /* cart page js start */
@@ -88,14 +100,13 @@ $(document).ready(function () {
         });
     });
 
-    $("#add_customer_note").on('change', function () {
+    $("#add_customer_note").on("change", function () {
         if ($(this).is(":checked")) {
             $('[name="guest_note"]').css("display", "block");
         } else {
             $('[name="guest_note"]').css("display", "none");
         }
     });
-    
 
     /* cart page js end */
 
@@ -103,7 +114,7 @@ $(document).ready(function () {
 
     $("#ko_booking_form").on("submit", function (e) {
         e.preventDefault();
-    
+
         var cin = $("#booking-data-check_in").val();
         var cout = $("#booking-data-check_out").val();
         var qty = $("#booking-data-quantity");
@@ -112,9 +123,12 @@ $(document).ready(function () {
         var token = $('meta[name="csrf-token"]').attr("content");
         var submit_btn = $("#ko-book-form-sumbit");
         var error = $(".invalid-response");
-    
-        submit_btn.prop("disabled", true).addClass("loading").text("Checking Dates..");
-    
+
+        submit_btn
+            .prop("disabled", true)
+            .addClass("loading")
+            .text("Checking Dates..");
+
         $.ajax({
             url: ajax_url,
             type: "POST",
@@ -126,8 +140,11 @@ $(document).ready(function () {
                 _token: token,
             },
             success: function (response) {
-                submit_btn.prop("disabled", false).removeClass("loading").text("Book Your Stay");
-    
+                submit_btn
+                    .prop("disabled", false)
+                    .removeClass("loading")
+                    .text("Book Your Stay");
+
                 if (response.status == 1) {
                     $("#ko_booking_form")[0].submit();
                 } else {
@@ -137,13 +154,17 @@ $(document).ready(function () {
             },
             error: function (xhr) {
                 console.error("Submission error:", xhr);
-                error.css("display", "block").text("An error occurred. Please try again.");
-    
-                submit_btn.prop("disabled", false).removeClass("loading").text("Book Your Stay");
-            }
+                error
+                    .css("display", "block")
+                    .text("An error occurred. Please try again.");
+
+                submit_btn
+                    .prop("disabled", false)
+                    .removeClass("loading")
+                    .text("Book Your Stay");
+            },
         });
     });
-    
 
     $(".qty-btn-plus").click(function () {
         const container = $(this).closest(".qty-container");
@@ -168,7 +189,10 @@ $(document).ready(function () {
         "#booking-data-adults, #booking-data-children, #booking-data-quantity, #booking-data-extra_beds"
     ).on("change blur", updateGrandTotal);
 
-    $('.ko-deluxe-reserve input[type="checkbox"]').on("change", updateGrandTotal);
+    $('.ko-deluxe-reserve input[type="checkbox"]').on(
+        "change",
+        updateGrandTotal
+    );
     $('.ko-deluxe-reserve input[type="text"]').on("change", updateGrandTotal);
 
     if ($("#booking-data-check_in, #booking-data-check_out")) {
@@ -415,29 +439,26 @@ function updateGrandTotal() {
     var checkOut = $("#booking-data-check_out").val();
     var max_guest = parseInt($("#booking-data-hiddens").data("max_guest"));
     var max_rooms = parseInt($("#booking-data-hiddens").data("max_rooms"));
-    var max_extra_beds = parseInt(
-        $("#booking-data-hiddens").data("max_extra_beds")
-    );
+    var max_extra_beds = parseInt($("#booking-data-hiddens").data("max_extra_beds"));
     let total = 0;
 
     if (roomQuantity > max_rooms) {
         $("#booking-data-quantity").val(max_rooms);
         roomQuantity = parseInt($("#booking-data-quantity").val());
     }
-    if(roomQuantity == 0 ){
+    if (roomQuantity == 0) {
         $("#booking-data-quantity").val(1);
         roomQuantity = parseInt($("#booking-data-quantity").val());
     }
 
-    if (adult_count > (roomQuantity * max_guest)+extraBeds) {
-        $("#booking-data-adults").val((roomQuantity * max_guest)+extraBeds);
+    if (adult_count > roomQuantity * max_guest + extraBeds) {
+        $("#booking-data-adults").val(roomQuantity * max_guest + extraBeds);
     }
-    if(adult_count <= 0 ){
+    if (adult_count <= 0) {
         $("#booking-data-adults").val(1);
     }
 
-
-    if (extra_beds > max_extra_beds) {
+    if (extra_beds > max_extra_beds * roomQuantity) {
         $("#booking-data-extra_beds").val(max_extra_beds);
     }
 
@@ -445,19 +466,17 @@ function updateGrandTotal() {
         $("#booking-data-extra_beds").val(roomQuantity * 3);
     }
 
-
     if (children_count > roomQuantity * 3) {
         $("#booking-data-children").val(roomQuantity * 3);
     }
 
-    
     extraBeds = parseInt($("#booking-data-extra_beds").val()) || 0;
 
     if (checkIn && checkOut) {
         var checkInDate = new Date(checkIn);
         var checkOutDate = new Date(checkOut);
         var timeDiff = checkOutDate - checkInDate;
-        var dayGap = Math.floor(timeDiff / (1000 * 60 * 60 * 24)) + 1;
+        var dayGap = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
         var days = dayGap > 0 ? dayGap : 1;
 
         $('input[name="services[]"]:checked:not(:disabled)').each(function () {
@@ -555,15 +574,14 @@ function hide_loader() {
 }
 
 function update_cart_page_price() {
-
     var count = $("#ko_cart_room_count").val();
     var ct = $("#ko_cart_cost_total");
     var gt = $("#ko_cart_grand_total");
     var st = $("#ko_cart_sub_total");
     var data = $("#cart-data-hiddens");
-    var max_allow = $("#ko_cart_room_count").data('max');
+    var max_allow = $("#ko_cart_room_count").data("max");
 
-    if(count > max_allow){
+    if (count > max_allow) {
         $("#ko_cart_room_count").val(max_allow);
     }
     var count = $("#ko_cart_room_count").val();

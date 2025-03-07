@@ -92,9 +92,11 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/general', [SettingController::class, 'show_general'])->name('view.settings.general');
             Route::post('/general', [SettingController::class, 'save_general'])->name('settings.general.save');
 
-            
             Route::get('/about-us', [SettingController::class, 'show_about_us'])->name('view.settings.about');
             Route::post('/about_us', [SettingController::class, 'save_about_us'])->name('settings.about.save');
+            
+            Route::get('/home', [SettingController::class, 'show_home'])->name('view.settings.home');
+            Route::post('/home', [SettingController::class, 'save_home'])->name('settings.home.save');
         });
 
         Route::get('/offline-booking', [BookingController::class, 'show_offline_booking'])->name('view.offline_booking');

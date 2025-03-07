@@ -14,6 +14,17 @@ class SettingController extends Controller
         return view('admin.settings.general')->with(["settings"=>$settings]);
     }
 
+    public function show_about_us(Request $request){
+        $settings = Setting::where('page','=','about')->get();
+        $amenities = Amenity::all();
+        return view('admin.settings.about')->with(["settings"=>$settings,'amenities'=>$amenities]);
+    }
+
+    public function show_home(Request $request){
+        $settings = Setting::where('page','=','home')->get();
+        return view('admin.settings.home')->with(["settings"=>$settings]);
+    }
+
     public function save_general(Request $request){
 
         if(isset($request->logo_text) && strlen($request->logo_text) > 0){
@@ -103,13 +114,6 @@ class SettingController extends Controller
         return redirect()->route('view.settings.general');
     }
 
-    public function show_about_us(Request $request){
-        $settings = Setting::where('page','=','about')->get();
-        $amenities = Amenity::all();
-        return view('admin.settings.about')->with(["settings"=>$settings,'amenities'=>$amenities]);
-    }
-
-
     public function save_about_us(Request $request){
         $filePath = 'images/settings/';
         $directoryPath = public_path($filePath);
@@ -152,5 +156,67 @@ class SettingController extends Controller
         }
 
         return redirect()->route('view.settings.about');
+        
+    }
+
+
+    public function save_home(Request $request){
+
+        $filePath = 'images/settings/';
+        $directoryPath = public_path($filePath);
+
+        if (!file_exists($directoryPath)) {
+            mkdir($directoryPath, 0777, true);
+        }
+
+        foreach ($request->all() as $slug => $value) {
+            if ($value instanceof \Illuminate\Http\UploadedFile) {
+                $fileName = time() . '_' . $value->getClientOriginalName();
+                $value->move($directoryPath, $fileName);
+                $fileUrl = url($filePath . $fileName);
+                Setting::where('slug', $slug)->update(['value' => $fileUrl]);
+            }
+        }
+
+        if(isset($request->home_top_heading) && strlen($request->home_top_heading) > 0){
+            Setting::where('slug', '=', 'home_top_heading')->update(['value' => $request->home_top_heading]);
+        }
+        if(isset($request->home_top_description) && strlen($request->home_top_description) > 0){
+            Setting::where('slug', '=', 'home_top_description')->update(['value' => $request->home_top_description]);
+        }
+        if(isset($request->home_top_btn_link) && strlen($request->home_top_btn_link) > 0){
+            Setting::where('slug', '=', 'home_top_btn_link')->update(['value' => $request->home_top_btn_link]);
+        }
+        if(isset($request->home_top_btn_text) && strlen($request->home_top_btn_text) > 0){
+            Setting::where('slug', '=', 'home_top_btn_text')->update(['value' => $request->home_top_btn_text]);
+        }
+        if(isset($request->home_top_counter_1_count) && strlen($request->home_top_counter_1_count) > 0){
+            Setting::where('slug', '=', 'home_top_counter_1_count')->update(['value' => $request->home_top_counter_1_count]);
+        }
+        if(isset($request->home_top_counter_1_text) && strlen($request->home_top_counter_1_text) > 0){
+            Setting::where('slug', '=', 'home_top_counter_1_text')->update(['value' => $request->home_top_counter_1_text]);
+        }
+        if(isset($request->home_top_counter_2_count) && strlen($request->home_top_counter_2_count) > 0){
+            Setting::where('slug', '=', 'home_top_counter_2_count')->update(['value' => $request->home_top_counter_2_count]);
+        }
+        if(isset($request->home_top_counter_2_text) && strlen($request->home_top_counter_2_text) > 0){
+            Setting::where('slug', '=', 'home_top_counter_2_text')->update(['value' => $request->home_top_counter_2_text]);
+        }
+        if(isset($request->home_top_counter_3_count) && strlen($request->home_top_counter_3_count) > 0){
+            Setting::where('slug', '=', 'home_top_counter_3_count')->update(['value' => $request->home_top_counter_3_count]);
+        }
+        if(isset($request->home_top_counter_3_text) && strlen($request->home_top_counter_3_text) > 0){
+            Setting::where('slug', '=', 'home_top_counter_3_text')->update(['value' => $request->home_top_counter_3_text]);
+        }
+        if(isset($request->home_middle_heading) && strlen($request->home_middle_heading) > 0){
+            Setting::where('slug', '=', 'home_middle_heading')->update(['value' => $request->home_middle_heading]);
+        }
+        if(isset($request->home_middle_description) && strlen($request->home_middle_description) > 0){
+            Setting::where('slug', '=', 'home_middle_description')->update(['value' => $request->home_middle_description]);
+        }
+
+        
+        return redirect()->route('view.settings.home');
+
     }
 }

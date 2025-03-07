@@ -1,4 +1,4 @@
-<x-admin.header :title="'Site About Us'" />
+<x-admin.header :title="'Site Home'" />
 
 
 <div class="row">
@@ -6,7 +6,7 @@
         <div class="card">
             <div class="card-header d-flex align-items-center">
                 <div class="flex-grow-1">
-                    <h5 class="mb-4 card-title">About Us</h5>
+                    <h5 class="mb-4 card-title">Home</h5>
                 </div>
             </div>
         </div>
@@ -16,7 +16,7 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
-            <form action="{{ route('settings.about.save') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('settings.home.save') }}" method="post" enctype="multipart/form-data">
                 @csrf
 
                 <div class="card-header d-flex align-items-center">
@@ -41,34 +41,8 @@
                             </thead>
                             <tbody>
                                 @foreach ($settings as $setting)
-                                    @if ($setting->slug == 'about_amenities')
-                                    @php
-                                        $edit_amenities = json_decode($setting->value);
-                                        if (empty($edit_amenities) || count($edit_amenities) == 0) {
-                                            $edit_amenities[] = 0;
-                                        }
-                                    @endphp
-                                        <tr>
-                                            <td data-slug="{{ $setting->slug }}">{{ $setting->name }}</td>
-                                            <td>
-                                                @php
-                                                    $counterForId=1;
-                                                @endphp
-                                                @forelse ($amenities as $amenity)
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" id="amenities_{{ $counterForId }}" type="checkbox" name="{{ $setting->slug }}[]" value="{{ $amenity->id }}" {{ in_array($amenity->id, old($setting->slug , $edit_amenities)) ? 'checked' : '' }} >
-                                                        <label class="form-check-label" for="amenities_{{ $counterForId }}">{{ $amenity->name }}</label>
-                                                    </div>
-                                                    @php
-                                                        $counterForId++
-                                                    @endphp
-                                                @empty
-                                                    <div class="form-check"> No amenities found </div>
-                                                @endforelse
-                                                </td>
-                                            <td></td>
-                                        </tr>
-                                    @elseif($setting->type == 'img')
+                                    
+                                    @if($setting->type == 'img')
                                         <tr>
                                             <td data-slug="{{ $setting->slug }}">{{ $setting->name }}</td>
                                             <td><img src="{{ $setting->value }}" alt="{{ $setting->slug }}" height="100"></td>

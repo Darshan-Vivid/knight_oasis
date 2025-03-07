@@ -151,6 +151,9 @@
                                         <a href="{{ route('view.settings.general') }}/" class="nav-link">General</a>
                                     </li>
                                     <li class="nav-item">
+                                        <a href="{{ route('view.settings.home') }}/" class="nav-link">Home</a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a href="{{ route('view.settings.about') }}/" class="nav-link">About Us</a>
                                     </li>
                                     <li class="nav-item">

@@ -33,10 +33,10 @@ class RedirectController extends Controller
     public function mail_contact(Request $request){
 
         $rules = [
-            'fname' => 'required|string|max:255',
-            'lname' => 'required|string|max:255',
+            'fname' => 'required|string|min:2|max:255',
+            'lname' => 'required|string|min:2|max:255',
             'email' => 'required|email|max:255',
-            'subject' => 'required|string|max:255',
+            'subject' => 'required|string|min:5|max:255',
             'message' => 'required|string|min:10',
             'g-recaptcha-response' => 'required'
         ];
@@ -44,20 +44,23 @@ class RedirectController extends Controller
         $messages = [
             'fname.required' => 'First name is required.',
             'fname.string' => 'First name must be a valid string.',
+            'fname.min' => 'First name must be at least 2 characters long.',
             'fname.max' => 'First name should not exceed 255 characters.',
             'lname.required' => 'Last name is required.',
             'lname.string' => 'Last name must be a valid string.',
+            'lname.min' => 'Last name must be at least 2 characters long.',
             'lname.max' => 'Last name should not exceed 255 characters.',
             'email.required' => 'Email address is required.',
             'email.email' => 'Enter a valid email address.',
             'email.max' => 'Email should not exceed 255 characters.',
             'subject.required' => 'Subject is required.',
             'subject.string' => 'Subject must be a valid string.',
+            'subject.min' => 'Subject must be at least 2 characters long.',
             'subject.max' => 'Subject should not exceed 255 characters.',
             'message.required' => 'Message is required.',
             'message.string' => 'Message must be a valid string.',
             'message.min' => 'Message should be at least 10 characters long.',
-            'g-recaptcha-response.required' => 'Please solve the captcha before submit.',
+            'g-recaptcha-response.required' => 'Please solve the captcha before submitting.',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -89,11 +92,12 @@ class RedirectController extends Controller
                 'message' => $request->message,
             ];
 
-            Mail::to(env('ADMIN_EMAIL'))->send(new ContactMail($mailData));
-            return redirect()->back();
+            // Mail::to(env('ADMIN_EMAIL'))->send(new ContactMail($mailData));
+            return redirect()->route('view.home')->with([
+                'success' => true,
+                'message' => 'Thanks for Contact us, We will contact you back shortly '
+            ]);
         }
-
-
     }
 
     public function forgotPassword(){

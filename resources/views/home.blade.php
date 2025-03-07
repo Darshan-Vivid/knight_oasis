@@ -3,27 +3,27 @@
         <!-- ------------Hero section start------------ -->
         <section class="ko-hero-section">
             <div class="ko-hero-img">
-                <img src="assets/images/hero-img.webp" alt="hero-img" />
+                <img src="{{ getSetting('home_top_section') }}" alt="hero-img" />
             </div>
             <div class="ko-container">
 
                 <div class="ko-hero-ctn">
-                    <h1>Luxury Hotel</h1>
-                    <p>Immerse yourself in the epitome of luxury at Almaris, your premier destination in New York. Our hotel redefines elegance and comfort, offering an exquisite escape for discerning travelers.</p>
-                    <a href="#" class="ko-btn">Book Your Stay</a>
+                    <h1>{{ getSetting('home_top_heading') }}</h1>
+                    {!! getSetting('home_top_description') !!}
+                    <a href="{{ getSetting('home_top_btn_link') }}" class="ko-btn">{{ getSetting('home_top_btn_text') }}</a>
                     <div class="ko-hero-counter">
                         <ul>
                             <li>
-                                <h3><span id="customers">18000</span><span>+</span></h3>
-                                <span>Happy Customers</span>
+                                <h3><span id="customers">{{ getSetting('home_top_counter_1_count') }}</span></h3>
+                                <span>{{ getSetting('home_top_counter_1_text') }}</span>
                             </li>
                             <li>
-                                <h3><span id="reviews">99</span><span>+</span></h3>
-                                <span>Positive Reviews</span>
+                                <h3><span id="reviews">{{ getSetting('home_top_counter_2_count') }}</span></h3>
+                                <span>{{ getSetting('home_top_counter_2_text') }}</span>
                             </li>
                             <li>
-                                <h3><span id="experiences">25</span><span>+</span></h3>
-                                <span>Year of Experiences</span>
+                                <h3><span id="experiences">{{ getSetting('home_top_counter_3_count') }}</span></h3>
+                                <span>{{ getSetting('home_top_counter_3_text') }}</span>
                             </li>
                         </ul>
                     </div>
@@ -99,7 +99,6 @@
                 <div class="invalid-response h1 text-center mt-2 mb-0" style="font-size: 1rem; display:block;" >{{ $message}}</div>
             @enderror
         </section>
-
         <!-- ------------Reservation block end------------- -->
 
         <!-- -----------about section start----------------  -->
@@ -109,10 +108,10 @@
                     <div class="ko-about-col">
                         <div class="ko-about-main-img-inner">
                             <div class="ko-about-main-img">
-                                <img src="assets/images/7.webp" alt="img-main" class="ko-about-img-1" />
+                                <img src="{{ getSetting('home_middle_img_1') }}" alt="img-main" class="ko-about-img-1" />
                             </div>
                             <div class="ko-about-main-img-2">
-                                <img src="assets/images/g_4.webp" alt="img-2" class="ko-about-img-2" />
+                                <img src="{{ getSetting('home_middle_img_2') }}" alt="img-2" class="ko-about-img-2" />
                             </div>
                         </div>
 
@@ -120,10 +119,8 @@
                     <div class="ko-about-col">
                         <div class="ko-about-content">
                             <span>Welcome To Hotel</span>
-                            <h3>Your Comfort, Our Commitment</h3>
-                            <p>
-                                Non anim in pariatur in ex excepteur commodo do officia amet incididunt ullamco nostrud aliquip minim magna esse dolore ea quis laborum eiusmod dolore ex pariatur ut cillum non excepteur irure dolore reprehenderit dolor id ut ut in ut occaecat culpa minim dolore elit non ut tempor ut in ex ut tempor eiusmod sunt sunt ut duis aute in occaecat incididunt reprehenderit sit quis incididunt.
-                            </p>
+                            <h3>{{ getSetting('home_middle_heading') }}</h3>
+                            {!! getSetting('home_middle_description') !!}
                         </div>
                     </div>
                 </div>

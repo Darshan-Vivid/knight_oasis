@@ -29,20 +29,20 @@
                             <div class="ko-form-group">
                                 <label for="fname" class="ko-contact-label @error('fname') is-invalid @enderror">First Name</label>
                                 <input id="fname" name="fname" class="ko-form-control" type="text" value="{{ old('fname') }}" placeholder="First Name" required>
+                                @error('fname')
+                                    <span class="form-error-message text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="ko-col-6">
                             <div class="ko-form-group">
                                 <label for="lname"class="ko-contact-label @error('lname') is-invalid @enderror" >Last Name</label>
                                 <input id="lname" name="lname" class="ko-form-control" type="text" value="{{ old('lname') }}" placeholder="Last Name" required>
+                                @error('lname')
+                                    <span class="form-error-message text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
-                        @error('fname')
-                            <span class="form-error-message text-danger">{{ $message }}</span>
-                        @enderror
-                        @error('lname')
-                            <span class="form-error-message text-danger">{{ $message }}</span>
-                        @enderror
                         <div class="ko-col-12">
                             <div class="ko-form-group">
                                 <label for="email"class="ko-contact-label @error('email') is-invalid @enderror" >Email <span>*</span></label>

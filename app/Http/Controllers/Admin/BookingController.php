@@ -307,7 +307,7 @@ class BookingController extends Controller
         $rules = [
             'check_in' => 'required|date|after_or_equal:today',
             'room' => 'required|exists:rooms,slug',
-            'check_out' => 'required|date|after_or_equal:check_in',
+            'check_out' => 'required|date|after:check_in',
             'quantity' => 'required|integer|min:1',
             'adults' => 'required|integer|min:1',
             'children' => 'nullable|integer|min:0',
@@ -322,7 +322,7 @@ class BookingController extends Controller
             "check_in.after_or_equal" => "Check In must not be older than today.",
             "check_out.required" => "Check Out date is required.",
             "check_out.date" => "Check Out must be a valid date.",
-            "check_out." => "Check Out must not be older than Check In date.",
+            "check_out." => "Check Out cannot not be older or same date than Check In date.",
             "quantity.required" => "Room Quantity is required",
             "quantity.integer" => "Room Quantity must be in a valid number",
             "quantity.min" => "At least 1 room require for process booking ",
@@ -382,7 +382,7 @@ class BookingController extends Controller
 
             $interval = $check_in->diff($check_out);
 
-            $days = $interval->days + 1;
+            $days = $interval->days;
 
             $total = $room->offer_price * $request->quantity;
 

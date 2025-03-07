@@ -22,9 +22,9 @@ class SettingsSeeder extends Seeder
             ['page' => 'general', "type" => "text", 'name' => 'Site title', 'slug' => 'site_title', 'value' => 'null'],
             ['page' => 'general', "type" => "social", 'name' => 'Site Social link', 'slug' => 'site_social_links', 'value' => '[]'],
             ['page' => 'general', "type" => "text", 'name' => 'Site copyright text', 'slug' => 'site_copyright_text', 'value' => 'null'],
-            ['page' => 'general', "type" => "text", 'name' => 'Admin address', 'slug' => 'admin_address', 'value' => 'null'],
-            ['page' => 'general', "type" => "text", 'name' => 'Admin phone', 'slug' => 'admin_phone', 'value' => 'null'],
-            ['page' => 'general', "type" => "text", 'name' => 'Admin email', 'slug' => 'admin_email', 'value' => 'null'],
+            ['page' => 'general', "type" => "text", 'name' => 'Hotel address', 'slug' => 'admin_address', 'value' => 'null'],
+            ['page' => 'general', "type" => "text", 'name' => 'Hotel phone', 'slug' => 'admin_phone', 'value' => 'null'],
+            ['page' => 'general', "type" => "text", 'name' => 'Hotel email', 'slug' => 'admin_email', 'value' => 'null'],
             ['page' => 'general', "type" => "map_link", 'name' => 'Hotel Location Link', 'slug' => 'map_link', 'value' => 'null'],
             ['page' => 'general', "type" => "textarea", 'name' => 'Hotel surroundings', 'slug' => 'hotel_surroundings', 'value' => 'null'],
             ['page' => 'general', "type" => "textarea", 'name' => 'Hotel Rules', 'slug' => 'hotel_rules', 'value' => 'null'],
@@ -39,6 +39,24 @@ class SettingsSeeder extends Seeder
             ['page' => 'about',   "type" => "json", 'name' => 'Amenities', 'slug' => 'about_amenities', 'value' => '[]'],
             ['page' => 'about',   "type" => "img", 'name' => 'Amenity image 1', 'slug' => 'about_amenity_img_1', 'value' => 'null'],
             ['page' => 'about',   "type" => "img", 'name' => 'Amenity image 2', 'slug' => 'about_amenity_img_2', 'value' => 'null'],
+            ['page' => 'home',   "type" => "img", 'name' => 'Background Image', 'slug' => 'home_bg_img', 'value' => 'null'],
+            ['page' => 'home',   "type" => "img", 'name' => 'Top Section Background Image', 'slug' => 'home_top_section', 'value' => 'null'],
+            ['page' => 'home',   "type" => "text", 'name' => 'Top Section Heading', 'slug' => 'home_top_heading', 'value' => 'null'],
+            ['page' => 'home',   "type" => "textarea", 'name' => 'Top Section Description', 'slug' => 'home_top_description', 'value' => 'null'],
+            ['page' => 'home',   "type" => "text", 'name' => 'Top Section Button Link', 'slug' => 'home_top_btn_link', 'value' => 'null'],
+            ['page' => 'home',   "type" => "text", 'name' => 'Top Section Button Text', 'slug' => 'home_top_btn_text', 'value' => 'null'],
+            ['page' => 'home',   "type" => "text", 'name' => 'Top Section Counter 1 Count', 'slug' => 'home_top_counter_1_count', 'value' => 'null'],
+            ['page' => 'home',   "type" => "text", 'name' => 'Top Section Counter 1 Text', 'slug' => 'home_top_counter_1_text', 'value' => 'null'],
+            ['page' => 'home',   "type" => "text", 'name' => 'Top Section Counter 2 Count', 'slug' => 'home_top_counter_2_count', 'value' => 'null'],
+            ['page' => 'home',   "type" => "text", 'name' => 'Top Section Counter 2 Text', 'slug' => 'home_top_counter_2_text', 'value' => 'null'],
+            ['page' => 'home',   "type" => "text", 'name' => 'Top Section Counter 3 Count', 'slug' => 'home_top_counter_3_count', 'value' => 'null'],
+            ['page' => 'home',   "type" => "text", 'name' => 'Top Section Counter 3 Text', 'slug' => 'home_top_counter_3_text', 'value' => 'null'],
+            ['page' => 'home',   "type" => "img", 'name' => 'Middle Section Image 1', 'slug' => 'home_middle_img_1', 'value' => 'null'],
+            ['page' => 'home',   "type" => "img", 'name' => 'Middle Section Image 2', 'slug' => 'home_middle_img_2', 'value' => 'null'],
+            ['page' => 'home',   "type" => "text", 'name' => 'Middle Section Heading', 'slug' => 'home_middle_heading', 'value' => 'null'],
+            ['page' => 'home',   "type" => "textarea", 'name' => 'Middle Section Description', 'slug' => 'home_middle_description', 'value' => 'null'],
+            ['page' => 'home',   "type" => "json", 'name' => 'Reviews Area', 'slug' => 'home_review_area', 'value' => '[]'],
+            // ['page' => '',   "type" => "", 'name' => '', 'slug' => '', 'value' => 'null'],
         ];
 
         foreach ($data as $item) {
@@ -54,7 +72,6 @@ class SettingsSeeder extends Seeder
             if (DB::table('settings')->where('slug', $item['slug'])->first()->type != $item['type']) {
                 DB::table('settings')->where('slug', $item['slug'])->update(['type' => $item['type']]);
             }
-
         }
 
         if (DB::table('settings')->where('slug', 'site_logo')->exists()) {

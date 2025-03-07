@@ -1,4 +1,4 @@
-<x-admin.header :title="'Site Settings'" />
+<x-admin.header :title="'Site General'" />
 
 <div class="row">
     <div class="col-lg-12">

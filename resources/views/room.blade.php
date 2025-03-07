@@ -5,6 +5,14 @@
     $bed = json_decode($room->beds);
     $amenities = json_decode($room->amenities);
     $def_services = json_decode($room->service);
+
+    if(isset($find_booking) && count($find_booking)){
+        if (strtotime($find_booking['check_in']) < strtotime(date('Y-m-d'))) {
+            $find_booking = [];
+        }
+    }else{
+        $find_booking = [];
+    }
 @endphp
 
 <main>
@@ -24,7 +32,7 @@
             </div>
         </div>
     </section>
-    <div style="height:60px; "></div>
+    <div style="height:40px; "></div>
     @if (count($gallery) > 0)
         <section class="ko-splide-rooms splide" role="group" aria-label="Splide Basic HTML Example">
             <div class="splide__track">
@@ -51,7 +59,7 @@
                         <li>{{ $room->size }} Feets Size</li>
                         <li>{{ $bed->quentity }} {{ $bed->name }}</li>
                     </ul>
-                    <p>{{ $room->description }}</p>
+                    <p>{!! $room->description !!}</p>
                     @if ($amenities)
                                     <div class="ko-room-amenities">
                                         <h4 class="ko-com-title">Room Amenities</h4>
