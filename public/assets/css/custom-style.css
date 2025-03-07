@@ -107,10 +107,6 @@ a,button,span,i,svg,path{transition: all 0.33s ease; text-decoration: none;}
 .ko-mb-close-btn .ko-close-btn svg{width: 100%;height: 100%;fill: var(--white-color);}
 .ko-mb-toogle-btn .ko-toogle-btn svg{width: 100%;height: 100%;}
 .ko-topbar + .site-header .ko-mb-toogle-btn .ko-toogle-btn svg rect{fill: var(--white-color);}
-.ko-header-menu > ul > li:not(:last-child).active > a,.ko-header-menu > ul > li:not(:last-child):hover > a { color: #047cc1 !important; }
-.ko-header-menu li:not(:last-child) a::after{content: "";position: absolute;left: 0; bottom: 14px;height: 2px;width: 100%;background: #047cc1;scale: 0;transform-origin: right;transition: scale 0.2s linear;}
-.ko-header-menu li:not(:last-child) a:hover::after, .ko-header-menu li:not(:last-child).active a::after{scale: 1;transform-origin: left;}
-
 
 /* start sub-menu */
 .ko-header-menu ul{padding: 0;list-style: none;}
