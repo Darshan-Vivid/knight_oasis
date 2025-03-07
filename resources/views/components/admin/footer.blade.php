@@ -19,8 +19,11 @@
 <script src="{{ URL::asset('admin/libs/sweetalert2/sweetalert2.min.js') }}"></script>
 <script src="{{ URL::asset('admin/libs/dropzone/dropzone-min.js') }}"></script>
 {{-- <script src="{{ URL::asset('admin/js/pages/ecommerce-product-list.init.js') }}"></script> --}}
-<script src="{{ URL::asset('admin/js/app.js') }}"></script>
+<script src="{{ URL::asset('admin/js/app.js') }}?version={{ rand(10,99) }}.{{ rand(10,99) }}.{{ rand(100,999) }}"></script>
 <script src="{{ URL::asset('assets/js/admin-script.js') }}?version={{ rand(10,99) }}.{{ rand(10,99) }}.{{ rand(100,999) }}"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+<script src="{{ asset("admin/js/pages/datatables.init.js") }}"></script>
 </div>
 </div>
 </body>

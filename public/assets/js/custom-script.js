@@ -327,6 +327,7 @@ if (document.getElementsByClassName("ko-splide-testimonials").length > 0) {
             arrows: false,
             pagination: true,
             perMove: 1,
+            type: "loop",
         });
         splidetesto.mount();
     });

@@ -58,22 +58,22 @@
                         </button>
                     </div>
                     <ul>
-                        <li>
+                        <li @if (Route::is('view.home')) class="active" @endif >
                             <a href="{{ route("view.home") }}">Home</a>
                         </li>
-                        <li>
+                        <li @if (Route::is('view.rooms') || Route::is('view.room') || Route::is('view.cart') ) class="active" @endif>
                             <a href="{{ route('view.rooms') }}">Rooms</a>
                         </li>
-                        <li>
+                        <li @if (Route::is('view.blog') || Route::is('blog.list') ) class="active" @endif>
                             <a href="{{ route("view.blog")}}">Blog</a>
                         </li>
-                        <li>
+                        <li @if (Route::is('view.about')) class="active" @endif>
                             <a href="{{ route("view.about" ) }}">About</a>
                         </li>
-                        <li>
+                        <li @if (Route::is('view.contact')) class="active" @endif>
                             <a href="{{ route("view.contact" ) }}">Contact</a>
                         </li>
-                        <li>
+                        <li @if (Route::is('view.faqs')) class="active" @endif>
                             <a href="{{ route("view.faqs" ) }}">FAQs</a>
                         </li>
                         <li>
