@@ -32,11 +32,12 @@ class BlogCategoriesController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'category' => 'required|min:3'
+            'category' => 'required|min:3|unique:blog_categories,name,' . $request->edit_category_id,
         ];
         $messages = [
             'category.required' => 'The category field is required.',
             'category.min' => 'The category must be at least 3 characters.',
+            'category.unique' => 'The category already exists. Please choose a different name.',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
