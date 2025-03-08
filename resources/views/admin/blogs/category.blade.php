@@ -83,7 +83,7 @@
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-end">
                                                     <li><a href="{{ route('blog_categories.edit', $category->id) }}" class="dropdown-item edit-item-btn" ><i class="align-middle ph-pencil me-1"></i>Edit</a></li>
-                                                    <li><a href="javascriot:void(0)" class="dropdown-item remove-item-btn" sdata-delete-url="{{ route('blog_categories.destroy', $category->id) }}" onclick="setDeleteFormAction(this)"><i class="align-middle ph-trash me-1"></i> Remove</a>
+                                                    <li><a href="javascriot:void(0)" class="dropdown-item remove-item-btn" data-delete-url="{{ route('blog_categories.destroy', $category->id) }}" onclick="setDeleteFormAction(this)"><i class="align-middle ph-trash me-1"></i> Remove</a>
                                                     </li>
                                                 </ul>
                                             </div>
