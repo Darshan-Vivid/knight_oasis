@@ -187,7 +187,7 @@
                                             <li>₹{{ $room->offer_price }} </li>
                                         </ul>
                                     </div>
-                                    <a class="ko-accomodation-btn" href="{{ route('view.room', $room->slug ) }}">Book Now</a>
+                                    <a class="ko-btn" href="{{ route('view.room', $room->slug ) }}">Book Now</a>
                                 </div>
                             </div>
                         @endforeach
