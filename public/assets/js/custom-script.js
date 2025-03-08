@@ -512,7 +512,8 @@ function Scroll() {
             lightLogo.style.display = "none";
             menuLinks.forEach((link, index) => {
                 if (index != menuLinks.length - 1) {
-                    link.style.color = "var(--black-color)";
+                    link.classList.add("ko-header-text-dark");
+                    link.classList.remove("ko-header-text-light");
                 }
             });
         } else {
@@ -521,7 +522,8 @@ function Scroll() {
             lightLogo.style.display = "block";
             menuLinks.forEach((link, index) => {
                 if (index != menuLinks.length - 1) {
-                    link.style.color = "var(--white-color)";
+                    link.classList.remove("ko-header-text-dark");
+                    link.classList.add("ko-header-text-light");
                 }
             });
         }
@@ -531,7 +533,8 @@ function Scroll() {
         lightLogo.style.display = "none";
         menuLinks.forEach((link, index) => {
             if (index != menuLinks.length - 1) {
-                link.style.color = "var(--black-color)";
+                link.classList.add("ko-header-text-dark");
+                link.classList.remove("ko-header-text-light");
             }
         });
     }

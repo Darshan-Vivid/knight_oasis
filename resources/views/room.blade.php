@@ -37,13 +37,31 @@
         <section class="ko-splide-rooms splide" role="group" aria-label="Splide Basic HTML Example">
             <div class="splide__track">
                 <ul class="splide__list">
-                    @foreach ($gallery as $url)
-                        <li class="splide__slide">
-                            <div class="ko-rooms">
-                                <img src="{{ $url }}" alt="room-img" />
-                            </div>
-                        </li>
-                    @endforeach
+                    @if (count($gallery) == 1)
+                        @foreach ($gallery as $url)
+                            <li class="splide__slide">
+                                <div class="ko-rooms">
+                                    <img src="{{ $url }}" alt="room-img" />
+                                </div>
+                            </li>
+                            <li class="splide__slide">
+                                <div class="ko-rooms">
+                                    <img src="{{ $url }}" alt="room-img" />
+                                </div>
+                            </li>
+                            @php
+                                exit;
+                            @endphp
+                        @endforeach
+                    @else
+                        @foreach ($gallery as $url)
+                            <li class="splide__slide">
+                                <div class="ko-rooms">
+                                    <img src="{{ $url }}" alt="room-img" />
+                                </div>
+                            </li>
+                        @endforeach
+                    @endif
                 </ul>
             </div>
         </section>

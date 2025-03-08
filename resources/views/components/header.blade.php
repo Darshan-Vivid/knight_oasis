@@ -77,14 +77,14 @@
                         <li>
                             @if(auth()->check())
                                 @if(auth()->user()->hasRole('admin'))
-                                    <a href="{{ route('view.admin.dashboard') }}">Dashboard</a>
+                                    <a href="{{ route('view.admin.dashboard') }}" class="ko-btn" >Dashboard</a>
                                 @elseif(auth()->user()->hasRole('user'))
-                                    <a href="{{ route('view.my_account') }}">My Account</a>
+                                    <a href="{{ route('view.my_account') }}"  class="ko-btn">My Account</a>
                                 @else
-                                    <a href="{{ route('login') }}">Login</a>
+                                    <a href="{{ route('login') }}"  class="ko-btn">Login</a>
                                 @endif
                             @else
-                                <a href="{{ route('login') }}">Login</a>
+                                <a href="{{ route('login') }}"  class="ko-btn">Login</a>
                             @endif
                         </li>
                     </ul>
