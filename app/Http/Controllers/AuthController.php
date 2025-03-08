@@ -90,7 +90,6 @@ class AuthController extends Controller
             $user->save();
             $user->assignRole('user');
 
-
             if (Session::get('abandoned_cart')) {
                 $acid = Session::get('abandoned_cart');
                 AbandonedCart::where('id', $acid)->update(['user_id' => $user->id]);
@@ -155,7 +154,6 @@ class AuthController extends Controller
         if ($is_password_reset) {
             return redirect()->route('view.new_password', ['token' => $user->token]);
         } else {
-
             return redirect()->route('view.home')->with([
                 'success' => true,
                 'message' => 'Email and OTP verified successfully.'
@@ -182,7 +180,6 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }else{
-
             
             $credentials = $request->only('email', 'password');
             $remember = $request->has('remember');
@@ -196,19 +193,19 @@ class AuthController extends Controller
             if (Auth::attempt($credentials, $remember)) {
                 $user = Auth::user();
 
-            if (Session::get('abandoned_cart')) {
-                $acid = Session::get('abandoned_cart');
-                AbandonedCart::where('id', $acid)->update(['user_id' => $user->id]);
+                if (Session::get('abandoned_cart')) {
+                    $acid = Session::get('abandoned_cart');
+                    AbandonedCart::where('id', $acid)->update(['user_id' => $user->id]);
+                }
+                
+                if ($user->hasRole('admin')) {
+                    return redirect()->route('view.admin.dashboard');
+                } else {
+                    return redirect()->route('view.home');
+                }
             }
             
-            if ($user->hasRole('admin')) {
-                return redirect()->route('view.admin.dashboard');
-            } else {
-                return redirect()->route('view.home');
-            }
-        }
-        
-        return redirect(s)->back()->withErrors(['email' => 'Invalid credentials.'])->withInput();
+            return redirect()->back()->withErrors(['email' => 'Invalid credentials.'])->withInput();
         }
     }
 

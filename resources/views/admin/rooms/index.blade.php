@@ -33,14 +33,7 @@
                             <th scope="col">Name</th>
                             <th scope="col">Quantity</th>
                             <th scope="col">Price</th>
-                            {{-- <th scope="col">Description</th>
-                            <th scope="col">Allowed Guests</th>
-                            <th scope="col">Size</th>
-                            <th scope="col">Beds</th>
-                            <th scope="col">Amenities</th>
-                            <th scope="col">Services</th>
-                            <th scope="col">Featured Image</th>
-                            <th scope="col">Gallery Images</th> --}}
+                            <th scope="col">Offer</th>
                             <th scope="col">Created At</th>
                             <th scope="col">Updated At</th>
                             <th>Action</th>
@@ -53,57 +46,7 @@
                                 <td>{{ $room->name }}</td>
                                 <td>{{ $room->quantity }}</td>
                                 <td>{{ $room->price }}</td>
-                                {{-- <td>{{ $room->description }}</td>
-                                <td>{{ $room->allowd_guests }}</td>
-                                <td>{{ $room->size }}</td>
-                                <td>
-                                    @php
-                                    $beds = json_decode($room->beds, true); // Decoding the JSON string
-                                    @endphp
-                                    @if($beds)
-                                    {{ $beds['quentity'] }}
-                                    Name: {{ $beds['name'] }}
-                                    @endif
-                                </td>
-                                <td>
-                                    @php
-                                    $amenities = json_decode($room->amenities); // Decoding the JSON array
-                                    @endphp
-                                    @if($amenities)
-                                    @foreach($amenities as $amenity)
-                                    Amenity ID: {{ $amenity }}<br>
-                                    @endforeach
-                                    @else
-                                    No amenities
-                                    @endif
-                                </td>
-                                <td>
-                                    @php
-                                    $services = json_decode($room->service); // Decoding the JSON array
-                                    @endphp
-                                    @if($services)
-                                    @foreach($services as $service)
-                                    Service ID: {{ $service }}<br>
-                                    @endforeach
-                                    @else
-                                    No services
-                                    @endif
-                                </td>
-                                <td>
-                                    <img src="{{ $room->feature_img }}" alt="Featured Image" style="max-width: 100px;">
-                                </td>
-                                <td>
-                                    @php
-                                    $galleryImages = json_decode($room->gallery_img); // Decoding the JSON array
-                                    @endphp
-                                    @if($galleryImages)
-                                    @foreach($galleryImages as $image)
-                                    <img src="{{ $image }}" alt="Gallery Image" style="max-width: 100px;"><br>
-                                    @endforeach
-                                    @else
-                                    No gallery images
-                                    @endif
-                                </td> --}}
+                                <td>{{ $room->offer_price }}</td>
                                 <td>{{ $room->created_at }}</td>
                                 <td>{{ $room->updated_at }}</td>
                                 <td>

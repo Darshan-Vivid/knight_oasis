@@ -191,4 +191,4 @@
     </div>
 </div>
 
-        <x-admin.footer />
+<x-admin.footer />

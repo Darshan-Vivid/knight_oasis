@@ -1,5 +1,4 @@
 <x-admin.header :title="'Transactions'" />
-    <!--datatable css-->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" >
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" >
 
@@ -23,8 +22,9 @@
                     <thead>
                         <tr>
                             <th>TRANSACTION ID</th>
-                            <th>AMOUNT</th>
+                            <th>MODE</th>
                             <th>METHOD</th>
+                            <th>AMOUNT</th>
                             <th>STATUS</th>
                             <th>Create Date</th>
                         </tr>
@@ -32,26 +32,29 @@
                     <tbody>
                         @if (isset($transactions))
                             @foreach ($transactions as $transaction)
-                            <tr>
-                                <td>{{ $transaction->transaction_id}}</td>
-                                <td>{{ $transaction->amount}}</td>
-                                <td>{{ $transaction->method }}</td>
-                                <td>
-                                    @if($transaction->status == 1)
-                                        <span class="badge bg-success-subtle text-success status">PAID</span>
-                                    @elseif ($transaction->status == 0)
-                                        <span class="badge bg-danger-subtle text-danger status">CANCLED</span>
-                                    @elseif ($transaction->status == 2)
-                                        @if ($transaction->method == 'CASH')
-                                            <span class="badge bg-warning-subtle text-warning status">PENDING</span>
-                                        @else
-                                            
-                                            <span class="badge bg-warning-subtle text-warning status">PROCESSING</span>
+                                @php
+                                    $mode = App\Models\Booking::where('transaction_id', $transaction->transaction_id)->value('type');
+                                @endphp
+                                <tr>
+                                    <td>{{ $transaction->transaction_id}}</td>
+                                    <td>{{ $mode}}</td>
+                                    <td>{{ $transaction->method }}</td>
+                                    <td>{{ $transaction->amount}}</td>
+                                    <td>
+                                        @if($transaction->status == 1)
+                                            <span class="badge bg-success-subtle text-success status">PAID</span>
+                                        @elseif ($transaction->status == 0)
+                                            <span class="badge bg-danger-subtle text-danger status">CANCLED</span>
+                                        @elseif ($transaction->status == 2)
+                                            @if ($transaction->method == 'CASH')
+                                                <span class="badge bg-warning-subtle text-warning status">PENDING</span>
+                                            @else
+                                                <span class="badge bg-warning-subtle text-warning status">PROCESSING</span>
+                                            @endif
                                         @endif
-                                    @endif
-                                </td>
-                                <td>{{ $transaction->created_at }}</td>
-                            </tr>
+                                    </td>
+                                    <td>{{ $transaction->created_at }}</td>
+                                </tr>
                             @endforeach
                         @endif
                     </tbody>

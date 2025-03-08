@@ -1,4 +1,5 @@
 <x-header :title="'Signup'" />
+
 <main>
     <section class="ko-loginRegister-section ko-register-section">
         <div class="ko-container">
@@ -125,4 +126,5 @@
         get_states();
     });
 </script>
+
 <x-footer />

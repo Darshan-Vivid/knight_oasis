@@ -60,7 +60,8 @@
                                                     {{ $blog_category->name }}
                                                 </option>
                                             @endforeach
-                                        </select>                                                                  
+                                        </select>  
+                                        <small class="text-muted d-flex justify-content-center mt-2">Press and Hold CTRL for Multiple Category</small>                                                                
                                 @error('category')
                                     <span class="form-error-message">{{ $message }}</span>
                                 @enderror
@@ -126,8 +127,6 @@
         <button type="reset" class="btn btn-danger">Cancel</button>
     </div>
 </form>
-
-
 
 <script src="{{ URL::asset('admin/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
 <script>

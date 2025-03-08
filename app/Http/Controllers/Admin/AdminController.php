@@ -43,11 +43,6 @@ class AdminController extends Controller
         ->whereDate('check_in', '<=', now()->toDateString()) // Check-in is today or before today
         ->whereDate('check_out', '>=', now()->toDateString()) // Check-out is today or after today
         ->get();
-    
-    
-
-
-
 
         return view('admin.dashboard')
                 ->with([

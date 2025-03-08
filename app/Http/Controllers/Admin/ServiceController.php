@@ -15,6 +15,7 @@ class ServiceController extends Controller
     public function index()
     {
         $services = Service::all();
+
         return view('admin.rooms.service')->with(['services'=>$services]);
 
     }
@@ -37,6 +38,7 @@ class ServiceController extends Controller
             // 'quantity' => 'required|integer|min:0',
             'price' => 'required|integer|min:0',
         ];
+
         $messages = [
             'service.required' => 'The name is required.',
             'service.min' => 'The name must be at least 2 characters.',
@@ -90,8 +92,8 @@ class ServiceController extends Controller
     public function edit(string $id)
     {
         $edit_service = Service::findOrFail($id);
-
         $services = Service::all();
+        
         return view('admin.rooms.service')->with(['services'=>$services, 'edit_service'=>$edit_service]);
 
     }

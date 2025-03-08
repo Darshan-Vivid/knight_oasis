@@ -1,6 +1,5 @@
 <x-admin.header :title="'Edit Booking'" />
 
-
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
@@ -273,10 +272,5 @@
     </div>
 
 </form>
-
-
-
-
-
 
 <x-admin.footer />

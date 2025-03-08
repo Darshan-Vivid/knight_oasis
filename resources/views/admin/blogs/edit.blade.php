@@ -66,7 +66,9 @@
                                                     {{ $blog_category->name }}
                                                 </option>
                                             @endforeach
-                                        </select>                                                                                                         
+                                        </select>     
+                                <small class="text-muted d-flex justify-content-center mt-2">Press and Hold CTRL for Multiple Category</small>
+
                                 @error('category')
                                     <span class="form-error-message">{{ $message }}</span>
                                 @enderror
@@ -106,6 +108,7 @@
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -120,9 +123,10 @@
                         </div>
                         <div class="col-xxl-8">
                             <div class="mb-3">
-                                <label class="form-label">Blog Images <span class="text-danger">*</span></label>
+                                <label class="form-label">Blog Image <span class="text-danger">*</span></label>
                                 <input type="file" name="image" id="image" accept="image/*"
                                     class="media-upload main-image-upload form-control @error('image') is-invalid @enderror" />
+                                <small class="text-muted d-flex justify-content-center mt-2">please leave it blank if you do not wants to change.</small>
                                 @error('image')
                                     <span class="form-error-message">{{ $message }}</span>
                                 @enderror
@@ -133,6 +137,7 @@
             </div>
         </div>
     </div>
+
     <div class="border rounded">
         <div class="flex-wrap gap-2 p-2 d-flex">
             <div class="flex-shrink-0 me-3">
@@ -151,9 +156,7 @@
                     <strong class="error text-danger" data-dz-errormessage=""></strong>
                 </div>
             </div>
-            {{-- <div class="flex-shrink-0 ms-3">
-                <button data-dz-remove class="btn btn-sm btn-danger">Delete</button>
-            </div> --}}
+            
         </div>
     </div>
     <div class="gap-2 mb-3 hstack justify-content-end">

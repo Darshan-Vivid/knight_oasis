@@ -30,6 +30,11 @@ class RedirectController extends Controller
     public function show_contact(){
         return view('contact');
     }
+
+    public function forgotPassword(){
+        return view('auth.forgot-password');
+    }
+
     public function mail_contact(Request $request){
 
         $rules = [
@@ -83,7 +88,6 @@ class RedirectController extends Controller
                 return back()->withErrors(['g-recaptcha-response' => 'reCAPTCHA verification failed. Please try again.']);
             }
 
-
             $mailData = [
                 'email' => $request->email,
                 'fname' => $request->fname,
@@ -98,10 +102,6 @@ class RedirectController extends Controller
                 'message' => 'Thanks for Contact us, We will contact you back shortly '
             ]);
         }
-    }
-
-    public function forgotPassword(){
-        return view('auth.forgot-password');
     }
 
     public function newPassword($token){
@@ -152,28 +152,4 @@ class RedirectController extends Controller
         $services = Service::where('status' , '=', '1')->get();
         return view('room')->with(["room"=>$room,"services"=>$services,"find_booking"=>$find_booking]);
     }
-
-    public function routeList($methods = null)
-    {
-        $routes = Route::getRoutes();
-        $routeDetails = [];
-
-        foreach ($routes as $route) {
-            $uri = $route->uri();
-            $name = $route->getName();
-            $action = $route->getActionName();
-            $methodsForRoute = $route->methods();
-
-            if ($methods && !in_array($methods, $methodsForRoute)) {
-                continue;
-            }
-
-            $routeDetails[] = ['uri' => $uri, 'name' => $name, 'action' => $action, 'methods' => $methodsForRoute];
-        }
-
-        return view('admin.routes_index', compact('routeDetails'));
-    }
-
-
-
 }

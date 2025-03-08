@@ -18,14 +18,15 @@ class BlogController extends Controller
      */
     public function index(Request $request)
     {
-        // $user = Auth::user();
         $order = $request->input('order', 'desc');
         $perPage = $request->input('perPage', 5);
 
         $baseQuery = Blogs::query();
         $baseQuery->orderBy('created_at', $order);
+
         $blog = $baseQuery->with('categories')->paginate($perPage);
         $total_blogs = Blogs::count();
+        
         return view('admin.blogs.index', compact('blog', 'total_blogs'));
     }
 
@@ -35,6 +36,7 @@ class BlogController extends Controller
     public function create()
     {
         $blog_categories = BlogCategories::all();
+
         return view('admin.blogs.create', compact('blog_categories'));
     }
 
@@ -86,6 +88,7 @@ class BlogController extends Controller
     {
         $blog = Blogs::findOrFail($blog_id);
         $blog_categories = BlogCategories::all();
+
         return view('admin.blogs.edit', compact('blog', 'blog_categories'));
     }
 
@@ -111,15 +114,13 @@ class BlogController extends Controller
         }
 
         if ($request->hasFile('image')) {
-            // Delete the old image
             if (!empty($blog->image) && file_exists(public_path($blog->image))) {
                 unlink(public_path($blog->image));
             }
 
-            // Store new image
             $imagefile = $request->file('image');
             $imageName = time() . '.' . $imagefile->getClientOriginalExtension();
-            $imageupload = 'images/blog/' . $imageName; // New path inside public/images/blog/
+            $imageupload = 'images/blog/' . $imageName;
             $imagefile->move(public_path('images/blog/'), $imageName);
             $blog->image = $imageupload;
         }
@@ -135,16 +136,12 @@ class BlogController extends Controller
     public function destroy(string $blog_id)
     {
         $blog = Blogs::findOrFail($blog_id);
-
-        // Get the correct image path from the database
         $filePath = public_path($blog->image);
 
-        // Check if the file exists and delete it
         if (!empty($blog->image) && file_exists($filePath)) {
             unlink($filePath);
         }
 
-        // Delete the blog entry from the database
         $blog->delete();
 
         return redirect()->route('blogs.index')->with('success', 'Blog deleted successfully!');
@@ -153,7 +150,7 @@ class BlogController extends Controller
     public function view_blog(Request $request)
     {
         $blogs = Blogs::all();
-        // dd($blogs);
+
         return view('blogs', compact('blogs'));
     }
 
@@ -161,6 +158,7 @@ class BlogController extends Controller
     {
         $blog = Blogs::where('slug', $slug)->firstOrFail();
         $recentBlogs = Blogs::orderBy('created_at', 'desc')->take(5)->get();
+
         return view('blog', compact('blog', 'recentBlogs'));
     }
 }

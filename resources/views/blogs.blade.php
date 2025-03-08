@@ -1,4 +1,5 @@
 <x-header :title="' Blogs '" />
+
 <main>
     <!-- banner section -->
     <section class="ko-banner" style="background-image: url('{{ asset('images/cart-banner.webp') }}');">
@@ -44,4 +45,5 @@
         </div>
     </section>
 </main>
+
 <x-footer />

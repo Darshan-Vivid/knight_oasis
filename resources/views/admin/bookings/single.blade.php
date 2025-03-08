@@ -1,6 +1,5 @@
 <x-admin.header :title="'Booking'" />
 
-
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
@@ -20,9 +19,7 @@
     }
 
     $total_amount = 0;
-
     $transection = App\Models\Transaction::where("transaction_id", $booking->transaction_id)->first();
-
     $g = json_decode($booking->customer_details);
 
     $check_in = new DateTime($booking->check_in);
@@ -52,7 +49,6 @@
         $guest['address'] = $g->address;
     }
 @endphp
-
 
 <div class="row">
     <div class="col-xxl-9">
@@ -168,8 +164,8 @@
             </div>
         </div>
     </div>
-    <div class="col-xxl-3">
 
+    <div class="col-xxl-3">
         <div class="row">
             <div class="col-xxl-12 col-md-6">
                 <div class="card border-bottom border-2 border-light">
@@ -198,11 +194,29 @@
                             <p class="fw-medium fs-md mb-1">ID: {{$transection->transaction_id }}</p>
                             <p class="text-muted mb-1">Method: <b>{{ $transection->method }}</b></p>
                             <p class="text-muted mb-1">Amount: <b>₹{{ $transection->amount }}</b></p>
-                            <p class="text-muted mb-1">Status: <b>{{ $transection->status == 1? "PAID" : "UNPAID"; }}</b></p>
+                            <p class="text-muted mb-1">Status: <b>
+                                @switch($transection->status)
+                                    @case(1)
+                                        PAID
+                                        @break
+                                    @case(2)
+                                        @if ($transection->method == "CASH")
+                                            PENDING
+                                        @else
+                                            PROCESSING
+                                        @endif
+                                        @break
+                                    @case(0)
+                                        FAILED
+                                        @break
+                                    @default
+                                 @endswitch
+                                </b></p>
                             <p class="text-muted mb-1">Time: <b>{{ $transection->created_at }}</b></p>
                         </div>
-                        <div class="flex-shrink-0">
+                        <div class="flex-grow-1 text-end">
                             <img src="{{ asset("admin/images/Transection-Detail.png")}}" class="avatar-sm rounded img-thumbnail">
+                            <button class="btn btn-primary mt-2" id="booking_update_payment_status" data-bs-toggle="modal" data-bs-target="#myModal">Update Status</button>
                         </div>
                     </div>
                 </div>
@@ -248,18 +262,64 @@
                         </div>
                     </div>
                 </div>
-            </div><!--end col-->
-        </div><!--end row-->
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- PAyment Status Modals -->
+<div id="myModal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{{ route('booking_payment.change.save' , $booking->id) }}" method="post">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Update Payment Status</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="fs-base">
+                        Update the payment status of this booking  
+                    </h5>
+                    <div class="row">
+                        <div class="col-xxl-12">
+                            <p class="form-label mt-3">Current Status : 
+                                <strong>
+                                    @if($transaction->status == "1") PAID 
+                                    @elseif($transaction->status == "2") PROCESSING 
+                                    @elseif($transaction->status == "3") PENDING 
+                                    @else CANCELED 
+                                    @endif
+                                </strong>
+                            </p>
+                            <label for="pay-method" class="form-label mt-3">Method</label>
+                            <select class="form-control" name="pay_method" id="pay-method" disabled>
+                                <option value="CASH" @if( $transaction->method == "CASH") selected @endif >CASH</option>
+                                <option value="PAYU" @if( $transaction->method == "PAYU") selected @endif >PAYU</option>
+                                <option value="CASHFREE" @if( $transaction->method == "CASHFREE") selected @endif >CASHFREE</option>
+                            </select>
 
-
-
-    </div><!--end col-->
-</div><!--end row-->
-
-
-
-
-
+                            <label for="pay-status" class="form-label mt-3">Change Status</label>
+                            <select class="form-control" name="pay_status" id="pay-status">
+                                <option value="1" @if( $transaction->status == "1") selected @endif >PAID</option>
+                                @if( $transaction->method == "CASH") 
+                                    <option value="2" @if( $transaction->status == "2") selected @endif >PENDING</option>
+                                @else
+                                    <option value="2" @if( $transaction->status == "2") selected @endif >PROCESSING</option>
+                                @endif
+                                <option value="0" @if( $transaction->status == "0") selected @endif >CANCELED</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <x-admin.footer />

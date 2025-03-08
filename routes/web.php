@@ -84,7 +84,6 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/room-services', ServiceController::class)->names('services');
         Route::resource('/room-amenities', AmenityController::class)->names('amenities');
         Route::resource('/rooms', RoomController::class)->names('rooms');
-        // Route::resource('media', MediaController::class);
 
         Route::prefix('settings')->group(function () {
             Route::resource('/faqs', FaqController::class)->names('faqs');
@@ -108,11 +107,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/booking/{id}', [BookingController::class, 'show_single_booking'])->name('view.booking');
         // Route::get('/booking/{id}/edit', [BookingController::class, 'edit_booking'])->name('view.edit_booking');
         // Route::post('/booking/{id}/edit', [BookingController::class, 'save_edit_booking'])->name('edit_booking.save');
-
+        Route::post('/booking/pay-status/{bid}', [BookingController::class, 'change_pay_status'])->name('booking_payment.change.save');
         Route::get('/users', [AdminController::class, 'show_users'])->name('view.users');
         Route::post('/remove-room-media',[ RoomController::class , 'remove_room_media'])->name('rooms.media.remove');
         Route::post('/room-wise-services',[ RoomController::class , 'room_wise_services'])->name('rooms.services');
-        Route::get('/routes', [RedirectController::class, 'routeList']);           //route list table
     });
 });
 

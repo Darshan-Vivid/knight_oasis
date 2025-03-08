@@ -61,20 +61,20 @@
                     </ul>
                     <p>{!! $room->description !!}</p>
                     @if ($amenities)
-                                    <div class="ko-room-amenities">
-                                        <h4 class="ko-com-title">Room Amenities</h4>
-                                        <ul class="ko-room-amenities-list">
-                                            @foreach ($amenities as $aid)
-                                                @php
-                                                    $amenity = App\Models\Amenity::find($aid);
-                                                @endphp
-                                                @if ($amenity->id)
-                                                    <li><img src="{{ $amenity->icon }}" width="35" height="35" class="mr-3" />
-                                                        {{ $amenity->name }}</li>
-                                                @endif
-                                            @endforeach
-                                        </ul>
-                                    </div>
+                        <div class="ko-room-amenities">
+                            <h4 class="ko-com-title">Room Amenities</h4>
+                            <ul class="ko-room-amenities-list">
+                                @foreach ($amenities as $aid)
+                                    @php
+                                        $amenity = App\Models\Amenity::find($aid);
+                                    @endphp
+                                    @if ($amenity->id)
+                                        <li><img src="{{ $amenity->icon }}" width="35" height="35" class="mr-3" />
+                                            {{ $amenity->name }}</li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        </div>
                     @endif
 
                     @if(strlen($room->features) > 1)
@@ -102,11 +102,6 @@
                                 type="video/m3u8" x-webkit-airplay="allow" width="100%" height="500"></video>
                         </div>
                     @endif
-
-                    {{-- <div class="ko-availability-calendar">
-                        <h4 class="ko-com-title">Availability Calendar</h4>
-                        <div id="reservationDate"></div>
-                    </div> --}}
                     
                 </div>
                 <div class="ko-deluxe-reserve">
@@ -228,26 +223,5 @@
     </section>
     <!-- ------map section end------ -->
 </main>
-
-{{-- 
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script>
-  flatpickr("#reservationDate", {
-    mode: "range",        
-    showMonths: 2,        
-    minDate: "today",     
-    dateFormat: "Y-m-d",  
-    inline: true,
-    disable: [
-      "2025-02-25",
-      "2025-03-01",
-      "2025-03-05"
-    ],
-    onChange: function (dates) {
-      selectedDates = dates;
-    }         
-  });
-
-</script> --}}
 
 <x-footer />

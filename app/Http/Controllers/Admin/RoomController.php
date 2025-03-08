@@ -173,12 +173,7 @@ class RoomController extends Controller
             mkdir($directoryPath, 0777, true);
         }
 
-        $originalFileName = $file->getClientOriginalName();
-
-        $imgName = pathinfo($originalFileName, PATHINFO_FILENAME);
-
         $fileName = md5(time().rand(100000,999999)).'.' . $file->getClientOriginalExtension();
-
         $file->move($directoryPath, $fileName);
 
         return url($filePath . $fileName);
@@ -373,6 +368,7 @@ class RoomController extends Controller
     public function room_wise_services(Request $request){
         $room = Room::findOrFail($request->rid);
         $services = json_decode($room->service, true);
+        
         return response()->json($services);
     }
 }

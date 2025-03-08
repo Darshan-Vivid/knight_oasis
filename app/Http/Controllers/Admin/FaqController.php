@@ -86,8 +86,8 @@ class FaqController extends Controller
     public function edit(string $id)
     {
         $edit_faq = Faq::findOrFail($id);
-
         $faqs = Faq::all();
+        
         return view('admin.settings.faq')->with(['faqs'=>$faqs,'edit_faq'=>$edit_faq ]);
     }
 

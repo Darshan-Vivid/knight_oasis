@@ -1,4 +1,5 @@
 <x-header :title="'New Password'" />
+
 <main>
     <section class="ko-loginRegister-section ko-register-section">
         <div class="ko-container">
@@ -44,4 +45,5 @@
         </div>
     </section>
 </main>
+
 <x-footer />

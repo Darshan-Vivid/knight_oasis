@@ -61,8 +61,7 @@
             <div class="card-body">
                 <p class="text-muted"> this is the list of all blog categories </p>
                 <div class="table-responsive">
-                    {{-- <table class="table mb-0 align-middle table-striped table-nowrap"> --}}
-                        <table id="fixed-header" class="table align-middle table-bordered dt-responsive nowrap table-striped" style="width:100%">
+                    <table id="fixed-header" class="table align-middle table-bordered dt-responsive nowrap table-striped" style="width:100%">
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>
@@ -130,7 +129,5 @@
         </div>
     </div>
 </div>
-
-
 
 <x-admin.footer />

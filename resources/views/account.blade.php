@@ -200,7 +200,6 @@
                                             </td>
                                         </tr>
                                     @endforeach
-
                                 </tbody>
                             </table>
                             @else
@@ -260,7 +259,6 @@
         </div>
     </section>
     <!-- booking section end -->
-
 </main>
 
 <script>

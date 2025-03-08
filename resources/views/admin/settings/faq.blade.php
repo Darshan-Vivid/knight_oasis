@@ -58,7 +58,6 @@
                         </div>
                     </div>
 
-
                     <div class="mb-1 text-end">
                         @error('general')
                             <div class="invalid-response" style="display:flex">{{ $message }}</div>
@@ -71,13 +70,11 @@
                         @else
                             <input type="hidden" name="edit_faq_id" value="0" />
                         @endif
-
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
 
     <div class="col-xl-6">
         <div class="card">
@@ -88,55 +85,55 @@
             <div class="card-body">
                 <p class="text-muted"> This is the list of all site FAQs </p>
                 <div class="table-responsive">
-                        <table id="fixed-header"
-                            class="table align-middle table-bordered dt-responsive nowrap table-striped"
-                            style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">Question</th>
-                                    <th scope="col">status</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if(!empty($faqs) && count($faqs) > 0)
-                                    @foreach ($faqs as $faq)
-                                        <tr>
-                                            <td class="fw-medium">{{ $faq->id }}</td>
-                                            <td>{{ \Illuminate\Support\Str::limit($faq->question, 100, '...') }}</td>
-                                            <td>
-                                                @if($faq->status == 1)
-                                                    <span class="badge bg-success">enabled</span>
-                                                @else
-                                                    <span class="badge bg-danger">disabled</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <div class="dropdown position-static">
-                                                    <button class="btn btn-subtle-secondary btn-sm btn-icon" role="button"
-                                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="bi bi-three-dots-vertical"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-end">
-                                                        <li><a href="{{ route('faqs.edit', $faq->id) }}"
-                                                                class="dropdown-item edit-item-btn"><i
-                                                                    class="align-middle ph-pencil me-1"></i>Edit</a></li>
-                                                        <li>
-                                                            <a href="javascript:void(0)" class="dropdown-item remove-item-btn"
-                                                                data-delete-url="{{ route('faqs.destroy', $faq->id) }}"
-                                                                onclick="setDeleteFormAction(this)"><i
-                                                                    class="align-middle ph-trash me-1">
-                                                                </i> Remove</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @endif
-                            </tbody>
-                        </table>
+                    <table id="fixed-header"
+                        class="table align-middle table-bordered dt-responsive nowrap table-striped"
+                        style="width:100%">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Question</th>
+                                <th scope="col">status</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(!empty($faqs) && count($faqs) > 0)
+                                @foreach ($faqs as $faq)
+                                    <tr>
+                                        <td class="fw-medium">{{ $faq->id }}</td>
+                                        <td>{{ \Illuminate\Support\Str::limit($faq->question, 100, '...') }}</td>
+                                        <td>
+                                            @if($faq->status == 1)
+                                                <span class="badge bg-success">enabled</span>
+                                            @else
+                                                <span class="badge bg-danger">disabled</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <div class="dropdown position-static">
+                                                <button class="btn btn-subtle-secondary btn-sm btn-icon" role="button"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="bi bi-three-dots-vertical"></i>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                    <li><a href="{{ route('faqs.edit', $faq->id) }}"
+                                                            class="dropdown-item edit-item-btn"><i
+                                                                class="align-middle ph-pencil me-1"></i>Edit</a></li>
+                                                    <li>
+                                                        <a href="javascript:void(0)" class="dropdown-item remove-item-btn"
+                                                            data-delete-url="{{ route('faqs.destroy', $faq->id) }}"
+                                                            onclick="setDeleteFormAction(this)"><i
+                                                                class="align-middle ph-trash me-1">
+                                                            </i> Remove</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

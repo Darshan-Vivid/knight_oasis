@@ -18,7 +18,6 @@
         </section>
         <!-- banner section end-->
 
-
         <section class="ko-faq-section">
             <div class="ko-container">
                 <h2>Frequently asked questions</h2>
@@ -44,4 +43,5 @@
             </div>
         </section>   
     </main>
+    
 <x-footer />

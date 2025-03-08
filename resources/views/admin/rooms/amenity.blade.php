@@ -65,7 +65,6 @@
                         </div>
                     </div>
 
-
                     <div class="mb-1 text-end">
                         @error('general')
                             <div class="invalid-response" style="display:flex">{{ $message }}</div>
@@ -85,7 +84,6 @@
         </div>
     </div>
 
-
     <div class="col-xl-6">
         <div class="card">
             <div class="card-header">
@@ -95,58 +93,57 @@
             <div class="card-body">
                 <p class="text-muted"> This is the list of all room amenities </p>
                 <div class="table-responsive">
-                    {{-- <table class="table mb-0 align-middle table-striped table-nowrap"> --}}
-                        <table id="fixed-header"
-                            class="table align-middle table-bordered dt-responsive nowrap table-striped"
-                            style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">ICON</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">status</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if(count($amenities) > 0)
-                                    @foreach ($amenities as $amenity)
-                                        <tr>
-                                            <td class="fw-medium">{{ $amenity->id }}</td>
-                                            <td><img src="{{ $amenity->icon }}" alt="icon" width="30" height="30"></td>
-                                            <td>{{ $amenity->name }}</td>
-                                            <td>
-                                                @if($amenity->status == 1)
-                                                    <span class="badge bg-success">enabled</span>
-                                                @else
-                                                    <span class="badge bg-danger">disabled</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <div class="dropdown position-static">
-                                                    <button class="btn btn-subtle-secondary btn-sm btn-icon" role="button"
-                                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="bi bi-three-dots-vertical"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-end">
-                                                        <li><a href="{{ route('amenities.edit', $amenity->id) }}"
-                                                                class="dropdown-item edit-item-btn"><i
-                                                                    class="align-middle ph-pencil me-1"></i>Edit</a></li>
-                                                        <li>
-                                                            <a href="javascript:void(0)" class="dropdown-item remove-item-btn"
-                                                                data-delete-url="{{ route('amenities.destroy', $amenity->id) }}"
-                                                                onclick="setDeleteFormAction(this)"><i
-                                                                    class="align-middle ph-trash me-1">
-                                                                </i> Remove</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @endif
-                            </tbody>
-                        </table>
+                    <table id="fixed-header"
+                        class="table align-middle table-bordered dt-responsive nowrap table-striped"
+                        style="width:100%">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">ICON</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">status</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(count($amenities) > 0)
+                                @foreach ($amenities as $amenity)
+                                    <tr>
+                                        <td class="fw-medium">{{ $amenity->id }}</td>
+                                        <td><img src="{{ $amenity->icon }}" alt="icon" width="30" height="30"></td>
+                                        <td>{{ $amenity->name }}</td>
+                                        <td>
+                                            @if($amenity->status == 1)
+                                                <span class="badge bg-success">enabled</span>
+                                            @else
+                                                <span class="badge bg-danger">disabled</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <div class="dropdown position-static">
+                                                <button class="btn btn-subtle-secondary btn-sm btn-icon" role="button"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="bi bi-three-dots-vertical"></i>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                    <li><a href="{{ route('amenities.edit', $amenity->id) }}"
+                                                            class="dropdown-item edit-item-btn"><i
+                                                                class="align-middle ph-pencil me-1"></i>Edit</a></li>
+                                                    <li>
+                                                        <a href="javascript:void(0)" class="dropdown-item remove-item-btn"
+                                                            data-delete-url="{{ route('amenities.destroy', $amenity->id) }}"
+                                                            onclick="setDeleteFormAction(this)"><i
+                                                                class="align-middle ph-trash me-1">
+                                                            </i> Remove</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

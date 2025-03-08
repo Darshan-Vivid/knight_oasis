@@ -1,6 +1,5 @@
 <x-header :title="'Login'" />
 
-
 <main>
     <section class="ko-loginRegister-section">
         <div class="ko-container">
@@ -13,7 +12,6 @@
                         {{ session('message') }}
                     </div>
                 @endif
-                
 
                     <form action="{{ route('auth.login') }}" method="POST">
                         @csrf

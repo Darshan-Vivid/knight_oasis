@@ -25,8 +25,6 @@
             <div class="ko-row">
                 <div class="ko-header-logo">
                     <a href="{{ route('view.home') }}" id="ko_header_logo_link">
-
-
                         <img src="{{ getSetting("site_logo_dark") }}" alt="logo">
                         <img src="{{ getSetting("site_logo_light") }}" style="display:none" alt="logo">
                     </a>

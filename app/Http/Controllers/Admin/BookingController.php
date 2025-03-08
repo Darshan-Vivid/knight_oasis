@@ -49,9 +49,7 @@ class BookingController extends Controller
 
     public function show_offline_booking()
     {
-
         $pay_methods = ['CASH'];
-
         $services = Service::where('status', 1)->get();
         $rooms = Room::select('id', 'slug', 'name')->get();
 
@@ -63,9 +61,15 @@ class BookingController extends Controller
             ]);
     }
 
+    public function change_pay_status(Request $request , int $bid){
+        $booking = Booking::findOrFail($bid);
+        Transaction::where('transaction_id', $booking->transaction_id)->update(['status'=>($request->pay_status)]);
+        
+        return redirect()->route('view.booking',$booking->id);
+    }
+
     public function store_offline_booking(Request $request)
     {
-
         $rules = [
             'guest_full_name' => 'required|string',
             'guest_email' => 'required|email',
@@ -172,7 +176,6 @@ class BookingController extends Controller
                 'rooms' => $rooms,
                 'services' => $services,
                 'pay_methods' => $pay_methods,
-
             ]);
     }
 
@@ -276,7 +279,6 @@ class BookingController extends Controller
             "quantity.min" => "At least 1 room require for process booking "
         ];
 
-
         $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
@@ -346,7 +348,6 @@ class BookingController extends Controller
                 return redirect()->back()->withErrors(['general' => 'Not enough rooms available between this dates.'])->withInput();
             }
 
-
             $room = Room::where('slug', '=', $request->room)->first();
             $ac = new AbandonedCart;
 
@@ -381,7 +382,6 @@ class BookingController extends Controller
             $check_out = new DateTime($request->check_out);
 
             $interval = $check_in->diff($check_out);
-
             $days = $interval->days;
 
             $total = $room->offer_price * $request->quantity;
@@ -467,6 +467,7 @@ class BookingController extends Controller
                     if (!$is_availavle) {
                         return redirect()->back()->withErrors(['general' => 'Not enough rooms available between this dates.']);
                     }
+
                     $rp = $room->offer_price;
                     $checkInDate = new DateTime($ac->check_in);
                     $checkOutDate = new DateTime($ac->check_out);
@@ -626,7 +627,6 @@ class BookingController extends Controller
                 $booking->customer_details = json_encode("{}", JSON_UNESCAPED_SLASHES);
                 $booking->customer_note = (isset($request->guest_note) && strlen($request->guest_note) > 0) ? $request->guest_note : json_encode("{}", JSON_UNESCAPED_SLASHES);
                 $booking->transaction_id = $transaction->transaction_id;
-               
 
                 if($transaction->method == 'CASH'){
                     $booking->save();
@@ -660,7 +660,6 @@ class BookingController extends Controller
                         $apiEndpoint = (env('PAYMENTS_MODE') === "PRODUCTION") ? env('CASHFREE_BASE_URL') : env('CASHFREE_SANDBOX_URL');
                         $apiKey = env('CASHFREE_APP_ID');
                         $apiSecret = env('CASHFREE_SECRET_KEY');
-                        
                         
                         $response = Http::withHeaders([
                             'Content-Type' => 'application/json',
@@ -730,14 +729,13 @@ class BookingController extends Controller
         
         $transaction = Transaction::where('transaction_id', $tid)->first();
         
-        
         if (!$transaction) {
             return response()->json(['message' => 'Transaction not found'], 404);
         }
         
         if (empty($transaction->mail_status)) {
 
-            $transaction->status = 2; //processong
+            $transaction->status = 2;
             $transaction->save();
             $booking = Booking::where('transaction_id', $tid)->first();
 
@@ -750,7 +748,6 @@ class BookingController extends Controller
             }
             Mail::to($user_email)->send(new BookingMail($booking->id));
         }
-
 
         return redirect()->route('view.home')->with([
             'success' => true,
@@ -779,7 +776,6 @@ class BookingController extends Controller
 
             $booking = Booking::where('transaction_id', $tid)->first();
             $user = User::find($booking->user_id);
-
 
             switch ($paymentStatus) {
                 case 'SUCCESS':
@@ -821,6 +817,7 @@ class BookingController extends Controller
                         $transaction->save();
                         Mail::to($user->email)->send(new BookingMail($booking->id));
                     }
+                    break;
             }
 
         } catch (Exception $e) {
@@ -840,7 +837,6 @@ class BookingController extends Controller
                 $transaction->save();
                 Mail::to($user->email)->send(new BookingMail($booking->id));
             }
-            
         }
         catch (Exception $e) {
             Storage::append('webhook_logs/webhook_error_log.txt', now() . " - ERROR: " . $e->getMessage() . " - Data: " . $request . PHP_EOL);

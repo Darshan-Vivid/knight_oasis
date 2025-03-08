@@ -45,20 +45,6 @@
                         <div class="ko-blog-ctn-wrap">
                             <p>{!! $blog->description !!}</p>
                         </div>
-                        {{-- <form action="#">
-                            <h3>Leave a Reply</h3>
-                            <p>Your email address will not be published. Required fields are marked *</p>
-                            <div class="ko-input-field">
-                                <input type="text" placeholder="Name*" required>
-                            </div>
-                            <div class="ko-input-field">
-                                <input type="email" placeholder="Email*" required>
-                            </div>
-                            <div class="ko-input-field">
-                                <textarea cols="45" rows="8" maxlength="65525" placeholder="Comment"></textarea>
-                            </div>
-                            <button class="ko-btn" type="submit">Post Comment</button>
-                        </form> --}}
                     </div>
                 </div>
                 <div class="ko-col-4">
@@ -80,16 +66,6 @@
                                 </div>
                             @endforeach
                         </div>
-                        {{-- <div class="ko-post-tags">
-                            <h3>Popular Tags</h3>
-                            <ul class="ko-post-tags-list">
-                                <li><a href="#">Application</a></li>
-                                <li><a href="#">Art</a></li>
-                                <li><a href="#">Design</a></li>
-                                <li><a href="#">Internet</a></li>
-                                <li><a href="#">Music</a></li>
-                            </ul>
-                        </div> --}}
                     </aside>
                 </div>
 
@@ -99,4 +75,5 @@
     <!-- singlePost section end -->
 
 </main>
+
 <x-footer />

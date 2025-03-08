@@ -56,4 +56,4 @@
 
     <!-- footer start -->
 
-    <x-footer />
+<x-footer />

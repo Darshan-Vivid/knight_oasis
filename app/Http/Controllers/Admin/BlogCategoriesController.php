@@ -77,9 +77,8 @@ class BlogCategoriesController extends Controller
     public function edit(string $id)
     {
         $edit_category = BlogCategories::findOrFail($id);
-
-
         $blog_categories = BlogCategories::all();
+        
         return view('admin.blogs.category')->with(['blog_categories'=>$blog_categories ,'edit_category' =>$edit_category ]);
     }
 

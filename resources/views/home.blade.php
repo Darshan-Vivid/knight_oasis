@@ -1,4 +1,5 @@
 <x-header :title="'Home'" />
+
     <main>
         <!-- ------------Hero section start------------ -->
         <section class="ko-hero-section">
@@ -253,4 +254,4 @@
     </script>
 @endif
 
-    <x-footer />
+<x-footer />

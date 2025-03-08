@@ -199,4 +199,5 @@
         get_states();
     });
     </script>
+    
 <x-footer />

@@ -156,9 +156,7 @@ class SettingController extends Controller
         }
 
         return redirect()->route('view.settings.about');
-        
     }
-
 
     public function save_home(Request $request){
 
