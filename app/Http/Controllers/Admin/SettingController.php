@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Amenity;
 use App\Models\Setting;
+use Illuminate\Support\Facades\File;
+use Carbon\Carbon;
 
 class SettingController extends Controller
 {
@@ -24,6 +26,67 @@ class SettingController extends Controller
         $settings = Setting::where('page','=','home')->get();
         return view('admin.settings.home')->with(["settings"=>$settings]);
     }
+
+    public function show_env()
+    {
+        $envPath = base_path('.env');
+        $envContent = File::exists($envPath) ? File::get($envPath) : '';
+
+        $envSettings = [];
+        foreach (explode("\n", $envContent) as $line) {
+            if (!empty($line) && strpos($line, '=') !== false) {
+                list($key, $value) = explode('=', $line, 2);
+                $envSettings[$key] = trim($value, '"');
+            }
+        }
+
+        return view('admin.settings.env', compact('envSettings'));
+    }
+
+    public function save_env(Request $request)
+    {
+
+        if($request->save_env != '1'){
+            return redirect()->route('view.settings.env');
+        }
+
+
+        $envPath = base_path('.env');
+        $backupFolder = base_path('ENV backups');
+
+        if (!File::exists($backupFolder)) {
+            File::makeDirectory($backupFolder, 0755, true);
+        }
+
+        $latestBackup = collect(File::files($backupFolder))
+            ->filter(fn($file) => str_contains($file->getFilename(), '.env('))
+            ->sortByDesc(fn($file) => $file->getMTime()) // Sort by modified time
+            ->first();
+
+        $shouldBackup = true;
+        if ($latestBackup) {
+            $lastModifiedTime = Carbon::createFromTimestamp($latestBackup->getMTime());
+            if (Carbon::now()->diffInSeconds($lastModifiedTime) <= 5) {
+                $shouldBackup = false;
+            }
+        }
+
+        if ($shouldBackup && File::exists($envPath)) {
+            $timestamp = Carbon::now()->format('Y-m-d_H-i-s');
+            $backupPath = $backupFolder . "/.env($timestamp)";
+            File::copy($envPath, $backupPath);
+        }
+
+        $envContent = '';
+        foreach ($request->env as $key => $value) {
+            $envContent .= $key . '="' . trim($value) . "\"\n";
+        }
+
+        File::put($envPath, $envContent);
+
+        return redirect()->route('view.settings.env');
+    }
+
 
     public function save_general(Request $request){
 

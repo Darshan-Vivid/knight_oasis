@@ -86,13 +86,17 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/rooms', RoomController::class)->names('rooms');
 
         Route::prefix('settings')->group(function () {
+
+            Route::get('/about-us', [SettingController::class, 'show_about_us'])->name('view.settings.about');
+            Route::post('/about_us', [SettingController::class, 'save_about_us'])->name('settings.about.save');
+
+            Route::get('/env', [SettingController::class, 'show_env'])->name('view.settings.env');
+            Route::post('/env', [SettingController::class, 'save_env'])->name('settings.env.save');
+            
             Route::resource('/faqs', FaqController::class)->names('faqs');
             
             Route::get('/general', [SettingController::class, 'show_general'])->name('view.settings.general');
             Route::post('/general', [SettingController::class, 'save_general'])->name('settings.general.save');
-
-            Route::get('/about-us', [SettingController::class, 'show_about_us'])->name('view.settings.about');
-            Route::post('/about_us', [SettingController::class, 'save_about_us'])->name('settings.about.save');
             
             Route::get('/home', [SettingController::class, 'show_home'])->name('view.settings.home');
             Route::post('/home', [SettingController::class, 'save_home'])->name('settings.home.save');
