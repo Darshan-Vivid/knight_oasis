@@ -67,7 +67,7 @@
                                     @php
                                         $amenity = App\Models\Amenity::find($selected_amenity)
                                     @endphp
-                                    @if($amenity->id)
+                                    @if(isset($amenity->id))
                                         <li>
                                             <img src="{{ $amenity->icon }}" class="ko-room-facilities-img"/> 
                                             <div class="ko-romfacility-item-cnt">
