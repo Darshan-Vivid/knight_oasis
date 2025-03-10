@@ -147,7 +147,7 @@
                             <ul>
                                 <li class="ko-payment-roomDetails">
                                     <div class="ko-payemntRoom-img">
-                                        <img src="{{ $room->feature_img }}" alt="room img" />
+                                        <img src="{{ publicPath($room->feature_img) }}" alt="room img" />
                                         <span class="ko-room-qty">{{ $ac->room_count }}</span>
                                     </div>
                                     <div class="ko-room-info">

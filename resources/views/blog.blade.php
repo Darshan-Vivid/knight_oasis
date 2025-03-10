@@ -24,7 +24,7 @@
             <div class="ko-row">
                 <div class="ko-col-8">
                     <div class="ko-singlepost-graphic">
-                        <img src="{{ publicPath($blog->image) }}" alt="post-img" />
+                        <img src="{{ publicPath(publicPath($blog->image)) }}" alt="post-img" />
                     </div>
                     <div class="ko-singlepost-content">
                         <div class="ko-auth-details">
@@ -55,7 +55,7 @@
                                 <div class="ko-recentpost-card">
                                     <div class="ko-recentpost-graphic">
                                         <a href="{{ route('blog.list', $recentBlog->slug) }}">
-                                            <img src="{{ publicPath($recentBlog->image) }}" alt="{{ $recentBlog->title }}">
+                                            <img src="{{ publicPath(publicPath($recentBlog->image)) }}" alt="{{ $recentBlog->title }}">
                                         </a>
                                     </div>
                                     <div class="ko-recentpost-content">

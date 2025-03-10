@@ -143,7 +143,7 @@
                                             <td>
                                                 <div class="ko-cart-room-img">
                                                     <a href="{{ $room_url }}" target="_blank">
-                                                        <img src="{{ $room_profile }}" alt="room img">
+                                                        <img src="{{ publicPath($room_profile) }}" alt="room img">
                                                     </a>
                                                 </div>
                                             </td>

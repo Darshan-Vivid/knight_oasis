@@ -36,7 +36,7 @@
                                         <td>
                                             <div class="ko-cart-room-img">
                                                 <a href="{{ route('view.room', $room->slug) }}" target="_blank">
-                                                    <img src="{{ $room->feature_img }}" alt="room img" />
+                                                    <img src="{{ publicPath($room->feature_img) }}" alt="room img" />
                                                 </a>
                                             </div>
                                         </td>

@@ -30,7 +30,7 @@
                     <div class="ko-col-6">
                         <div class="ko-hoh-graphic-cards">
                             <div class="ko-hoh-inner-card">
-                                <img src="{{ getSetting('about_welcome_img_1') }}"/>
+                                <img src="{{ publicPath(getSetting('about_welcome_img_1')) }}"/>
                             </div>
                             <div class="ko-hoh-inner-card">
                                 <div class="ko-menu-selection">
@@ -45,7 +45,7 @@
                                 </div>
                             </div>
                             <div class="ko-hoh-inner-card">
-                                <img src="{{ getSetting('about_welcome_img_2') }}" alt="fooddish" />
+                                <img src="{{ publicPath(getSetting('about_welcome_img_2')) }}" alt="fooddish" />
                             </div>
                         </div>
                     </div>
@@ -69,7 +69,7 @@
                                     @endphp
                                     @if(isset($amenity->id))
                                         <li>
-                                            <img src="{{ $amenity->icon }}" class="ko-room-facilities-img"/> 
+                                            <img src="{{ publicPath($amenity->icon) }}" class="ko-room-facilities-img"/> 
                                             <div class="ko-romfacility-item-cnt">
                                                 <h3>{{ $amenity->name }}</h3>
                                             </div>
@@ -81,8 +81,8 @@
                     </div>
                     <div class="ko-col-6">
                         <div class="ko-romfacility-graphic">
-                            <img src="{{ getSetting('about_amenity_img_1') }}" alt="romimg" />
-                            <img src="{{ getSetting('about_amenity_img_2') }}" alt="romimg" />
+                            <img src="{{ publicPath(getSetting('about_amenity_img_1')) }}" alt="romimg" />
+                            <img src="{{ publicPath(getSetting('about_amenity_img_2')) }}" alt="romimg" />
                         </div>
                     </div>
                 </div>

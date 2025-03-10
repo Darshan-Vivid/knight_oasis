@@ -3,7 +3,7 @@
         <div class="navbar-brand-box">
             <a href="{{ route('view.admin.dashboard') }}" class="logo logo-light">
                 <span class="logo-lg">
-                    <img class="mt-3"  src="{{ getSetting("site_logo_light") }}" alt="" height="80">
+                    <img class="mt-3"  src="{{ publicPath(getSetting("site_logo_light")) }}" alt="" height="80">
                 </span>
             </a>
             <button type="button" class="p-0 btn btn-sm fs-3xl header-item float-end btn-vertical-sm-hover"

@@ -41,12 +41,12 @@
                         @foreach ($gallery as $url)
                             <li class="splide__slide">
                                 <div class="ko-rooms">
-                                    <img src="{{ $url }}" alt="room-img" />
+                                    <img src="{{ publicPath($url) }}" alt="room-img" />
                                 </div>
                             </li>
                             <li class="splide__slide">
                                 <div class="ko-rooms">
-                                    <img src="{{ $url }}" alt="room-img" />
+                                    <img src="{{ publicPath($url) }}" alt="room-img" />
                                 </div>
                             </li>
                             @php
@@ -57,7 +57,7 @@
                         @foreach ($gallery as $url)
                             <li class="splide__slide">
                                 <div class="ko-rooms">
-                                    <img src="{{ $url }}" alt="room-img" />
+                                    <img src="{{ publicPath($url) }}" alt="room-img" />
                                 </div>
                             </li>
                         @endforeach
@@ -87,7 +87,7 @@
                                         $amenity = App\Models\Amenity::find($aid);
                                     @endphp
                                     @if ($amenity->id)
-                                        <li><img src="{{ $amenity->icon }}" width="35" height="35" class="mr-3" />
+                                        <li><img src="{{ publicPath($amenity->icon) }}" width="35" height="35" class="mr-3" />
                                             {{ $amenity->name }}</li>
                                     @endif
                                 @endforeach

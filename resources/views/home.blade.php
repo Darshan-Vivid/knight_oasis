@@ -4,7 +4,7 @@
         <!-- ------------Hero section start------------ -->
         <section class="ko-hero-section">
             <div class="ko-hero-img">
-                <img src="{{ getSetting('home_top_section') }}" alt="hero-img" />
+                <img src="{{ publicPath(getSetting('home_top_section')) }}" alt="hero-img" />
             </div>
             <div class="ko-container">
 
@@ -109,10 +109,10 @@
                     <div class="ko-about-col">
                         <div class="ko-about-main-img-inner">
                             <div class="ko-about-main-img">
-                                <img src="{{ getSetting('home_middle_img_1') }}" alt="img-main" class="ko-about-img-1" />
+                                <img src="{{ publicPath(getSetting('home_middle_img_1')) }}" alt="img-main" class="ko-about-img-1" />
                             </div>
                             <div class="ko-about-main-img-2">
-                                <img src="{{ getSetting('home_middle_img_2') }}" alt="img-2" class="ko-about-img-2" />
+                                <img src="{{ publicPath(getSetting('home_middle_img_2')) }}" alt="img-2" class="ko-about-img-2" />
                             </div>
                         </div>
 
@@ -206,7 +206,7 @@
                     
                         <div class="ko-facilities-col">
                             <div class="ko-facilities-imgblock">
-                                <img src="{{ $blog->image }}" alt="facilities" />
+                                <img src="{{ publicPath($blog->image) }}" alt="facilities" />
                                 <h4>{{ $blog->title }}</h4>
                             </div>
                             <div class="ko-facilities-content">

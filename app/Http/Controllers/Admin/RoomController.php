@@ -176,7 +176,7 @@ class RoomController extends Controller
         $fileName = md5(time().rand(100000,999999)).'.' . $file->getClientOriginalExtension();
         $file->move($directoryPath, $fileName);
 
-        return url($filePath . $fileName);
+        return $filePath . $fileName;
     }
 
 

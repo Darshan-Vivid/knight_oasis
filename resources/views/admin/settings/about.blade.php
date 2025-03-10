@@ -70,7 +70,7 @@
                                     @elseif($setting->type == 'img')
                                         <tr>
                                             <td data-slug="{{ $setting->slug }}">{{ $setting->name }}</td>
-                                            <td><img src="{{ $setting->value }}" alt="{{ $setting->slug }}" height="100"></td>
+                                            <td><img src="{{ publicPath($setting->value) }}" alt="{{ $setting->slug }}" height="100"></td>
                                             <td><button type="button" class="btn btn-sm btn-light ko_settings_btn" id="ko_settings_table_{{ $setting->type }}">Edit</button></td>
                                         </tr>
                                     @elseif($setting->type == 'textarea')

@@ -26,7 +26,7 @@
                     <div class="ko-blog-post-inner-card">
                         <div class="ko-blog-post-img">
                             <a href="{{ route('blog.list', $blog->slug) }}">
-                                <img src="{{ publicPath($blog->image) }}" alt="{{ $blog->title }}" />
+                                <img src="{{ publicPath(publicPath($blog->image)) }}" alt="{{ $blog->title }}" />
                             </a>
                             <a class="ko-catagory" href="{{ route('blog.list', $blog->slug) }}">@foreach ($blog->categories as $category)
                                 {{ $category->name }}@if(!$loop->last), @endif

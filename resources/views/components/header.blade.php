@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="shortcut icon" href="{{ getSetting("site_icon") }}">
+    <link rel="shortcut icon" href="{{ publicPath(getSetting("site_icon")) }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ publicPath('assets/css/custom-style.css') }}?version={{ rand(10,99) }}.{{ rand(10,99) }}.{{ rand(100,999) }} ">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" />
@@ -25,8 +25,8 @@
             <div class="ko-row">
                 <div class="ko-header-logo">
                     <a href="{{ route('view.home') }}" id="ko_header_logo_link">
-                        <img src="{{ getSetting("site_logo_dark") }}" alt="logo">
-                        <img src="{{ getSetting("site_logo_light") }}" style="display:none" alt="logo">
+                        <img src="{{ publicPath(getSetting("site_logo_dark")) }}" alt="logo">
+                        <img src="{{ publicPath(getSetting("site_logo_light")) }}" style="display:none" alt="logo">
                     </a>
                 @if (Route::is('login') || Route::is('view.signup') || Route::is('') || Route::is('view.forget_password') || Route::is('view.otp_verify') || Route::is('view.new_password') || Route::is('auth.logout') || Route::is('view.home'))
                     <input type="hidden" value="0" id="ko_header_allow_b_w" />

@@ -61,7 +61,8 @@ class AmenityController extends Controller
                         mkdir($directoryPath, 0777, true);
                     }
                     $file->move($directoryPath, $fileName);
-                    $fileUrl = url($filePath . $fileName);
+                    $fileUrl = $filePath . $fileName;
+                   
 
                     $room_amenity = Amenity::find($request->edit_amenity_id)->update(['name' =>$request->name ,'icon' =>$fileUrl,'status'=>$request->status]);
                 }else{
@@ -77,8 +78,7 @@ class AmenityController extends Controller
                     mkdir($directoryPath, 0777, true);
                 }
                 $file->move($directoryPath, $fileName);
-                $fileUrl = url($filePath . $fileName);
-
+                $fileUrl = $filePath . $fileName;
                 $room_amenity = new Amenity;
                 $room_amenity->name = $request->name;
                 $room_amenity->status = $request->status;

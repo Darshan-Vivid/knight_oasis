@@ -11,7 +11,7 @@
                 <div class="ko-footer-wiget">
                     <div class="ko-inner-footer-content">
                         <div class="ko-footer-logo">
-                            <img src="{{ getSetting("site_logo_light") }}" alt="footer logo" />
+                            <img src="{{ publicPath(getSetting("site_logo_light")) }}" alt="footer logo" />
                         </div>
                         <ul class="ko-footer-social">
                             @php

@@ -132,7 +132,7 @@ class SettingController extends Controller
                 mkdir($directoryPath, 0777, true);
             }
             $file->move($directoryPath, $fileName);
-            $fileUrl = url($filePath . $fileName);
+            $fileUrl = $filePath . $fileName;
             Setting::where('slug', '=', 'site_icon')->update(['value' => $fileUrl]);
         }
         if(isset($request->site_logo_light) && $request->hasFile('site_logo_light')){
@@ -144,7 +144,7 @@ class SettingController extends Controller
                 mkdir($directoryPath, 0777, true);
             }
             $file->move($directoryPath, $fileName);
-            $fileUrl = url($filePath . $fileName);
+            $fileUrl = $filePath . $fileName;
             Setting::where('slug', '=', 'site_logo_light')->update(['value' => $fileUrl]);
         }
         if(isset($request->site_logo_dark) && $request->hasFile('site_logo_dark')){
@@ -156,7 +156,7 @@ class SettingController extends Controller
                 mkdir($directoryPath, 0777, true);
             }
             $file->move($directoryPath, $fileName);
-            $fileUrl = url($filePath . $fileName);
+            $fileUrl = $filePath . $fileName;
             Setting::where('slug', '=', 'site_logo_dark')->update(['value' => $fileUrl]);
         }
 
@@ -218,7 +218,7 @@ class SettingController extends Controller
             if ($value instanceof \Illuminate\Http\UploadedFile) {
                 $fileName = time() . '_' . $value->getClientOriginalName();
                 $value->move($directoryPath, $fileName);
-                $fileUrl = url($filePath . $fileName);
+                $fileUrl = $filePath . $fileName;
                 Setting::where('slug', $slug)->update(['value' => $fileUrl]);
             }
         }
@@ -239,7 +239,7 @@ class SettingController extends Controller
             if ($value instanceof \Illuminate\Http\UploadedFile) {
                 $fileName = time() . '_' . $value->getClientOriginalName();
                 $value->move($directoryPath, $fileName);
-                $fileUrl = url($filePath . $fileName);
+                $fileUrl = $filePath . $fileName;
                 Setting::where('slug', $slug)->update(['value' => $fileUrl]);
             }
         }

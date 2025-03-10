@@ -110,7 +110,7 @@
                                 @foreach ($amenities as $amenity)
                                     <tr>
                                         <td class="fw-medium">{{ $amenity->id }}</td>
-                                        <td><img src="{{ $amenity->icon }}" alt="icon" width="30" height="30"></td>
+                                        <td><img src="{{ publicPath($amenity->icon) }}" alt="icon" width="30" height="30"></td>
                                         <td>{{ $amenity->name }}</td>
                                         <td>
                                             @if($amenity->status == 1)

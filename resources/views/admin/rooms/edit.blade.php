@@ -260,7 +260,7 @@
                             <div class="flex-wrap mt-3 d-flex" data-url="{{ route('rooms.media.remove') }}" data-id="{{ $room->id }}" data-token="{{ csrf_token() }}" data-type="featured">
                                 <div class="m-2 position-relative">
                                     @if ($room->feature_img)
-                                        <img id="imagePreview" src="{{ $room->feature_img }}" alt="Featured Image Preview" class="img-fluid admin-media-preview">
+                                        <img id="imagePreview" src="{{ publicPath($room->feature_img) }}" alt="Featured Image Preview" class="img-fluid admin-media-preview">
                                     @else
                                         <span> No Featured Found </span>
                                     @endif
@@ -279,7 +279,7 @@
                                 <div class="m-2 position-relative">
                                     @if ($room->tour_video)
                                         <video id="videoPreview" controls class="img-fluid admin-media-preview">
-                                            <source id="videoSource" src="{{ $room->tour_video }}" type="video/mp4">
+                                            <source id="videoSource" src="{{ publicPath($room->tour_video) }}" type="video/mp4">
                                             Your browser does not support the video tag.
                                         </video>
                                         <button type="button" class="top-0 btn btn-danger btn-sm position-absolute end-0 remove-room-media" data-media="{{ $room->tour_video }}">X</button>
@@ -301,7 +301,7 @@
                                 @if (count($edit_galleryImages) > 0)
                                     @foreach ($edit_galleryImages as $edit_galleryImage)
                                         <div class="m-2 position-relative">
-                                            <img id="imagePreview" src="{{ $edit_galleryImage }}" alt="Gallery Images Preview" class="img-fluid admin-media-preview">
+                                            <img id="imagePreview" src="{{ publicPath($edit_galleryImage) }}" alt="Gallery Images Preview" class="img-fluid admin-media-preview">
                                             <button type="button" class="top-0 btn btn-danger btn-sm position-absolute end-0 remove-room-media" data-media="{{ $edit_galleryImage }}">X</button>
                                         </div>
                                     @endforeach
