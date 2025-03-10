@@ -17,7 +17,7 @@
 @endphp
 
 <main>
-    <section class="ko-banner" style="background-image: url('{{ $room->feature_img }}');">
+    <section class="ko-banner" style="background-image: url('{{ publicPath($room->feature_img) }}');">
         <div class="ko-container">
             <div class="ko-banner-content">
                 <h2>{{ $room->name }}</h2>
