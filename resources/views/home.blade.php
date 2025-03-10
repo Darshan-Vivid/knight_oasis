@@ -211,7 +211,6 @@
                             </div>
                             <div class="ko-facilities-content">
                                 <h3>{{ $blog->title }}</h3>
-                                <p></p>
                                 <a href="{{ route('blog.list', $blog->slug) }}" class="ko-btn">Read More</a>
                             </div>
                         </div>
