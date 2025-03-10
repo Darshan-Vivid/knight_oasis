@@ -113,14 +113,15 @@ $(document).ready(function () {
         if (button.attr("id") == "ko_settings_table_textarea") {
             let textareaName = currentSlug;
             let textareaSelector = 'textarea[name="' + textareaName + '"]';
-        
-            valueCell.html(
-                '<textarea name="' + textareaName + '" class="form-control" required>' + currentValue + '</textarea>'
-            );
 
+            valueCell.html(
+                '<textarea name="' + textareaName + '" class="form-control" required>' + escapeHtml(currentValue) + '</textarea>'
+            );
+            
             if (!textareaName.includes("custom_script")) {
                 initTinyMCE(textareaSelector);
-            } 
+            }
+            
         }
         
 
@@ -266,6 +267,15 @@ $(document).ready(function () {
         $('.booking_form_services').prop('checked', false).prop('disabled', false);
         get_room_services();
     });
+
+    function escapeHtml(text) {
+        return text.replace(/&/g, "&amp;")
+                   .replace(/</g, "&lt;")
+                   .replace(/>/g, "&gt;")
+                   .replace(/"/g, "&quot;")
+                   .replace(/'/g, "&#039;");
+    }
+    
 
     function initTinyMCE(selector) {
         tinymce.init({
