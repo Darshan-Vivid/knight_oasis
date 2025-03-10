@@ -496,6 +496,7 @@ function updateGrandTotal() {
 
 function Scroll() {
     let logoLink = document.getElementById("ko_header_logo_link");
+    let allow_b_w = document.getElementById("ko_header_allow_b_w");
     let darkLogo = logoLink.querySelector("img:nth-child(1)");
     let lightLogo = logoLink.querySelector("img:nth-child(2)");
     let menuLinks = document.querySelectorAll(".ko-header-menu a");
@@ -504,6 +505,7 @@ function Scroll() {
     var windowScroll = window.scrollY;
     var bodyScroll = document.body.scrollTop;
     var checkScroll = windowScroll > bodyScroll ? windowScroll : bodyScroll;
+    if (Number(allow_b_w.value) == 1) {
         if (checkScroll > elementPosition) {
             document.body.classList.add("sticky-mode");
             darkLogo.style.display = "block";
@@ -525,7 +527,17 @@ function Scroll() {
                 }
             });
         }
-
+    } else {
+        document.body.classList.add("sticky-mode");
+        darkLogo.style.display = "block";
+        lightLogo.style.display = "none";
+        menuLinks.forEach((link, index) => {
+            if (index != menuLinks.length - 1) {
+                link.classList.add("ko-header-text-dark");
+                link.classList.remove("ko-header-text-light");
+            }
+        });
+    }
 }
 
 function loginPassword() {
