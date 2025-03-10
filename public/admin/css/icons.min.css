@@ -1,17 +1,48 @@
 @charset "UTF-8";
 @font-face {
     font-family: Material Design Icons;
-    src: url(/icons/materialdesignicons-webfont.eot?v=6.5.95);
-    src: url(/icons/materialdesignicons-webfont.eot?#iefix&v=6.5.95)
+    src: url(/public/admin/icons/materialdesignicons-webfont.eot?v=6.5.95);
+    src: url(/public/admin/icons/materialdesignicons-webfont.eot?#iefix&v=6.5.95)
             format("embedded-opentype"),
-        url(/icons/materialdesignicons-webfont.woff2?v=6.5.95)
+        url(/public/admin/icons/materialdesignicons-webfont.woff2?v=6.5.95)
             format("woff2"),
-        url(/icons/materialdesignicons-webfont.woff?v=6.5.95)
+        url(/public/admin/icons/materialdesignicons-webfont.woff?v=6.5.95)
             format("woff"),
-        url(/icons/materialdesignicons-webfont.ttf?v=6.5.95)
+        url(/public/admin/icons/materialdesignicons-webfont.ttf?v=6.5.95)
             format("truetype");
     font-weight: 400;
     font-style: normal;
+}
+@font-face {
+    font-display: block;
+    font-family: bootstrap-icons;
+    src: url(/public/admin/icons/bootstrap-icons.woff2?24e3eb84d0bcaf83d77f904c78ac1f47)
+            format("woff2"),
+        url(/public/admin/icons/bootstrap-icons.woff?24e3eb84d0bcaf83d77f904c78ac1f47)
+            format("woff");
+}
+@font-face {
+    font-family: remixicon;
+    src: url(/public/admin/icons/remixicon.eot?t=1590207869815);
+    src: url(/public/admin/icons/remixicon.eot?t=1590207869815#iefix)
+            format("embedded-opentype"),
+        url(/public/admin/icons/remixicon.woff2?t=1590207869815) format("woff2"),
+        url(/public/admin/icons/remixicon.woff?t=1590207869815) format("woff"),
+        url(/public/admin/icons/remixicon.ttf?t=1590207869815) format("truetype"),
+        url(/public/admin/icons/remixicon.svg?t=1590207869815#remixicon) format("svg");
+    font-display: swap;
+}
+@font-face {
+    font-family: Phosphor;
+    src: url(/public/admin/icons/Phosphor.eot);
+    src: url(/public/admin/icons/Phosphor.eot) format("embedded-opentype"),
+        url(/public/admin/icons/Phosphor.woff2) format("woff2"),
+        url(/public/admin/icons/Phosphor.woff) format("woff"),
+        url(/public/admin/icons/Phosphor.ttf) format("truetype"),
+        url(/public/admin/icons/Phosphor.svg?#Phosphor) format("svg");
+    font-weight: 400;
+    font-style: normal;
+    font-display: block;
 }
 .mdi:before,
 .mdi-set {
@@ -25001,17 +25032,7 @@
 .bxs-zoom-out:before {
     content: "";
 }
-@font-face {
-    font-family: remixicon;
-    src: url(/icons/remixicon.eot?t=1590207869815);
-    src: url(/icons/remixicon.eot?t=1590207869815#iefix)
-            format("embedded-opentype"),
-        url(/icons/remixicon.woff2?t=1590207869815) format("woff2"),
-        url(/icons/remixicon.woff?t=1590207869815) format("woff"),
-        url(/icons/remixicon.ttf?t=1590207869815) format("truetype"),
-        url(/icons/remixicon.svg?t=1590207869815#remixicon) format("svg");
-    font-display: swap;
-}
+
 [class^="ri-"],
 [class*=" ri-"] {
     font-family: remixicon !important;
@@ -31885,14 +31906,6 @@
 .ri-zzz-line:before {
     content: "";
 }
-@font-face {
-    font-display: block;
-    font-family: bootstrap-icons;
-    src: url(/icons/bootstrap-icons.woff2?24e3eb84d0bcaf83d77f904c78ac1f47)
-            format("woff2"),
-        url(/icons/bootstrap-icons.woff?24e3eb84d0bcaf83d77f904c78ac1f47)
-            format("woff");
-}
 .bi:before,
 [class^="bi-"]:before,
 [class*=" bi-"]:before {
@@ -37894,18 +37907,6 @@
 }
 .bi-wikipedia:before {
     content: "";
-}
-@font-face {
-    font-family: Phosphor;
-    src: url(/icons/Phosphor.eot);
-    src: url(/icons/Phosphor.eot) format("embedded-opentype"),
-        url(/icons/Phosphor.woff2) format("woff2"),
-        url(/icons/Phosphor.woff) format("woff"),
-        url(/icons/Phosphor.ttf) format("truetype"),
-        url(/icons/Phosphor.svg?#Phosphor) format("svg");
-    font-weight: 400;
-    font-style: normal;
-    font-display: block;
 }
 [class^="ph-"],
 [class*=" ph-"] {
