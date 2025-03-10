@@ -27,6 +27,11 @@ class SettingController extends Controller
         return view('admin.settings.home')->with(["settings"=>$settings]);
     }
 
+    public function show_pages(Request $request){
+        $settings = Setting::where('page','=','user-all')->get();
+        return view('admin.settings.pages')->with(["settings"=>$settings]);
+    }
+
     public function show_env()
     {
         $envPath = base_path('.env');
@@ -299,4 +304,16 @@ class SettingController extends Controller
         
         return redirect()->route('view.settings.home');
     }
+
+    public function save_pages(Request $request) {
+        foreach ($request->all() as $key => $value) {
+            Setting::where('slug', $key)->exists()
+                ? Setting::where('slug', $key)->update(['value' => $value]) 
+                : null;
+        }
+    
+        return redirect()->route('view.settings.pages');
+    }
+    
+
 }

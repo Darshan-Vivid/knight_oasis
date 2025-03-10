@@ -14,16 +14,16 @@
         </div>
     </div>
 </footer>
-<script src="{{ URL::asset('admin/libs/list.js/list.min.js') }}"></script>
-<script src="{{ URL::asset('admin/libs/list.pagination.js/list.pagination.min.js') }}"></script>
-<script src="{{ URL::asset('admin/libs/sweetalert2/sweetalert2.min.js') }}"></script>
-<script src="{{ URL::asset('admin/libs/dropzone/dropzone-min.js') }}"></script>
-{{-- <script src="{{ URL::asset('admin/js/pages/ecommerce-product-list.init.js') }}"></script> --}}
-<script src="{{ URL::asset('admin/js/app.js') }}?version={{ rand(10,99) }}.{{ rand(10,99) }}.{{ rand(100,999) }}"></script>
-<script src="{{ URL::asset('assets/js/admin-script.js') }}?version={{ rand(10,99) }}.{{ rand(10,99) }}.{{ rand(100,999) }}"></script>
+<script src="{{ publicPath('admin/libs/list.js/list.min.js') }}"></script>
+<script src="{{ publicPath('admin/libs/list.pagination.js/list.pagination.min.js') }}"></script>
+<script src="{{ publicPath('admin/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+<script src="{{ publicPath('admin/libs/dropzone/dropzone-min.js') }}"></script>
+{{-- <script src="{{ publicPath('admin/js/pages/ecommerce-product-list.init.js') }}"></script> --}}
+<script src="{{ publicPath('admin/js/app.js') }}?version={{ rand(10,99) }}.{{ rand(10,99) }}.{{ rand(100,999) }}"></script>
+<script src="{{ publicPath('assets/js/admin-script.js') }}?version={{ rand(10,99) }}.{{ rand(10,99) }}.{{ rand(100,999) }}"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-<script src="{{ asset("admin/js/pages/datatables.init.js") }}"></script>
+<script src="{{ publicPath("admin/js/pages/datatables.init.js") }}"></script>
 </div>
 </div>
 </body>

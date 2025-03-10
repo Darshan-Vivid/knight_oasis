@@ -6,7 +6,7 @@
             <div class="card-body">
                 <div class="avatar-sm float-end">
                     <div class="avatar-title bg-primary-subtle text-primary fs-3xl rounded p-3">
-                        <img src="{{ asset('assets/images/total-b.png') }}" class="w-100" />
+                        <img src="{{ publicPath('assets/images/total-b.png') }}" class="w-100" />
                     </div>
                 </div>
                 <h4>{{ $bookingCount }}</h4>
@@ -23,7 +23,7 @@
             <div class="card-body">
                 <div class="avatar-sm float-end">
                     <div class="avatar-title bg-secondary-subtle text-secondary fs-3xl rounded p-3">
-                        <img src="{{ asset('assets/images/total-r.png') }}" class="w-100" />
+                        <img src="{{ publicPath('assets/images/total-r.png') }}" class="w-100" />
                     </div>
                 </div>
                 <h4>₹<span>{{ $totalAmount }}</span></h4>
@@ -40,7 +40,7 @@
             <div class="card-body">
                 <div class="avatar-sm float-end">
                     <div class="avatar-title bg-danger-subtle text-danger fs-3xl rounded p-3">
-                        <img src="{{ asset('assets/images/monthly-b.png') }}" class="w-100" />
+                        <img src="{{ publicPath('assets/images/monthly-b.png') }}" class="w-100" />
                     </div>
                 </div>
                 <h4>{{ $month_bookingCount }}</h4>
@@ -57,7 +57,7 @@
             <div class="card-body">
                 <div class="avatar-sm float-end">
                     <div class="avatar-title bg-success-subtle text-success fs-3xl rounded p-3">
-                        <img src="{{ asset('assets/images/total-r.png') }}" class="w-100" />
+                        <img src="{{ publicPath('assets/images/total-r.png') }}" class="w-100" />
                     </div>
                 </div>
                 <h4>₹<span>{{ $month_totalAmount }}</span></h4>

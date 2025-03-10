@@ -96,5 +96,5 @@
     </div>
 </div>
 
-<script src="{{ URL::asset('admin/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
+<script src="{{ publicPath('admin/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
 <x-admin.footer />

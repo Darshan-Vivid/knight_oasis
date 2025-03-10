@@ -50,7 +50,7 @@ Route::middleware(['auth', 'role:admin|user'])->group(function () {
     Route::post('/update-profile', [AuthController::class, 'profile_update'])->name('profile.update');
 });
 
-Route::get('/blog', [BlogController::class, 'view_blog'])->name('view.blog');
+Route::get('/blogs', [BlogController::class, 'view_blog'])->name('view.blog');
 Route::get('/blog/{slug}', [BlogController::class, 'blog_list'])->name('blog.list');
 
 Route::get('/rooms', [RedirectController::class, 'show_rooms'])->name('view.rooms');
@@ -100,6 +100,11 @@ Route::middleware(['auth'])->group(function () {
             
             Route::get('/home', [SettingController::class, 'show_home'])->name('view.settings.home');
             Route::post('/home', [SettingController::class, 'save_home'])->name('settings.home.save');
+
+            Route::get('/pages', [SettingController::class, 'show_pages'])->name('view.settings.pages');
+            Route::post('/pages', [SettingController::class, 'save_pages'])->name('settings.pages.save');
+
+
         });
 
         Route::get('/offline-booking', [BookingController::class, 'show_offline_booking'])->name('view.offline_booking');

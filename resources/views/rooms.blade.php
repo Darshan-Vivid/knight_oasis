@@ -1,16 +1,16 @@
-<x-header :title="'Rooms'" />
+<x-header :title="getSetting('page_rooms_meta_title')" />
 
     <main>
         <!-- banner section -->
         <section class="ko-banner" style="background-image: url('assets/images/cart-banner.webp');">
             <div class="ko-container">
                 <div class="ko-banner-content">
-                    <h2>Our Rooms</h2>
-                    <p>Indulge in the ultimate blend of elegance and comfort in our meticulously designed rooms. Choose your room today.</p>
+                    <h2>{{ getSetting('page_rooms_heading') }}</h2>
+                    {!! getSetting('page_rooms_description') !!}
                     <nav>
                         <ol class="ko-banner-list">
-                            <li><a href="{{ route('view.home') }}">Home</a></li>
-                            <li><a>Rooms</a></li>
+                            <li><a href="{{ route('view.home') }}">{{ getSetting('page_home_meta_title') }}</a></li>
+                            <li><a>{{ getSetting('page_rooms_meta_title') }}</a></li>
                         </ol>
                     </nav>
                 </div>
@@ -25,7 +25,7 @@
                         @foreach ($rooms as $room)
                             <div class="ko-col-4">
                                 <div class="ko-roomitem-inner">
-                                    <img src="{{ asset($room->feature_img) }}" alt="Thumbnail" class="thumbnail">
+                                    <img src="{{ publicPath($room->feature_img) }}" alt="Thumbnail" class="thumbnail">
                                     <div class="ko-roompricing-info">
                                         <div class="ko-roompricing-infoinner">
                                             <div class="label">From</div>

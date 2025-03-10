@@ -178,7 +178,7 @@
                             <p class="text-muted mb-0">Address: <b>{{ $guest['address'] }}</b></p>
                         </div>
                         <div class="flex-shrink-0">
-                            <img src="{{ asset("admin/images/Customer-Detail.webp")}}" class="avatar-sm rounded img-thumbnail">
+                            <img src="{{ publicPath("admin/images/Customer-Detail.webp")}}" class="avatar-sm rounded img-thumbnail">
                         </div>
                     </div>
                 </div>
@@ -215,7 +215,7 @@
                             <p class="text-muted mb-1">Time: <b>{{ $transection->created_at }}</b></p>
                         </div>
                         <div class="flex-grow-1 text-end">
-                            <img src="{{ asset("admin/images/Transection-Detail.png")}}" class="avatar-sm rounded img-thumbnail">
+                            <img src="{{ publicPath("admin/images/Transection-Detail.png")}}" class="avatar-sm rounded img-thumbnail">
                             <button class="btn btn-primary mt-2" id="booking_update_payment_status" data-bs-toggle="modal" data-bs-target="#myModal">Update Status</button>
                         </div>
                     </div>

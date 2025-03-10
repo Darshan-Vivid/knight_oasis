@@ -1,4 +1,4 @@
-<x-header :title="'Home'" />
+<x-header :title="getSetting('page_home_meta_title')" />
 
     <main>
         <!-- ------------Hero section start------------ -->
@@ -177,7 +177,7 @@
                             <div class="ko-accomodation-card">
                                 <div class="ko-accomodation-inner-card">
                                     <div class="ko-accomodation-graphic">
-                                        <a href="{{ route('view.room', $room->slug ) }}"><img src="{{ asset($room->feature_img) }}" alt="room-img" /></a>
+                                        <a href="{{ route('view.room', $room->slug ) }}"><img src="{{ publicPath($room->feature_img) }}" alt="room-img" /></a>
                                     </div>
                                     <div class="ko-accomodation-card-content">
                                         <h2>{{ $room->name }}</h2>

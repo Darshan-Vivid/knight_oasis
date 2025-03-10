@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="shortcut icon" href="{{ getSetting("site_icon") }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ asset('assets/css/custom-style.css') }}?version={{ rand(10,99) }}.{{ rand(10,99) }}.{{ rand(100,999) }} ">
+    <link rel="stylesheet" href="{{ publicPath('assets/css/custom-style.css') }}?version={{ rand(10,99) }}.{{ rand(10,99) }}.{{ rand(100,999) }} ">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -57,29 +57,29 @@
                     </div>
                     <ul>
                         <li @if (Route::is('view.home')) class="active" @endif >
-                            <a href="{{ route("view.home") }}">Home</a>
+                            <a href="{{ route("view.home") }}">{{ getSetting("page_home_meta_title") }}</a>
                         </li>
                         <li @if (Route::is('view.rooms') || Route::is('view.room') || Route::is('view.cart') ) class="active" @endif>
-                            <a href="{{ route('view.rooms') }}">Rooms</a>
+                            <a href="{{ route('view.rooms') }}">{{ getSetting("page_rooms_meta_title") }}</a>
                         </li>
                         <li @if (Route::is('view.blog') || Route::is('blog.list') ) class="active" @endif>
-                            <a href="{{ route("view.blog")}}">Blog</a>
+                            <a href="{{ route("view.blog")}}">{{ getSetting("page_blogs_meta_title") }}</a>
                         </li>
                         <li @if (Route::is('view.about')) class="active" @endif>
-                            <a href="{{ route("view.about" ) }}">About</a>
+                            <a href="{{ route("view.about" ) }}">{{ getSetting("page_about_meta_title") }}</a>
                         </li>
                         <li @if (Route::is('view.contact')) class="active" @endif>
-                            <a href="{{ route("view.contact" ) }}">Contact</a>
+                            <a href="{{ route("view.contact" ) }}">{{ getSetting("page_contact_meta_title") }}</a>
                         </li>
                         <li @if (Route::is('view.faqs')) class="active" @endif>
-                            <a href="{{ route("view.faqs" ) }}">FAQs</a>
+                            <a href="{{ route("view.faqs" ) }}">{{ getSetting("page_faq_contact_meta_title") }}</a>
                         </li>
                         <li>
                             @if(auth()->check())
                                 @if(auth()->user()->hasRole('admin'))
                                     <a href="{{ route('view.admin.dashboard') }}" class="ko-btn" >Dashboard</a>
                                 @elseif(auth()->user()->hasRole('user'))
-                                    <a href="{{ route('view.my_account') }}"  class="ko-btn">My Account</a>
+                                    <a href="{{ route('view.my_account') }}"  class="ko-btn">{{ getSetting("page_account_meta_title") }}</a>
                                 @else
                                     <a href="{{ route('login') }}"  class="ko-btn">Login</a>
                                 @endif

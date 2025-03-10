@@ -1,4 +1,5 @@
-<x-header :title="'Room'" />
+<x-header :title="$room->name" />
+
 
 @php
     $gallery = json_decode($room->gallery_img);
@@ -20,12 +21,11 @@
         <div class="ko-container">
             <div class="ko-banner-content">
                 <h2>{{ $room->name }}</h2>
-                <p>Indulge in the ultimate blend of elegance and comfort in our meticulously designed rooms. Choose
-                    your room today.</p>
+                <p>{!! getSetting('page_room_description') !!}</p>
                 <nav>
                     <ol class="ko-banner-list">
-                        <li><a href="{{ route('view.home') }}">Home</a></li>
-                        <li><a href="{{ route('view.rooms') }}">Rooms</a></li>
+                        <li><a href="{{ route('view.home') }}">{{ getSetting('page_home_meta_title') }}</a></li>
+                        <li><a href="{{ route('view.rooms') }}">{{ getSetting('page_rooms_meta_title') }}</a></li>
                         <li class="active">{{ $room->name }}</li>
                     </ol>
                 </nav>
@@ -115,7 +115,7 @@
                     @if ($room->tour_video)
                         <div class="ko-tour-video-section">
                             <h4 class="ko-com-title">Room Tour</h4>
-                            <video crossorigin="anonymous" aria-label="Video" src="{{ $room->tour_video }}"
+                            <video style="border-radius:20px;" crossorigin="anonymous" aria-label="Video" src="{{ $room->tour_video }}"
                                 controlslist="nodownload" autoplay playsinline muted="muted" loop preload="auto"
                                 type="video/m3u8" x-webkit-airplay="allow" width="100%" height="500"></video>
                         </div>

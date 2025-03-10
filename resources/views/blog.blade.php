@@ -1,15 +1,15 @@
-<x-header :title="' Blog Listng '" />
+<x-header :title="getSetting('page_blog_meta_title')" />
 <main>
     <!-- banner section start-->
     <section class="ko-banner ko-singlepost-banner"
-        style="background-image: url('{{ asset('images/cart-banner.webp') }}');">
+        style="background-image: url('{{ publicPath('images/cart-banner.webp') }}');">
         <div class="ko-container">
             <div class="ko-banner-content">
                 <h2>{{ $blog->title }}</h2>
                 <nav>
                     <ol class="ko-banner-list">
-                        <li><a href="/">Home</a></li>
-                        <li><a href="{{ route('view.blog') }}">Blogs</a></li>
+                        <li><a href="{{ route('view.home') }}">{{ getSetting('page_home_meta_title') }}</a></li>
+                        <li><a href="{{ route('view.blog') }}">{{ getSetting('page_blogs_meta_title') }}</a></li>
                         <li class="active">{{ $blog->title }}</li>
                     </ol>
                 </nav>
@@ -24,7 +24,7 @@
             <div class="ko-row">
                 <div class="ko-col-8">
                     <div class="ko-singlepost-graphic">
-                        <img src="{{ asset($blog->image) }}" alt="post-img" />
+                        <img src="{{ publicPath($blog->image) }}" alt="post-img" />
                     </div>
                     <div class="ko-singlepost-content">
                         <div class="ko-auth-details">
@@ -55,7 +55,7 @@
                                 <div class="ko-recentpost-card">
                                     <div class="ko-recentpost-graphic">
                                         <a href="{{ route('blog.list', $recentBlog->slug) }}">
-                                            <img src="{{ asset($recentBlog->image) }}" alt="{{ $recentBlog->title }}">
+                                            <img src="{{ publicPath($recentBlog->image) }}" alt="{{ $recentBlog->title }}">
                                         </a>
                                     </div>
                                     <div class="ko-recentpost-content">

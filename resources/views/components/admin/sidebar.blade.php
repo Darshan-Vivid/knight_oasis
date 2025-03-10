@@ -141,6 +141,9 @@
                                     <li class="nav-item">
                                         <a href="{{ route('view.settings.home') }}/" class="nav-link">Home</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('view.settings.pages') }}/" class="nav-link">Pages</a>
+                                    </li>
                                 </ul>
                             </div>
                     </li>

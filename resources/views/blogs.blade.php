@@ -1,16 +1,16 @@
-<x-header :title="' Blogs '" />
+<x-header :title="getSetting('page_blogs_meta_title')" />
 
 <main>
     <!-- banner section -->
-    <section class="ko-banner" style="background-image: url('{{ asset('images/cart-banner.webp') }}');">
+    <section class="ko-banner" style="background-image: url('{{ publicPath('images/cart-banner.webp') }}');">
         <div class="ko-container">
             <div class="ko-banner-content">
-                <h2>Blogs</h2>
-                <p>Stay updated with the latest happenings at our hotel! From exciting events and special offers to exclusive insights and behind-the-scenes stories.</p>
+                <h2>{{ getSetting('page_blogs_heading') }}</h2>
+                {!! getSetting('page_blogs_description') !!}
                 <nav>
                     <ol class="ko-banner-list">
-                      <li><a href="/">Home</a></li>
-                      <li class="active">Blog</li>
+                        <li><a href="{{ route('view.home') }}">{{ getSetting('page_home_meta_title') }}</a></li>
+                      <li class="active">{{ getSetting('page_blogs_meta_title') }}</li>
                     </ol>
                 </nav>
             </div>
@@ -26,7 +26,7 @@
                     <div class="ko-blog-post-inner-card">
                         <div class="ko-blog-post-img">
                             <a href="{{ route('blog.list', $blog->slug) }}">
-                                <img src="{{ asset($blog->image) }}" alt="{{ $blog->title }}" />
+                                <img src="{{ publicPath($blog->image) }}" alt="{{ $blog->title }}" />
                             </a>
                             <a class="ko-catagory" href="{{ route('blog.list', $blog->slug) }}">@foreach ($blog->categories as $category)
                                 {{ $category->name }}@if(!$loop->last), @endif

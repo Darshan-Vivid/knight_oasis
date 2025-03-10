@@ -55,6 +55,13 @@
                                                     <option value="PRODUCTION" {{ $value == 'PRODUCTION' ? 'selected' : '' }}>PRODUCTION</option>
                                                 </select>
                                             </td>
+                                        @elseif ($key == 'APP_HOSTING_MODE')
+                                            <td>
+                                                <select name="env[{{ $key }}]" class="form-control">
+                                                    <option value="LOCALHOST" {{ $value == 'LOCALHOST' ? 'selected' : '' }}>LOCALHOST</option>
+                                                    <option value="WEBHOST" {{ $value == 'WEBHOST' ? 'selected' : '' }}>WEBHOST</option>
+                                                </select>
+                                            </td>
                                         @elseif ($key == "APP_DEBUG") 
                                             <td>
                                                 <select name="env[{{ $key }}]" class="form-control">

@@ -1,16 +1,16 @@
-<x-header :title="'About-Us'" />
+<x-header :title="getSetting('page_about_meta_title')" />
 
     <main>
         <!-- banner section start-->
-        <section class="ko-banner" style="background-image: url('{{ asset('assets/images/cart-banner.webp')}} ');">
+        <section class="ko-banner" style="background-image: url('{{ publicPath('assets/images/cart-banner.webp')}} ');">
             <div class="ko-container">
                 <div class="ko-banner-content">
-                    <h2>About Us</h2>
-                    <p>Stay updated with the latest happenings at our hotel! From exciting events and special offers to exclusive insights and behind-the-scenes stories.</p>
+                    <h2>{{ getSetting('page_about_heading') }}</h2>
+                    {!! getSetting('page_about_description') !!}
                     <nav>
                         <ol class="ko-banner-list">
-                            <li><a href="{{ route('view.home') }}">Home</a></li>
-                          <li class="active">About Us</li>
+                            <li><a href="{{ route('view.home') }}">{{ getSetting('page_home_meta_title') }}</a></li>
+                          <li class="active">{{ getSetting('page_about_meta_title') }}</li>
                         </ol>
                       </nav>
                 </div>

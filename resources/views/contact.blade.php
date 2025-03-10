@@ -1,16 +1,16 @@
-<x-header :title="'Contact-Us'" />
+<x-header :title="getSetting('page_contact_meta_title')" />
 
     <main>
         <!-- banner section start-->
         <section class="ko-banner" style="background-image: url('assets/images/cart-banner.webp');">
             <div class="ko-container">
                 <div class="ko-banner-content">
-                    <h2>Contact US</h2>
-                    <p>Stay updated with the latest happenings at our hotel! From exciting events and special offers to exclusive insights and behind-the-scenes stories.</p>
+                    <h2>{{ getSetting('page_contact_heading') }}</h2>
+                    {!! getSetting('page_contact_description') !!}
                     <nav>
                         <ol class="ko-banner-list">
-                            <li><a href="{{ route('view.home') }}">Home</a></li>
-                          <li class="active">Contact Us</li>
+                            <li><a href="{{ route('view.home') }}">{{ getSetting('page_home_meta_title') }}</a></li>
+                          <li class="active">{{ getSetting('page_contact_meta_title') }}</li>
                         </ol>
                       </nav>
                 </div>

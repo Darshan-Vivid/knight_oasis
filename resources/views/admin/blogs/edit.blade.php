@@ -143,7 +143,7 @@
             <div class="flex-shrink-0 me-3">
                 <div class="p-2 rounded avatar-sm bg-light">
                     @if ($blog->image)
-                        <img data-dz-thumbnail="" class="rounded img-fluid d-block" src="{{ asset($blog->image) }}">
+                        <img data-dz-thumbnail="" class="rounded img-fluid d-block" src="{{ publicPath($blog->image) }}">
                     @endif
                 </div>
             </div>

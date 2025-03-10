@@ -13,14 +13,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" href="{{ URL::asset('admin/css/bootstrap.min.css') }}" type="text/css" />
-    <link rel="stylesheet" href="{{ URL::asset('admin/css/icons.min.css') }}" type="text/css" />
-    <link rel="stylesheet" href="{{ URL::asset('admin/css/app.min.css') }}" type="text/css" />
-    <link rel="stylesheet" href="{{ URL::asset('admin/css/custom.min.css') }}?version={{ rand(10,99) }}.{{ rand(10,99) }}.{{ rand(100,999) }}" type="text/css" />
-    <link rel="stylesheet" href="{{ URL::asset('assets/css/admin-style.css') }}?version={{ rand(10,99) }}.{{ rand(10,99) }}.{{ rand(100,999) }}" type="text/css" />
-    <script src="{{ URL::asset('admin/js/layout.js') }}"></script>
-    <script src="{{ URL::asset('admin/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ URL::asset('admin/libs/simplebar/simplebar.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ publicPath('admin/css/bootstrap.min.css') }}" type="text/css" />
+    <link rel="stylesheet" href="{{ publicPath('admin/css/icons.min.css') }}" type="text/css" />
+    <link rel="stylesheet" href="{{ publicPath('admin/css/app.min.css') }}" type="text/css" />
+    <link rel="stylesheet" href="{{ publicPath('admin/css/custom.min.css') }}?version={{ rand(10,99) }}.{{ rand(10,99) }}.{{ rand(100,999) }}" type="text/css" />
+    <link rel="stylesheet" href="{{ publicPath('assets/css/admin-style.css') }}?version={{ rand(10,99) }}.{{ rand(10,99) }}.{{ rand(100,999) }}" type="text/css" />
+    <script src="{{ publicPath('admin/js/layout.js') }}"></script>
+    <script src="{{ publicPath('admin/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ publicPath('admin/libs/simplebar/simplebar.min.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/tinymce@5/tinymce.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -68,7 +68,7 @@
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="d-flex align-items-center">
                                 <img class="rounded-circle header-profile-user"
-                                    src="{{ URL::asset('admin/images/users/32/avatar-1.jpg') }}" alt="Header Avatar">
+                                    src="{{ publicPath('admin/images/users/32/avatar-1.jpg') }}" alt="Header Avatar">
                                 <span class="text-start ms-xl-2">
                                     <span class="d-none d-xl-block ms-1 fs-sm user-name-sub-text">Admin</span>
                                 </span>
