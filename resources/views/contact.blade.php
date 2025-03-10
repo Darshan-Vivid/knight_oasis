@@ -2,7 +2,7 @@
 
     <main>
         <!-- banner section start-->
-        <section class="ko-banner" style="background-image: url('assets/images/cart-banner.webp');">
+        <section class="ko-banner" style="background-image: url('{{ publicPath('assets/images/cart-banner.webp') }}');">
             <div class="ko-container">
                 <div class="ko-banner-content">
                     <h2>{{ getSetting('page_contact_heading') }}</h2>

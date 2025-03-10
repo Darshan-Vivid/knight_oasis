@@ -1,7 +1,7 @@
 <x-header :title="getSetting('page_checkout_meta_title')" />
 
     <main>
-        <section class="ko-banner" style="background-image: url('assets/images/cart-banner.webp');">
+        <section class="ko-banner" style="background-image: url('{{ publicPath('assets/images/cart-banner.webp') }}');">
             <div class="ko-container">
                 <div class="ko-banner-content">
                     <h2>{{ getSetting('page_checkout_heading') }}</h2>
