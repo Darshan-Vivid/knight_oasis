@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    {!!getSetting('page_custom_script_header') !!}
     <title>{{ $title }}</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,6 +21,7 @@
 </head>
 
 <body>
+    {!!getSetting('page_custom_script_body') !!}
     <header class="site-header">
         <div class="ko-container">
             <div class="ko-row">

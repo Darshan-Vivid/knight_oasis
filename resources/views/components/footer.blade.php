@@ -1,4 +1,5 @@
 <footer class="site-footer">
+    {!!getSetting('page_custom_scrip_footer') !!}
     <div class="ko-footer-top">
         <div class="ko-container">
             <div class="ko-footer-row">
