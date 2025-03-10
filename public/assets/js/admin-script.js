@@ -118,10 +118,8 @@ $(document).ready(function () {
                 '<textarea name="' + textareaName + '" class="form-control" required>' + currentValue + '</textarea>'
             );
 
-            initTinyMCE(textareaSelector);
-
             if (!textareaName.includes("custom_script")) {
-                    initTinyMCE(textareaSelector);
+                initTinyMCE(textareaSelector);
             } 
         }
         
