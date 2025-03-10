@@ -115,7 +115,7 @@
                     @if ($room->tour_video)
                         <div class="ko-tour-video-section">
                             <h4 class="ko-com-title">Room Tour</h4>
-                            <video style="border-radius:20px;" crossorigin="anonymous" aria-label="Video" src="{{ $room->tour_video }}"
+                            <video style="border-radius:20px;" crossorigin="anonymous" aria-label="Video" src="{{ publicPath($room->tour_video) }}"
                                 controlslist="nodownload" autoplay playsinline muted="muted" loop preload="auto"
                                 type="video/m3u8" x-webkit-airplay="allow" width="100%" height="500"></video>
                         </div>
