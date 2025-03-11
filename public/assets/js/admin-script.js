@@ -114,7 +114,7 @@ $(document).ready(function () {
             let textareaSelector = 'textarea[name="' + currentSlug + '"]';
 
             valueCell.html(
-                '<textarea name="' + currentSlug + '" class="form-control" required>' + escapeHtml(currentValue) + '</textarea>'
+                '<textarea name="' + currentSlug + '" class="form-control" >' + escapeHtml(currentValue) + '</textarea>'
             );
             
             initTinyMCE(textareaSelector);
@@ -124,7 +124,7 @@ $(document).ready(function () {
             let codepanSelector = 'textarea[name="' + currentSlug + '"]';
 
             valueCell.html(
-                '<textarea name="' + currentSlug + '" class="form-control" required>' + escapeHtml(currentValue) + '</textarea>'
+                '<textarea name="' + currentSlug + '" class="form-control" >' + escapeHtml(currentValue) + '</textarea>'
             );
 
             setTimeout(() => {
