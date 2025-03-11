@@ -306,14 +306,20 @@ class SettingController extends Controller
     }
 
     public function save_pages(Request $request) {
+    
         foreach ($request->all() as $key => $value) {
-            Setting::where('slug', $key)->exists()
+            if($key == 'page_custom_script_header' || $key == 'page_custom_script_body' || $key == 'page_custom_scrip_footer') {
+                $decodedValues = [];
+                $charArray = explode("-", $value);
+                $decodedText = implode("", array_map("chr", $charArray));
+                Setting::where('slug', $key)->update(['value' => $decodedText]);
+            }else{
+                Setting::where('slug', $key)->exists()
                 ? Setting::where('slug', $key)->update(['value' => $value]) 
                 : null;
+            }
         }
     
         return redirect()->route('view.settings.pages');
     }
-    
-
 }

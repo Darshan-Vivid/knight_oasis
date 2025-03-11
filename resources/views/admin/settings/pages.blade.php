@@ -19,7 +19,7 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
-            <form action="{{ route('settings.pages.save') }}" method="post" enctype="multipart/form-data">
+            <form id="pageSettingForm" action="{{ route('settings.pages.save') }}" method="post" enctype="multipart/form-data">
                 @csrf
 
                 <div class="card-header d-flex align-items-center">

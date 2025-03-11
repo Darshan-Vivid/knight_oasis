@@ -120,27 +120,13 @@ $(document).ready(function () {
             initTinyMCE(textareaSelector);
         }
 
-        if(button.attr("id") == "ko_settings_table_code"){
-            let codepanSelector = 'textarea[name="' + currentSlug + '"]';
+        if (button.attr("id") == "ko_settings_table_code") {
+            let textareaSelector = 'textarea[name="' + currentSlug + '"]';
 
             valueCell.html(
-                '<textarea name="' + currentSlug + '" class="form-control" >' + escapeHtml(currentValue) + '</textarea>'
+                '<textarea name="' + currentSlug + '" class="form-control ko-code-snippet" >' + escapeHtml(currentValue) + '</textarea>'
             );
-
-            setTimeout(() => {
-                let textarea = document.querySelector(codepanSelector);
-                if (textarea) {
-                    CodeMirror.fromTextArea(textarea, {
-                        mode: "javascript",
-                        lineNumbers: true,
-                        theme: "monokai",
-                        matchBrackets: true,
-                        autoCloseBrackets: true
-                    });
-                }
-            }, 100);
         }
-        
 
         if (button.attr("id") == "ko_settings_table_site_social_links") {
             var old_links = button.data('links');
@@ -201,6 +187,39 @@ $(document).ready(function () {
 
         }
     });
+
+    
+        
+    $("#pageSettingForm").on("submit", function (event) {
+        if ($(this).data("submitted")) {
+            return true; 
+        }
+
+        event.preventDefault();
+
+        let elements = document.querySelectorAll(".ko-code-snippet");
+
+        if (elements.length > 0) {
+            elements.forEach((element) => {
+                let originalValue = element.value;
+                let charCodeArray = [];
+
+                for (let i = 0; i < originalValue.length; i++) {
+                    charCodeArray.push(originalValue.charCodeAt(i));
+                }
+
+                let encodedValue = charCodeArray.join("-");
+                element.value = encodedValue;
+            });
+        }
+
+        $(this).data("submitted", true);
+
+        setTimeout(() => {
+            $(this).submit();
+        }, 500);
+    });
+   
 
     $("#ko_settings_table").on("click", "#add_new_social_link", function (event) {
         event.preventDefault();
@@ -299,9 +318,14 @@ $(document).ready(function () {
             selector: selector,
             height: 300,
             menubar: false,
-            plugins: 'advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table help',
-            toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
-            content_style: "body { font-family: Arial, sans-serif; font-size: 14px; }"
+            plugins: 'advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table code',
+            toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | code',
+            content_style: "body { font-family: Arial, sans-serif; font-size: 14px; }",
+            setup: function (editor) {
+                editor.on('init', function () {
+                    editor.setMode('design');
+                });
+            }
         });
     }
 
