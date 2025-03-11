@@ -2,6 +2,13 @@
     <span class="loader"></span>
 </div>
 
+<button class="scrollToTopBtn">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff"
+        class="size-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
+    </svg>
+</button>
+
 <footer class="site-footer">
     <div class="ko-footer-top">
         <div class="ko-container">
@@ -49,12 +56,7 @@
     {!!getSetting('page_custom_scrip_footer') !!}
 </footer>
 
-<button class="scrollToTopBtn">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff"
-        class="size-6">
-        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
-    </svg>
-</button>
+
 
 </body>
 </html>
