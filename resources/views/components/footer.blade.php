@@ -1,5 +1,8 @@
+<div class="loader-wrap">
+    <span class="loader"></span>
+</div>
+
 <footer class="site-footer">
-    {!!getSetting('page_custom_scrip_footer') !!}
     <div class="ko-footer-top">
         <div class="ko-container">
             <div class="ko-footer-row">
@@ -40,6 +43,10 @@
             <p>{{ getSetting("site_copyright_text") }}</p>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <script src="{{ publicPath('assets/js/custom-script.js') }}?version={{ rand(10,99) }}.{{ rand(10,99) }}.{{ rand(100,999) }}"></script>
+    {!!getSetting('page_custom_scrip_footer') !!}
 </footer>
 
 <button class="scrollToTopBtn">
@@ -49,12 +56,5 @@
     </svg>
 </button>
 
-<div class="loader-wrap">
-    <span class="loader"></span>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
-<script src="{{ publicPath('assets/js/custom-script.js') }}?version={{ rand(10,99) }}.{{ rand(10,99) }}.{{ rand(100,999) }}"></script>
 </body>
-
 </html>
