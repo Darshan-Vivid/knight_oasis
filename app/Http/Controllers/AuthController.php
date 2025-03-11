@@ -36,9 +36,9 @@ class AuthController extends Controller
     {
         $rules = [
             'name' => 'required|min:2',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email',
             'country' => 'required',
-            'mobile' => 'required|min:10',
+            'mobile' => 'required|min:10|unique:users,mobile',
             'state' => 'required',
             'password' => 'required|min:6',
             'password_confirmation' => 'required|same:password',
@@ -49,9 +49,11 @@ class AuthController extends Controller
             'name.min' => 'The name must be at least 2 characters.',
             'email.required' => 'The email field is required.',
             'email.email' => 'The email must be a valid email address.',
+            'email.unique' => 'Email already exists.',
             'country.required' => 'The country code field is required.',
             'mobile.required' => 'The mobile field is required.',
             'mobile.min' => 'The mobile must be at least 10 characters.',
+            'mobile.unique' => 'Mobile number already exists.',
             'state.required' => 'The state field is required.',
             'password.required' => 'The password field is required.',
             'password.min' => 'The password must be at least 6 characters.',
@@ -59,28 +61,20 @@ class AuthController extends Controller
             'password_confirmation.same' => 'The password confirmation must match the password.',
         ];
 
-        $validator = Validator::make($request->all(), $rules, $messages);
-        $fullMobile = $request->country_code . $request->mobile;
-        $existingUserWithEmail = User::where('email', $request->email)->first();
-        $existingUserWithMobile = User::where('mobile', $fullMobile)->first();
-
+        $validator = Validator::make($request->all(), $rules, $messages);        
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
-        } elseif ($existingUserWithEmail) {
-            return redirect()->back()->withErrors(['email' => 'Email already exists.'])->withInput();
-        } elseif ($existingUserWithMobile) {
-            return redirect()->back()->withErrors(['mobile' => 'Mobile number already exists.'])->withInput();
         } else {
 
             $state_name = Country::find($request->state);
-
+            
             $otp = rand(100000, 999999);
             $token = Str::random(32);
 
             $user = new User();
             $user->name = $request->name;
             $user->email = $request->email;
-            $user->mobile = $fullMobile;
+            $user->mobile = $request->mobile;
             $user->state = $state_name->s_name;
             $user->country = $request->country;
             $user->otp = $otp;
