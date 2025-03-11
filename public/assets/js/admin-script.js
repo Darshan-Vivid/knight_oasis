@@ -111,17 +111,34 @@ $(document).ready(function () {
         }
 
         if (button.attr("id") == "ko_settings_table_textarea") {
-            let textareaName = currentSlug;
-            let textareaSelector = 'textarea[name="' + textareaName + '"]';
+            let textareaSelector = 'textarea[name="' + currentSlug + '"]';
 
             valueCell.html(
-                '<textarea name="' + textareaName + '" class="form-control" required>' + escapeHtml(currentValue) + '</textarea>'
+                '<textarea name="' + currentSlug + '" class="form-control" required>' + escapeHtml(currentValue) + '</textarea>'
             );
             
-            if (!textareaName.includes("custom_script")) {
-                initTinyMCE(textareaSelector);
-            }
-            
+            initTinyMCE(textareaSelector);
+        }
+
+        if(button.attr("id") == "ko_settings_table_code"){
+            let codepanSelector = 'textarea[name="' + currentSlug + '"]';
+
+            valueCell.html(
+                '<textarea name="' + currentSlug + '" class="form-control" required>' + escapeHtml(currentValue) + '</textarea>'
+            );
+
+            setTimeout(() => {
+                let textarea = document.querySelector(codepanSelector);
+                if (textarea) {
+                    CodeMirror.fromTextArea(textarea, {
+                        mode: "javascript",
+                        lineNumbers: true,
+                        theme: "monokai",
+                        matchBrackets: true,
+                        autoCloseBrackets: true
+                    });
+                }
+            }, 100);
         }
         
 

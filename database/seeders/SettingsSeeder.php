@@ -86,9 +86,9 @@ class SettingsSeeder extends Seeder
             ['page' => 'user-all',   "type" => "text", 'name' => 'My-Account Meta Title', 'slug' => 'page_account_meta_title', 'value' => 'null'],
             ['page' => 'user-all',   "type" => "text", 'name' => 'My-Account Page Heading', 'slug' => 'page_account_heading', 'value' => 'null'],
             ['page' => 'user-all',   "type" => "textarea", 'name' => 'My-Account Page Description', 'slug' => 'page_account_description', 'value' => 'null'],
-            ['page' => 'user-all',   "type" => "textarea", 'name' => 'Header Custom Scripts', 'slug' => 'page_custom_script_header', 'value' => 'null'],
-            ['page' => 'user-all',   "type" => "textarea", 'name' => 'Body Custom Scripts', 'slug' => 'page_custom_script_body', 'value' => 'null'],
-            ['page' => 'user-all',   "type" => "textarea", 'name' => 'Footer Custom Scripts', 'slug' => 'page_custom_scrip_footer', 'value' => 'null'],
+            ['page' => 'user-all',   "type" => "code", 'name' => 'Header Custom Scripts', 'slug' => 'page_custom_script_header', 'value' => 'null'],
+            ['page' => 'user-all',   "type" => "code", 'name' => 'Body Custom Scripts', 'slug' => 'page_custom_script_body', 'value' => 'null'],
+            ['page' => 'user-all',   "type" => "code", 'name' => 'Footer Custom Scripts', 'slug' => 'page_custom_scrip_footer', 'value' => 'null'],
 
 
 
