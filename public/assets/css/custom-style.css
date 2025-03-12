@@ -542,7 +542,7 @@ select.ko-loginRegister-control{cursor: pointer;outline: none;appearance: none;b
 .ko-selector-wrap input[type="number"]::-webkit-outer-spin-button, 
 .ko-selector-wrap input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0;}
 /* Extra Services */
-.ko-extra-service{ margin-bottom: 26px; }
+/* .ko-extra-service{ margin-bottom: 26px; } */
 .ko-extra-service .ko-resecomm-title{ margin-bottom: 10px; }
 .ko-extra-service-list{ list-style: none; }
 .ko-extra-service-list li{ display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; }
@@ -554,7 +554,7 @@ select.ko-loginRegister-control{cursor: pointer;outline: none;appearance: none;b
 .ko-price-selecter{ margin-left: 5px; outline: none; border: 1px solid var(--primary-color); background: transparent; color: var(--white-color); padding: 8px; }
 .ko-price-selecter option{ color: var(--black-color); }
 /* total cost */
-.ko-total-cost{ display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.ko-total-cost{ display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;margin-top: 26px;margin-bottom: 20px; }
 /* submit btn */
 .ko-book-btn{ width: 100%; max-width: 100%;align-items: center;padding: 10px 20px;font-weight: 400;letter-spacing: initial;font-size: 14px;}
 /* deluxe room info section end */
@@ -570,7 +570,9 @@ select.ko-loginRegister-control{cursor: pointer;outline: none;appearance: none;b
 /* rooms slider section end */
 
 .invalid-input{border-color: #dc3545;}
-.alert,.alert-success,.alert-danger,.invalid-response,.form-error-message{display: none;width: 100%;margin-top: 2px;font-size: 80%;color: #dc3545;position: absolute;top: 100%;}
+.alert,.alert-success,.alert-danger,.invalid-response,.form-error-message{width: fit-content;margin-top: 2px;font-size: 80%;color: #dc3545;position: absolute;top: 100%;}
+.ko-room-page-errors{color: #dc3545;position: relative;}
+.ko-room-page-errors .invalid-response{position: static;}
 .alert-success{color: #198754;}
 .select2-container--default .select2-selection--single{height: 45px !important;line-height: 20px;}
 /* --------------- Additional css ----------------------------- */
