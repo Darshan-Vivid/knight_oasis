@@ -128,31 +128,25 @@ $(document).ready(function () {
             );
         }
 
-        if (button.attr("id") == "ko_settings_table_site_social_links") {
+        if (button.attr("id") === "ko_settings_table_site_social_links") {
             var old_links = button.data('links');
-            html_string="<input type='hidden' name='settings_social_link_edited' value='true' />";
+            var asset_url = button.data('asset_url');
+            var html_string = "<input type='hidden' name='settings_social_link_edited' value='true' />";
+            
             if ($("#add_new_social_link").length === 0) {
-                button.parent().append("<div class='row'><button class='btn btn-sm btn-light mt-3 ko_setting_add_btn' id='add_new_social_link'>add new</button></div>");
+                button.parent().append("<div class='row'><button class='btn btn-sm btn-light mt-3 ko_setting_add_btn' id='add_new_social_link'>Add New</button></div>");
             }
-
-            if (old_links && old_links.length  != 0 && Array.isArray(old_links)) {
-                old_links.forEach(function(item) {
-                    social_link_counter += 1;
-                    html_string += "<div class='row'>";
-                    html_string +="<button class='btn btn-subtle-danger mb-2 mt-2' id='remove_setting_table_row'> remove</button>";
-                    html_string +="<div class='col-xl-6'><div class='mb-3'><label class='form-label'>Icon</label><input type='url' required class='form-control' name='icon_"+social_link_counter +"' value='" +item.icon +"' placeholder='https://'></div></div>";
-                    html_string +="<div class='col-xl-6'><div class='mb-3'><label class='form-label'>Link</label><input type='url' required class='form-control' name='url_"+social_link_counter+"' value='" +item.link +"' placeholder='https://'></div></div>";
-                     html_string += "</div>";
+    
+            if (old_links && Array.isArray(old_links) && old_links.length !== 0) {
+                old_links.forEach(function (item) {
+                    social_link_counter++;
+                    html_string += generateSocialLinkRow(social_link_counter, asset_url + item.icon, item.link, item.id);
                 });
-            }else{
-                social_link_counter += 1;
-                html_string += "<div class='row'>";
-                html_string += "<button class='btn btn-subtle-danger mb-2 mt-2' id='remove_setting_table_row'> remove</button>";
-                html_string += "<div class='row social-link-item'><div class='col-xl-6'><div class='mb-3'><label class='form-label'>Icon</label><input type='url' class='form-control' required name='icon_"+social_link_counter +"' placeholder='https://'></div></div>";
-                html_string += "<div class='col-xl-6'><div class='mb-3'><label class='form-label'>Link</label><input type='url' class='form-control' required name='url_"+social_link_counter+"' placeholder='https://'></div></div></div>";
-                html_string += "</div>";
+            } else {
+                social_link_counter++;
+                html_string += generateSocialLinkRow(social_link_counter);
             }
-
+    
             valueCell.html(html_string);
         }
 
@@ -184,7 +178,6 @@ $(document).ready(function () {
             }
 
             valueCell.html(html_string);
-
         }
     });
 
@@ -228,13 +221,8 @@ $(document).ready(function () {
         selectedRowForSettings = button.closest("tr");
         var valueCell = selectedRowForSettings.find("td").eq(1);
 
-        social_link_counter += 1;
-        var new_html = "<div class='row'>";
-        new_html += "<button class='btn btn-subtle-danger mb-2 mt-2' id='remove_setting_table_row'>remove</button>";
-        new_html += "<div class='row social-link-item'><div class='col-xl-6'><div class='mb-3'><label class='form-label'>Icon</label><input required type='url' class='form-control' name='icon_"+social_link_counter +"' placeholder='https://'></div></div>";
-        new_html += "<div class='col-xl-6'><div class='mb-3'><label class='form-label'>Link</label><input required type='url' class='form-control' name='url_"+social_link_counter+"' placeholder='https://'></div></div></div>";
-        new_html += "</div>";
-        valueCell.append(new_html);
+        social_link_counter++;
+        valueCell.append(generateSocialLinkRow(social_link_counter));
     });
 
     $("#ko_settings_table").on("click", "#add_new_home_review", function (event) {
@@ -304,12 +292,45 @@ $(document).ready(function () {
         get_room_services();
     });
 
+    function generateSocialLinkRow(counter, iconSrc = '', url = '', id = '') {
+        return `
+            <div class='row align-items-center'>
+                <button class='btn btn-subtle-danger mb-2 mt-2' id="remove_setting_table_row">Remove</button>
+                <div class='col-xl-1 text-center'>
+                    <img id='icon_preview_${counter}' src='${iconSrc}' alt='Icon Preview' style='max-width: 30px; display: ${iconSrc ? 'block' : 'none'}; margin-top: 5px;'/>
+                </div>
+                <div class='col-xl-5'>
+                    <div class='mb-3'>
+                        <label class='form-label'>Icon</label>
+                        <input type='file' accept='image/*, .ico' class='form-control' name='icon_${counter}' ${iconSrc ? '' : 'required'} onchange='previewImage(event, ${counter})'>
+                    </div>
+                </div>
+                <div class='col-xl-6'>
+                    <div class='mb-3'>
+                        <label class='form-label'>Link</label>
+                        <input type='url' required class='form-control' name='url_${counter}' value='${url}' placeholder='https://'>
+                        <input type='hidden' name='social_link_id_${counter}' value='${id}'>
+                    </div>
+                </div>
+            </div>`;
+    }
+
     function escapeHtml(text) {
         return text.replace(/&/g, "&amp;")
                    .replace(/</g, "&lt;")
                    .replace(/>/g, "&gt;")
                    .replace(/"/g, "&quot;")
                    .replace(/'/g, "&#039;");
+    }
+    
+    function previewImage(event, counter) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('icon_preview_' + counter);
+            output.src = reader.result;
+            output.style.display = "block";
+        };
+        reader.readAsDataURL(event.target.files[0]);
     }
     
 
@@ -328,7 +349,6 @@ $(document).ready(function () {
             }
         });
     }
-
 
     function destroyTinyMCE(selector) {
         if (tinymce.get(selector)) {

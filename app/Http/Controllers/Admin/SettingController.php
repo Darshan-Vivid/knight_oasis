@@ -95,6 +95,8 @@ class SettingController extends Controller
 
     public function save_general(Request $request){
 
+        $filePath = 'images/settings/';
+
         if(isset($request->logo_text) && strlen($request->logo_text) > 0){
             Setting::where('slug', '=', 'logo_text')->update(['value' => $request->logo_text]);
         }
@@ -126,7 +128,6 @@ class SettingController extends Controller
         if(isset($request->site_icon) && $request->hasFile('site_icon')){
             $file = $request->file('site_icon');
             $fileName = $file->getClientOriginalName();
-            $filePath = 'images/settings/';
             $directoryPath = public_path($filePath);
             if (!file_exists($directoryPath)) {
                 mkdir($directoryPath, 0777, true);
@@ -138,7 +139,6 @@ class SettingController extends Controller
         if(isset($request->site_logo_light) && $request->hasFile('site_logo_light')){
             $file = $request->file('site_logo_light');
             $fileName = $file->getClientOriginalName();
-            $filePath = 'images/settings/';
             $directoryPath = public_path($filePath);
             if (!file_exists($directoryPath)) {
                 mkdir($directoryPath, 0777, true);
@@ -150,7 +150,6 @@ class SettingController extends Controller
         if(isset($request->site_logo_dark) && $request->hasFile('site_logo_dark')){
             $file = $request->file('site_logo_dark');
             $fileName = $file->getClientOriginalName();
-            $filePath = 'images/settings/';
             $directoryPath = public_path($filePath);
             if (!file_exists($directoryPath)) {
                 mkdir($directoryPath, 0777, true);
@@ -161,22 +160,54 @@ class SettingController extends Controller
         }
 
         if (isset($request->settings_social_link_edited) && $request->settings_social_link_edited == "true") {
-            $socialLinks = [];
+
+            $existingSetting = Setting::where('slug', '=', 'site_social_links')->first();
+            $existingLinks = $existingSetting ? json_decode($existingSetting->value, true) : [];
+
+            $existingLinksAssoc = [];
+            foreach ($existingLinks as $link) {
+                $existingLinksAssoc[$link['id']] = $link;
+            }
+
+            $updatedLinks = [];
 
             foreach ($request->all() as $key => $value) {
-                if (strpos($key, 'icon_') === 0 && isset($request->{'url_' . substr($key, 5)})) {
-                    $icon = $value;
-                    $url = $request->{'url_' . substr($key, 5)};
+                if (preg_match('/^url_(\d+)$/', $key, $matches)) {
+                    $counter = $matches[1];
+                    $idKey = 'social_link_id_' . $counter;
+                    $iconKey = 'icon_' . $counter;
 
-                    $socialLinks[] = [
-                        'icon' => $icon,
-                        'link' => $url
+                    $isNew = !isset($request->$idKey); 
+                    $id = $isNew ? rand(1000000000, 9999999999) : $request->$idKey;
+
+                    if ($isNew || $request->hasFile($iconKey)) {
+                        $iconFile = $request->file($iconKey);
+                        $fileName = time() . '_' . $iconFile->getClientOriginalName();
+                        $iconFile->move(public_path($filePath), $fileName);
+                        $iconPath = $filePath . $fileName;
+                    } else {
+                        $iconPath = $existingLinksAssoc[$id]['icon'] ?? '';
+                    }
+
+                    $updatedLinks[] = [
+                        'id' => $id,
+                        'icon' => $iconPath,
+                        'link' => $value
                     ];
+
+                    unset($existingLinksAssoc[$id]);
                 }
             }
 
-            $socialLinksJson = json_encode($socialLinks, JSON_UNESCAPED_SLASHES);
-            Setting::where('slug', '=', 'site_social_links')->update(['value' => $socialLinksJson]);
+            foreach ($existingLinksAssoc as $deletedLink) {
+                if (file_exists(public_path($deletedLink['icon']))) {
+                    unlink(public_path($deletedLink['icon']));
+                }
+            }
+
+            Setting::where('slug', '=', 'site_social_links')->update([
+                'value' => json_encode($updatedLinks, JSON_UNESCAPED_SLASHES)
+            ]);
         }
 
         return redirect()->route('view.settings.general');

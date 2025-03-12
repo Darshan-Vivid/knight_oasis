@@ -51,7 +51,7 @@
                                                     @foreach ($s_media as $index => $media)
                                                         <a href="{{ $media['link'] }}" target="_blank"
                                                             style="margin-right: 10px;">
-                                                            <img src="{{ $media['icon'] }}" alt="Social Icon" width="30"
+                                                            <img src="{{ publicPath($media['icon']) }}" alt="Social Icon" width="30"
                                                                 height="30">
                                                         </a>
                                                     @endforeach
@@ -61,7 +61,7 @@
                                             </td>
                                             <td>
                                                 <button type="button" class="btn btn-sm btn-light ko_settings_btn"
-                                                    id="ko_settings_table_{{ $setting->slug }}" data-links="{{ $setting->value }}" >Edit</button>
+                                                    id="ko_settings_table_{{ $setting->slug }}" data-asset_url="{{ publicPath("/") }}/" data-links="{{ $setting->value }}" >Edit</button>
                                             </td>
                                         </tr>
                                     @elseif($setting->slug == 'site_icon' || $setting->slug == 'site_logo_light' || $setting->slug == 'site_logo_dark')
