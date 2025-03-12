@@ -195,32 +195,33 @@
 
                         @endif
 
+                        <div class="ko-room-page-errors">
+                            @error('check_in')
+                                <div class="invalid-response ko-room-error" style="font-size: 1rem; display:block;" >{{ $message }}</div>
+                            @enderror
+                            @error('room')
+                                <div class="invalid-response ko-room-error" style="font-size: 1rem; display:block;" >{{ $message }}</div>
+                            @enderror
+                            @error('check_out')
+                                <div class="invalid-response ko-room-error" style="font-size: 1rem; display:block;" >{{ $message }}</div>
+                            @enderror
+                            @error('quantity')
+                                <div class="invalid-response ko-room-error" style="font-size: 1rem; display:block;" >{{ $message }}</div>
+                            @enderror
+                            @error('adults')
+                                <div class="invalid-response ko-room-error" style="font-size: 1rem; display:block;" >{{ $message }}</div>
+                            @enderror
+                            @error('children')
+                                <div class="invalid-response ko-room-error" style="font-size: 1rem; display:block;" >{{ $message }}</div>
+                            @enderror
+                            @error('extra_beds')
+                                <div class="invalid-response ko-room-error" style="font-size: 1rem; display:block;" >{{ $message }}</div>
+                            @enderror
+                            @error('general')
+                                <div class="invalid-response ko-room-error" style="font-size: 1rem; display:block;" >{{ $message }}</div>
+                            @enderror
+                        </div>
                         
-                        @error('check_in')
-                            <div class="invalid-response ko-room-error" style="font-size: 1rem; display:block;" >{{ $message }}</div>
-                        @enderror
-                        @error('room')
-                            <div class="invalid-response ko-room-error" style="font-size: 1rem; display:block;" >{{ $message }}</div>
-                        @enderror
-                        @error('check_out')
-                            <div class="invalid-response ko-room-error" style="font-size: 1rem; display:block;" >{{ $message }}</div>
-                        @enderror
-                        @error('quantity')
-                            <div class="invalid-response ko-room-error" style="font-size: 1rem; display:block;" >{{ $message }}</div>
-                        @enderror
-                        @error('adults')
-                            <div class="invalid-response ko-room-error" style="font-size: 1rem; display:block;" >{{ $message }}</div>
-                        @enderror
-                        @error('children')
-                            <div class="invalid-response ko-room-error" style="font-size: 1rem; display:block;" >{{ $message }}</div>
-                        @enderror
-                        @error('extra_beds')
-                            <div class="invalid-response ko-room-error" style="font-size: 1rem; display:block;" >{{ $message }}</div>
-                        @enderror
-                        @error('general')
-                            <div class="invalid-response ko-room-error" style="font-size: 1rem; display:block;" >{{ $message }}</div>
-                        @enderror
-
                         <div class="ko-total-cost">
                             <h2 class="ko-resecomm-title">Total Cost</h2>
                             <p class="ko-resecomm-title">₹<span id="booking-grand-total">0</span></p>
