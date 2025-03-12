@@ -87,7 +87,7 @@
                                         $amenity = App\Models\Amenity::find($aid);
                                     @endphp
                                     @if ($amenity->id)
-                                        <li><img src="{{ publicPath($amenity->icon) }}" width="35" height="35" class="mr-3" />
+                                        <li><img src="{{ publicPath($amenity->icon) }}" width="35" height="35" style="margin-right:1rem;" />
                                             {{ $amenity->name }}</li>
                                     @endif
                                 @endforeach
@@ -102,12 +102,12 @@
                         </div>
                     @endif
 
-                    <div class="ko-room-features mt-3">
+                    <div class="ko-room-features" style="margin-top:1rem">
                         <h4 class="ko-com-title">Hotel Surroundings</h4>
                         {!! getSetting("hotel_surroundings") !!}
                     </div>
 
-                    <div class="ko-room-features mt-3 mb-3">
+                    <div class="ko-room-features" style="margin:2.5rem 0px;">
                         <h4 class="ko-com-title">Hotel Rules</h4>
                         {!! getSetting("hotel_rules") !!}
                     </div>
@@ -195,31 +195,30 @@
 
                         @endif
 
-                        <div class="invalid-response h1 text-center" style="font-size: 1rem;" ></div>
                         
                         @error('check_in')
-                            <div class="invalid-response h1 text-center" style="font-size: 1rem; display:block;" >{{ $message }}</div>
+                            <div class="invalid-response ko-room-error" style="font-size: 1rem; display:block;" >{{ $message }}</div>
                         @enderror
                         @error('room')
-                            <div class="invalid-response h1 text-center" style="font-size: 1rem; display:block;" >{{ $message }}</div>
+                            <div class="invalid-response ko-room-error" style="font-size: 1rem; display:block;" >{{ $message }}</div>
                         @enderror
                         @error('check_out')
-                            <div class="invalid-response h1 text-center" style="font-size: 1rem; display:block;" >{{ $message }}</div>
+                            <div class="invalid-response ko-room-error" style="font-size: 1rem; display:block;" >{{ $message }}</div>
                         @enderror
                         @error('quantity')
-                            <div class="invalid-response h1 text-center" style="font-size: 1rem; display:block;" >{{ $message }}</div>
+                            <div class="invalid-response ko-room-error" style="font-size: 1rem; display:block;" >{{ $message }}</div>
                         @enderror
                         @error('adults')
-                            <div class="invalid-response h1 text-center" style="font-size: 1rem; display:block;" >{{ $message }}</div>
+                            <div class="invalid-response ko-room-error" style="font-size: 1rem; display:block;" >{{ $message }}</div>
                         @enderror
                         @error('children')
-                            <div class="invalid-response h1 text-center" style="font-size: 1rem; display:block;" >{{ $message }}</div>
+                            <div class="invalid-response ko-room-error" style="font-size: 1rem; display:block;" >{{ $message }}</div>
                         @enderror
                         @error('extra_beds')
-                            <div class="invalid-response h1 text-center" style="font-size: 1rem; display:block;" >{{ $message }}</div>
+                            <div class="invalid-response ko-room-error" style="font-size: 1rem; display:block;" >{{ $message }}</div>
                         @enderror
                         @error('general')
-                            <div class="invalid-response h1 text-center" style="font-size: 1rem; display:block;" >{{ $message }}</div>
+                            <div class="invalid-response ko-room-error" style="font-size: 1rem; display:block;" >{{ $message }}</div>
                         @enderror
 
                         <div class="ko-total-cost">

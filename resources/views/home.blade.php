@@ -83,22 +83,22 @@
                         </form>
                     </div>
                 </div>
+                @error('check_in')
+                    <div class="invalid-response ko-home-error" style="font-size: 1rem; display:block;" >{{ $message}}</div>
+                @enderror
+                @error('check_out')
+                    <div class="invalid-response ko-home-error" style="font-size: 1rem; display:block;" >{{ $message}}</div>
+                @enderror
+                @error('room_type')
+                    <div class="invalid-response ko-home-error" style="font-size: 1rem; display:block;" >{{ $message}}</div>
+                @enderror
+                @error('quantity')
+                    <div class="invalid-response ko-home-error" style="font-size: 1rem; display:block;" >{{ $message}}</div>
+                @enderror
+                @error('quick_reserve')
+                    <div class="invalid-response ko-home-error" style="font-size: 1rem; display:block;" >{{ $message}}</div>
+                @enderror
             </div>
-            @error('check_in')
-                <div class="invalid-response h1 text-center mt-2 mb-0" style="font-size: 1rem; display:block;" >{{ $message}}</div>
-            @enderror
-            @error('check_out')
-                <div class="invalid-response h1 text-center mt-2 mb-0" style="font-size: 1rem; display:block;" >{{ $message}}</div>
-            @enderror
-            @error('room_type')
-                <div class="invalid-response h1 text-center mt-2 mb-0" style="font-size: 1rem; display:block;" >{{ $message}}</div>
-            @enderror
-            @error('quantity')
-                <div class="invalid-response h1 text-center mt-2 mb-0" style="font-size: 1rem; display:block;" >{{ $message}}</div>
-            @enderror
-            @error('quick_reserve')
-                <div class="invalid-response h1 text-center mt-2 mb-0" style="font-size: 1rem; display:block;" >{{ $message}}</div>
-            @enderror
         </section>
         <!-- ------------Reservation block end------------- -->
 
@@ -223,34 +223,5 @@
         <!-- --------------------facilities section end--------------------- -->
 
     </main>
-
-@if(session('success'))
-    <style>
-        .ko-pop-message { position: fixed; top: 10px; right: 10px; z-index: 999; display: block; background: #fff5ed; padding: 1rem 1.5rem; border: 1px solid #ab8965; border-radius: 5px; }
-        .ko-pop-message[data-show="false"] { display: none; }
-        .ko-pop-message .ko-pop-close { line-height: 1; position: absolute; right: -8px; top: -8px; background: #fff5ed; border: 1px solid #ab8965; width: 20px; height: 20px; font-size: 15px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; color: #ab8965; border-radius: 50%; cursor: pointer; }
-    </style>
-
-    <div class="ko-pop-message" data-show="true">
-        <span class="ko-pop-close">X</span>
-        <p>{{ session('message') }}</p>
-    </div>
-    
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            let popElm = document.querySelector('.ko-pop-message');
-            if(popElm) {
-                let closeElm = popElm.querySelector('.ko-pop-close');
-                closeElm.addEventListener('click', function() {
-                    popElm.dataset.show = "false";
-                });
-
-                setTimeout(() => {
-                    popElm.dataset.show = "false";
-                }, 10000);
-            }
-        });
-    </script>
-@endif
 
 <x-footer />

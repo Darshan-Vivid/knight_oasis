@@ -30,7 +30,7 @@
                                 <label for="fname" class="ko-contact-label @error('fname') is-invalid @enderror">First Name</label>
                                 <input id="fname" name="fname" class="ko-form-control" type="text" value="{{ old('fname') }}" placeholder="First Name" required>
                                 @error('fname')
-                                    <span class="form-error-message text-danger">{{ $message }}</span>
+                                    <span class="form-error-message invalid-response">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
@@ -39,7 +39,7 @@
                                 <label for="lname"class="ko-contact-label @error('lname') is-invalid @enderror" >Last Name</label>
                                 <input id="lname" name="lname" class="ko-form-control" type="text" value="{{ old('lname') }}" placeholder="Last Name" required>
                                 @error('lname')
-                                    <span class="form-error-message text-danger">{{ $message }}</span>
+                                    <span class="form-error-message invalid-response">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
@@ -48,7 +48,7 @@
                                 <label for="email"class="ko-contact-label @error('email') is-invalid @enderror" >Email <span>*</span></label>
                                 <input id="email" name="email" class="ko-form-control" type="email" value="{{ old('email') }}" placeholder="Email Address" required>
                                 @error('email')
-                                    <span class="form-error-message text-danger">{{ $message }}</span>
+                                    <span class="form-error-message invalid-response">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
@@ -57,7 +57,7 @@
                                 <label for="subject" class="ko-contact-label @error('subject') is-invalid @enderror" >Subject</label>
                                 <input id="subject" name="subject"  class="ko-form-control" type="text" value="{{ old('subject') }}" placeholder="Subject" required>
                                 @error('subject')
-                                    <span class="form-error-message text-danger">{{ $message }}</span>
+                                    <span class="form-error-message invalid-response">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
@@ -66,7 +66,7 @@
                                 <label for="message" class="ko-contact-label @error('message') is-invalid @enderror" >Your Message <span>*</span></label>
                                 <textarea name="message" class="ko-form-control"  rows="4" cols="2" id="message" placeholder="Your Message" required>{{ old('message') }}</textarea>
                                 @error('message')
-                                    <span class="form-error-message text-danger">{{ $message }}</span>
+                                    <span class="form-error-message invalid-response">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
@@ -75,7 +75,7 @@
                             <div class="ko-form-group">
                                 <div class="g-recaptcha" data-sitekey="{{ env('CAPTCHA_SITE_KEY') }}"></div>
                                 @error('g-recaptcha-response')
-                                    <span class="form-error-message text-danger">{{ $message }}</span>
+                                    <span class="form-error-message invalid-response">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>

@@ -148,7 +148,7 @@ class AuthController extends Controller
         if ($is_password_reset) {
             return redirect()->route('view.new_password', ['token' => $user->token]);
         } else {
-            return redirect()->route('view.home')->with([
+            return redirect()->route('login')->with([
                 'success' => true,
                 'message' => 'Email and OTP verified successfully.'
             ]);
@@ -302,7 +302,6 @@ class AuthController extends Controller
     {
         $rules = [
             'name' => 'required|min:2',
-            'email' => 'required|email',
             'country' => 'required',
             'mobile' => 'required|min:10',
             'state' => 'required',
@@ -311,8 +310,6 @@ class AuthController extends Controller
         $messages = [
             'name.required' => 'The name field is required.',
             'name.min' => 'The name must be at least 2 characters.',
-            'email.required' => 'The email field is required.',
-            'email.email' => 'The email must be a valid email address.',
             'country.required' => 'The country code field is required.',
             'mobile.required' => 'The mobile field is required.',
             'mobile.min' => 'The mobile must be at least 10 characters.',
@@ -327,18 +324,17 @@ class AuthController extends Controller
             $u = Auth::user();
             $user = User::find($u->id);
             if (!$user) {
-                return redirect()->back()->withErrors(['email' => "This account no longer exists"])->withInput();
+                return redirect()->back()->withErrors(['email' => "Please login again to update the profile."])->withInput();
             }
 
             $state_name = Country::find($request->state);
 
             $user->name = $request->name;
-            $user->email = $request->email;
             $user->mobile = $request->mobile;
             $user->state = $state_name->s_name;
             $user->country = $request->country;
             $user->save();
-            return redirect()->back();
+            return redirect()->route('view.my_account');
         }
     }
 }
