@@ -60,7 +60,7 @@
                             @if (!empty($s_media))
                                 @foreach ($s_media as $index => $media)
                                     <li><a href="{{ $media->link }}" target="_blank"><img
-                                                src="{{ $media->icon }}"></img></svg></a></li>
+                                                src="{{ publicPath($media->icon) }}"></img></svg></a></li>
                                 @endforeach
                             @endif
                         </ul>
