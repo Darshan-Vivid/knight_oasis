@@ -122,7 +122,6 @@ $(document).ready(function () {
         var ajax_url = $("#booking-data-hiddens").data("url");
         var token = $('meta[name="csrf-token"]').attr("content");
         var submit_btn = $("#ko-book-form-sumbit");
-        var error = $(".invalid-response");
 
         submit_btn
             .prop("disabled", true)
@@ -148,15 +147,14 @@ $(document).ready(function () {
                 if (response.status == 1) {
                     $("#ko_booking_form")[0].submit();
                 } else {
-                    error.css("display", "block").text(response.message);
                     qty.attr("data-disable", "1");
+                    $(".ko-room-page-errors").html("<div class='invalid-response ko-room-error' style='font-size: 1rem; display:block;' >"+response.message+"</div>");
                 }
             },
             error: function (xhr) {
                 console.error("Submission error:", xhr);
                 error
-                    .css("display", "block")
-                    .text("An error occurred. Please try again.");
+                $(".ko-room-page-errors").html("<div class='invalid-response ko-room-error' style='font-size: 1rem; display:block;' >An error occurred. Please try again.</div>");
 
                 submit_btn
                     .prop("disabled", false)
