@@ -1,4 +1,4 @@
-<x-header :title="getSetting('page_blog_meta_title')" />
+<x-header :title="getSetting('page_blog_meta_title')"  :meta_description="getSetting('page_blog_meta_description')"/>
 <main>
     <!-- banner section start-->
     <section class="ko-banner ko-singlepost-banner"

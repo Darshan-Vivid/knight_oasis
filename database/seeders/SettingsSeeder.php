@@ -59,33 +59,54 @@ class SettingsSeeder extends Seeder
 
 
             ['page' => 'user-all',   "type" => "text", 'name' => 'Home Meta Title', 'slug' => 'page_home_meta_title', 'value' => 'null'],
+            ['page' => 'user-all',   "type" => "text", 'name' => 'Home Meta Description', 'slug' => 'page_home_meta_description', 'value' => 'null'],
+
             ['page' => 'user-all',   "type" => "text", 'name' => 'Single Blog Meta Title', 'slug' => 'page_blog_meta_title', 'value' => 'null'],
+            ['page' => 'user-all',   "type" => "text", 'name' => 'Single Blog Meta Description', 'slug' => 'page_blog_meta_description', 'value' => 'null'],
+
+            ['page' => 'user-all',   "type" => "text", 'name' => 'Single Room meta Description', 'slug' => 'page_room_meta_description', 'value' => 'null'],
             ['page' => 'user-all',   "type" => "textarea", 'name' => 'Single Room Page Description', 'slug' => 'page_room_description', 'value' => 'null'],
             
             ['page' => 'user-all',   "type" => "text", 'name' => 'Rooms Meta Title', 'slug' => 'page_rooms_meta_title', 'value' => 'null'],
             ['page' => 'user-all',   "type" => "text", 'name' => 'Rooms Page Heading', 'slug' => 'page_rooms_heading', 'value' => 'null'],
+            ['page' => 'user-all',   "type" => "text", 'name' => 'Rooms Meta Description', 'slug' => 'page_rooms_meta_description', 'value' => 'null'],
             ['page' => 'user-all',   "type" => "textarea", 'name' => 'Rooms Page Description', 'slug' => 'page_rooms_description', 'value' => 'null'],
+
             ['page' => 'user-all',   "type" => "text", 'name' => 'Cart Meta Title', 'slug' => 'page_cart_meta_title', 'value' => 'null'],
             ['page' => 'user-all',   "type" => "text", 'name' => 'Cart Page Heading', 'slug' => 'page_cart_heading', 'value' => 'null'],
+            ['page' => 'user-all',   "type" => "text", 'name' => 'Cart Meta Description', 'slug' => 'page_cart_meta_description', 'value' => 'null'],
             ['page' => 'user-all',   "type" => "textarea", 'name' => 'Cart Page Description', 'slug' => 'page_cart_description', 'value' => 'null'],
+
             ['page' => 'user-all',   "type" => "text", 'name' => 'Checkout Meta Title', 'slug' => 'page_checkout_meta_title', 'value' => 'null'],
             ['page' => 'user-all',   "type" => "text", 'name' => 'Checkout Page Heading', 'slug' => 'page_checkout_heading', 'value' => 'null'],
+            ['page' => 'user-all',   "type" => "text", 'name' => 'Checkout Meta Description', 'slug' => 'page_checkout_meta_description', 'value' => 'null'],
             ['page' => 'user-all',   "type" => "textarea", 'name' => 'Checkout Page Description', 'slug' => 'page_checkout_description', 'value' => 'null'],
+
             ['page' => 'user-all',   "type" => "text", 'name' => 'Blogs Meta Title', 'slug' => 'page_blogs_meta_title', 'value' => 'null'],
             ['page' => 'user-all',   "type" => "text", 'name' => 'Blogs Page Heading', 'slug' => 'page_blogs_heading', 'value' => 'null'],
+            ['page' => 'user-all',   "type" => "text", 'name' => 'Blogs Meta Description', 'slug' => 'page_blogs_meta_description', 'value' => 'null'],
             ['page' => 'user-all',   "type" => "textarea", 'name' => 'Blogs Page Description', 'slug' => 'page_blogs_description', 'value' => 'null'],
+
             ['page' => 'user-all',   "type" => "text", 'name' => 'About-us Meta Title', 'slug' => 'page_about_meta_title', 'value' => 'null'],
             ['page' => 'user-all',   "type" => "text", 'name' => 'About-us Page Heading', 'slug' => 'page_about_heading', 'value' => 'null'],
+            ['page' => 'user-all',   "type" => "text", 'name' => 'About-us Meta Description', 'slug' => 'page_about_meta_description', 'value' => 'null'],
             ['page' => 'user-all',   "type" => "textarea", 'name' => 'About-us Page Description', 'slug' => 'page_about_description', 'value' => 'null'],
+
             ['page' => 'user-all',   "type" => "text", 'name' => 'Contact-us Meta Title', 'slug' => 'page_contact_meta_title', 'value' => 'null'],
             ['page' => 'user-all',   "type" => "text", 'name' => 'Contact-us Page Heading', 'slug' => 'page_contact_heading', 'value' => 'null'],
+            ['page' => 'user-all',   "type" => "text", 'name' => 'Contact-us Meta Description', 'slug' => 'page_contact_meta_description', 'value' => 'null'],
             ['page' => 'user-all',   "type" => "textarea", 'name' => 'Contact-us Page Description', 'slug' => 'page_contact_description', 'value' => 'null'],
+
             ['page' => 'user-all',   "type" => "text", 'name' => 'FAQs Meta Title', 'slug' => 'page_faq_contact_meta_title', 'value' => 'null'],
             ['page' => 'user-all',   "type" => "text", 'name' => 'FAQs Page Heading', 'slug' => 'page_faq_contact_heading', 'value' => 'null'],
+            ['page' => 'user-all',   "type" => "text", 'name' => 'FAQs Meta Description', 'slug' => 'page_faq_contact_meta_description', 'value' => 'null'],
             ['page' => 'user-all',   "type" => "textarea", 'name' => 'FAQs Page Description', 'slug' => 'page_faq_contact_description', 'value' => 'null'],
+
             ['page' => 'user-all',   "type" => "text", 'name' => 'My-Account Meta Title', 'slug' => 'page_account_meta_title', 'value' => 'null'],
             ['page' => 'user-all',   "type" => "text", 'name' => 'My-Account Page Heading', 'slug' => 'page_account_heading', 'value' => 'null'],
+            ['page' => 'user-all',   "type" => "text", 'name' => 'My-Account Meta Description', 'slug' => 'page_account_meta_description', 'value' => 'null'],
             ['page' => 'user-all',   "type" => "textarea", 'name' => 'My-Account Page Description', 'slug' => 'page_account_description', 'value' => 'null'],
+            
             ['page' => 'user-all',   "type" => "code", 'name' => 'Header Custom Scripts', 'slug' => 'page_custom_script_header', 'value' => 'null'],
             ['page' => 'user-all',   "type" => "code", 'name' => 'Body Custom Scripts', 'slug' => 'page_custom_script_body', 'value' => 'null'],
             ['page' => 'user-all',   "type" => "code", 'name' => 'Footer Custom Scripts', 'slug' => 'page_custom_scrip_footer', 'value' => 'null'],

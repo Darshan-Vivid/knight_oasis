@@ -1,4 +1,4 @@
-<x-header :title="getSetting('page_faq_contact_meta_title')" />
+<x-header :title="getSetting('page_faq_contact_meta_title')" :meta_description="getSetting('page_faq_contact_meta_description')"/>
 
     <main>
         <!-- banner section start-->

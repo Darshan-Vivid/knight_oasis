@@ -11,12 +11,15 @@ class header extends Component
 
     public $title;
 
+    public $meta_description;
+
     /**
      * Create a new component instance.
      */
-    public function __construct($title = 'Knight Oasis')
+    public function __construct($title = 'Knight Oasis' , $meta_description = '')
     {
         $this->title = $title;
+        $this->meta_description = $meta_description;
     }
 
     /**
