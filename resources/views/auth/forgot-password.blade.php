@@ -1,4 +1,5 @@
-<x-header :title="'Forgot Password'" />
+<x-header :meta="array('title'=> 'Forgot Password', 'description'=> getSetting('page_home_meta_description') ,'sco-allow'=> false)" />
+
 
 <main>
     <section class="ko-loginRegister-section ko-register-section">

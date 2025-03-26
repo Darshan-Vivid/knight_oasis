@@ -1,4 +1,4 @@
-<x-header :title="'Signup'" />
+<x-header :meta="array('title'=> 'Signup', 'description'=> getSetting('page_home_meta_description'))" />
 
 <main>
     <section class="ko-loginRegister-section ko-register-section">

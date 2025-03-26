@@ -1,4 +1,4 @@
-<x-header :title="'Login'" />
+<x-header :meta="array('title'=> 'Login', 'description'=> getSetting('page_home_meta_description'))" />
 
 <main>
     <section class="ko-loginRegister-section">

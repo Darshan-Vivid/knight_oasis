@@ -1,4 +1,4 @@
-<x-header :title="'Otp Verification'" />
+<x-header :meta="array('title'=> 'Otp Verification', 'description'=> getSetting('page_home_meta_description'),'sco-allow'=> false)" />
 
 <main>
     <section class="ko-loginRegister-section ko-register-section">
