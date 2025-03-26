@@ -9,17 +9,14 @@ use Illuminate\View\Component;
 class header extends Component
 {
 
-    public $title;
-
-    public $meta_description;
+    public $meta;
 
     /**
      * Create a new component instance.
      */
-    public function __construct($title = 'Knight Oasis' , $meta_description = '')
+    public function __construct($meta = [])
     {
-        $this->title = $title;
-        $this->meta_description = $meta_description;
+        $this->meta = $meta;
     }
 
     /**

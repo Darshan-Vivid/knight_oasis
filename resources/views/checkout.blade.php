@@ -1,4 +1,4 @@
-<x-header :title="getSetting('page_checkout_meta_title')" :meta_description="getSetting('page_checkout_meta_description')"/>
+<x-header :meta="array('title'=> getSetting('page_checkout_meta_title'), 'description'=> getSetting('page_checkout_meta_description'))" />
 
     <main>
         <section class="ko-banner" style="background-image: url('{{ publicPath('assets/images/cart-banner.webp') }}');">

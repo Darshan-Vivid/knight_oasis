@@ -1,4 +1,4 @@
-<x-header :title="getSetting('page_home_meta_title')" :meta_description="getSetting('page_home_meta_description')"/>
+<x-header :meta="array('title'=> getSetting('page_home_meta_title'), 'description'=> getSetting('page_home_meta_description'))" />
 
     <main>
         <!-- ------------Hero section start------------ -->

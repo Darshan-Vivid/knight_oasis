@@ -1,4 +1,4 @@
-<x-header :title="$room->name" :meta_description="getSetting('page_room_meta_description')"/>
+<x-header :meta="array('title'=> $room->name, 'description'=> getSetting('page_room_meta_description'))"/>
 
 
 @php
