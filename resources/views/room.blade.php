@@ -24,8 +24,8 @@
                 <p>{!! getSetting('page_room_description') !!}</p>
                 <nav>
                     <ol class="ko-banner-list">
-                        <li><a href="{{ route('view.home') }}">{{ getSetting('page_home_meta_title') }}</a></li>
-                        <li><a href="{{ route('view.rooms') }}">{{ getSetting('page_rooms_meta_title') }}</a></li>
+                        <li><a href="{{ route('view.home') }}">Home</a></li>
+                        <li><a href="{{ route('view.rooms') }}">Rooms</a></li>
                         <li class="active">{{ $room->name }}</li>
                     </ol>
                 </nav>

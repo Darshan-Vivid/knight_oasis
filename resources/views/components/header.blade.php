@@ -59,29 +59,29 @@
                     </div>
                     <ul>
                         <li @if (Route::is('view.home')) class="active" @endif >
-                            <a href="{{ route("view.home") }}">{{ getSetting("page_home_meta_title") }}</a>
+                            <a href="{{ route("view.home") }}">Home</a>
                         </li>
                         <li @if (Route::is('view.rooms') || Route::is('view.room') || Route::is('view.cart') ) class="active" @endif>
-                            <a href="{{ route('view.rooms') }}">{{ getSetting("page_rooms_meta_title") }}</a>
+                            <a href="{{ route('view.rooms') }}">Rooms</a>
                         </li>
                         <li @if (Route::is('view.blog') || Route::is('blog.list') ) class="active" @endif>
-                            <a href="{{ route("view.blog")}}">{{ getSetting("page_blogs_meta_title") }}</a>
+                            <a href="{{ route("view.blog")}}">Blogs</a>
                         </li>
                         <li @if (Route::is('view.about')) class="active" @endif>
-                            <a href="{{ route("view.about" ) }}">{{ getSetting("page_about_meta_title") }}</a>
+                            <a href="{{ route("view.about" ) }}">About Us</a>
                         </li>
                         <li @if (Route::is('view.contact')) class="active" @endif>
-                            <a href="{{ route("view.contact" ) }}">{{ getSetting("page_contact_meta_title") }}</a>
+                            <a href="{{ route("view.contact" ) }}">Contact Us</a>
                         </li>
                         <li @if (Route::is('view.faqs')) class="active" @endif>
-                            <a href="{{ route("view.faqs" ) }}">{{ getSetting("page_faq_contact_meta_title") }}</a>
+                            <a href="{{ route("view.faqs" ) }}">FAQs</a>
                         </li>
                         <li>
                             @if(auth()->check())
                                 @if(auth()->user()->hasRole('admin'))
                                     <a href="{{ route('view.admin.dashboard') }}" class="ko-btn" >Dashboard</a>
                                 @elseif(auth()->user()->hasRole('user'))
-                                    <a href="{{ route('view.my_account') }}"  class="ko-btn">{{ getSetting("page_account_meta_title") }}</a>
+                                    <a href="{{ route('view.my_account') }}"  class="ko-btn">My Account</a>
                                 @else
                                     <a href="{{ route('login') }}"  class="ko-btn">Login</a>
                                 @endif

@@ -5,12 +5,12 @@
         <section class="ko-banner" style="background-image: url('{{ publicPath('assets/images/cart-banner.webp') }}');">
             <div class="ko-container">
                 <div class="ko-banner-content">
-                    <h2>{{ getSetting('page_faq_contact_heading') }}</h2>
+                    <h2>Frequently Asked Questions</h2>
                     {!! getSetting('page_faq_contact_description') !!}
                     <nav>
                         <ol class="ko-banner-list">
-                            <li><a href="{{ route('view.home') }}">{{ getSetting('page_home_meta_title') }}</a></li>
-                          <li class="active">{{ getSetting('page_faq_contact_meta_title') }}</li>
+                            <li><a href="{{ route('view.home') }}">Home</a></li>
+                          <li class="active">FAQs</li>
                         </ol>
                       </nav>
                 </div>

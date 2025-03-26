@@ -5,12 +5,12 @@
         <section class="ko-banner" style="background-image: url('{{ publicPath('assets/images/cart-banner.webp') }}');">
             <div class="ko-container">
                 <div class="ko-banner-content">
-                    <h2>{{ getSetting('page_rooms_heading') }}</h2>
+                    <h2>Rooms</h2>
                     {!! getSetting('page_rooms_description') !!}
                     <nav>
                         <ol class="ko-banner-list">
-                            <li><a href="{{ route('view.home') }}">{{ getSetting('page_home_meta_title') }}</a></li>
-                            <li><a>{{ getSetting('page_rooms_meta_title') }}</a></li>
+                            <li><a href="{{ route('view.home') }}">Home</a></li>
+                            <li><a>Rooms</a></li>
                         </ol>
                     </nav>
                 </div>

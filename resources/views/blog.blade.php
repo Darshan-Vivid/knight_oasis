@@ -8,8 +8,8 @@
                 <h2>{{ $blog->title }}</h2>
                 <nav>
                     <ol class="ko-banner-list">
-                        <li><a href="{{ route('view.home') }}">{{ getSetting('page_home_meta_title') }}</a></li>
-                        <li><a href="{{ route('view.blog') }}">{{ getSetting('page_blogs_meta_title') }}</a></li>
+                        <li><a href="{{ route('view.home') }}">Home</a></li>
+                        <li><a href="{{ route('view.blog') }}">Blogs</a></li>
                         <li class="active">{{ $blog->title }}</li>
                     </ol>
                 </nav>
