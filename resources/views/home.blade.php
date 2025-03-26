@@ -58,7 +58,7 @@
                                 <div class="ko-reservation-group">
                                     <h6>Rooms</h6>
                                     <div class="ko-number qty-container">
-                                        <select class="ko-rooms-info" name="room_type" required>
+                                        <select class="ko-rooms-info ko-home-room-select" name="room_type" required>
                                             <option disabled selected>select room</option>
                                             @if(count($rooms)> 0)
                                                 @foreach ($rooms as $room)
@@ -72,7 +72,7 @@
                                     <h6>No. of Rooms</h6>
                                     <div class="ko-number qty-container">
                                         <span class="ko-minus qty-btn-minus">-</span>
-                                        <input type="text" class="ko-num-input input-qty" value="{{ old('quantity',1) }}" name="quantity" required />
+                                        <input type="text" class="ko-num-input input-qty" id="ko-home-room-qty" value="{{ old('quantity',1) }}" name="quantity" required />
                                         <span class="ko-plus qty-btn-plus">+</span>
                                     </div>
                                 </div>

@@ -129,7 +129,7 @@
                             @error('general')
                                 <div class="invalid-response h1 text-center" style="font-size: 1rem; display:block;" >{{ $message }}</div>
                             @enderror
-                            <input type="hidden" id="cart-data-hiddens" data-total_cost="{{ $ac->total_cost }}" data-rp="{{ $room->offer_price }}" data-c_in="{{ \Carbon\Carbon::parse($ac->check_in)->format('Y-m-d') }}" data-c_out="{{ \Carbon\Carbon::parse($ac->check_out)->format('Y-m-d') }}" /> 
+                            <input type="hidden" id="cart-data-hiddens" data-total_cost="{{ $ac->total_cost }}" data-qty="{{ $ac->room_count }}" data-rp="{{ $room->offer_price }}" data-c_in="{{ \Carbon\Carbon::parse($ac->check_in)->format('Y-m-d') }}" data-c_out="{{ \Carbon\Carbon::parse($ac->check_out)->format('Y-m-d') }}" /> 
                             <button type="submit" class="ko-btn">Proceed to Checkout</button>
                         </div>
                     </div>

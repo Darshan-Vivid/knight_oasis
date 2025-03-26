@@ -2,6 +2,12 @@ $(document).ready(function () {
     hide_loader();
     Scroll();
 
+
+    $('.ko-home-room-select').on('change', function () {
+        max_qry = $(this).find('option:selected').data('max_qty');
+        $('#ko-home-room-qty').attr('max', max_qry);
+    });
+
     $('input[type="tel"]').on("input", function () {
         let value = $(this).val();
 
@@ -170,6 +176,7 @@ $(document).ready(function () {
         inputQty.val(Number(inputQty.val()) + 1);
 
         updateGrandTotal();
+        updateHomeRoomQty();
     });
 
     $(".qty-btn-minus").click(function () {
@@ -576,12 +583,13 @@ function hide_loader() {
 }
 
 function update_cart_page_price() {
-    var count = $("#ko_cart_room_count").val();
-    var ct = $("#ko_cart_cost_total");
-    var gt = $("#ko_cart_grand_total");
+    var count = $("#ko_cart_room_count").val(); //current room count
+    var ct = $("#ko_cart_cost_total");  // total cost
     var st = $("#ko_cart_sub_total");
+    var gt = $("#ko_cart_grand_total");
     var data = $("#cart-data-hiddens");
     var max_allow = $("#ko_cart_room_count").data("max");
+    let qty = data.data("qty");
 
     if (count > max_allow) {
         $("#ko_cart_room_count").val(max_allow);
@@ -591,14 +599,22 @@ function update_cart_page_price() {
     var checkInDate = new Date(data.data("c_in"));
     var checkOutDate = new Date(data.data("c_out"));
     var timeDiff = checkOutDate - checkInDate;
-    var dayGap = Math.floor(timeDiff / (1000 * 60 * 60 * 24)) + 1;
+    var dayGap = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
     var days = dayGap > 0 ? dayGap : 1;
 
     let room_charges = Number(data.data("rp")) * days;
-    let twrc = Number(data.data("total_cost")) - room_charges;
-    let total = twrc + count * Number(data.data("rp")) * days;
-
+    let twrc = Number(data.data("total_cost"));
+    let total = twrc + ( room_charges * (count - qty));
     ct.text(total);
     gt.text(total);
     st.text(total);
+}
+
+function updateHomeRoomQty(){
+    allow_max_qty = $('#ko-home-room-qty').attr('max');
+    current_qty = $('#ko-home-room-qty').val();
+
+    if(current_qty > allow_max_qty){
+        $('#ko-home-room-qty').val(allow_max_qty);
+    }
 }
